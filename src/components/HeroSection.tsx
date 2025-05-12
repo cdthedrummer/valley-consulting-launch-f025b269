@@ -51,7 +51,7 @@ const HeroSection: React.FC = () => {
             <p className="text-white text-xl md:text-2xl mb-8 drop-shadow-lg mx-auto">
               Proven marketing strategies specifically designed for contractors serving the Hudson Valley
             </p>
-            <Button asChild size="xl" className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg py-6 px-8">
+            <Button asChild size="lg" className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg py-6 px-8">
               <Link to="/services" className="flex items-center">
                 <Calendar className="mr-2 h-6 w-6" /> Book my strategy call
               </Link>
