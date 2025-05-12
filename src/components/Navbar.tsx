@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, Phone, Calendar, User, Building } from "lucide-react";
@@ -64,7 +63,7 @@ const Navbar: React.FC = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center">
           <h1 className="text-2xl font-bold text-hvcg-blue-dark">
-            <span className="text-hvcg-blue">Hudson Valley</span> CG
+            <span className="text-hvcg-blue">Hudson Valley</span> Consulting
           </h1>
         </Link>
         

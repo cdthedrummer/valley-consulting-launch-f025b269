@@ -18,6 +18,10 @@ import NotFound from "./pages/NotFound";
 // Industry Pages
 import IndustriesIndex from "./pages/industries";
 import HVACPage from "./pages/industries/HVAC";
+import PlumbingPage from "./pages/industries/Plumbing";
+import FencingPage from "./pages/industries/Fencing";
+import DeckPatioPage from "./pages/industries/DeckPatio";
+import FlooringPage from "./pages/industries/Flooring";
 
 // Resources Pages
 import Resources from "./pages/Resources";
@@ -42,6 +46,10 @@ const App = () => (
             {/* Industry Routes */}
             <Route path="/industries" element={<IndustriesIndex />} />
             <Route path="/industries/hvac" element={<HVACPage />} />
+            <Route path="/industries/plumbing" element={<PlumbingPage />} />
+            <Route path="/industries/fencing" element={<FencingPage />} />
+            <Route path="/industries/deck-patio" element={<DeckPatioPage />} />
+            <Route path="/industries/flooring" element={<FlooringPage />} />
             
             {/* Resources Routes */}
             <Route path="/resources" element={<Resources />} />
