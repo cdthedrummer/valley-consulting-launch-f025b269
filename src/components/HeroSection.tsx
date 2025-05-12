@@ -3,23 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import ScrollableWidget from './ScrollableWidget';
-import StatsCard from './StatsCard';
-import SimpleChart from './SimpleChart';
 import BusinessTagButton from './BusinessTagButton';
 
-const trafficData = [
-  { name: 'Mon', value: 400 },
-  { name: 'Tue', value: 300 },
-  { name: 'Wed', value: 500 },
-  { name: 'Thu', value: 380 },
-  { name: 'Fri', value: 600 },
-  { name: 'Sat', value: 550 },
-  { name: 'Sun', value: 420 },
-];
-
 const HeroSection: React.FC = () => {
-  const [showWidgets, setShowWidgets] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -34,13 +20,7 @@ const HeroSection: React.FC = () => {
     // Add resize listener
     window.addEventListener('resize', checkMobile);
     
-    // Show widgets after a short delay when component mounts
-    const timer = setTimeout(() => {
-      setShowWidgets(true);
-    }, 500);
-
     return () => {
-      clearTimeout(timer);
       window.removeEventListener('resize', checkMobile);
     };
   }, []);
@@ -60,8 +40,18 @@ const HeroSection: React.FC = () => {
       <div className="absolute top-0 left-0 w-full h-full">
         {/* Main Content Container */}
         <div className="container mx-auto h-full flex flex-col items-center justify-center relative">
-          {/* Main content moved further down to make room for widgets */}
-          <div className="max-w-2xl text-center mb-8 mt-32 md:mt-40 z-10">
+          {/* Best Deck Builder Button - Positioned on the left */}
+          <div className="absolute top-32 left-8 z-10">
+            <Link to="/industries/deck-patio">
+              <BusinessTagButton 
+                text="Best Deck Builder in Hudson Valley" 
+                className="shadow-lg bg-hvcg-blue/95 hover:bg-hvcg-blue" 
+              />
+            </Link>
+          </div>
+
+          {/* Main content moved further down to make room for buttons */}
+          <div className="max-w-2xl text-center mb-8 mt-48 md:mt-56 z-10">
             <h1 className="text-white text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg">
               We help Contractors get more customers
             </h1>
@@ -74,45 +64,6 @@ const HeroSection: React.FC = () => {
               </Link>
             </Button>
           </div>
-
-          {/* Interactive Widgets with improved positioning */}
-          {showWidgets && (
-            <>
-              {/* Business Tag Widget - moved to the left with more opaque background */}
-              <div className={`absolute ${isMobile ? 'top-20 left-4' : 'top-[20%] left-10'}`}>
-                <ScrollableWidget scrollFactor={0.2}>
-                  <BusinessTagButton 
-                    text="Best Deck Builder in Hudson Valley" 
-                    className="shadow-lg bg-hvcg-blue/95" 
-                  />
-                </ScrollableWidget>
-              </div>
-              
-              {/* Leads Widget - kept on the right with better positioning */}
-              <div className={`absolute ${isMobile ? 'top-32 right-4 w-48' : 'top-[25%] right-12 w-64'}`}>
-                <ScrollableWidget delay={300} scrollFactor={0.4}>
-                  <StatsCard 
-                    title="New Leads Today" 
-                    value="7" 
-                    change={15}
-                    className="bg-white/90 backdrop-blur-sm" 
-                  />
-                </ScrollableWidget>
-              </div>
-              
-              {/* Traffic Widget - better positioned */}
-              <div className={`absolute ${isMobile ? 'top-64 right-4 w-56' : 'top-[45%] right-10 w-72'}`}>
-                <ScrollableWidget delay={600} scrollFactor={-0.2}>
-                  <div className="p-4 bg-white/90 backdrop-blur-sm rounded-lg">
-                    <h3 className="text-sm font-medium text-gray-800 mb-1">Website Traffic</h3>
-                    <p className="text-2xl font-bold text-gray-900 mb-2">1,248</p>
-                    <SimpleChart data={trafficData} color="#2563eb" height={60} />
-                    <p className="text-xs text-gray-600 mt-1 text-right">Last 7 days</p>
-                  </div>
-                </ScrollableWidget>
-              </div>
-            </>
-          )}
         </div>
       </div>
 

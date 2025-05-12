@@ -23,10 +23,12 @@ import Flooring from "./pages/industries/Flooring";
 import Advertising from "./pages/services/Advertising";
 import SEO from "./pages/services/SEO";
 import Consulting from "./pages/services/Consulting";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-grow">
