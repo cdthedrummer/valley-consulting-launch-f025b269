@@ -1,11 +1,53 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Send, Calendar, Check, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { 
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { submitContactForm } from "@/lib/supabase";
+import CalendlyEmbed from "@/components/CalendlyEmbed";
+
+const contactFormSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  email: z.string().email({ message: "Please enter a valid email address." }),
+  company: z.string().optional(),
+  phone: z.string().optional(),
+  service_interest: z.string().optional(),
+  message: z.string().min(10, { message: "Message must be at least 10 characters." }),
+});
+
+type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 const Booking: React.FC = () => {
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      company: "",
+      phone: "",
+      service_interest: "",
+      message: "",
+    },
+  });
+
+  const onSubmit = async (data: ContactFormValues) => {
+    await submitContactForm(data);
+    form.reset();
+  };
+
   return (
     <div className="pt-20">
       {/* Hero Section */}
@@ -22,24 +64,17 @@ const Booking: React.FC = () => {
       <section className="py-16">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Calendly Integration Placeholder */}
+            {/* Calendly Integration */}
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-2xl font-bold text-hvcg-blue-dark mb-6">Schedule a Consultation</h2>
               <p className="text-gray-700 mb-6">
                 Use our online calendar to find a time that works for you. Consultations are conducted via Zoom.
               </p>
               
-              {/* Placeholder for Calendly - would be replaced with actual Calendly embed */}
-              <div className="bg-hvcg-gray rounded-lg p-8 text-center mb-8">
-                <Calendar className="w-16 h-16 text-hvcg-blue-dark mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">Calendar Integration</h3>
-                <p className="text-gray-700 mb-4">
-                  This is where the Calendly booking widget will appear.
-                </p>
-                <p className="text-sm text-gray-500">
-                  (This will be connected via Calendly integration)
-                </p>
-              </div>
+              <CalendlyEmbed 
+                url="https://calendly.com/sample-consulting/30min" 
+                className="bg-white rounded-lg p-6 mb-6"
+              />
               
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-hvcg-blue-dark">What to Expect:</h3>
@@ -85,88 +120,112 @@ const Booking: React.FC = () => {
                 Have questions or need more information? Send us a message and we'll get back to you within 24 hours.
               </p>
               
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                      Your Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue"
-                      required
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Your Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="John Doe" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="company"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Company Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Your Company" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
                   </div>
-                  <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
-                      Company Name
-                    </label>
-                    <input
-                      type="text"
-                      id="company"
-                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue"
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input type="email" placeholder="you@example.com" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Phone</FormLabel>
+                          <FormControl>
+                            <Input placeholder="(555) 123-4567" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
                   </div>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                      Phone
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue"
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-1">
-                    Interested In
-                  </label>
-                  <select
-                    id="service"
-                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue"
-                  >
-                    <option value="">Select a service</option>
-                    <option value="Introductory Audit & Consultation">Introductory Audit & Consultation</option>
-                    <option value="Strategy Package">Strategy Package</option>
-                    <option value="Premium Retainer">Premium Retainer</option>
-                    <option value="Other">Other/Not Sure</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={4}
-                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue"
-                    required
-                    placeholder="Tell us a bit about your business and what you're looking to achieve with your advertising."
-                  ></textarea>
-                </div>
-                
-                <Button type="submit" className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue flex items-center justify-center">
-                  <Send className="mr-2 h-5 w-5" /> Send Message
-                </Button>
-              </form>
+                  
+                  <FormField
+                    control={form.control}
+                    name="service_interest"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Interested In</FormLabel>
+                        <FormControl>
+                          <select
+                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue"
+                            {...field}
+                          >
+                            <option value="">Select a service</option>
+                            <option value="Introductory Audit & Consultation">Introductory Audit & Consultation</option>
+                            <option value="Strategy Package">Strategy Package</option>
+                            <option value="Premium Retainer">Premium Retainer</option>
+                            <option value="Other">Other/Not Sure</option>
+                          </select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Message</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            rows={4}
+                            placeholder="Tell us a bit about your business and what you're looking to achieve with your advertising."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <Button type="submit" className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue flex items-center justify-center">
+                    <Send className="mr-2 h-5 w-5" /> Send Message
+                  </Button>
+                </form>
+              </Form>
             </div>
           </div>
         </div>

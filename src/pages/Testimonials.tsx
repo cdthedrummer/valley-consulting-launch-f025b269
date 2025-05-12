@@ -1,68 +1,72 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Star, Calendar, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { fetchApprovedTestimonials, submitTestimonial } from "@/lib/supabase";
+import { Testimonial } from "@/types/supabase";
+import { useQuery } from "@tanstack/react-query";
+
+const testimonialFormSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  company: z.string().min(2, { message: "Company name is required." }),
+  service: z.string().min(1, { message: "Please select a service." }),
+  rating: z.number().min(1).max(5),
+  testimonial: z.string().min(10, { message: "Testimonial must be at least 10 characters." }),
+});
+
+type TestimonialFormValues = z.infer<typeof testimonialFormSchema>;
 
 const Testimonials: React.FC = () => {
-  // Sample testimonial data
-  const testimonials = [
-    {
-      id: 1,
-      name: "John Doe",
-      company: "ABC Contractors",
-      image: null,
-      rating: 5,
-      testimonial: "Hudson Valley Consulting transformed our advertising strategy. Within 3 months, our leads increased by 200% and our close rate improved dramatically. The insights provided during the initial audit alone were worth the investment. Now with the ongoing strategy support, we're consistently growing month over month.",
-      service: "Premium Retainer",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      company: "Smith Home Services",
-      image: null,
-      rating: 5,
-      testimonial: "The strategy package was exactly what our business needed. We now have clear messaging, know exactly who to target, and our ads are performing better than ever. Our cost per lead has decreased by 40% while our conversion rate has increased. I highly recommend HVCG to any contractor looking to grow.",
-      service: "Strategy Package",
-    },
-    {
-      id: 3,
-      name: "Robert Johnson",
-      company: "Johnson Construction",
-      image: null,
-      rating: 5,
-      testimonial: "The monthly retainer has been invaluable. Having an expert manage our campaigns while providing strategic guidance has allowed us to focus on what we do best - serving our customers. We've seen a 300% ROI on our advertising spend since working with Hudson Valley Consulting.",
-      service: "Premium Retainer",
-    },
-    {
-      id: 4,
-      name: "Michael Brown",
-      company: "Brown Electrical",
-      image: null,
-      rating: 5,
-      testimonial: "The introductory audit opened our eyes to so many missed opportunities in our advertising. The specific, actionable recommendations were clear and effective. Within weeks of implementing the changes, we saw a noticeable increase in quality leads coming through our website.",
-      service: "Introductory Audit & Consultation",
-    },
-    {
-      id: 5,
-      name: "Sarah Wilson",
-      company: "Wilson Plumbing",
-      image: null,
-      rating: 5,
-      testimonial: "We were wasting thousands on ineffective ads before working with HVCG. The strategy they developed helped us narrow our focus, speak directly to our ideal customers, and stand out from competitors. Our business has grown 35% this year, and a big part of that is due to the improved advertising strategy.",
-      service: "Strategy Package",
-    },
-    {
-      id: 6,
-      name: "David Miller",
-      company: "Miller Roofing",
-      image: null,
-      rating: 5,
-      testimonial: "As a small roofing company, we were struggling to compete with bigger names in our area. The customized strategy from Hudson Valley Consulting gave us a unique position in the market and helped us target specific neighborhoods and demographics. Now we're booked months in advance with quality projects.",
-      service: "Strategy Package",
+  const [selectedRating, setSelectedRating] = useState<number>(5);
+  
+  // Fetch testimonials from Supabase
+  const { data: testimonials = [], isLoading } = useQuery({
+    queryKey: ['testimonials'],
+    queryFn: async () => {
+      const { data } = await fetchApprovedTestimonials();
+      return data || [];
     }
-  ];
+  });
+  
+  const form = useForm<TestimonialFormValues>({
+    resolver: zodResolver(testimonialFormSchema),
+    defaultValues: {
+      name: "",
+      company: "",
+      service: "",
+      rating: 5,
+      testimonial: "",
+    },
+  });
+  
+  const onSubmit = async (data: TestimonialFormValues) => {
+    await submitTestimonial({
+      ...data,
+      rating: selectedRating
+    });
+    form.reset();
+    setSelectedRating(5);
+  };
+  
+  const handleRatingClick = (rating: number) => {
+    setSelectedRating(rating);
+    form.setValue('rating', rating);
+  };
 
   return (
     <div className="pt-20">
@@ -79,45 +83,57 @@ const Testimonials: React.FC = () => {
       {/* Testimonials Grid */}
       <section className="py-16">
         <div className="container-custom">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial) => (
-              <Card key={testimonial.id} className="bg-white border-none shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-8">
-                  <div className="flex items-center text-yellow-400 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="fill-current" size={20} />
-                    ))}
-                  </div>
-                  
-                  <div className="mb-6 relative">
-                    <Quote className="absolute -left-2 -top-2 text-hvcg-blue/10 w-12 h-12" />
-                    <p className="text-gray-700 relative z-10">
-                      "{testimonial.testimonial}"
-                    </p>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="h-12 w-12 rounded-full bg-hvcg-blue/20 flex items-center justify-center text-hvcg-blue font-bold text-xl">
-                        {testimonial.name.split(' ').map(name => name[0]).join('')}
+          {isLoading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin w-8 h-8 border-4 border-hvcg-blue border-t-transparent rounded-full mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading testimonials...</p>
+            </div>
+          ) : testimonials.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-xl text-gray-600">No testimonials available yet.</p>
+              <p className="text-gray-600 mt-2">Be the first to share your experience!</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {testimonials.map((testimonial: Testimonial) => (
+                <Card key={testimonial.id} className="bg-white border-none shadow-lg hover:shadow-xl transition-shadow">
+                  <CardContent className="p-8">
+                    <div className="flex items-center text-yellow-400 mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="fill-current" size={20} />
+                      ))}
+                    </div>
+                    
+                    <div className="mb-6 relative">
+                      <Quote className="absolute -left-2 -top-2 text-hvcg-blue/10 w-12 h-12" />
+                      <p className="text-gray-700 relative z-10">
+                        "{testimonial.testimonial}"
+                      </p>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <div className="h-12 w-12 rounded-full bg-hvcg-blue/20 flex items-center justify-center text-hvcg-blue font-bold text-xl">
+                          {testimonial.name.split(' ').map(name => name[0]).join('')}
+                        </div>
+                        <div className="ml-4">
+                          <h4 className="font-semibold">{testimonial.name}</h4>
+                          <p className="text-sm text-gray-600">{testimonial.company}</p>
+                        </div>
                       </div>
-                      <div className="ml-4">
-                        <h4 className="font-semibold">{testimonial.name}</h4>
-                        <p className="text-sm text-gray-600">{testimonial.company}</p>
+                      <div>
+                        <span className="inline-block bg-hvcg-gray px-3 py-1 rounded-full text-xs font-medium text-hvcg-blue-dark">
+                          {testimonial.service}
+                        </span>
                       </div>
                     </div>
-                    <div>
-                      <span className="inline-block bg-hvcg-gray px-3 py-1 rounded-full text-xs font-medium text-hvcg-blue-dark">
-                        {testimonial.service}
-                      </span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
           
-          {/* Submit Your Testimonial Section - This would connect with Supabase later */}
+          {/* Submit Your Testimonial Section */}
           <div className="mt-16 bg-hvcg-gray p-8 rounded-lg">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-hvcg-blue-dark mb-2">Are You a Client?</h2>
@@ -131,83 +147,114 @@ const Testimonials: React.FC = () => {
               <p className="text-gray-700 mb-4">
                 Your feedback helps us improve and lets other contractors know about your experience.
               </p>
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                      Your Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue"
-                      required
+              
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Your Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="John Doe" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="company"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Company Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Your Company" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
                   </div>
-                  <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
-                      Company Name
-                    </label>
-                    <input
-                      type="text"
-                      id="company"
-                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue"
-                      required
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-1">
-                    Service Used
-                  </label>
-                  <select
-                    id="service"
-                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue"
-                    required
-                  >
-                    <option value="">Select a service</option>
-                    <option value="Introductory Audit & Consultation">Introductory Audit & Consultation</option>
-                    <option value="Strategy Package">Strategy Package</option>
-                    <option value="Premium Retainer">Premium Retainer</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label htmlFor="rating" className="block text-sm font-medium text-gray-700 mb-1">
-                    Rating
-                  </label>
-                  <div className="flex space-x-4">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <label key={star} className="cursor-pointer">
-                        <input
-                          type="radio"
-                          name="rating"
-                          value={star}
-                          className="sr-only"
-                        />
-                        <Star className="w-8 h-8 text-gray-300 hover:text-yellow-400" />
-                      </label>
-                    ))}
-                  </div>
-                </div>
-                
-                <div>
-                  <label htmlFor="testimonial" className="block text-sm font-medium text-gray-700 mb-1">
-                    Your Testimonial
-                  </label>
-                  <textarea
-                    id="testimonial"
-                    rows={4}
-                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue"
-                    required
-                  ></textarea>
-                </div>
-                
-                <Button type="submit" className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
-                  Submit Testimonial
-                </Button>
-              </form>
+                  
+                  <FormField
+                    control={form.control}
+                    name="service"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Service Used</FormLabel>
+                        <FormControl>
+                          <select
+                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue"
+                            {...field}
+                          >
+                            <option value="">Select a service</option>
+                            <option value="Introductory Audit & Consultation">Introductory Audit & Consultation</option>
+                            <option value="Strategy Package">Strategy Package</option>
+                            <option value="Premium Retainer">Premium Retainer</option>
+                          </select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="rating"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Rating</FormLabel>
+                        <FormControl>
+                          <div className="flex space-x-4">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <button
+                                key={star}
+                                type="button"
+                                onClick={() => handleRatingClick(star)}
+                                className="focus:outline-none"
+                              >
+                                <Star 
+                                  className={`w-8 h-8 ${
+                                    star <= selectedRating 
+                                      ? "text-yellow-400 fill-current" 
+                                      : "text-gray-300"
+                                  }`}
+                                />
+                              </button>
+                            ))}
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="testimonial"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Your Testimonial</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            rows={4}
+                            placeholder="Share your experience working with us..."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <Button type="submit" className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
+                    Submit Testimonial
+                  </Button>
+                </form>
+              </Form>
             </div>
           </div>
         </div>

@@ -9,7 +9,117 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      appointments: {
+        Row: {
+          appointment_date: string | null
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          service_type: string
+          status: string
+        }
+        Insert: {
+          appointment_date?: string | null
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          service_type: string
+          status?: string
+        }
+        Update: {
+          appointment_date?: string | null
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          service_type?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      contact_submissions: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string | null
+          service_interest: string | null
+          status: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone?: string | null
+          service_interest?: string | null
+          status?: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+          service_interest?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          company: string
+          created_at: string
+          id: string
+          image_url: string | null
+          is_approved: boolean
+          name: string
+          rating: number
+          service: string
+          testimonial: string
+        }
+        Insert: {
+          company: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          is_approved?: boolean
+          name: string
+          rating: number
+          service: string
+          testimonial: string
+        }
+        Update: {
+          company?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          is_approved?: boolean
+          name?: string
+          rating?: number
+          service?: string
+          testimonial?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
