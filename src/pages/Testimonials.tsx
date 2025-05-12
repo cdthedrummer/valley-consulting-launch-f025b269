@@ -55,10 +55,16 @@ const Testimonials: React.FC = () => {
   });
   
   const onSubmit = async (data: TestimonialFormValues) => {
-    await submitTestimonial({
-      ...data,
-      rating: selectedRating
-    });
+    // Ensure all required fields are present to match Testimonial type
+    const testimonialData = {
+      name: data.name,
+      company: data.company,
+      service: data.service,
+      rating: selectedRating,
+      testimonial: data.testimonial
+    };
+    
+    await submitTestimonial(testimonialData);
     form.reset();
     setSelectedRating(5);
   };

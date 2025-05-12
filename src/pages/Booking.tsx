@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Send, Calendar, Check, ArrowRight } from "lucide-react";
@@ -44,7 +45,17 @@ const Booking: React.FC = () => {
   });
 
   const onSubmit = async (data: ContactFormValues) => {
-    await submitContactForm(data);
+    // Ensure required fields are present to match ContactSubmission type
+    const formData = {
+      name: data.name,
+      email: data.email,
+      message: data.message,
+      company: data.company,
+      phone: data.phone,
+      service_interest: data.service_interest,
+    };
+    
+    await submitContactForm(formData);
     form.reset();
   };
 
