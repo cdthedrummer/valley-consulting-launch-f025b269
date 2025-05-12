@@ -1,6 +1,7 @@
+
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -12,12 +13,12 @@ import Testimonials from "./pages/Testimonials";
 import Resources from "./pages/Resources";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
-import IndustriesIndex from "./pages/Industries/Index";
-import HVAC from "./pages/Industries/HVAC";
-import Plumbing from "./pages/Industries/Plumbing";
-import Fencing from "./pages/Industries/Fencing";
-import DeckPatio from "./pages/Industries/DeckPatio";
-import Flooring from "./pages/Industries/Flooring";
+import IndustriesIndex from "./pages/industries/index";
+import HVAC from "./pages/industries/HVAC";
+import Plumbing from "./pages/industries/Plumbing";
+import Fencing from "./pages/industries/Fencing";
+import DeckPatio from "./pages/industries/DeckPatio";
+import Flooring from "./pages/industries/Flooring";
 
 import Advertising from "./pages/services/Advertising";
 import SEO from "./pages/services/SEO";
