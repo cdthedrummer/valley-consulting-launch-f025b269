@@ -1,9 +1,9 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, Check, User, Calendar, Phone, Mail, Building } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import Search from "@/components/Search";
 
 const Index: React.FC = () => {
   return (
