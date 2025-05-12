@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Send, Calendar, Check, ArrowRight } from "lucide-react";
@@ -19,6 +18,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { submitContactForm } from "@/lib/supabase";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
+import { CALENDLY_URL } from "@/config/calendly";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -83,8 +83,8 @@ const Booking: React.FC = () => {
               </p>
               
               <CalendlyEmbed 
-                url="https://calendly.com/sample-consulting/30min" 
-                className="bg-white rounded-lg p-6 mb-6"
+                url={CALENDLY_URL}
+                className="bg-white rounded-lg mb-6"
               />
               
               <div className="space-y-4">
