@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Check, Calendar } from "lucide-react";
+import { Check, Calendar, Building, Search, Users, Code, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -18,9 +18,213 @@ const Services: React.FC = () => {
         </div>
       </section>
 
-      {/* Services Section */}
+      {/* Services Sections */}
+      <div className="bg-hvcg-gray py-16">
+        <div className="container-custom">
+          <div className="grid grid-cols-1 gap-16">
+            {/* Google Ads Section */}
+            <section id="google-ads" className="scroll-mt-24">
+              <div className="bg-white rounded-lg shadow-lg p-8">
+                <div className="flex flex-col md:flex-row md:items-center gap-6">
+                  <div className="bg-hvcg-blue/10 p-6 rounded-full flex items-center justify-center">
+                    <Building className="text-hvcg-blue-dark w-16 h-16" />
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-4">Google Ads</h2>
+                    <p className="text-lg text-gray-700 mb-6">
+                      Targeted Google Ads campaigns that bring qualified leads directly to your business. We specialize in local service ads and search campaigns that reach homeowners when they're actively looking for your services.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Local service ads setup and management</span>
+                      </div>
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Keyword research and selection</span>
+                      </div>
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Ad copy optimization</span>
+                      </div>
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Landing page conversion optimization</span>
+                      </div>
+                    </div>
+                    <Button asChild className="bg-hvcg-blue-dark hover:bg-hvcg-blue">
+                      <Link to="/booking">Book a Google Ads Consultation</Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* SEO Section */}
+            <section id="seo" className="scroll-mt-24">
+              <div className="bg-white rounded-lg shadow-lg p-8">
+                <div className="flex flex-col md:flex-row md:items-center gap-6">
+                  <div className="bg-hvcg-blue/10 p-6 rounded-full flex items-center justify-center">
+                    <Search className="text-hvcg-blue-dark w-16 h-16" />
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-4">Search Engine Optimization</h2>
+                    <p className="text-lg text-gray-700 mb-6">
+                      Local SEO strategies that help your contracting business appear in search results when homeowners in your area are looking for your services, generating organic leads month after month.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Local SEO optimization</span>
+                      </div>
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Google Business Profile optimization</span>
+                      </div>
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>On-page SEO implementation</span>
+                      </div>
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Content strategy for contractors</span>
+                      </div>
+                    </div>
+                    <Button asChild className="bg-hvcg-blue-dark hover:bg-hvcg-blue">
+                      <Link to="/booking">Book an SEO Consultation</Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Social Media Marketing Section */}
+            <section id="social-media" className="scroll-mt-24">
+              <div className="bg-white rounded-lg shadow-lg p-8">
+                <div className="flex flex-col md:flex-row md:items-center gap-6">
+                  <div className="bg-hvcg-blue/10 p-6 rounded-full flex items-center justify-center">
+                    <Share2 className="text-hvcg-blue-dark w-16 h-16" />
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-4">Social Media Marketing</h2>
+                    <p className="text-lg text-gray-700 mb-6">
+                      Strategic social media campaigns that showcase your work, build trust with potential customers, and create a strong online presence for your contracting business.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Platform selection and strategy</span>
+                      </div>
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Content calendar development</span>
+                      </div>
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Social ad campaign management</span>
+                      </div>
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Review management strategies</span>
+                      </div>
+                    </div>
+                    <Button asChild className="bg-hvcg-blue-dark hover:bg-hvcg-blue">
+                      <Link to="/booking">Book a Social Media Consultation</Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Website Development Section */}
+            <section id="website" className="scroll-mt-24">
+              <div className="bg-white rounded-lg shadow-lg p-8">
+                <div className="flex flex-col md:flex-row md:items-center gap-6">
+                  <div className="bg-hvcg-blue/10 p-6 rounded-full flex items-center justify-center">
+                    <Code className="text-hvcg-blue-dark w-16 h-16" />
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-4">Website Development</h2>
+                    <p className="text-lg text-gray-700 mb-6">
+                      High-converting websites designed specifically for contractors that showcase your work, generate leads, and build trust with potential customers.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Contractor-focused web design</span>
+                      </div>
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Mobile-responsive implementation</span>
+                      </div>
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Lead generation optimization</span>
+                      </div>
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Portfolio and testimonial showcase</span>
+                      </div>
+                    </div>
+                    <Button asChild className="bg-hvcg-blue-dark hover:bg-hvcg-blue">
+                      <Link to="/booking">Book a Website Consultation</Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Business Consulting Section */}
+            <section id="consulting" className="scroll-mt-24">
+              <div className="bg-white rounded-lg shadow-lg p-8">
+                <div className="flex flex-col md:flex-row md:items-center gap-6">
+                  <div className="bg-hvcg-blue/10 p-6 rounded-full flex items-center justify-center">
+                    <Users className="text-hvcg-blue-dark w-16 h-16" />
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-4">Business Consulting</h2>
+                    <p className="text-lg text-gray-700 mb-6">
+                      Strategic business consulting that helps contracting businesses improve operations, increase profitability, and scale effectively in the competitive Hudson Valley market.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Business process optimization</span>
+                      </div>
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Growth strategy development</span>
+                      </div>
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Customer experience enhancement</span>
+                      </div>
+                      <div className="flex items-start">
+                        <Check className="h-5 w-5 text-hvcg-green mr-2 mt-1 flex-shrink-0" />
+                        <span>Pricing strategy optimization</span>
+                      </div>
+                    </div>
+                    <Button asChild className="bg-hvcg-blue-dark hover:bg-hvcg-blue">
+                      <Link to="/booking">Book a Business Consultation</Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      {/* Services Packages Section */}
       <section className="py-16">
         <div className="container-custom">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-4">Choose Your Plan</h2>
+            <p className="text-lg text-gray-700">
+              Select the package that fits your needs and budget. Not sure which one is right for you? Book a free consultation.
+            </p>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Service 1 */}
             <Card className="bg-white border-t-4 border-hvcg-blue-dark shadow-lg hover:shadow-xl transition-shadow">
@@ -71,8 +275,8 @@ const Services: React.FC = () => {
             {/* Service 2 */}
             <Card className="bg-white border-t-4 border-hvcg-green shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
-                <div className="bg-hvcg-green text-white inline-block px-3 py-1 rounded text-sm font-semibold mb-2">
-                  Most Popular
+                <div className="bg-hvcg-green text-white inline-block px-3 py-1 rounded-full text-sm font-bold mb-2">
+                  MOST POPULAR
                 </div>
                 <CardTitle className="text-2xl text-hvcg-blue-dark">
                   Strategy Package
@@ -170,123 +374,6 @@ const Services: React.FC = () => {
                 </Button>
               </CardFooter>
             </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Process Section */}
-      <section className="py-16 bg-hvcg-gray">
-        <div className="container-custom">
-          <h2 className="text-3xl font-bold text-hvcg-blue-dark text-center mb-12">Our Process</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Step 1 */}
-            <div className="relative">
-              <div className="bg-white p-6 rounded-lg shadow-md h-full">
-                <div className="bg-hvcg-blue-dark w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4">
-                  1
-                </div>
-                <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">Discovery</h3>
-                <p className="text-gray-700">
-                  We start by understanding your business, current advertising efforts, and specific goals.
-                </p>
-              </div>
-              <div className="hidden lg:block absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2">
-                <svg width="40" height="16" viewBox="0 0 40 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M39.7071 8.70711C40.0976 8.31658 40.0976 7.68342 39.7071 7.29289L33.3431 0.928932C32.9526 0.538408 32.3195 0.538408 31.9289 0.928932C31.5384 1.31946 31.5384 1.95262 31.9289 2.34315L37.5858 8L31.9289 13.6569C31.5384 14.0474 31.5384 14.6805 31.9289 15.0711C32.3195 15.4616 32.9526 15.4616 33.3431 15.0711L39.7071 8.70711ZM0 9H39V7H0V9Z" fill="#0E3B65"/>
-                </svg>
-              </div>
-            </div>
-            
-            {/* Step 2 */}
-            <div className="relative">
-              <div className="bg-white p-6 rounded-lg shadow-md h-full">
-                <div className="bg-hvcg-blue-dark w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4">
-                  2
-                </div>
-                <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">Analysis</h3>
-                <p className="text-gray-700">
-                  We analyze your current strategy, identify strengths, weaknesses, and untapped opportunities.
-                </p>
-              </div>
-              <div className="hidden lg:block absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2">
-                <svg width="40" height="16" viewBox="0 0 40 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M39.7071 8.70711C40.0976 8.31658 40.0976 7.68342 39.7071 7.29289L33.3431 0.928932C32.9526 0.538408 32.3195 0.538408 31.9289 0.928932C31.5384 1.31946 31.5384 1.95262 31.9289 2.34315L37.5858 8L31.9289 13.6569C31.5384 14.0474 31.5384 14.6805 31.9289 15.0711C32.3195 15.4616 32.9526 15.4616 33.3431 15.0711L39.7071 8.70711ZM0 9H39V7H0V9Z" fill="#0E3B65"/>
-                </svg>
-              </div>
-            </div>
-            
-            {/* Step 3 */}
-            <div className="relative">
-              <div className="bg-white p-6 rounded-lg shadow-md h-full">
-                <div className="bg-hvcg-blue-dark w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4">
-                  3
-                </div>
-                <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">Strategy</h3>
-                <p className="text-gray-700">
-                  We develop a customized strategy that targets your ideal customers and aligns with your goals.
-                </p>
-              </div>
-              <div className="hidden lg:block absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2">
-                <svg width="40" height="16" viewBox="0 0 40 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M39.7071 8.70711C40.0976 8.31658 40.0976 7.68342 39.7071 7.29289L33.3431 0.928932C32.9526 0.538408 32.3195 0.538408 31.9289 0.928932C31.5384 1.31946 31.5384 1.95262 31.9289 2.34315L37.5858 8L31.9289 13.6569C31.5384 14.0474 31.5384 14.6805 31.9289 15.0711C32.3195 15.4616 32.9526 15.4616 33.3431 15.0711L39.7071 8.70711ZM0 9H39V7H0V9Z" fill="#0E3B65"/>
-                </svg>
-              </div>
-            </div>
-            
-            {/* Step 4 */}
-            <div>
-              <div className="bg-white p-6 rounded-lg shadow-md h-full">
-                <div className="bg-hvcg-blue-dark w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4">
-                  4
-                </div>
-                <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">Implementation</h3>
-                <p className="text-gray-700">
-                  We help you implement the strategy and continuously optimize for maximum results and ROI.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* FAQ Section */}
-      <section className="py-16">
-        <div className="container-custom">
-          <h2 className="text-3xl font-bold text-hvcg-blue-dark text-center mb-12">Frequently Asked Questions</h2>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* FAQ Item */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">How long does it take to see results?</h3>
-              <p className="text-gray-700">
-                While every business is different, most clients begin to see improvements in their advertising metrics within 30 days of implementing our recommendations. More substantial business results typically follow within 60-90 days.
-              </p>
-            </div>
-            
-            {/* FAQ Item */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">Do you manage the ad campaigns for us?</h3>
-              <p className="text-gray-700">
-                Our primary focus is strategy and consulting. While we provide detailed implementation guidance, our services do not include day-to-day campaign management. However, we can recommend trusted partners if you need campaign management services.
-              </p>
-            </div>
-            
-            {/* FAQ Item */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">What makes you different from other agencies?</h3>
-              <p className="text-gray-700">
-                We exclusively serve contractors, bringing deep industry expertise and understanding of your specific challenges. We also bring enterprise-level advertising experience from major brands to local businesses, providing sophisticated strategies that are normally inaccessible to smaller companies.
-              </p>
-            </div>
-            
-            {/* FAQ Item */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">What if I'm not satisfied with the service?</h3>
-              <p className="text-gray-700">
-                We stand behind our work. If you're not completely satisfied with our services, we'll work with you to make it right. Our goal is to build long-term relationships based on trust and results.
-              </p>
-            </div>
           </div>
         </div>
       </section>

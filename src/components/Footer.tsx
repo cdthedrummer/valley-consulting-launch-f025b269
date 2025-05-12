@@ -62,19 +62,19 @@ const Footer: React.FC = () => {
             <h3 className="text-xl font-bold mb-4">Our Services</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/services" className="hover:text-hvcg-green transition-colors">Google Ads</Link>
+                <Link to="/services#google-ads" className="hover:text-hvcg-green transition-colors">Google Ads</Link>
               </li>
               <li>
-                <Link to="/services" className="hover:text-hvcg-green transition-colors">Search Engine Optimization</Link>
+                <Link to="/services#seo" className="hover:text-hvcg-green transition-colors">Search Engine Optimization</Link>
               </li>
               <li>
-                <Link to="/services" className="hover:text-hvcg-green transition-colors">Social Media Marketing</Link>
+                <Link to="/services#social-media" className="hover:text-hvcg-green transition-colors">Social Media Marketing</Link>
               </li>
               <li>
-                <Link to="/services" className="hover:text-hvcg-green transition-colors">Website Development</Link>
+                <Link to="/services#website" className="hover:text-hvcg-green transition-colors">Website Development</Link>
               </li>
               <li>
-                <Link to="/services" className="hover:text-hvcg-green transition-colors">Business Consulting</Link>
+                <Link to="/services#consulting" className="hover:text-hvcg-green transition-colors">Business Consulting</Link>
               </li>
             </ul>
           </div>
