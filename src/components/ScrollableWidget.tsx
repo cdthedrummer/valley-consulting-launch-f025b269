@@ -49,9 +49,9 @@ const ScrollableWidget: React.FC<ScrollableWidgetProps> = ({
     <motion.div
       ref={widgetRef}
       initial={{ opacity: 0, y: 20 }}
-      animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+      animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ delay: delay / 1000, duration: 0.5 }}
-      className={cn("backdrop-blur-sm rounded-lg", className)}
+      className={cn("", className)}
     >
       {children}
     </motion.div>

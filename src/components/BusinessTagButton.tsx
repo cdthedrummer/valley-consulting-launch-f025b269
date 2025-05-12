@@ -18,7 +18,7 @@ const BusinessTagButton: React.FC<BusinessTagButtonProps> = ({
     <button
       onClick={onClick}
       className={cn(
-        "flex items-center gap-2 bg-hvcg-blue/80 backdrop-blur-sm text-white py-2 px-4 rounded-full shadow-lg hover:bg-hvcg-blue/90 transition-all",
+        "flex items-center gap-2 bg-hvcg-blue/90 backdrop-blur-sm text-white py-2 px-4 rounded-full shadow-lg hover:bg-hvcg-blue transition-all",
         className
       )}
     >

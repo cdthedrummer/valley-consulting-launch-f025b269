@@ -21,9 +21,8 @@ const Index: React.FC = () => {
             </p>
           </div>
           
-          {/* Service cards - keep existing code */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Service 1 */}
+            {/* Service 1 - Advertising */}
             <Card className="border-none shadow-lg hover:shadow-xl transition-all">
               <CardContent className="p-6 text-center">
                 <div className="bg-hvcg-blue/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -34,7 +33,7 @@ const Index: React.FC = () => {
                   Targeted local ads that reach homeowners in need of your services, right when they're searching.
                 </p>
                 <Link 
-                  to="/services" 
+                  to="/services/advertising" 
                   className="text-hvcg-blue font-medium inline-flex items-center"
                 >
                   Learn more <ArrowRight className="ml-1 h-4 w-4" />
@@ -42,7 +41,7 @@ const Index: React.FC = () => {
               </CardContent>
             </Card>
             
-            {/* Service 2 */}
+            {/* Service 2 - SEO */}
             <Card className="border-none shadow-lg hover:shadow-xl transition-all">
               <CardContent className="p-6 text-center">
                 <div className="bg-hvcg-blue/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -53,7 +52,7 @@ const Index: React.FC = () => {
                   Help local customers find your business when they search online for contractors in Hudson Valley.
                 </p>
                 <Link 
-                  to="/services" 
+                  to="/services/seo" 
                   className="text-hvcg-blue font-medium inline-flex items-center"
                 >
                   Learn more <ArrowRight className="ml-1 h-4 w-4" />
@@ -61,7 +60,7 @@ const Index: React.FC = () => {
               </CardContent>
             </Card>
             
-            {/* Service 3 */}
+            {/* Service 3 - Consulting */}
             <Card className="border-none shadow-lg hover:shadow-xl transition-all">
               <CardContent className="p-6 text-center">
                 <div className="bg-hvcg-blue/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -72,7 +71,7 @@ const Index: React.FC = () => {
                   Expert advice tailored to your contracting business, helping you make smart marketing decisions.
                 </p>
                 <Link 
-                  to="/services" 
+                  to="/services/consulting" 
                   className="text-hvcg-blue font-medium inline-flex items-center"
                 >
                   Learn more <ArrowRight className="ml-1 h-4 w-4" />

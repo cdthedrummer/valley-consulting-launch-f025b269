@@ -1,82 +1,59 @@
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { useLayoutEffect } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
-// Pages
 import Index from "./pages/Index";
-import Services from "./pages/Services";
-import Testimonials from "./pages/Testimonials";
 import About from "./pages/About";
+import Services from "./pages/Services";
 import Booking from "./pages/Booking";
-import NotFound from "./pages/NotFound";
-import Privacy from "./pages/Privacy";
-
-// Industry Pages
-import IndustriesIndex from "./pages/industries";
-import HVACPage from "./pages/industries/HVAC";
-import PlumbingPage from "./pages/industries/Plumbing";
-import FencingPage from "./pages/industries/Fencing";
-import DeckPatioPage from "./pages/industries/DeckPatio";
-import FlooringPage from "./pages/industries/Flooring";
-
-// Resources Pages
+import Testimonials from "./pages/Testimonials";
 import Resources from "./pages/Resources";
+import Privacy from "./pages/Privacy";
+import NotFound from "./pages/NotFound";
+import IndustriesIndex from "./pages/Industries/Index";
+import HVAC from "./pages/Industries/HVAC";
+import Plumbing from "./pages/Industries/Plumbing";
+import Fencing from "./pages/Industries/Fencing";
+import DeckPatio from "./pages/Industries/DeckPatio";
+import Flooring from "./pages/Industries/Flooring";
 
-// ScrollToTop component to prevent scrolling issues when navigating
-const ScrollToTop = () => {
-  const { pathname } = useLocation();
-  
-  useLayoutEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-  
-  return null;
-}
+import Advertising from "./pages/services/Advertising";
+import SEO from "./pages/services/SEO";
+import Consulting from "./pages/services/Consulting";
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+function App() {
+  return (
+    <BrowserRouter>
+      <div className="flex flex-col min-h-screen">
         <Navbar />
-        <ScrollToTop />
-        <main className="min-h-screen">
+        <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/testimonials" element={<Testimonials />} />
             <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/services/advertising" element={<Advertising />} />
+            <Route path="/services/seo" element={<SEO />} />
+            <Route path="/services/consulting" element={<Consulting />} />
             <Route path="/booking" element={<Booking />} />
-            <Route path="/privacy" element={<Privacy />} />
-            
-            {/* Industry Routes */}
-            <Route path="/industries" element={<IndustriesIndex />} />
-            <Route path="/industries/hvac" element={<HVACPage />} />
-            <Route path="/industries/plumbing" element={<PlumbingPage />} />
-            <Route path="/industries/fencing" element={<FencingPage />} />
-            <Route path="/industries/deck-patio" element={<DeckPatioPage />} />
-            <Route path="/industries/flooring" element={<FlooringPage />} />
-            
-            {/* Resources Routes */}
+            <Route path="/testimonials" element={<Testimonials />} />
             <Route path="/resources" element={<Resources />} />
-            
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/industries" element={<IndustriesIndex />} />
+            <Route path="/industries/hvac" element={<HVAC />} />
+            <Route path="/industries/plumbing" element={<Plumbing />} />
+            <Route path="/industries/fencing" element={<Fencing />} />
+            <Route path="/industries/deck-patio" element={<DeckPatio />} />
+            <Route path="/industries/flooring" element={<Flooring />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <Footer />
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+      </div>
+      <Toaster />
+    </BrowserRouter>
+  );
+}
 
 export default App;

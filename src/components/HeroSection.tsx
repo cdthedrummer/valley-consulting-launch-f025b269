@@ -44,46 +44,47 @@ const HeroSection: React.FC = () => {
       <div className="absolute top-0 left-0 w-full h-full">
         {/* Main Content Container */}
         <div className="container mx-auto h-full flex flex-col items-center justify-center relative">
-          <div className="max-w-2xl text-center mb-8">
-            <h1 className="text-white text-5xl md:text-6xl font-bold mb-4 drop-shadow-lg">
+          {/* Moved main content down to make more room for widgets */}
+          <div className="max-w-2xl text-center mb-8 mt-20">
+            <h1 className="text-white text-6xl md:text-7xl font-bold mb-6 drop-shadow-lg">
               We help Contractors get more customers
             </h1>
-            <p className="text-white text-xl md:text-2xl mb-8 drop-shadow-lg mx-auto">
+            <p className="text-white text-xl md:text-2xl mb-10 drop-shadow-lg mx-auto">
               Proven marketing strategies specifically designed for contractors serving the Hudson Valley
             </p>
-            <Button asChild size="lg" className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg py-6 px-8">
+            <Button asChild size="lg" className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg py-8 px-10">
               <Link to="/services" className="flex items-center">
                 <Calendar className="mr-2 h-6 w-6" /> Book my strategy call
               </Link>
             </Button>
           </div>
 
-          {/* Interactive Widgets */}
+          {/* Interactive Widgets with improved positioning */}
           {showWidgets && (
             <>
-              {/* Business Tag Widget */}
-              <div className="absolute top-[15%] right-10">
-                <ScrollableWidget delay={300}>
-                  <BusinessTagButton text="Best Deck Builder in Hudson Valley" className="bg-transparent shadow-none hover:bg-hvcg-blue/70" />
+              {/* Business Tag Widget - moved to the left */}
+              <div className="absolute top-[20%] left-10">
+                <ScrollableWidget>
+                  <BusinessTagButton text="Best Deck Builder in Hudson Valley" className="shadow-lg" />
                 </ScrollableWidget>
               </div>
               
-              {/* Leads Widget */}
-              <div className="absolute top-[30%] right-20 w-64">
-                <ScrollableWidget delay={1000}>
+              {/* Leads Widget - kept on the right with better positioning */}
+              <div className="absolute top-[25%] right-12 w-64">
+                <ScrollableWidget delay={300}>
                   <StatsCard 
                     title="New Leads Today" 
                     value="7" 
                     change={15}
-                    className="bg-transparent" 
+                    className="bg-transparent backdrop-blur-sm" 
                   />
                 </ScrollableWidget>
               </div>
               
-              {/* Traffic Widget */}
-              <div className="absolute top-[50%] right-10 w-72">
-                <ScrollableWidget delay={1500}>
-                  <div className="p-4 bg-transparent">
+              {/* Traffic Widget - better positioned */}
+              <div className="absolute top-[45%] right-10 w-72">
+                <ScrollableWidget delay={600}>
+                  <div className="p-4 bg-transparent backdrop-blur-sm rounded-lg">
                     <h3 className="text-sm font-medium text-white mb-1">Website Traffic</h3>
                     <p className="text-2xl font-bold text-white mb-2">1,248</p>
                     <SimpleChart data={trafficData} color="#ffffff" height={60} />
