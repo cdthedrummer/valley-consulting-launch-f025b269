@@ -1,94 +1,119 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from "lucide-react";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-hvcg-blue-dark text-white pt-12 pb-6">
-      <div className="container-custom">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+    <footer className="bg-hvcg-blue-dark text-white">
+      <div className="container-custom py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-semibold mb-4">Hudson Valley Consulting</h3>
-            <p className="mb-4 text-gray-200">
-              Premium advertising consulting and training tailored specifically to local contractors.
+            <h3 className="text-xl font-bold mb-4">Hudson Valley Consulting</h3>
+            <p className="mb-4 text-white/80">
+              Marketing and consulting services designed specifically for contractors in the Hudson Valley region.
             </p>
-            <div className="flex flex-col space-y-2">
-              <div className="flex items-center space-x-2">
-                <Mail size={18} className="text-hvcg-green" />
-                <a href="mailto:contact@hvcg.com" className="text-gray-200 hover:text-white">
-                  contact@hvcg.com
-                </a>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Phone size={18} className="text-hvcg-green" />
-                <a href="tel:+18455551234" className="text-gray-200 hover:text-white">
-                  (845) 555-1234
-                </a>
-              </div>
-              <div className="flex items-center space-x-2">
-                <MapPin size={18} className="text-hvcg-green" />
-                <span className="text-gray-200">Hudson Valley, NY</span>
-              </div>
+            <div className="flex space-x-4">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-hvcg-green transition-colors">
+                <Facebook />
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-hvcg-green transition-colors">
+                <Twitter />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-hvcg-green transition-colors">
+                <Instagram />
+              </a>
             </div>
           </div>
           
           {/* Quick Links */}
           <div>
-            <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/" className="text-gray-200 hover:text-white">Home</Link>
+                <Link to="/services" className="hover:text-hvcg-green transition-colors">Services</Link>
               </li>
               <li>
-                <Link to="/services" className="text-gray-200 hover:text-white">Services</Link>
+                <Link to="/industries" className="hover:text-hvcg-green transition-colors">Industries</Link>
               </li>
               <li>
-                <Link to="/testimonials" className="text-gray-200 hover:text-white">Testimonials</Link>
+                <Link to="/testimonials" className="hover:text-hvcg-green transition-colors">Testimonials</Link>
               </li>
               <li>
-                <Link to="/about" className="text-gray-200 hover:text-white">About</Link>
+                <Link to="/about" className="hover:text-hvcg-green transition-colors">About Us</Link>
               </li>
               <li>
-                <Link to="/booking" className="text-gray-200 hover:text-white">Book an Appointment</Link>
+                <Link to="/resources" className="hover:text-hvcg-green transition-colors">Resources</Link>
+              </li>
+              <li>
+                <Link to="/booking" className="hover:text-hvcg-green transition-colors">Book a Consultation</Link>
+              </li>
+              <li>
+                <Link to="/privacy" className="hover:text-hvcg-green transition-colors">Privacy Policy</Link>
               </li>
             </ul>
           </div>
           
-          {/* Newsletter */}
+          {/* Services */}
           <div>
-            <h3 className="text-xl font-semibold mb-4">Newsletter</h3>
-            <p className="mb-4 text-gray-200">
-              Join our newsletter to stay updated with industry insights and new services.
-            </p>
-            <form className="flex">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="px-4 py-2 bg-white/10 text-white placeholder-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-hvcg-green"
-                required
-              />
-              <button
-                type="submit"
-                className="px-4 py-2 bg-hvcg-green text-white rounded-r-md hover:bg-hvcg-green-light transition-colors"
-              >
-                Subscribe
-              </button>
-            </form>
+            <h3 className="text-xl font-bold mb-4">Our Services</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/services" className="hover:text-hvcg-green transition-colors">Google Ads</Link>
+              </li>
+              <li>
+                <Link to="/services" className="hover:text-hvcg-green transition-colors">Search Engine Optimization</Link>
+              </li>
+              <li>
+                <Link to="/services" className="hover:text-hvcg-green transition-colors">Social Media Marketing</Link>
+              </li>
+              <li>
+                <Link to="/services" className="hover:text-hvcg-green transition-colors">Website Development</Link>
+              </li>
+              <li>
+                <Link to="/services" className="hover:text-hvcg-green transition-colors">Business Consulting</Link>
+              </li>
+            </ul>
+          </div>
+          
+          {/* Contact Info */}
+          <div>
+            <h3 className="text-xl font-bold mb-4">Contact Us</h3>
+            <ul className="space-y-3">
+              <li className="flex items-start">
+                <Phone className="mr-2 h-5 w-5 flex-shrink-0 text-hvcg-green" />
+                <span>(845) 555-1234</span>
+              </li>
+              <li className="flex items-start">
+                <Mail className="mr-2 h-5 w-5 flex-shrink-0 text-hvcg-green" />
+                <span>info@hudsonvalleyconsulting.com</span>
+              </li>
+              <li className="flex items-start">
+                <MapPin className="mr-2 h-5 w-5 flex-shrink-0 text-hvcg-green" />
+                <span>123 Main Street, Kingston, NY 12401</span>
+              </li>
+            </ul>
           </div>
         </div>
         
-        {/* Copyright */}
-        <div className="pt-6 border-t border-white/20 text-center text-gray-300">
-          <p>© {currentYear} Hudson Valley Consulting. All rights reserved.</p>
-          <p className="mt-2">
-            <Link to="/privacy" className="hover:text-white">Privacy Policy</Link>
-            {" | "}
-            <Link to="/terms" className="hover:text-white">Terms of Service</Link>
+        <hr className="my-8 border-white/20" />
+        
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <p className="text-white/70 text-sm">
+            &copy; {currentYear} Hudson Valley Consulting. All rights reserved.
           </p>
+          <div className="mt-4 md:mt-0">
+            <Link to="/privacy" className="text-sm text-white/70 hover:text-white transition-colors">
+              Privacy Policy
+            </Link>
+            <span className="mx-2 text-white/50">|</span>
+            <Link to="/terms" className="text-sm text-white/70 hover:text-white transition-colors">
+              Terms of Service
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

@@ -7,60 +7,15 @@ import Search from "@/components/Search";
 
 const Index: React.FC = () => {
   return (
-    <div className="pt-20">
-      {/* Hero Section with improved messaging and contractor image */}
-      <section className="relative bg-hvcg-blue-dark py-20 lg:py-28">
-        {/* Background image with overlay */}
-        <div className="absolute inset-0 z-0 opacity-20">
+    <div>
+      {/* Hero Section with the new image and no overlays */}
+      <section className="relative">
+        <div className="w-full h-screen">
           <img 
-            src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
-            alt="Contractors at work"
+            src="/lovable-uploads/f6d74fb6-e7b3-4a4f-a8ca-53435185edd2.png" 
+            alt="Hudson Valley Contractor at work"
             className="w-full h-full object-cover"
           />
-        </div>
-        <div className="container-custom relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in">
-              <h1 className="text-4xl lg:text-5xl font-bold mb-4 text-white">
-                Grow Your Contracting Business in Hudson Valley
-              </h1>
-              <p className="text-xl mb-6 text-white/90">
-                Marketing and consulting services designed specifically for local contractors like you.
-              </p>
-              
-              {/* Benefit bullet points */}
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start">
-                  <Check className="h-6 w-6 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                  <span className="text-white text-lg">Get more local leads that convert to jobs</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="h-6 w-6 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                  <span className="text-white text-lg">Stand out from competitors on Google</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="h-6 w-6 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                  <span className="text-white text-lg">Save time & money on marketing that works</span>
-                </li>
-              </ul>
-              
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button asChild size="lg" className="bg-hvcg-green hover:bg-hvcg-green-light text-white font-medium">
-                  <Link to="/booking">Book Your Free Consultation</Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="bg-white/20 hover:bg-white/30 text-white border-white/50">
-                  <Link to="/services">See How We Help</Link>
-                </Button>
-              </div>
-            </div>
-            <div className="hidden lg:block lg:rounded-xl lg:overflow-hidden lg:shadow-2xl animate-fade-in">
-              <img 
-                src="https://images.unsplash.com/photo-1581094794329-c8112a89f47e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                alt="Contractor success" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
         </div>
       </section>
 
@@ -74,6 +29,7 @@ const Index: React.FC = () => {
             </p>
           </div>
           
+          {/* Service cards - keep existing code */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Service 1 */}
             <Card className="border-none shadow-lg hover:shadow-xl transition-all">
@@ -141,6 +97,7 @@ const Index: React.FC = () => {
         </div>
       </section>
       
+      {/* Keep the rest of the sections unchanged */}
       {/* Service Packages Section */}
       <section className="py-16 bg-hvcg-gray">
         <div className="container-custom">

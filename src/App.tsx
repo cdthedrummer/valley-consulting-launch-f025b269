@@ -3,7 +3,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { useLayoutEffect } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -14,6 +15,7 @@ import Testimonials from "./pages/Testimonials";
 import About from "./pages/About";
 import Booking from "./pages/Booking";
 import NotFound from "./pages/NotFound";
+import Privacy from "./pages/Privacy";
 
 // Industry Pages
 import IndustriesIndex from "./pages/industries";
@@ -26,6 +28,17 @@ import FlooringPage from "./pages/industries/Flooring";
 // Resources Pages
 import Resources from "./pages/Resources";
 
+// ScrollToTop component to prevent scrolling issues when navigating
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  
+  return null;
+}
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -35,6 +48,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Navbar />
+        <ScrollToTop />
         <main className="min-h-screen">
           <Routes>
             <Route path="/" element={<Index />} />
@@ -42,6 +56,7 @@ const App = () => (
             <Route path="/testimonials" element={<Testimonials />} />
             <Route path="/about" element={<About />} />
             <Route path="/booking" element={<Booking />} />
+            <Route path="/privacy" element={<Privacy />} />
             
             {/* Industry Routes */}
             <Route path="/industries" element={<IndustriesIndex />} />
