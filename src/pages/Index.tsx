@@ -88,7 +88,6 @@ const Index: React.FC = () => {
         </div>
       </section>
       
-      {/* Keep the rest of the sections unchanged */}
       {/* Service Packages Section */}
       <section className="py-16 bg-hvcg-gray">
         <div className="container-custom">
@@ -376,7 +375,7 @@ const Index: React.FC = () => {
         </div>
       </section>
 
-      {/* Mobile Call Now Button (visible on mobile only) */}
+      {/* Mobile Call Now Button (visible on mobile only) - Updated "Contact" to "Compare Plans" */}
       <div className="fixed bottom-4 left-4 right-4 md:hidden flex z-30">
         <a 
           href="tel:+18455551234" 
@@ -385,10 +384,10 @@ const Index: React.FC = () => {
           <Phone className="h-5 w-5 mr-2" /> Call Now
         </a>
         <Link 
-          to="/booking" 
+          to="/services" 
           className="flex-1 bg-hvcg-blue text-white py-3 font-medium rounded-r-lg flex items-center justify-center"
         >
-          <Mail className="h-5 w-5 mr-2" /> Contact
+          <Building className="h-5 w-5 mr-2" /> Compare Plans
         </Link>
       </div>
     </div>

@@ -7,14 +7,17 @@ interface ScrollableWidgetProps {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  scrollFactor?: number; // Controls how fast widget moves relative to scrolling
 }
 
 const ScrollableWidget: React.FC<ScrollableWidgetProps> = ({ 
   children, 
   className, 
   delay = 0,
+  scrollFactor = 0.5, // Default scroll factor (0.5 means it moves at half the scroll speed)
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [yOffset, setYOffset] = useState(0);
   const widgetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,17 +26,23 @@ const ScrollableWidget: React.FC<ScrollableWidgetProps> = ({
       setIsVisible(true);
     }, delay);
 
-    // Set up scroll event listener
+    // Handle scroll for parallax effect
     const handleScroll = () => {
-      if (!widgetRef.current) return;
-
-      const rect = widgetRef.current.getBoundingClientRect();
-      const isOffScreen = rect.bottom < 0 || rect.top > window.innerHeight;
+      if (window.innerWidth < 768) return; // Disable parallax effect on mobile
       
-      if (isOffScreen && isVisible) {
-        setIsVisible(false);
-      } else if (!isOffScreen && !isVisible) {
-        setIsVisible(true);
+      const scrollY = window.scrollY;
+      setYOffset(scrollY * scrollFactor);
+      
+      // Only check visibility if we have a ref
+      if (widgetRef.current) {
+        const rect = widgetRef.current.getBoundingClientRect();
+        const isOffScreen = rect.bottom < 0 || rect.top > window.innerHeight;
+        
+        if (isOffScreen && isVisible) {
+          setIsVisible(false);
+        } else if (!isOffScreen && !isVisible) {
+          setIsVisible(true);
+        }
       }
     };
 
@@ -43,13 +52,19 @@ const ScrollableWidget: React.FC<ScrollableWidgetProps> = ({
       clearTimeout(showTimer);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [delay, isVisible]);
+  }, [delay, isVisible, scrollFactor]);
 
   return (
     <motion.div
       ref={widgetRef}
       initial={{ opacity: 0, y: 20 }}
-      animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      animate={isVisible ? { 
+        opacity: 1, 
+        y: yOffset, // Apply scrolling offset for parallax effect
+      } : { 
+        opacity: 0, 
+        y: 20 
+      }}
       transition={{ delay: delay / 1000, duration: 0.5 }}
       className={cn("", className)}
     >
