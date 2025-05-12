@@ -15,6 +15,13 @@ import About from "./pages/About";
 import Booking from "./pages/Booking";
 import NotFound from "./pages/NotFound";
 
+// Industry Pages
+import IndustriesIndex from "./pages/industries";
+import HVACPage from "./pages/industries/HVAC";
+
+// Resources Pages
+import Resources from "./pages/Resources";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -31,6 +38,14 @@ const App = () => (
             <Route path="/testimonials" element={<Testimonials />} />
             <Route path="/about" element={<About />} />
             <Route path="/booking" element={<Booking />} />
+            
+            {/* Industry Routes */}
+            <Route path="/industries" element={<IndustriesIndex />} />
+            <Route path="/industries/hvac" element={<HVACPage />} />
+            
+            {/* Resources Routes */}
+            <Route path="/resources" element={<Resources />} />
+            
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
