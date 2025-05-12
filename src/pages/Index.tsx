@@ -1,23 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Star, Check, User, Calendar, Phone, Mail, Building } from "lucide-react";
+import { ArrowRight, Star, Check, User, Calendar, Phone, Mail, Building, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import Search from "@/components/Search";
+import HeroSection from "@/components/HeroSection";
 
 const Index: React.FC = () => {
   return (
     <div>
-      {/* Hero Section with the new image and no overlays */}
-      <section className="relative">
-        <div className="w-full h-screen">
-          <img 
-            src="/lovable-uploads/f6d74fb6-e7b3-4a4f-a8ca-53435185edd2.png" 
-            alt="Hudson Valley Contractor at work"
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </section>
+      {/* Hero Section with interactive elements */}
+      <HeroSection />
 
       {/* Services Preview Section */}
       <section className="py-16 bg-white">
