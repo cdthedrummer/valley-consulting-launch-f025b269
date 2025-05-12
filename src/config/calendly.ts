@@ -1,2 +1,2 @@
 
-export const CALENDLY_URL = "https://calendly.com/sample-consulting/30min";
+export const CALENDLY_URL = "https://calendly.com/charliedickerson/30min";
