@@ -91,9 +91,9 @@ const Index: React.FC = () => {
             {/* Basic Package */}
             <Card className="bg-white border-none shadow-lg relative">
               <CardContent className="pt-8 pb-8 px-6">
-                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Basic</h3>
+                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Audit</h3>
                 <div className="text-center mb-6">
-                  <span className="text-3xl font-bold">$500</span>
+                  <span className="text-3xl font-bold">$1,150</span>
                   <span className="text-gray-600"> flat</span>
                 </div>
                 <ul className="space-y-3 mb-8">
@@ -128,9 +128,9 @@ const Index: React.FC = () => {
                 </span>
               </div>
               <CardContent className="pt-8 pb-8 px-6">
-                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Standard</h3>
+                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Strategy</h3>
                 <div className="text-center mb-6">
-                  <span className="text-3xl font-bold">$2,000</span>
+                  <span className="text-3xl font-bold">$2,250</span>
                 </div>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start">
@@ -163,27 +163,28 @@ const Index: React.FC = () => {
             {/* Premium Package */}
             <Card className="bg-white border-none shadow-lg relative">
               <CardContent className="pt-8 pb-8 px-6">
-                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Premium</h3>
+                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Full-Service</h3>
                 <div className="text-center mb-6">
-                  <span className="text-3xl font-bold">$1,500</span>
+                  <span className="text-3xl font-bold">$3,000</span>
                   <span className="text-gray-600">/month</span>
                 </div>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Ongoing advertising support</span>
+                    <span>Everything from Audit and Strategy</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Campaign management</span>
+                    <span>We'll update your site & manage paid campaigns for your ads</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Performance optimization</span>
+                    <span>
+                  </span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Monthly strategy sessions</span>
+                    <span>Call tracking setup & monthly leads reporting</span>
                   </li>
                 </ul>
                 <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
