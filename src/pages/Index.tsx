@@ -99,21 +99,25 @@ const Index: React.FC = () => {
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Comprehensive advertising audit</span>
+                    <span>Site audit for keywords, images, and customer reviews</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Actionable improvement plan</span>
+                    <span>Search account review for missed opportunities</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Competitor analysis</span>
+                    <span>Budget recommendations across platforms (Google, Meta, Nextdoor, etc.)</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>30-min implementation guidance</span>
+                    <span>Action plan with 30-min review call</span>
                   </li>
                 </ul>
+                <div className="mb-6 bg-hvcg-blue/5 p-3 rounded-md">
+                  <p className="font-medium text-hvcg-blue-dark mb-2">Best for:</p>
+                  <p className="text-sm text-gray-700">Contractors who are comfortable managing their own site and ads, but want to fix what's broken and get a jumpstart on more quality leads.</p>
+                </div>
                 <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
                   <Link to="/booking">Book Now</Link>
                 </Button>
@@ -128,32 +132,42 @@ const Index: React.FC = () => {
                 </span>
               </div>
               <CardContent className="pt-8 pb-8 px-6">
-                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Strategy</h3>
+                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Consulting</h3>
                 <div className="text-center mb-6">
                   <span className="text-3xl font-bold">$2,250</span>
+                  <span className="text-gray-600"> flat</span>
                 </div>
+                <p className="text-gray-700 mb-2 font-medium">Everything from Audit:</p>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Everything in Basic</span>
+                    <span>We'll tell you who your competitors are and how much they're spending on ads</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Full advertising strategy development</span>
+                    <span>Where to focus your business by zip code</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Implementation plans</span>
+                    <span>Google Maps, Yelp, and Angi profile reviews</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Audience targeting</span>
+                    <span>Which types of users visit your site</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Messaging frameworks</span>
+                    <span>Spam calls & fake leads rates</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
+                    <span>1-hr report walkthrough with our recommendations</span>
                   </li>
                 </ul>
+                <div className="mb-6 bg-hvcg-blue/5 p-3 rounded-md">
+                  <p className="font-medium text-hvcg-blue-dark mb-2">Best for:</p>
+                  <p className="text-sm text-gray-700">Contractors ready to level up with a full game plan and the latest market data.</p>
+                </div>
                 <Button asChild className="w-full bg-hvcg-green hover:bg-hvcg-green-light">
                   <Link to="/booking">Book Now</Link>
                 </Button>
@@ -168,25 +182,37 @@ const Index: React.FC = () => {
                   <span className="text-3xl font-bold">$3,000</span>
                   <span className="text-gray-600">/month</span>
                 </div>
+                <p className="text-gray-700 mb-2 font-medium">Everything from Audit & Consulting:</p>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Everything from Audit and Strategy</span>
+                    <span>Ongoing management of your paid campaigns for search & social ads</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>We'll update your site & manage paid campaigns for your ads</span>
+                    <span>We'll create up to 2 social image ads each month</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>
-                  </span>
+                    <span>Improve your site for keywords & images</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
+                    <span>Implement easy on-site reviews & incentives</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
                     <span>Call tracking setup & monthly leads reporting</span>
                   </li>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
+                    <span>Monthly strategy call with performance summary and next steps</span>
+                  </li>
                 </ul>
+                <div className="mb-6 bg-hvcg-blue/5 p-3 rounded-md">
+                  <p className="font-medium text-hvcg-blue-dark mb-2">Best for:</p>
+                  <p className="text-sm text-gray-700">Busy teams who want a partner to help them grow fast.</p>
+                </div>
                 <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
                   <Link to="/booking">Book Now</Link>
                 </Button>
