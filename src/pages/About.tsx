@@ -1,6 +1,7 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
-import { Calendar, Check, Briefcase, Star, Award } from "lucide-react";
+import { Calendar, Check, Star, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 const About: React.FC = () => {
   return <div className="pt-20">
@@ -36,6 +37,18 @@ const About: React.FC = () => {
               <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-6">Our Story</h2>
               <p className="text-lg text-gray-700 mb-4">After 20+ years working in advertising for major brands like Michelin, AT&T, Moen, AAMCO, & Toyota, I noticed local contractors were not getting access to the sophisticated advertising strategies that larger companies benefit from.</p>
               <p className="text-lg text-gray-700 mb-4">I've worked with 100s of small businesses throughout my career, so I understand the unique challenges when it comes to advertising effectively, attracting the right customers, and generating real leads.</p>
+              
+              {/* The element that was moved from Professional Experience section */}
+              <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+                <div className="flex items-center mb-4">
+                  <Award className="text-hvcg-blue-dark w-6 h-6 mr-3" />
+                  <h3 className="text-xl font-semibold text-hvcg-blue-dark">Professional Background</h3>
+                </div>
+                <p className="text-gray-600">
+                  With over two decades of experience in advertising strategy for major brands, I founded Hudson Valley Consulting to bring enterprise-level expertise to local contractors.
+                </p>
+              </div>
+              
               <p className="text-lg text-gray-700 mb-4">I founded Hudson Valley Consulting in 2025 with a clear mission: to bring enterprise-level advertising expertise to local contractors at an accessible price point, helping them grow their businesses through targeted, effective advertising strategies.</p>
               <p className="text-lg text-gray-700">
                 Today, we exclusively serve contractors throughout the Hudson Valley region, providing tailored strategies that deliver real results and help local businesses thrive.
@@ -45,105 +58,6 @@ const About: React.FC = () => {
               <div className="rounded-xl overflow-hidden shadow-2xl">
                 <img alt="Consulting session" src="/lovable-uploads/da252d5c-59e9-44e2-a866-09f08e917fa9.jpg" className="w-full h-full object-cover" />
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Experience Section */}
-      <section className="py-16 bg-hvcg-gray">
-        <div className="container-custom">
-          <h2 className="text-3xl font-bold text-hvcg-blue-dark text-center mb-12">Professional Experience</h2>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Experience Item */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex items-center mb-4">
-                <Briefcase className="text-hvcg-blue-dark w-6 h-6 mr-3" />
-                <h3 className="text-xl font-semibold text-hvcg-blue-dark">Roku</h3>
-              </div>
-              <p className="text-gray-600 text-sm mb-2">2018 - 2023</p>
-              <p className="text-gray-700 mb-2">Senior Advertising Director</p>
-              <p className="text-gray-600">
-                Led strategic advertising initiatives, developed cross-platform campaigns, and managed a $50M quarterly ad budget.
-              </p>
-            </div>
-            
-            {/* Experience Item */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex items-center mb-4">
-                <Briefcase className="text-hvcg-blue-dark w-6 h-6 mr-3" />
-                <h3 className="text-xl font-semibold text-hvcg-blue-dark">HBO Max</h3>
-              </div>
-              <p className="text-gray-600 text-sm mb-2">2012 - 2018</p>
-              <p className="text-gray-700 mb-2">Advertising Strategy Manager</p>
-              <p className="text-gray-600">
-                Developed and executed advertising strategies for original content, increasing viewership and subscription conversion.
-              </p>
-            </div>
-            
-            {/* Experience Item */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex items-center mb-4">
-                <Briefcase className="text-hvcg-blue-dark w-6 h-6 mr-3" />
-                <h3 className="text-xl font-semibold text-hvcg-blue-dark">DribbleUp</h3>
-              </div>
-              <p className="text-gray-600 text-sm mb-2">2008 - 2012</p>
-              <p className="text-gray-700 mb-2">Marketing Lead</p>
-              <p className="text-gray-600">
-                Led digital marketing strategy for this tech startup, helping to scale from pre-revenue to over $10M in annual sales.
-              </p>
-            </div>
-          </div>
-          
-          {/* Certifications and Education */}
-          <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex items-center mb-4">
-                <Award className="text-hvcg-blue-dark w-6 h-6 mr-3" />
-                <h3 className="text-xl font-semibold text-hvcg-blue-dark">Certifications</h3>
-              </div>
-              <ul className="space-y-2">
-                <li className="flex items-start">
-                  <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                  <span>Google Ads Certified Professional</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                  <span>Meta Blueprint Certified Media Planner</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                  <span>HubSpot Inbound Marketing Certified</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                  <span>Digital Marketing Institute Expert</span>
-                </li>
-              </ul>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex items-center mb-4">
-                <Award className="text-hvcg-blue-dark w-6 h-6 mr-3" />
-                <h3 className="text-xl font-semibold text-hvcg-blue-dark">Education</h3>
-              </div>
-              <ul className="space-y-2">
-                <li className="flex items-start">
-                  <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <span className="font-medium">MBA, Marketing</span>
-                    <p className="text-gray-600 text-sm">New York University, 2010</p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <span className="font-medium">BS, Business Administration</span>
-                    <p className="text-gray-600 text-sm">Boston University, 2003</p>
-                  </div>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
