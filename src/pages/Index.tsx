@@ -4,10 +4,8 @@ import { ArrowRight, Star, Check, User, Calendar, Phone, Mail, Building, Search 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import HeroSection from "@/components/HeroSection";
-
 const Index: React.FC = () => {
-  return (
-    <div>
+  return <div>
       {/* Hero Section with interactive elements */}
       <HeroSection />
 
@@ -32,10 +30,7 @@ const Index: React.FC = () => {
                 <p className="text-gray-600 mb-4">
                   Targeted local ads that reach homeowners in need of your services, right when they're searching.
                 </p>
-                <Link 
-                  to="/services/advertising" 
-                  className="text-hvcg-blue font-medium inline-flex items-center"
-                >
+                <Link to="/services/advertising" className="text-hvcg-blue font-medium inline-flex items-center">
                   Learn more <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
               </CardContent>
@@ -51,10 +46,7 @@ const Index: React.FC = () => {
                 <p className="text-gray-600 mb-4">
                   Help local customers find your business when they search online for contractors in Hudson Valley.
                 </p>
-                <Link 
-                  to="/services/seo" 
-                  className="text-hvcg-blue font-medium inline-flex items-center"
-                >
+                <Link to="/services/seo" className="text-hvcg-blue font-medium inline-flex items-center">
                   Learn more <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
               </CardContent>
@@ -70,10 +62,7 @@ const Index: React.FC = () => {
                 <p className="text-gray-600 mb-4">
                   Expert advice tailored to your contracting business, helping you make smart marketing decisions.
                 </p>
-                <Link 
-                  to="/services/consulting" 
-                  className="text-hvcg-blue font-medium inline-flex items-center"
-                >
+                <Link to="/services/consulting" className="text-hvcg-blue font-medium inline-flex items-center">
                   Learn more <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
               </CardContent>
@@ -317,9 +306,7 @@ const Index: React.FC = () => {
                   <p className="text-sm text-gray-600">ABC Contractors, Hudson Valley</p>
                 </div>
                 <div className="ml-auto flex items-center text-yellow-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="fill-current" size={20} />
-                  ))}
+                  {[...Array(5)].map((_, i) => <Star key={i} className="fill-current" size={20} />)}
                 </div>
               </div>
             </div>
@@ -338,11 +325,7 @@ const Index: React.FC = () => {
         <div className="container-custom">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
-              <img 
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                alt="Charlie Dickerson, Founder" 
-                className="rounded-lg shadow-lg"
-              />
+              <img alt="Charlie Dickerson, Founder" className="rounded-lg shadow-lg" src="/lovable-uploads/8a371a47-6bef-49a1-bc4b-f57acace647c.jpg" />
             </div>
             <div>
               <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-4">Why Choose Hudson Valley CG?</h2>
@@ -377,21 +360,13 @@ const Index: React.FC = () => {
 
       {/* Mobile Call Now Button (visible on mobile only) - Updated "Contact" to "Compare Plans" */}
       <div className="fixed bottom-4 left-4 right-4 md:hidden flex z-30">
-        <a 
-          href="tel:+18455551234" 
-          className="flex-1 bg-hvcg-green text-white py-3 font-medium rounded-l-lg flex items-center justify-center"
-        >
+        <a href="tel:+18455551234" className="flex-1 bg-hvcg-green text-white py-3 font-medium rounded-l-lg flex items-center justify-center">
           <Phone className="h-5 w-5 mr-2" /> Call Now
         </a>
-        <Link 
-          to="/services" 
-          className="flex-1 bg-hvcg-blue text-white py-3 font-medium rounded-r-lg flex items-center justify-center"
-        >
+        <Link to="/services" className="flex-1 bg-hvcg-blue text-white py-3 font-medium rounded-r-lg flex items-center justify-center">
           <Building className="h-5 w-5 mr-2" /> Compare Plans
         </Link>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
