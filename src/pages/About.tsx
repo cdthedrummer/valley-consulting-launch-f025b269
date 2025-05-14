@@ -1,32 +1,25 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Calendar, Check, Briefcase, Star, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 const About: React.FC = () => {
-  return (
-    <div className="pt-20">
+  return <div className="pt-20">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-hvcg-blue-dark to-hvcg-blue text-white py-16">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl lg:text-5xl font-bold mb-4">About Hudson Valley Consulting</h1>
-              <p className="text-xl mb-6 text-white/90">
-                Bringing enterprise advertising expertise to local contractors since 2023.
-              </p>
+              <p className="text-xl mb-6 text-white/90">Bringing enterprise advertising expertise to local contractors since 2023</p>
             </div>
             <div className="bg-white/10 p-8 rounded-lg">
               <p className="italic text-lg">
                 "My mission is to help local contractors access the same level of advertising expertise that I provided to major brands, but at a price point that makes sense for small businesses."
               </p>
               <div className="mt-4 flex items-center">
-                <div className="h-12 w-12 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-xl">
-                  JD
-                </div>
+                <div className="h-12 w-12 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-xl">CD</div>
                 <div className="ml-4">
-                  <h4 className="font-semibold">John Doe</h4>
+                  <h4 className="font-semibold">Charlie Dickerson</h4>
                   <p className="text-sm text-white/80">Founder, Hudson Valley Consulting</p>
                 </div>
               </div>
@@ -41,26 +34,16 @@ const About: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
               <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-6">Our Story</h2>
-              <p className="text-lg text-gray-700 mb-4">
-                After 20+ years working in advertising for major brands like Roku and HBO Max, I noticed a significant gap in the market: local contractors were not getting access to the sophisticated advertising strategies that larger companies benefit from.
-              </p>
-              <p className="text-lg text-gray-700 mb-4">
-                Having grown up in a family of contractors, I understood the unique challenges these businesses face when it comes to advertising effectively and attracting the right customers.
-              </p>
-              <p className="text-lg text-gray-700 mb-4">
-                I founded Hudson Valley Consulting in 2023 with a clear mission: to bring enterprise-level advertising expertise to local contractors at an accessible price point, helping them grow their businesses through targeted, effective advertising strategies.
-              </p>
+              <p className="text-lg text-gray-700 mb-4">After 20+ years working in advertising for major brands like Michelin, AT&T, Moen, AAMCO, & Toyota, I noticed local contractors were not getting access to the sophisticated advertising strategies that larger companies benefit from.</p>
+              <p className="text-lg text-gray-700 mb-4">I've worked with 100s of small businesses throughout my career, so I understand the unique challenges when it comes to advertising effectively, attracting the right customers, and generating real leads.</p>
+              <p className="text-lg text-gray-700 mb-4">I founded Hudson Valley Consulting in 2025 with a clear mission: to bring enterprise-level advertising expertise to local contractors at an accessible price point, helping them grow their businesses through targeted, effective advertising strategies.</p>
               <p className="text-lg text-gray-700">
                 Today, we exclusively serve contractors throughout the Hudson Valley region, providing tailored strategies that deliver real results and help local businesses thrive.
               </p>
             </div>
             <div className="order-1 lg:order-2">
               <div className="rounded-xl overflow-hidden shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                  alt="Consulting session" 
-                  className="w-full h-full object-cover"
-                />
+                <img alt="Consulting session" src="/lovable-uploads/da252d5c-59e9-44e2-a866-09f08e917fa9.jpg" className="w-full h-full object-cover" />
               </div>
             </div>
           </div>
@@ -222,8 +205,6 @@ const About: React.FC = () => {
           </Button>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default About;
