@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Send, Calendar, Check, ArrowRight } from "lucide-react";
@@ -255,8 +256,8 @@ const Booking: React.FC = () => {
                   <Mail className="text-hvcg-blue-dark w-8 h-8" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-hvcg-blue-dark">Email</h3>
-                <a href="mailto:contact@hvcg.com" className="text-hvcg-blue hover:underline">
-                  contact@hvcg.com
+                <a href="mailto:contact@hvcg.us" className="text-hvcg-blue hover:underline">
+                  contact@hvcg.us
                 </a>
               </CardContent>
             </Card>
@@ -268,8 +269,8 @@ const Booking: React.FC = () => {
                   <Phone className="text-hvcg-blue-dark w-8 h-8" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-hvcg-blue-dark">Phone</h3>
-                <a href="tel:+18455551234" className="text-hvcg-blue hover:underline">
-                  (845) 555-1234
+                <a href="tel:+18456758378" className="text-hvcg-blue hover:underline">
+                  (845) 675-8378
                 </a>
               </CardContent>
             </Card>

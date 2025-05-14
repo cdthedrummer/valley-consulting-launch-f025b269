@@ -42,7 +42,7 @@ const Privacy: React.FC = () => {
             <p>We do not sell or rent your personal information to third parties. We may share your information with service providers who help us operate our website and conduct our business.</p>
             
             <h2 className="text-xl font-semibold mt-8 mb-4">Your Rights</h2>
-            <p>You have the right to access, correct, or delete your personal information. To exercise these rights, please contact us at privacy@hudsonvalleyconsulting.com.</p>
+            <p>You have the right to access, correct, or delete your personal information. To exercise these rights, please contact us at contact@hvcg.us.</p>
             
             <h2 className="text-xl font-semibold mt-8 mb-4">Changes to This Privacy Policy</h2>
             <p>We may update this Privacy Policy from time to time. The updated version will be indicated by an updated "Last Updated" date.</p>
@@ -52,8 +52,8 @@ const Privacy: React.FC = () => {
             <p>Hudson Valley Consulting<br/>
             123 Main Street<br/>
             Kingston, NY 12401<br/>
-            privacy@hudsonvalleyconsulting.com<br/>
-            (845) 555-1234</p>
+            contact@hvcg.us<br/>
+            (845) 675-8378</p>
           </div>
           
           <div className="mt-10">
