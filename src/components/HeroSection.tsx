@@ -92,7 +92,7 @@ const HeroSection: React.FC = () => {
             </svg>
           </span>
           Compare Plans
-        </a>
+        </Link>
       </div>
     </section>
   );
