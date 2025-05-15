@@ -289,19 +289,19 @@ const Booking: React.FC = () => {
               <div className="mt-3">
                 <p className="font-semibold text-hvcg-blue-dark">Essentials:</p>
                 <ul className="list-disc pl-5 text-gray-700 text-sm mt-1 mb-3">
-                  <li>Website login (WordPress, Squarespace, Wix, etc.)</li>
-                  <li>Google Ads account (Admin or read-only access)</li>
-                  <li>Facebook Business Manager (Access to ad account + page)</li>
-                  <li>Google Analytics (GA4) (View access)</li>
-                  <li>Google Search Console (Optional but helpful)</li>
-                  <li>Google Business Profile (GMB) (Editor access)</li>
+                  <li>Website login</li>
+                  <li>Google Ads account</li>
+                  <li>Facebook Business Manager</li>
+                  <li>Google Analytics</li>
+                  <li>Google Search Console</li>
+                  <li>Google Business Profile</li>
                 </ul>
                 
                 <p className="font-semibold text-hvcg-blue-dark">Optional but useful:</p>
                 <ul className="list-disc pl-5 text-gray-700 text-sm mt-1">
-                  <li>Yelp, Angi, Nextdoor, Thumbtack accounts (if you're running ads or have profiles there)</li>
-                  <li>Call tracking tool login (like CallRail or similar)</li>
-                  <li>CRM or lead management system (Jobber, Housecall Pro, etc.)</li>
+                  <li>Yelp, Angi, Nextdoor, Thumbtack accounts</li>
+                  <li>Call tracking tool login</li>
+                  <li>CRM or lead management system</li>
                 </ul>
               </div>
             </div>
