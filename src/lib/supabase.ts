@@ -5,11 +5,26 @@ import { ContactSubmission, Appointment, Testimonial } from "@/types/supabase";
 
 export async function submitContactForm(formData: ContactSubmission) {
   try {
-    const { error } = await supabase
+    // First, save the submission to the database
+    const { error: dbError } = await supabase
       .from("contact_submissions")
       .insert([formData]);
     
-    if (error) throw error;
+    if (dbError) throw dbError;
+    
+    // Now call the Edge Function to send emails
+    const { error: emailError } = await supabase.functions.invoke('send-contact-email', {
+      body: formData
+    });
+
+    if (emailError) {
+      console.error("Error sending email:", emailError);
+      toast({
+        title: "Contact info saved",
+        description: "Your information was saved, but there was an issue sending confirmation emails.",
+      });
+      return { success: true, emailError };
+    }
     
     toast({
       title: "Message sent!",

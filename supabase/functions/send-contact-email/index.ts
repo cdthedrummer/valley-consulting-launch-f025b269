@@ -2,8 +2,14 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+// Initialize Resend with the API key
+const resendApiKey = Deno.env.get("RESEND_API_KEY");
+if (!resendApiKey) {
+  console.error("Missing RESEND_API_KEY environment variable");
+}
+const resend = new Resend(resendApiKey);
 
+// Set up CORS headers for cross-origin requests
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -20,15 +26,39 @@ interface ContactFormData {
 }
 
 const handler = async (req: Request): Promise<Response> => {
+  console.log("Edge function received request");
+  
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    console.log("Parsing request body");
     const formData: ContactFormData = await req.json();
+    console.log("Form data received:", formData);
+    
     const { name, email, message, company, phone, service_interest } = formData;
 
+    // Validate the necessary fields
+    if (!name || !email || !message) {
+      console.error("Missing required fields");
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: "Missing required fields" 
+        }),
+        {
+          status: 400,
+          headers: { 
+            "Content-Type": "application/json",
+            ...corsHeaders 
+          },
+        }
+      );
+    }
+
+    console.log("Sending email to business owner");
     // Send email to business owner
     const ownerEmailResponse = await resend.emails.send({
       from: "Hudson Valley Consulting <no-reply@hvcg.us>",
@@ -45,7 +75,9 @@ const handler = async (req: Request): Promise<Response> => {
         <p>${message}</p>
       `,
     });
+    console.log("Owner email response:", ownerEmailResponse);
 
+    console.log("Sending confirmation email to customer");
     // Send confirmation email to the customer
     const customerEmailResponse = await resend.emails.send({
       from: "Hudson Valley Consulting <no-reply@hvcg.us>",
@@ -60,14 +92,14 @@ const handler = async (req: Request): Promise<Response> => {
         <p>Best regards,<br />Hudson Valley Consulting Team</p>
       `,
     });
-
-    console.log("Owner email sent:", ownerEmailResponse);
-    console.log("Customer email sent:", customerEmailResponse);
+    console.log("Customer email response:", customerEmailResponse);
 
     return new Response(
       JSON.stringify({ 
         success: true, 
-        message: "Emails sent successfully" 
+        message: "Emails sent successfully",
+        ownerEmailId: ownerEmailResponse.id,
+        customerEmailId: customerEmailResponse.id
       }),
       {
         status: 200,
