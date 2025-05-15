@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Send, Calendar, Check, ArrowRight } from "lucide-react";
@@ -6,14 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { 
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,21 +14,24 @@ import CalendlyEmbed from "@/components/CalendlyEmbed";
 import { CALENDLY_URL } from "@/config/calendly";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
-
 const contactFormSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid email address." }),
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters."
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email address."
+  }),
   company: z.string().optional(),
   phone: z.string().optional(),
   service_interest: z.string().optional(),
-  message: z.string().min(10, { message: "Message must be at least 10 characters." }),
+  message: z.string().min(10, {
+    message: "Message must be at least 10 characters."
+  }),
   human_verification: z.boolean().refine(val => val === true, {
     message: "Please confirm you are human."
-  }),
+  })
 });
-
 type ContactFormValues = z.infer<typeof contactFormSchema>;
-
 const Booking: React.FC = () => {
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -47,10 +42,9 @@ const Booking: React.FC = () => {
       phone: "",
       service_interest: "",
       message: "",
-      human_verification: false,
-    },
+      human_verification: false
+    }
   });
-
   const onSubmit = async (data: ContactFormValues) => {
     // Ensure required fields are present to match ContactSubmission type
     const formData = {
@@ -59,15 +53,12 @@ const Booking: React.FC = () => {
       message: data.message,
       company: data.company,
       phone: data.phone,
-      service_interest: data.service_interest,
+      service_interest: data.service_interest
     };
-    
     await submitContactForm(formData);
     form.reset();
   };
-
-  return (
-    <div className="pt-20">
+  return <div className="pt-20">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-hvcg-blue-dark to-hvcg-blue text-white py-16">
         <div className="container-custom text-center">
@@ -89,10 +80,7 @@ const Booking: React.FC = () => {
                 Use our online calendar to find a time that works for you. Consultations are conducted via Zoom.
               </p>
               
-              <CalendlyEmbed 
-                url={CALENDLY_URL}
-                className="bg-white rounded-lg mb-6"
-              />
+              <CalendlyEmbed url={CALENDLY_URL} className="bg-white rounded-lg mb-6" />
               
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-hvcg-blue-dark">What to Expect:</h3>
@@ -141,74 +129,53 @@ const Booking: React.FC = () => {
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="name" render={({
+                    field
+                  }) => <FormItem>
                           <FormLabel>Your Name</FormLabel>
                           <FormControl>
                             <Input placeholder="John Doe" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="company"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={form.control} name="company" render={({
+                    field
+                  }) => <FormItem>
                           <FormLabel>Company Name</FormLabel>
                           <FormControl>
                             <Input placeholder="Your Company" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="email" render={({
+                    field
+                  }) => <FormItem>
                           <FormLabel>Email</FormLabel>
                           <FormControl>
                             <Input type="email" placeholder="you@example.com" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="phone"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={form.control} name="phone" render={({
+                    field
+                  }) => <FormItem>
                           <FormLabel>Phone</FormLabel>
                           <FormControl>
                             <Input placeholder="(555) 123-4567" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                   
-                  <FormField
-                    control={form.control}
-                    name="service_interest"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="service_interest" render={({
+                  field
+                }) => <FormItem>
                         <FormLabel>Interested In</FormLabel>
                         <FormControl>
-                          <select
-                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue"
-                            {...field}
-                          >
+                          <select className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue" {...field}>
                             <option value="">Select a service</option>
                             <option value="Introductory Audit & Consultation">Introductory Audit & Consultation</option>
                             <option value="Strategy Package">Strategy Package</option>
@@ -217,38 +184,23 @@ const Booking: React.FC = () => {
                           </select>
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                   
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="message" render={({
+                  field
+                }) => <FormItem>
                         <FormLabel>Message</FormLabel>
                         <FormControl>
-                          <Textarea 
-                            rows={4}
-                            placeholder="Tell us a bit about your business and what you're looking to achieve with your advertising."
-                            {...field}
-                          />
+                          <Textarea rows={4} placeholder="Tell us a bit about your business and what you're looking to achieve with your advertising." {...field} />
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                   
-                  <FormField
-                    control={form.control}
-                    name="human_verification"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormField control={form.control} name="human_verification" render={({
+                  field
+                }) => <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                         <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
+                          <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                         </FormControl>
                         <div className="space-y-1 leading-none">
                           <FormLabel>
@@ -256,9 +208,7 @@ const Booking: React.FC = () => {
                           </FormLabel>
                           <FormMessage />
                         </div>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                   
                   <Button type="submit" className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue flex items-center justify-center">
                     <Send className="mr-2 h-5 w-5" /> Send Message
@@ -326,18 +276,14 @@ const Booking: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* FAQ Item */}
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">How much does it cost to work with you?</h3>
-              <p className="text-gray-700">
-                We offer transparent, fixed pricing for our services: $500 for an Introductory Audit, $2,000 for our Strategy Package, and $1,500/month for our Premium Retainer service.
-              </p>
+              <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">What if I need more, like a new web site?</h3>
+              <p className="text-gray-700">If your needs extend past our on-site offerings (a new web site, call tracking setup, Google Analytics or Google Reviews, etc.) we encourage you to share some examples! What are your competitors doing that you like? Let's work together to get your business ready for the next step.</p>
             </div>
             
             {/* FAQ Item */}
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">What happens after I book a consultation?</h3>
-              <p className="text-gray-700">
-                You'll receive a confirmation email with meeting details and a brief questionnaire to help us prepare. During the consultation, we'll discuss your business, advertising goals, and how our services can help you achieve them.
-              </p>
+              <p className="text-gray-700">You'll receive a confirmation email with meeting details and a brief questionnaire to help us prepare. During the consultation, we'll discuss your business, advertising goals, and how our services can help you achieve them.</p>
             </div>
             
             {/* FAQ Item */}
@@ -380,8 +326,6 @@ const Booking: React.FC = () => {
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default Booking;
