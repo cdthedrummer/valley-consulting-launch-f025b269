@@ -28,12 +28,14 @@ const HeroSection: React.FC = () => {
   return (
     <section className="relative overflow-hidden">
       {/* Background Image */}
-      <div className="w-full h-screen">
+      <div className="w-full h-screen relative">
         <img 
           src="/lovable-uploads/5baca6cd-78bc-42bb-88f6-4f637aac6ed8.png" 
           alt="Roofing contractors working on a house"
           className="w-full h-full object-cover"
         />
+        {/* Semi-transparent overlay */}
+        <div className="absolute inset-0 bg-black/40"></div>
       </div>
 
       {/* Interactive Overlay Content */}
