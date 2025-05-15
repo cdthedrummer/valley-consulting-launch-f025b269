@@ -5,7 +5,6 @@ import ServicesPreviewSection from "@/components/ServicesPreviewSection";
 import ServicePlansSection from "@/components/ServicePlansSection";
 import IndustriesSection from "@/components/IndustriesSection";
 import TestimonialSection from "@/components/TestimonialSection";
-import AboutPreviewSection from "@/components/AboutPreviewSection";
 import FooterCTASection from "@/components/FooterCTASection";
 import MobileCallButton from "@/components/MobileCallButton";
 
@@ -26,9 +25,6 @@ const Index: React.FC = () => {
       
       {/* Testimonial Highlight */}
       <TestimonialSection />
-      
-      {/* About Us Preview */}
-      <AboutPreviewSection />
       
       {/* Footer CTA */}
       <FooterCTASection />
