@@ -274,31 +274,57 @@ const Booking: React.FC = () => {
           <h2 className="text-3xl font-bold text-hvcg-blue-dark text-center mb-12">Frequently Asked Questions</h2>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* FAQ Item */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">What if I need more, like a new web site?</h3>
-              <p className="text-gray-700">If your needs extend past our on-site offerings (a new web site, call tracking setup, Google Analytics or Google Reviews, etc.) we encourage you to share some examples! What are your competitors doing that you like? Let's work together to get your business ready for the next step.</p>
-            </div>
-            
-            {/* FAQ Item */}
+            {/* FAQ Item 1 - Reordered */}
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">What happens after I book a consultation?</h3>
               <p className="text-gray-700">You'll receive a confirmation email with meeting details and a brief questionnaire to help us prepare. During the consultation, we'll discuss your business, advertising goals, and how our services can help you achieve them.</p>
             </div>
             
-            {/* FAQ Item */}
+            {/* FAQ Item 2 - New */}
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">Do you have a refund policy?</h3>
+              <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">What login info do I need to share before we get started?</h3>
               <p className="text-gray-700">
-                Yes, we stand behind our services. If you're not satisfied with the quality of our work, we'll either redo it or provide a refund, depending on the circumstances.
+                To run a full audit or manage your ads, we'll need access to the tools you're already using. Here's what to prepare before our first call:
               </p>
+              <div className="mt-3">
+                <p className="font-semibold text-hvcg-blue-dark">Essentials:</p>
+                <ul className="list-disc pl-5 text-gray-700 text-sm mt-1 mb-3">
+                  <li>Website login (WordPress, Squarespace, Wix, etc.)</li>
+                  <li>Google Ads account (Admin or read-only access)</li>
+                  <li>Facebook Business Manager (Access to ad account + page)</li>
+                  <li>Google Analytics (GA4) (View access)</li>
+                  <li>Google Search Console (Optional but helpful)</li>
+                  <li>Google Business Profile (GMB) (Editor access)</li>
+                </ul>
+                
+                <p className="font-semibold text-hvcg-blue-dark">Optional but useful:</p>
+                <ul className="list-disc pl-5 text-gray-700 text-sm mt-1">
+                  <li>Yelp, Angi, Nextdoor, Thumbtack accounts (if you're running ads or have profiles there)</li>
+                  <li>Call tracking tool login (like CallRail or similar)</li>
+                  <li>CRM or lead management system (Jobber, Housecall Pro, etc.)</li>
+                </ul>
+              </div>
             </div>
             
-            {/* FAQ Item */}
+            {/* FAQ Item 3 - Reordered */}
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">How quickly can we get started?</h3>
               <p className="text-gray-700">
                 Typically, we can schedule an initial consultation within 1-2 weeks. For project work, we generally get started within 1-3 weeks of contract signing, depending on our current client load.
+              </p>
+            </div>
+            
+            {/* FAQ Item 4 - Reordered */}
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">What if I need more, like a new web site?</h3>
+              <p className="text-gray-700">If your needs extend past our on-site offerings (a new web site, call tracking setup, Google Analytics or Google Reviews, etc.) we encourage you to share some examples! What are your competitors doing that you like? Let's work together to get your business ready for the next step.</p>
+            </div>
+            
+            {/* FAQ Item 5 - Reordered */}
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold mb-3 text-hvcg-blue-dark">Do you have a refund policy?</h3>
+              <p className="text-gray-700">
+                Yes, we stand behind our services. If you're not satisfied with the quality of our work, we'll either redo it or provide a refund, depending on the circumstances.
               </p>
             </div>
           </div>
