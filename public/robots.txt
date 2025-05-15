@@ -1,14 +1,27 @@
+
+# Allow all search engine bots to access the entire site
+User-agent: *
+Allow: /
+
+# Specific rules for major search engines
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
+User-agent: Yandexbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Social media crawlers
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
-Allow: /
+# Sitemap location
+Sitemap: https://hudsonvalleycg.com/sitemap.xml
