@@ -69,7 +69,7 @@ const About: React.FC = () => {
             </div>
             <div className="order-1 lg:order-2">
               <div className="rounded-xl overflow-hidden shadow-2xl">
-                <img alt="Consulting session" src="/lovable-uploads/da252d5c-59e9-44e2-a866-09f08e917fa9.jpg" className="w-full h-full object-cover" />
+                <img alt="Consulting session" src="/lovable-uploads/da252d5c-59e9-44e2-a866-09f08e917fa9.jpg" className="w-full h-full object-scale-down" />
               </div>
             </div>
           </div>
