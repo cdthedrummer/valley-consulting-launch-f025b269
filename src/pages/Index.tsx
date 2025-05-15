@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, Check, User, Calendar, Phone, Mail, Building, Search } from "lucide-react";
@@ -93,7 +94,7 @@ const Index: React.FC = () => {
             {/* Basic Package */}
             <Card className="bg-white border-none shadow-lg border-t-4 border-hvcg-blue-dark relative">
               <CardContent className="pt-8 pb-8 px-6">
-                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Quick Fix Audit</h3>
+                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Introductory Audit & Consultation</h3>
                 <div className="text-center mb-6">
                   <span className="text-3xl font-bold">$1,150</span>
                   <span className="text-gray-600 block text-sm">One-time flat fee</span>
@@ -105,23 +106,19 @@ const Index: React.FC = () => {
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Ad and website audit</span>
+                    <span>Site audit: keywords, images, reviews</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Competitor review</span>
+                    <span>Ad check: wasted spend, missed opps</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>2-hour consultation</span>
+                    <span>Budget plan: Google, Meta, Nextdoor</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Simple action plan</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Written findings report</span>
+                    <span>Action plan + 30-min call</span>
                   </li>
                 </ul>
                 <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
@@ -140,7 +137,7 @@ const Index: React.FC = () => {
                 </span>
               </div>
               <CardContent className="pt-8 pb-8 px-6">
-                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Growth Plan</h3>
+                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Strategy Package</h3>
                 <div className="text-center mb-6">
                   <span className="text-3xl font-bold">$2,250</span>
                   <span className="text-gray-600 block text-sm">Flat fee – includes strategy + support</span>
@@ -152,27 +149,27 @@ const Index: React.FC = () => {
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Everything in the Quick Fix Audit</span>
+                    <span>Everything in the Introductory Audit</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Custom marketing strategy</span>
+                    <span>Competitor + zip code insights</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Local + competitor insights</span>
+                    <span>GMB, Yelp, Angi audit</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Channel-specific recommendations</span>
+                    <span>Visitor profile: who's clicking + calling</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Target audience + messaging guidance</span>
+                    <span>Spam lead check</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>4 follow-up support sessions</span>
+                    <span>1-hr strategy call</span>
                   </li>
                 </ul>
                 <Button asChild className="w-full bg-hvcg-green hover:bg-hvcg-green-light">
@@ -186,7 +183,7 @@ const Index: React.FC = () => {
             {/* Premium Package */}
             <Card className="bg-white border-none shadow-lg border-t-4 border-hvcg-blue relative">
               <CardContent className="pt-8 pb-8 px-6">
-                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Full-Service Management</h3>
+                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Premium Retainer</h3>
                 <div className="text-center mb-6">
                   <span className="text-3xl font-bold">$3,000</span>
                   <span className="text-gray-600 block text-sm">Ongoing monthly support</span>
@@ -198,27 +195,23 @@ const Index: React.FC = () => {
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Weekly ad management (Google, Meta, etc.)</span>
+                    <span>Ad management (Google, Meta, etc.)</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Campaign copy + creative included</span>
+                    <span>2 custom image ads per month</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Monthly reporting + optimizations</span>
+                    <span>Site + Reviews optimizations</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Competitor trend monitoring</span>
+                    <span>Lead tracking + monthly report</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Monthly strategy session</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Unlimited email support</span>
+                    <span>Monthly performance call</span>
                   </li>
                 </ul>
                 <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
