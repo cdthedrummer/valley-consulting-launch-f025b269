@@ -28,37 +28,39 @@ import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
-    <HelmetProvider>
-      <BrowserRouter>
-        <ScrollToTop />
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/services/advertising" element={<Advertising />} />
-              <Route path="/services/seo" element={<SEO />} />
-              <Route path="/services/consulting" element={<Consulting />} />
-              <Route path="/booking" element={<Booking />} />
-              <Route path="/testimonials" element={<Testimonials />} />
-              <Route path="/resources" element={<Resources />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/industries" element={<IndustriesIndex />} />
-              <Route path="/industries/hvac" element={<HVAC />} />
-              <Route path="/industries/plumbing" element={<Plumbing />} />
-              <Route path="/industries/fencing" element={<Fencing />} />
-              <Route path="/industries/deck-patio" element={<DeckPatio />} />
-              <Route path="/industries/flooring" element={<Flooring />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-        <Toaster />
-      </BrowserRouter>
-    </HelmetProvider>
+    <React.StrictMode>
+      <HelmetProvider>
+        <BrowserRouter>
+          <ScrollToTop />
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-grow">
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/services/advertising" element={<Advertising />} />
+                <Route path="/services/seo" element={<SEO />} />
+                <Route path="/services/consulting" element={<Consulting />} />
+                <Route path="/booking" element={<Booking />} />
+                <Route path="/testimonials" element={<Testimonials />} />
+                <Route path="/resources" element={<Resources />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/industries" element={<IndustriesIndex />} />
+                <Route path="/industries/hvac" element={<HVAC />} />
+                <Route path="/industries/plumbing" element={<Plumbing />} />
+                <Route path="/industries/fencing" element={<Fencing />} />
+                <Route path="/industries/deck-patio" element={<DeckPatio />} />
+                <Route path="/industries/flooring" element={<Flooring />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+          <Toaster />
+        </BrowserRouter>
+      </HelmetProvider>
+    </React.StrictMode>
   );
 }
 
