@@ -30,8 +30,8 @@ const HeroSection: React.FC = () => {
       {/* Background Image */}
       <div className="w-full h-screen">
         <img 
-          src="/lovable-uploads/ea09a919-020e-4f34-af0a-40c76bc177c2.png" 
-          alt="Hudson Valley Contractor at work"
+          src="/lovable-uploads/5baca6cd-78bc-42bb-88f6-4f637aac6ed8.png" 
+          alt="Roofing contractors working on a house"
           className="w-full h-full object-cover"
         />
       </div>
