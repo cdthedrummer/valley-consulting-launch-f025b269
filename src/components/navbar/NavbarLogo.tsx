@@ -5,11 +5,9 @@ import { Link } from "react-router-dom";
 const NavbarLogo: React.FC = () => {
   return (
     <Link to="/" className="flex items-center">
-      <img 
-        src="/lovable-uploads/a2bc17d4-98af-42a7-8864-830b57682732.png" 
-        alt="Hudson Valley Consulting Group" 
-        className="h-12"
-      />
+      <h1 className="text-2xl font-bold text-hvcg-blue-dark">
+        <span className="text-hvcg-blue">Hudson Valley</span> Consulting
+      </h1>
     </Link>
   );
 };
