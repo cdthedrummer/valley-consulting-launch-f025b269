@@ -30,12 +30,12 @@ const HeroSection: React.FC = () => {
       {/* Background Image */}
       <div className="w-full h-screen relative">
         <img 
-          src="/lovable-uploads/5baca6cd-78bc-42bb-88f6-4f637aac6ed8.png" 
-          alt="Roofing contractors working on a house"
+          src="/lovable-uploads/b9af1e8c-7b4a-4b4b-87b3-9cf9bd4e3bcd.png" 
+          alt="Beautiful wooden deck with railings and outdoor furniture"
           className="w-full h-full object-cover"
         />
-        {/* Semi-transparent overlay with increased opacity */}
-        <div className="absolute inset-0 bg-black/60"></div>
+        {/* Semi-transparent overlay with original opacity */}
+        <div className="absolute inset-0 bg-black/40"></div>
       </div>
 
       {/* Interactive Overlay Content */}

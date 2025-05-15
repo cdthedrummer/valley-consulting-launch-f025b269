@@ -23,12 +23,28 @@ const FencingPage: React.FC = () => {
     "Portfolio showcasing and professional online presence to highlight the quality of your work and build trust with potential clients."
   ];
 
+  const images = [
+    {
+      src: "https://images.unsplash.com/photo-1605146052194-3a44e7a7b02e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Modern privacy fence installation"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1628788835388-415ee2fa9576?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Decorative wooden fence with garden view"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1572931467331-5be092c77dff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Metal fence installation process"
+    }
+  ];
+
   return (
     <IndustryTemplate
       industryName="Fencing"
       heroImage="https://images.unsplash.com/photo-1605146052194-3a44e7a7b02e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
       challenges={challenges}
       solutions={solutions}
+      images={images}
     />
   );
 };

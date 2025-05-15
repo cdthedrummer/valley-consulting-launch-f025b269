@@ -23,12 +23,28 @@ const HVACPage: React.FC = () => {
     "Local SEO optimization to ensure your HVAC business appears prominently in local search results for Hudson Valley residents."
   ];
 
+  const images = [
+    {
+      src: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Modern air conditioning unit installation"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "HVAC technician working on heating system"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1619045119136-349759223c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Home thermostat control system"
+    }
+  ];
+
   return (
     <IndustryTemplate
       industryName="HVAC"
       heroImage="https://images.unsplash.com/photo-1621905251918-48416bd8575a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
       challenges={challenges}
       solutions={solutions}
+      images={images}
     />
   );
 };

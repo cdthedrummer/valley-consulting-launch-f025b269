@@ -1,8 +1,12 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Calendar, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+interface ImageProps {
+  src: string;
+  alt: string;
+}
 
 interface IndustryTemplateProps {
   industryName: string;
@@ -10,6 +14,7 @@ interface IndustryTemplateProps {
   heroImage: string;
   challenges: string[];
   solutions: string[];
+  images?: ImageProps[];
 }
 
 const IndustryTemplate: React.FC<IndustryTemplateProps> = ({
@@ -18,6 +23,7 @@ const IndustryTemplate: React.FC<IndustryTemplateProps> = ({
   heroImage,
   challenges,
   solutions,
+  images = [],
 }) => {
   return (
     <div className="pt-20">
@@ -113,6 +119,29 @@ const IndustryTemplate: React.FC<IndustryTemplateProps> = ({
           </div>
         </div>
       </section>
+      
+      {/* Image Gallery Section - New section */}
+      {images && images.length > 0 && (
+        <section className="py-16 bg-white">
+          <div className="container-custom">
+            <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-8 text-center">
+              {industryName} Projects in {region}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {images.map((image, index) => (
+                <div key={index} className="overflow-hidden rounded-lg shadow-md">
+                  <img 
+                    src={image.src} 
+                    alt={image.alt} 
+                    className="w-full h-64 object-cover transition-transform hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
       
       {/* Case Study Highlight */}
       <section className="py-16 bg-hvcg-gray">

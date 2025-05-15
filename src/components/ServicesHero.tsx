@@ -4,8 +4,8 @@ import React from "react";
 const ServicesHero: React.FC = () => {
   return (
     <section className="bg-gradient-to-r from-hvcg-blue-dark to-hvcg-blue text-white py-16 relative">
-      {/* Semi-transparent overlay with increased opacity for better text visibility */}
-      <div className="absolute inset-0 bg-black/60"></div>
+      {/* Semi-transparent overlay with original opacity */}
+      <div className="absolute inset-0 bg-black/40"></div>
       
       <div className="container-custom text-center relative z-10">
         <h1 className="text-4xl lg:text-5xl font-bold mb-4">Our Services</h1>

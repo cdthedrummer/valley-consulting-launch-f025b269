@@ -23,12 +23,28 @@ const FlooringPage: React.FC = () => {
     "Local SEO optimization to ensure your flooring business appears prominently in search results for Hudson Valley residents looking for flooring services."
   ];
 
+  const images = [
+    {
+      src: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Hardwood flooring installation"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1609529411158-fb89a96bb6b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Flooring contractor working on tile installation"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1509660933844-6910e12765a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Modern laminate flooring in living room"
+    }
+  ];
+
   return (
     <IndustryTemplate
       industryName="Flooring"
       heroImage="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
       challenges={challenges}
       solutions={solutions}
+      images={images}
     />
   );
 };

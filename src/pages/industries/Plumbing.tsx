@@ -23,12 +23,28 @@ const PlumbingPage: React.FC = () => {
     "Cost-effective lead generation that reduces customer acquisition costs while improving the quality of your leads."
   ];
 
+  const images = [
+    {
+      src: "https://images.unsplash.com/photo-1542013936693-884638332954?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Plumber fixing kitchen sink"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1601457238569-8b711d150726?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Modern bathroom plumbing fixtures"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", 
+      alt: "Plumbing tools and equipment"
+    }
+  ];
+
   return (
     <IndustryTemplate
       industryName="Plumbing"
       heroImage="https://images.unsplash.com/photo-1558618666-5b6e429302bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
       challenges={challenges}
       solutions={solutions}
+      images={images}
     />
   );
 };
