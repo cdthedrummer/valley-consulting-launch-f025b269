@@ -34,8 +34,8 @@ const HeroSection: React.FC = () => {
           alt="Roofing contractors working on a house"
           className="w-full h-full object-cover"
         />
-        {/* Semi-transparent overlay */}
-        <div className="absolute inset-0 bg-black/40"></div>
+        {/* Semi-transparent overlay with increased opacity */}
+        <div className="absolute inset-0 bg-black/60"></div>
       </div>
 
       {/* Interactive Overlay Content */}
