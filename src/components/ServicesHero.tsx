@@ -1,0 +1,17 @@
+
+import React from "react";
+
+const ServicesHero: React.FC = () => {
+  return (
+    <section className="bg-gradient-to-r from-hvcg-blue-dark to-hvcg-blue text-white py-16">
+      <div className="container-custom text-center">
+        <h1 className="text-4xl lg:text-5xl font-bold mb-4">Our Services</h1>
+        <p className="text-xl max-w-3xl mx-auto text-white/90">
+          Expert advertising consulting services tailored specifically for contractors who want to attract better leads and grow their business.
+        </p>
+      </div>
+    </section>
+  );
+};
+
+export default ServicesHero;
