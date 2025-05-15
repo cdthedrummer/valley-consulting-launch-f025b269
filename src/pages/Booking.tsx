@@ -30,8 +30,8 @@ const contactFormSchema = z.object({
   phone: z.string().optional(),
   service_interest: z.string().optional(),
   message: z.string().min(10, { message: "Message must be at least 10 characters." }),
-  human_verification: z.literal(true, {
-    errorMap: () => ({ message: "Please confirm you are human." }),
+  human_verification: z.boolean().refine(val => val === true, {
+    message: "Please confirm you are human."
   }),
 });
 
