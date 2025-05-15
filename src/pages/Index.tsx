@@ -1,9 +1,11 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, Check, User, Calendar, Phone, Mail, Building, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import HeroSection from "@/components/HeroSection";
+
 const Index: React.FC = () => {
   return <div>
       {/* Hero Section with interactive elements */}
@@ -83,138 +85,159 @@ const Index: React.FC = () => {
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-4">Choose Your Plan</h2>
             <p className="text-lg text-gray-700">
-              Select the package that fits your needs and budget. Not sure which one is right for you? Book a free consultation.
+              Select the package that fits your needs and budget. Not sure which one is right for you?<br />
+              Book a free 15-minute call to get matched with the best option.
             </p>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Basic Package */}
-            <Card className="bg-white border-none shadow-lg relative">
+            <Card className="bg-white border-none shadow-lg border-t-4 border-hvcg-blue-dark relative">
               <CardContent className="pt-8 pb-8 px-6">
-                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Audit</h3>
+                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Quick Fix Audit</h3>
                 <div className="text-center mb-6">
-                  <span className="text-3xl font-bold">$1,150</span>
-                  <span className="text-gray-600"> flat</span>
+                  <span className="text-3xl font-bold">$500</span>
+                  <span className="text-gray-600 block text-sm">One-time flat fee</span>
                 </div>
+                <p className="text-gray-700 mb-6 text-center">
+                  A fast, practical checkup to show you what's working and what needs fixing.
+                </p>
+                <h4 className="font-medium text-hvcg-blue-dark mb-4">What's Included:</h4>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Site audit for keywords, images, and customer reviews</span>
+                    <span>Ad and website audit</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Search account review for missed opportunities</span>
+                    <span>Competitor review</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Budget recommendations across platforms (Google, Meta, Nextdoor, etc.)</span>
+                    <span>2-hour consultation</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Action plan with 30-min review call</span>
+                    <span>Simple action plan</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
+                    <span>Written findings report</span>
                   </li>
                 </ul>
                 <div className="mb-6 bg-hvcg-blue/5 p-3 rounded-md">
-                  <p className="font-medium text-hvcg-blue-dark mb-2">Best for:</p>
-                  <p className="text-sm text-gray-700">Contractors who are comfortable managing their own site and ads, but want to fix what's broken and get a jumpstart on more quality leads.</p>
+                  <p className="font-medium text-hvcg-blue-dark mb-1">Best for:</p>
+                  <p className="text-sm text-gray-700">Contractors who want a quick jumpstart and clear next steps.</p>
                 </div>
                 <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
-                  <Link to="/booking">Book Now</Link>
+                  <Link to="/booking" className="flex items-center justify-center">
+                    <Calendar className="mr-2 h-5 w-5" /> Book This Service
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
             
             {/* Standard Package (Highlighted) */}
-            <Card className="bg-white border-none shadow-xl relative transform scale-105 z-10">
+            <Card className="bg-white border-none shadow-xl border-t-4 border-hvcg-green relative transform scale-105 z-10">
               <div className="absolute -top-4 left-0 right-0 flex justify-center">
                 <span className="bg-hvcg-green text-white px-4 py-1 rounded-full text-sm font-bold">
                   MOST POPULAR
                 </span>
               </div>
               <CardContent className="pt-8 pb-8 px-6">
-                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Consulting</h3>
+                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Growth Plan</h3>
                 <div className="text-center mb-6">
-                  <span className="text-3xl font-bold">$2,250</span>
-                  <span className="text-gray-600"> flat</span>
+                  <span className="text-3xl font-bold">$2,000</span>
+                  <span className="text-gray-600 block text-sm">Flat fee – includes strategy + support</span>
                 </div>
-                <p className="text-gray-700 mb-2 font-medium">Everything from Audit:</p>
+                <p className="text-gray-700 mb-6 text-center">
+                  A complete advertising roadmap to help you grow and stand out locally.
+                </p>
+                <h4 className="font-medium text-hvcg-blue-dark mb-4">What's Included:</h4>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>We'll tell you who your competitors are and how much they're spending on ads</span>
+                    <span>Everything in the Quick Fix Audit</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Where to focus your business by zip code</span>
+                    <span>Custom marketing strategy</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Google Maps, Yelp, and Angi profile reviews</span>
+                    <span>Local + competitor insights</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Which types of users visit your site</span>
+                    <span>Channel-specific recommendations</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Spam calls & fake leads rates</span>
+                    <span>Target audience + messaging guidance</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>1-hr report walkthrough with our recommendations</span>
+                    <span>4 follow-up support sessions</span>
                   </li>
                 </ul>
                 <div className="mb-6 bg-hvcg-blue/5 p-3 rounded-md">
-                  <p className="font-medium text-hvcg-blue-dark mb-2">Best for:</p>
-                  <p className="text-sm text-gray-700">Contractors ready to level up with a full game plan and the latest market data.</p>
+                  <p className="font-medium text-hvcg-blue-dark mb-1">Best for:</p>
+                  <p className="text-sm text-gray-700">Contractors who want a real plan, not just advice.</p>
                 </div>
                 <Button asChild className="w-full bg-hvcg-green hover:bg-hvcg-green-light">
-                  <Link to="/booking">Book Now</Link>
+                  <Link to="/booking" className="flex items-center justify-center">
+                    <Calendar className="mr-2 h-5 w-5" /> Book This Service
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
             
             {/* Premium Package */}
-            <Card className="bg-white border-none shadow-lg relative">
+            <Card className="bg-white border-none shadow-lg border-t-4 border-hvcg-blue relative">
               <CardContent className="pt-8 pb-8 px-6">
-                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Full-Service</h3>
+                <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Full-Service Management</h3>
                 <div className="text-center mb-6">
-                  <span className="text-3xl font-bold">$3,000</span>
-                  <span className="text-gray-600">/month</span>
+                  <span className="text-3xl font-bold">$1,500</span>
+                  <span className="text-gray-600 block text-sm">Ongoing monthly support</span>
                 </div>
-                <p className="text-gray-700 mb-2 font-medium">Everything from Audit & Consulting:</p>
+                <p className="text-gray-700 mb-6 text-center">
+                  We handle your advertising from start to finish so you can stay focused on the work.
+                </p>
+                <h4 className="font-medium text-hvcg-blue-dark mb-4">What's Included:</h4>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Ongoing management of your paid campaigns for search & social ads</span>
+                    <span>Weekly ad management (Google, Meta, etc.)</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>We'll create up to 2 social image ads each month</span>
+                    <span>Campaign copy + creative included</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Improve your site for keywords & images</span>
+                    <span>Monthly reporting + optimizations</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Implement easy on-site reviews & incentives</span>
+                    <span>Competitor trend monitoring</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Call tracking setup & monthly leads reporting</span>
+                    <span>Monthly strategy session</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                    <span>Monthly strategy call with performance summary and next steps</span>
+                    <span>Unlimited email support</span>
                   </li>
                 </ul>
                 <div className="mb-6 bg-hvcg-blue/5 p-3 rounded-md">
-                  <p className="font-medium text-hvcg-blue-dark mb-2">Best for:</p>
-                  <p className="text-sm text-gray-700">Busy teams who want a partner to help them grow fast.</p>
+                  <p className="font-medium text-hvcg-blue-dark mb-1">Best for:</p>
+                  <p className="text-sm text-gray-700">Busy teams ready to grow with expert help.</p>
                 </div>
                 <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
-                  <Link to="/booking">Book Now</Link>
+                  <Link to="/booking" className="flex items-center justify-center">
+                    <Calendar className="mr-2 h-5 w-5" /> Book This Service
+                  </Link>
                 </Button>
               </CardContent>
             </Card>

@@ -221,7 +221,8 @@ const Services: React.FC = () => {
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-4">Choose Your Plan</h2>
             <p className="text-lg text-gray-700">
-              Select the package that fits your needs and budget. Not sure which one is right for you? Book a free consultation.
+              Select the package that fits your needs and budget. Not sure which one is right for you?<br />
+              Book a free 15-minute call to get matched with the best option.
             </p>
           </div>
           
@@ -230,38 +231,42 @@ const Services: React.FC = () => {
             <Card className="bg-white border-t-4 border-hvcg-blue-dark shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
                 <CardTitle className="text-2xl text-hvcg-blue-dark">
-                  Introductory Audit & Consultation
+                  Quick Fix Audit
                 </CardTitle>
                 <div className="mt-4 text-3xl font-bold text-hvcg-blue">$500</div>
                 <div className="text-sm text-gray-600">One-time flat fee</div>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-700 mb-6">
-                  A comprehensive review of your current advertising strategy with actionable recommendations for improvement.
+                  A fast, practical checkup to show you what's working and what needs fixing.
                 </p>
                 <h4 className="font-semibold text-lg mb-3 text-hvcg-blue-dark">What's Included:</h4>
                 <ul className="space-y-2">
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Complete advertising channel audit</span>
+                    <span>Ad and website audit</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Competitor analysis</span>
+                    <span>Competitor review</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>2-hour consultation session</span>
+                    <span>2-hour consultation</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Detailed findings report</span>
+                    <span>Simple action plan</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Prioritized action recommendations</span>
+                    <span>Written findings report</span>
                   </li>
                 </ul>
+                <div className="mt-6 bg-hvcg-blue/5 p-3 rounded-md">
+                  <p className="font-medium text-hvcg-blue-dark mb-1">Best for:</p>
+                  <p className="text-sm text-gray-700">Contractors who want a quick jumpstart and clear next steps.</p>
+                </div>
               </CardContent>
               <CardFooter>
                 <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
@@ -279,42 +284,46 @@ const Services: React.FC = () => {
                   MOST POPULAR
                 </div>
                 <CardTitle className="text-2xl text-hvcg-blue-dark">
-                  Strategy Package
+                  Growth Plan
                 </CardTitle>
                 <div className="mt-4 text-3xl font-bold text-hvcg-blue">$2,000</div>
-                <div className="text-sm text-gray-600">Comprehensive package</div>
+                <div className="text-sm text-gray-600">Flat fee – includes strategy + support</div>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-700 mb-6">
-                  Full advertising strategy development with implementation plans, audience targeting, and messaging frameworks.
+                  A complete advertising roadmap to help you grow and stand out locally.
                 </p>
                 <h4 className="font-semibold text-lg mb-3 text-hvcg-blue-dark">What's Included:</h4>
                 <ul className="space-y-2">
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Everything in the Introductory Audit</span>
+                    <span>Everything in the Quick Fix Audit</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Complete advertising strategy development</span>
+                    <span>Custom marketing strategy</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Customer persona development</span>
+                    <span>Local + competitor insights</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Channel-specific implementation plans</span>
+                    <span>Channel-specific recommendations</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Messaging framework and key differentiators</span>
+                    <span>Target audience + messaging guidance</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>4 implementation support sessions</span>
+                    <span>4 follow-up support sessions</span>
                   </li>
                 </ul>
+                <div className="mt-6 bg-hvcg-blue/5 p-3 rounded-md">
+                  <p className="font-medium text-hvcg-blue-dark mb-1">Best for:</p>
+                  <p className="text-sm text-gray-700">Contractors who want a real plan, not just advice.</p>
+                </div>
               </CardContent>
               <CardFooter>
                 <Button asChild className="w-full bg-hvcg-green hover:bg-hvcg-green-light">
@@ -329,28 +338,32 @@ const Services: React.FC = () => {
             <Card className="bg-white border-t-4 border-hvcg-blue shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
                 <CardTitle className="text-2xl text-hvcg-blue-dark">
-                  Premium Retainer
+                  Full-Service Management
                 </CardTitle>
                 <div className="mt-4 text-3xl font-bold text-hvcg-blue">$1,500</div>
-                <div className="text-sm text-gray-600">Monthly subscription</div>
+                <div className="text-sm text-gray-600">Ongoing monthly support</div>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-700 mb-6">
-                  Ongoing advertising support, campaign management, performance optimization, and monthly strategy sessions.
+                  We handle your advertising from start to finish so you can stay focused on the work.
                 </p>
                 <h4 className="font-semibold text-lg mb-3 text-hvcg-blue-dark">What's Included:</h4>
                 <ul className="space-y-2">
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Monthly advertising performance review</span>
+                    <span>Weekly ad management (Google, Meta, etc.)</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Campaign optimization recommendations</span>
+                    <span>Campaign copy + creative included</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Competitive landscape monitoring</span>
+                    <span>Monthly reporting + optimizations</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
+                    <span>Competitor trend monitoring</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
@@ -358,13 +371,13 @@ const Services: React.FC = () => {
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Implementation support</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
                     <span>Unlimited email support</span>
                   </li>
                 </ul>
+                <div className="mt-6 bg-hvcg-blue/5 p-3 rounded-md">
+                  <p className="font-medium text-hvcg-blue-dark mb-1">Best for:</p>
+                  <p className="text-sm text-gray-700">Busy teams ready to grow with expert help.</p>
+                </div>
               </CardContent>
               <CardFooter>
                 <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
