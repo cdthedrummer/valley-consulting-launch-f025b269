@@ -20,6 +20,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { submitContactForm } from "@/lib/supabase";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
 import { CALENDLY_URL } from "@/config/calendly";
+import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "@/hooks/use-toast";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -28,6 +30,9 @@ const contactFormSchema = z.object({
   phone: z.string().optional(),
   service_interest: z.string().optional(),
   message: z.string().min(10, { message: "Message must be at least 10 characters." }),
+  human_verification: z.literal(true, {
+    errorMap: () => ({ message: "Please confirm you are human." }),
+  }),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -42,6 +47,7 @@ const Booking: React.FC = () => {
       phone: "",
       service_interest: "",
       message: "",
+      human_verification: false,
     },
   });
 
@@ -229,6 +235,27 @@ const Booking: React.FC = () => {
                           />
                         </FormControl>
                         <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="human_verification"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel>
+                            I am a human
+                          </FormLabel>
+                          <FormMessage />
+                        </div>
                       </FormItem>
                     )}
                   />
