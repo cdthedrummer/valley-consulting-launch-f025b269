@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Check, Calendar, Building, Search, Users, Code, Share2 } from "lucide-react";
@@ -233,7 +232,7 @@ const Services: React.FC = () => {
                 <CardTitle className="text-2xl text-hvcg-blue-dark">
                   Quick Fix Audit
                 </CardTitle>
-                <div className="mt-4 text-3xl font-bold text-hvcg-blue">$500</div>
+                <div className="mt-4 text-3xl font-bold text-hvcg-blue">$1,150</div>
                 <div className="text-sm text-gray-600">One-time flat fee</div>
               </CardHeader>
               <CardContent>
@@ -263,10 +262,6 @@ const Services: React.FC = () => {
                     <span>Written findings report</span>
                   </li>
                 </ul>
-                <div className="mt-6 bg-hvcg-blue/5 p-3 rounded-md">
-                  <p className="font-medium text-hvcg-blue-dark mb-1">Best for:</p>
-                  <p className="text-sm text-gray-700">Contractors who want a quick jumpstart and clear next steps.</p>
-                </div>
               </CardContent>
               <CardFooter>
                 <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
@@ -286,7 +281,7 @@ const Services: React.FC = () => {
                 <CardTitle className="text-2xl text-hvcg-blue-dark">
                   Growth Plan
                 </CardTitle>
-                <div className="mt-4 text-3xl font-bold text-hvcg-blue">$2,000</div>
+                <div className="mt-4 text-3xl font-bold text-hvcg-blue">$2,250</div>
                 <div className="text-sm text-gray-600">Flat fee – includes strategy + support</div>
               </CardHeader>
               <CardContent>
@@ -320,10 +315,6 @@ const Services: React.FC = () => {
                     <span>4 follow-up support sessions</span>
                   </li>
                 </ul>
-                <div className="mt-6 bg-hvcg-blue/5 p-3 rounded-md">
-                  <p className="font-medium text-hvcg-blue-dark mb-1">Best for:</p>
-                  <p className="text-sm text-gray-700">Contractors who want a real plan, not just advice.</p>
-                </div>
               </CardContent>
               <CardFooter>
                 <Button asChild className="w-full bg-hvcg-green hover:bg-hvcg-green-light">
@@ -340,7 +331,7 @@ const Services: React.FC = () => {
                 <CardTitle className="text-2xl text-hvcg-blue-dark">
                   Full-Service Management
                 </CardTitle>
-                <div className="mt-4 text-3xl font-bold text-hvcg-blue">$1,500</div>
+                <div className="mt-4 text-3xl font-bold text-hvcg-blue">$3,000</div>
                 <div className="text-sm text-gray-600">Ongoing monthly support</div>
               </CardHeader>
               <CardContent>
@@ -374,10 +365,6 @@ const Services: React.FC = () => {
                     <span>Unlimited email support</span>
                   </li>
                 </ul>
-                <div className="mt-6 bg-hvcg-blue/5 p-3 rounded-md">
-                  <p className="font-medium text-hvcg-blue-dark mb-1">Best for:</p>
-                  <p className="text-sm text-gray-700">Busy teams ready to grow with expert help.</p>
-                </div>
               </CardContent>
               <CardFooter>
                 <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">

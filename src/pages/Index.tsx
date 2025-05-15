@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, Check, User, Calendar, Phone, Mail, Building, Search } from "lucide-react";
@@ -96,7 +95,7 @@ const Index: React.FC = () => {
               <CardContent className="pt-8 pb-8 px-6">
                 <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Quick Fix Audit</h3>
                 <div className="text-center mb-6">
-                  <span className="text-3xl font-bold">$500</span>
+                  <span className="text-3xl font-bold">$1,150</span>
                   <span className="text-gray-600 block text-sm">One-time flat fee</span>
                 </div>
                 <p className="text-gray-700 mb-6 text-center">
@@ -125,10 +124,6 @@ const Index: React.FC = () => {
                     <span>Written findings report</span>
                   </li>
                 </ul>
-                <div className="mb-6 bg-hvcg-blue/5 p-3 rounded-md">
-                  <p className="font-medium text-hvcg-blue-dark mb-1">Best for:</p>
-                  <p className="text-sm text-gray-700">Contractors who want a quick jumpstart and clear next steps.</p>
-                </div>
                 <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
                   <Link to="/booking" className="flex items-center justify-center">
                     <Calendar className="mr-2 h-5 w-5" /> Book This Service
@@ -147,7 +142,7 @@ const Index: React.FC = () => {
               <CardContent className="pt-8 pb-8 px-6">
                 <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Growth Plan</h3>
                 <div className="text-center mb-6">
-                  <span className="text-3xl font-bold">$2,000</span>
+                  <span className="text-3xl font-bold">$2,250</span>
                   <span className="text-gray-600 block text-sm">Flat fee – includes strategy + support</span>
                 </div>
                 <p className="text-gray-700 mb-6 text-center">
@@ -180,10 +175,6 @@ const Index: React.FC = () => {
                     <span>4 follow-up support sessions</span>
                   </li>
                 </ul>
-                <div className="mb-6 bg-hvcg-blue/5 p-3 rounded-md">
-                  <p className="font-medium text-hvcg-blue-dark mb-1">Best for:</p>
-                  <p className="text-sm text-gray-700">Contractors who want a real plan, not just advice.</p>
-                </div>
                 <Button asChild className="w-full bg-hvcg-green hover:bg-hvcg-green-light">
                   <Link to="/booking" className="flex items-center justify-center">
                     <Calendar className="mr-2 h-5 w-5" /> Book This Service
@@ -197,7 +188,7 @@ const Index: React.FC = () => {
               <CardContent className="pt-8 pb-8 px-6">
                 <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2 text-center">Full-Service Management</h3>
                 <div className="text-center mb-6">
-                  <span className="text-3xl font-bold">$1,500</span>
+                  <span className="text-3xl font-bold">$3,000</span>
                   <span className="text-gray-600 block text-sm">Ongoing monthly support</span>
                 </div>
                 <p className="text-gray-700 mb-6 text-center">
@@ -230,10 +221,6 @@ const Index: React.FC = () => {
                     <span>Unlimited email support</span>
                   </li>
                 </ul>
-                <div className="mb-6 bg-hvcg-blue/5 p-3 rounded-md">
-                  <p className="font-medium text-hvcg-blue-dark mb-1">Best for:</p>
-                  <p className="text-sm text-gray-700">Busy teams ready to grow with expert help.</p>
-                </div>
                 <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
                   <Link to="/booking" className="flex items-center justify-center">
                     <Calendar className="mr-2 h-5 w-5" /> Book This Service
