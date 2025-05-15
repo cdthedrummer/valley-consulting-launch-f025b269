@@ -1,9 +1,7 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Calendar, Check, Star, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 const About: React.FC = () => {
   return <div className="pt-20">
       {/* Hero Section */}
