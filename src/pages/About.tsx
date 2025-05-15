@@ -1,7 +1,9 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Calendar, Check, Star, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
 const About: React.FC = () => {
   return <div className="pt-20">
       {/* Hero Section */}
@@ -68,8 +70,8 @@ const About: React.FC = () => {
               </div>
             </div>
             <div className="order-1 lg:order-2">
-              <div className="rounded-xl overflow-hidden shadow-2xl">
-                <img alt="Consulting session" src="/lovable-uploads/da252d5c-59e9-44e2-a866-09f08e917fa9.jpg" className="w-full h-full object-scale-down" />
+              <div className="rounded-xl overflow-hidden shadow-2xl max-w-sm mx-auto lg:max-w-xs">
+                <img alt="Consulting session" src="/lovable-uploads/da252d5c-59e9-44e2-a866-09f08e917fa9.jpg" className="w-full h-auto object-cover" />
               </div>
             </div>
           </div>
