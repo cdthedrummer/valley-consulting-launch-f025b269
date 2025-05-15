@@ -30,12 +30,10 @@ const HeroSection: React.FC = () => {
       {/* Background Image */}
       <div className="w-full h-screen relative">
         <img 
-          src="/lovable-uploads/b9af1e8c-7b4a-4b4b-87b3-9cf9bd4e3bcd.png" 
-          alt="Beautiful wooden deck with railings and outdoor furniture"
+          src="/lovable-uploads/ce0b12c6-e130-4d66-8c1e-68579f140ee2.png" 
+          alt="Roofers working on a residential home in Hudson Valley"
           className="w-full h-full object-cover"
         />
-        {/* Semi-transparent overlay with original opacity */}
-        <div className="absolute inset-0 bg-black/40"></div>
       </div>
 
       {/* Interactive Overlay Content */}
@@ -94,7 +92,7 @@ const HeroSection: React.FC = () => {
             </svg>
           </span>
           Compare Plans
-        </Link>
+        </a>
       </div>
     </section>
   );

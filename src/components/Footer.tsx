@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -16,17 +16,6 @@ const Footer: React.FC = () => {
             <p className="mb-4 text-white/80">
               Marketing and consulting services designed specifically for contractors in the Hudson Valley region.
             </p>
-            <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-hvcg-green transition-colors">
-                <Facebook />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-hvcg-green transition-colors">
-                <Twitter />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-hvcg-green transition-colors">
-                <Instagram />
-              </a>
-            </div>
           </div>
           
           {/* Quick Links */}
@@ -90,10 +79,6 @@ const Footer: React.FC = () => {
               <li className="flex items-start">
                 <Mail className="mr-2 h-5 w-5 flex-shrink-0 text-hvcg-green" />
                 <span>contact@hvcg.us</span>
-              </li>
-              <li className="flex items-start">
-                <MapPin className="mr-2 h-5 w-5 flex-shrink-0 text-hvcg-green" />
-                <span>123 Main Street, Kingston, NY 12401</span>
               </li>
             </ul>
           </div>
