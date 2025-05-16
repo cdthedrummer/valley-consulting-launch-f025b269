@@ -29,8 +29,8 @@ const testimonialFormSchema = z.object({
   service: z.string().min(1, { message: "Please select a service." }),
   rating: z.number().min(1).max(5),
   testimonial: z.string().min(10, { message: "Testimonial must be at least 10 characters." }),
-  is_human_verified: z.literal(true, {
-    errorMap: () => ({ message: "You must confirm you are human to submit." }),
+  is_human_verified: z.boolean().refine(val => val === true, {
+    message: "You must confirm you are human to submit."
   }),
 });
 
@@ -70,7 +70,7 @@ const Testimonials: React.FC = () => {
       service: data.service,
       rating: selectedRating,
       testimonial: data.testimonial,
-      is_human_verified: data.is_human_verified
+      is_human_verified: true // Force this to be true when submitting
     };
     
     await submitTestimonial(testimonialData);
