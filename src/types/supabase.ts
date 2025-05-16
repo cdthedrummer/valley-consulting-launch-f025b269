@@ -27,6 +27,7 @@ export type Appointment = {
 export type Testimonial = {
   id?: string;
   name: string;
+  email?: string;
   company: string;
   service: string;
   rating: number;

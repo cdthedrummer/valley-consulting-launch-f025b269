@@ -23,6 +23,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const testimonialFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  email: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal('')),
   company: z.string().min(2, { message: "Company name is required." }),
   service: z.string().min(1, { message: "Please select a service." }),
   rating: z.number().min(1).max(5),
@@ -47,6 +48,7 @@ const Testimonials: React.FC = () => {
     resolver: zodResolver(testimonialFormSchema),
     defaultValues: {
       name: "",
+      email: "",
       company: "",
       service: "",
       rating: 5,
@@ -58,6 +60,7 @@ const Testimonials: React.FC = () => {
     // Ensure all required fields are present to match Testimonial type
     const testimonialData = {
       name: data.name,
+      email: data.email,
       company: data.company,
       service: data.service,
       rating: selectedRating,
@@ -184,6 +187,23 @@ const Testimonials: React.FC = () => {
                       )}
                     />
                   </div>
+                  
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email Address (Optional)</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="your.email@example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                        <p className="text-xs text-gray-500 mt-1">
+                          If provided, we'll send you a confirmation email when your testimonial is approved.
+                        </p>
+                      </FormItem>
+                    )}
+                  />
                   
                   <FormField
                     control={form.control}

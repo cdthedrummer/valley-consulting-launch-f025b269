@@ -72,11 +72,27 @@ export async function submitAppointment(formData: Appointment) {
 
 export async function submitTestimonial(formData: Testimonial) {
   try {
-    const { error } = await supabase
+    // First, save the testimonial to the database
+    const { error: dbError } = await supabase
       .from("testimonials")
       .insert([formData]);
     
-    if (error) throw error;
+    if (dbError) throw dbError;
+    
+    // Now call the Edge Function to send emails if there's an email address
+    // We'll pass the testimonial data to the function
+    const { error: emailError } = await supabase.functions.invoke('send-testimonial-email', {
+      body: formData
+    });
+
+    if (emailError) {
+      console.error("Error sending testimonial emails:", emailError);
+      toast({
+        title: "Testimonial saved",
+        description: "Your testimonial was saved, but there was an issue sending confirmation emails.",
+      });
+      return { success: true, emailError };
+    }
     
     toast({
       title: "Thank you for your feedback!",
