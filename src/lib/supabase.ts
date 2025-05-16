@@ -73,10 +73,10 @@ export async function submitAppointment(formData: Appointment) {
 export async function submitTestimonial(formData: Testimonial) {
   try {
     // First, save the testimonial to the database
-    // Map email_address if it exists
+    // Map email if it exists
     const dbData = {
       ...formData,
-      email_address: formData.email_address || null, // Use email_address instead of email
+      email: formData.email || null, // Use email instead of email_address
     };
     
     const { error: dbError } = await supabase
@@ -85,12 +85,12 @@ export async function submitTestimonial(formData: Testimonial) {
     
     if (dbError) throw dbError;
     
-    // Now call the Edge Function to send emails if there's an email address
-    if (formData.email_address) {
+    // Now call the Edge Function to send emails if there's an email
+    if (formData.email) {
       const { error: emailError } = await supabase.functions.invoke('send-testimonial-email', {
         body: {
           ...formData,
-          email: formData.email_address // Map to email for the function's expected format
+          email: formData.email // Use email directly since it's already the correct field name
         }
       });
 

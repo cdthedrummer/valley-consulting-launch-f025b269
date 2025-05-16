@@ -31,7 +31,7 @@ export type Testimonial = {
   service: string;
   rating: number;
   testimonial: string;
-  email_address?: string; // Changed from email to email_address to match DB schema
+  email?: string; // Changed from email_address to email to match DB schema
   image_url?: string;
   is_approved?: boolean;
   created_at?: string;

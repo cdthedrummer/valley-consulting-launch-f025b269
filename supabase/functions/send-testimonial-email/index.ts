@@ -18,8 +18,7 @@ const corsHeaders = {
 
 interface TestimonialData {
   name: string;
-  email?: string; // This comes from the frontend mapped field
-  email_address?: string; // This is the actual DB field
+  email?: string; // This is the field from the database
   company: string;
   service: string;
   rating: number;
@@ -40,8 +39,8 @@ const handler = async (req: Request): Promise<Response> => {
     const testimonialData: TestimonialData = await req.json();
     console.log("Testimonial data received:", testimonialData);
     
-    // Get email from either field
-    const emailToUse = testimonialData.email || testimonialData.email_address;
+    // Get email from the field
+    const emailToUse = testimonialData.email;
     const { name, company, service, rating, testimonial } = testimonialData;
 
     // Validate the necessary fields
