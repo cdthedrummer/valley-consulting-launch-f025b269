@@ -196,7 +196,7 @@ const Testimonials: React.FC = () => {
                   
                   <FormField
                     control={form.control}
-                    name="email_address"
+                    name="email"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Email Address (Optional)</FormLabel>
