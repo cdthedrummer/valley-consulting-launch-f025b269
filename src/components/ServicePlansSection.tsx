@@ -19,7 +19,7 @@ const ServicePlansSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <PricingCard 
             title="Introductory Audit & Consultation"
-            price="$1,150"
+            price="$700"
             description="One-time flat fee"
             features={[
               "Site audit: keywords, images, reviews",
@@ -31,7 +31,7 @@ const ServicePlansSection: React.FC = () => {
           
           <PricingCard 
             title="Strategy Package"
-            price="$2,250"
+            price="$1,100"
             description="Flat fee – includes strategy + support"
             features={[
               "Everything in the Introductory Audit",
@@ -47,7 +47,7 @@ const ServicePlansSection: React.FC = () => {
           
           <PricingCard 
             title="Premium Retainer"
-            price="$3,000"
+            price="$2,200"
             description="Ongoing monthly support"
             features={[
               "Ad management (Google, Meta, etc.)",
