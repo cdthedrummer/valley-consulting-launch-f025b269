@@ -1,11 +1,12 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Star, Calendar, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -23,11 +24,14 @@ import { useQuery } from "@tanstack/react-query";
 
 const testimonialFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal('')),
+  email_address: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal('')),
   company: z.string().min(2, { message: "Company name is required." }),
   service: z.string().min(1, { message: "Please select a service." }),
   rating: z.number().min(1).max(5),
   testimonial: z.string().min(10, { message: "Testimonial must be at least 10 characters." }),
+  is_human_verified: z.literal(true, {
+    errorMap: () => ({ message: "You must confirm you are human to submit." }),
+  }),
 });
 
 type TestimonialFormValues = z.infer<typeof testimonialFormSchema>;
@@ -48,23 +52,25 @@ const Testimonials: React.FC = () => {
     resolver: zodResolver(testimonialFormSchema),
     defaultValues: {
       name: "",
-      email: "",
+      email_address: "",
       company: "",
       service: "",
       rating: 5,
       testimonial: "",
+      is_human_verified: false,
     },
   });
   
   const onSubmit = async (data: TestimonialFormValues) => {
     // Ensure all required fields are present to match Testimonial type
-    const testimonialData = {
+    const testimonialData: Testimonial = {
       name: data.name,
-      email: data.email,
+      email_address: data.email_address,
       company: data.company,
       service: data.service,
       rating: selectedRating,
-      testimonial: data.testimonial
+      testimonial: data.testimonial,
+      is_human_verified: data.is_human_verified
     };
     
     await submitTestimonial(testimonialData);
@@ -190,7 +196,7 @@ const Testimonials: React.FC = () => {
                   
                   <FormField
                     control={form.control}
-                    name="email"
+                    name="email_address"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Email Address (Optional)</FormLabel>
@@ -272,6 +278,27 @@ const Testimonials: React.FC = () => {
                           />
                         </FormControl>
                         <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="is_human_verified"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel>
+                            I confirm I am human and this is a genuine testimonial
+                          </FormLabel>
+                          <FormMessage />
+                        </div>
                       </FormItem>
                     )}
                   />

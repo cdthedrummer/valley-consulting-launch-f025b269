@@ -18,11 +18,13 @@ const corsHeaders = {
 
 interface TestimonialData {
   name: string;
-  email?: string;
+  email?: string; // This comes from the frontend mapped field
+  email_address?: string; // This is the actual DB field
   company: string;
   service: string;
   rating: number;
   testimonial: string;
+  is_human_verified?: boolean;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -38,7 +40,9 @@ const handler = async (req: Request): Promise<Response> => {
     const testimonialData: TestimonialData = await req.json();
     console.log("Testimonial data received:", testimonialData);
     
-    const { name, email, company, service, rating, testimonial } = testimonialData;
+    // Get email from either field
+    const emailToUse = testimonialData.email || testimonialData.email_address;
+    const { name, company, service, rating, testimonial } = testimonialData;
 
     // Validate the necessary fields
     if (!name || !company || !testimonial) {
@@ -78,11 +82,11 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Owner testimonial notification email response:", ownerEmailResponse);
 
     // If email is provided, send a thank you email to the customer
-    if (email) {
+    if (emailToUse) {
       console.log("Sending thank you email to customer");
       const customerEmailResponse = await resend.emails.send({
         from: "Hudson Valley Consulting <no-reply@hvcg.us>",
-        to: [email],
+        to: [emailToUse],
         subject: "Thank you for your testimonial!",
         html: `
           <h1>Thank you for your feedback!</h1>

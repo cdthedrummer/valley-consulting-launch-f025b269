@@ -27,12 +27,13 @@ export type Appointment = {
 export type Testimonial = {
   id?: string;
   name: string;
-  email?: string;
   company: string;
   service: string;
   rating: number;
   testimonial: string;
+  email_address?: string; // Changed from email to email_address to match DB schema
   image_url?: string;
   is_approved?: boolean;
   created_at?: string;
+  is_human_verified?: boolean;
 };
