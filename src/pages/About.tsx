@@ -1,9 +1,7 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Calendar, Check, Star, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 const About: React.FC = () => {
   return <div className="pt-20">
       {/* Hero Section */}
@@ -64,7 +62,8 @@ const About: React.FC = () => {
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 text-hvcg-green mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Digital Marketing Institute Expert</span>
+                    <span>YouTube Certified Marketer
+                  </span>
                   </li>
                 </ul>
               </div>
