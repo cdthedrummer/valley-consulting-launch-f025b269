@@ -10,7 +10,7 @@ const About: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl lg:text-5xl font-bold mb-4">About Hudson Valley Consulting</h1>
-              <p className="text-xl mb-6 text-white/90">Bringing enterprise advertising expertise to local contractors since 2023</p>
+              <p className="text-xl mb-6 text-white/90">Bringing enterprise advertising expertise to local contractors since 2025</p>
             </div>
             <div className="bg-white/10 p-8 rounded-lg">
               <p className="italic text-lg">
