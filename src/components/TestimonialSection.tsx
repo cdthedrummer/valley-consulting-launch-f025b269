@@ -97,10 +97,10 @@ const TestimonialSection: React.FC = () => {
                 </div>
               </div>
               
-              <div className="absolute bottom-4 right-4 flex space-x-2">
+              <div className="flex justify-center mt-8">
                 <button 
                   onClick={prevTestimonial}
-                  className="p-2 rounded-full bg-hvcg-gray hover:bg-hvcg-blue/10 transition-colors"
+                  className="p-2 rounded-full bg-hvcg-gray hover:bg-hvcg-blue/10 transition-colors mr-2"
                   aria-label="Previous testimonial"
                 >
                   <ArrowLeft size={16} />
