@@ -5,26 +5,11 @@ import { Calendar, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import BusinessTagButton from './BusinessTagButton';
 import { motion } from 'framer-motion';
+import { useIsMobile } from '@/hooks/use-mobile';
+import StatsCard from './StatsCard';
 
 const HeroSection: React.FC = () => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    // Check if viewport is mobile
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    // Initial check
-    checkMobile();
-    
-    // Add resize listener
-    window.addEventListener('resize', checkMobile);
-    
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
+  const isMobile = useIsMobile();
 
   return (
     <section className="relative overflow-hidden">
@@ -103,30 +88,58 @@ const HeroSection: React.FC = () => {
             </motion.div>
           </div>
           
-          {/* Animated statistics section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.3, duration: 0.5 }}
-            className="absolute bottom-20 left-0 right-0 z-10"
-          >
-            <div className="container mx-auto">
-              <div className="flex flex-wrap justify-center gap-8 md:gap-16">
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-hvcg-green mb-1">35%</div>
+          {/* Mobile or Desktop stats section based on screen size */}
+          {isMobile ? (
+            // Mobile stats - vertical stack with more space and clear separation
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.3, duration: 0.5 }}
+              className="absolute bottom-32 left-0 right-0 z-10 px-4"
+            >
+              <div className="flex flex-col space-y-6">
+                <div className="text-center backdrop-blur-sm bg-black/20 rounded-lg py-3 px-4">
+                  <div className="text-3xl font-bold text-hvcg-green mb-1">35%</div>
                   <div className="text-white text-sm">Average Lead Increase</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-hvcg-green mb-1">60+</div>
+                
+                <div className="text-center backdrop-blur-sm bg-black/20 rounded-lg py-3 px-4">
+                  <div className="text-3xl font-bold text-hvcg-green mb-1">60+</div>
                   <div className="text-white text-sm">Local Contractors Helped</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-hvcg-green mb-1">5+</div>
+                
+                <div className="text-center backdrop-blur-sm bg-black/20 rounded-lg py-3 px-4">
+                  <div className="text-3xl font-bold text-hvcg-green mb-1">5+</div>
                   <div className="text-white text-sm">Years in Hudson Valley</div>
                 </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          ) : (
+            // Desktop stats - horizontal layout
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.3, duration: 0.5 }}
+              className="absolute bottom-20 left-0 right-0 z-10"
+            >
+              <div className="container mx-auto">
+                <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+                  <div className="text-center">
+                    <div className="text-4xl font-bold text-hvcg-green mb-1">35%</div>
+                    <div className="text-white text-sm">Average Lead Increase</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-4xl font-bold text-hvcg-green mb-1">60+</div>
+                    <div className="text-white text-sm">Local Contractors Helped</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-4xl font-bold text-hvcg-green mb-1">5+</div>
+                    <div className="text-white text-sm">Years in Hudson Valley</div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
         </div>
       </div>
 
