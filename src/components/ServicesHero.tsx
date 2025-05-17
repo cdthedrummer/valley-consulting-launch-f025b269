@@ -1,7 +1,10 @@
 
 import React from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const ServicesHero: React.FC = () => {
+  const isMobile = useIsMobile();
+  
   return (
     <section className="bg-gradient-to-r from-hvcg-blue-dark to-hvcg-blue text-white py-16 relative">
       <div className="absolute inset-0 bg-black opacity-50"></div>

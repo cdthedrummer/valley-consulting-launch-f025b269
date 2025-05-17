@@ -5,26 +5,10 @@ import { Calendar, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import BusinessTagButton from './BusinessTagButton';
 import { motion } from 'framer-motion';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const HeroSection: React.FC = () => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    // Check if viewport is mobile
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    // Initial check
-    checkMobile();
-    
-    // Add resize listener
-    window.addEventListener('resize', checkMobile);
-    
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
+  const isMobile = useIsMobile();
 
   return (
     <section className="relative overflow-hidden">
@@ -73,7 +57,7 @@ const HeroSection: React.FC = () => {
             <motion.p 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
+              transition={{ delay: a0.4, duration: 0.8 }}
               className="text-white text-lg md:text-2xl mb-10 drop-shadow-lg mx-auto"
             >
               Proven marketing strategies specifically designed for contractors serving the Hudson Valley
@@ -103,26 +87,26 @@ const HeroSection: React.FC = () => {
             </motion.div>
           </div>
           
-          {/* Animated statistics section */}
+          {/* Animated statistics section - repositioned for mobile */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.3, duration: 0.5 }}
-            className="absolute bottom-20 left-0 right-0 z-10"
+            className={`z-10 w-full px-4 ${isMobile ? 'absolute bottom-24' : 'absolute bottom-20'}`}
           >
             <div className="container mx-auto">
-              <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+              <div className={`flex justify-center ${isMobile ? 'gap-4' : 'gap-8 md:gap-16'}`}>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-hvcg-green mb-1">35%</div>
-                  <div className="text-white text-sm">Average Lead Increase</div>
+                  <div className={`${isMobile ? 'text-2xl' : 'text-4xl'} font-bold text-hvcg-green mb-1`}>35%</div>
+                  <div className={`text-white ${isMobile ? 'text-xs' : 'text-sm'}`}>Average Lead Increase</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-hvcg-green mb-1">60+</div>
-                  <div className="text-white text-sm">Local Contractors Helped</div>
+                  <div className={`${isMobile ? 'text-2xl' : 'text-4xl'} font-bold text-hvcg-green mb-1`}>60+</div>
+                  <div className={`text-white ${isMobile ? 'text-xs' : 'text-sm'}`}>Local Contractors Helped</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-hvcg-green mb-1">5+</div>
-                  <div className="text-white text-sm">Years in Hudson Valley</div>
+                  <div className={`${isMobile ? 'text-2xl' : 'text-4xl'} font-bold text-hvcg-green mb-1`}>5+</div>
+                  <div className={`text-white ${isMobile ? 'text-xs' : 'text-sm'}`}>Years in Hudson Valley</div>
                 </div>
               </div>
             </div>
