@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -57,7 +57,7 @@ const HeroSection: React.FC = () => {
             <motion.p 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: a0.4, duration: 0.8 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
               className="text-white text-lg md:text-2xl mb-10 drop-shadow-lg mx-auto"
             >
               Proven marketing strategies specifically designed for contractors serving the Hudson Valley
