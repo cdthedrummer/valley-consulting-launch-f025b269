@@ -7,6 +7,8 @@ import IndustriesSection from "@/components/IndustriesSection";
 import TestimonialSection from "@/components/TestimonialSection";
 import FooterCTASection from "@/components/FooterCTASection";
 import MobileCallButton from "@/components/MobileCallButton";
+import TrustSignalsSection from "@/components/TrustSignalsSection";
+import { motion } from "framer-motion";
 
 const Index: React.FC = () => {
   return (
@@ -14,17 +16,20 @@ const Index: React.FC = () => {
       {/* Hero Section with interactive elements */}
       <HeroSection />
 
+      {/* Trust Signals Section - NEW */}
+      <TrustSignalsSection />
+
       {/* Services Preview Section */}
       <ServicesPreviewSection />
+      
+      {/* Testimonial Highlight */}
+      <TestimonialSection />
       
       {/* Service Packages Section */}
       <ServicePlansSection />
 
       {/* Industries Grid */}
       <IndustriesSection />
-      
-      {/* Testimonial Highlight */}
-      <TestimonialSection />
       
       {/* Footer CTA */}
       <FooterCTASection />

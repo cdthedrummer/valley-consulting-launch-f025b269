@@ -1,9 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar } from 'lucide-react';
+import { Calendar, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import BusinessTagButton from './BusinessTagButton';
+import { motion } from 'framer-motion';
 
 const HeroSection: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -34,8 +35,8 @@ const HeroSection: React.FC = () => {
           alt="Contractors shaking hands in an auto repair shop"
           className="w-full h-full object-cover"
         />
-        {/* Black overlay with 50% opacity */}
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+        {/* Black overlay with gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-hvcg-blue-dark/90"></div>
       </div>
 
       {/* Interactive Overlay Content */}
@@ -43,29 +44,89 @@ const HeroSection: React.FC = () => {
         {/* Main Content Container */}
         <div className="container mx-auto h-full flex flex-col items-center justify-center relative">
           {/* Best Deck Builder Button - Positioned on the left */}
-          <div className="absolute top-32 left-8 z-10">
+          <motion.div 
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.2, duration: 0.5 }}
+            className="absolute top-32 left-8 z-10"
+          >
             <Link to="/industries/deck-patio">
               <BusinessTagButton 
                 text="Best Deck Builder in Hudson Valley" 
                 className="shadow-lg bg-hvcg-blue/95 hover:bg-hvcg-blue" 
               />
             </Link>
-          </div>
+          </motion.div>
 
           {/* Main content moved further down to make room for buttons */}
-          <div className="max-w-2xl text-center mb-8 mt-48 md:mt-56 z-10">
-            <h1 className="text-white text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg">
-              We help Contractors get more customers
-            </h1>
-            <p className="text-white text-lg md:text-2xl mb-10 drop-shadow-lg mx-auto">
+          <div className="max-w-2xl text-center mb-8 mt-24 md:mt-28 z-10 px-4">
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-white text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg"
+            >
+              We help Contractors 
+              <span className="text-hvcg-green block mt-2">get more customers</span>
+            </motion.h1>
+            
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="text-white text-lg md:text-2xl mb-10 drop-shadow-lg mx-auto"
+            >
               Proven marketing strategies specifically designed for contractors serving the Hudson Valley
-            </p>
-            <Button asChild size="lg" className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg py-6 px-8">
-              <Link to="/booking" className="flex items-center">
-                <Calendar className="mr-2 h-6 w-6" /> Book my strategy call
-              </Link>
-            </Button>
+            </motion.p>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+            >
+              <Button asChild size="lg" className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg py-6 px-8 shadow-lg group">
+                <Link to="/booking" className="flex items-center">
+                  <Calendar className="mr-2 h-6 w-6 group-hover:scale-110 transition-transform" /> 
+                  Book my free strategy call 
+                  <ArrowRight className="ml-2 h-5 w-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                </Link>
+              </Button>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.0, duration: 0.5 }}
+              className="mt-4 text-white/80 text-sm"
+            >
+              15-minute call, no obligations
+            </motion.div>
           </div>
+          
+          {/* Animated statistics section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.3, duration: 0.5 }}
+            className="absolute bottom-20 left-0 right-0 z-10"
+          >
+            <div className="container mx-auto">
+              <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-hvcg-green mb-1">35%</div>
+                  <div className="text-white text-sm">Average Lead Increase</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-hvcg-green mb-1">60+</div>
+                  <div className="text-white text-sm">Local Contractors Helped</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-hvcg-green mb-1">5+</div>
+                  <div className="text-white text-sm">Years in Hudson Valley</div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
 
@@ -73,7 +134,7 @@ const HeroSection: React.FC = () => {
       <div className="fixed bottom-4 left-4 right-4 md:hidden flex z-30">
         <a 
           href="tel:+18455551234" 
-          className="flex-1 bg-hvcg-green text-white py-3 font-medium rounded-l-lg flex items-center justify-center"
+          className="flex-1 bg-hvcg-green text-white py-3 font-medium rounded-l-lg flex items-center justify-center shadow-lg"
         >
           <span className="h-5 w-5 mr-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -84,7 +145,7 @@ const HeroSection: React.FC = () => {
         </a>
         <Link 
           to="/services" 
-          className="flex-1 bg-hvcg-blue text-white py-3 font-medium rounded-r-lg flex items-center justify-center"
+          className="flex-1 bg-hvcg-blue text-white py-3 font-medium rounded-r-lg flex items-center justify-center shadow-lg"
         >
           <span className="h-5 w-5 mr-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
