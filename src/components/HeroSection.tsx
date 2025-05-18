@@ -87,26 +87,26 @@ const HeroSection: React.FC = () => {
             </motion.div>
           </div>
           
-          {/* Animated statistics section - repositioned for mobile */}
+          {/* Animated statistics section - repositioned with better responsive spacing */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.3, duration: 0.5 }}
-            className={`z-10 w-full px-4 ${isMobile ? 'absolute bottom-24' : 'absolute bottom-20'}`}
+            className="z-10 w-full px-4 absolute bottom-14 sm:bottom-16 md:bottom-18 lg:bottom-20"
           >
             <div className="container mx-auto">
-              <div className={`flex justify-center ${isMobile ? 'gap-4' : 'gap-8 md:gap-16'}`}>
+              <div className="flex justify-center gap-4 md:gap-8 lg:gap-16">
                 <div className="text-center">
-                  <div className={`${isMobile ? 'text-2xl' : 'text-4xl'} font-bold text-hvcg-green mb-1`}>35%</div>
-                  <div className={`text-white ${isMobile ? 'text-xs' : 'text-sm'}`}>Average Lead Increase</div>
+                  <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-hvcg-green mb-1">35%</div>
+                  <div className="text-white text-xs md:text-sm">Average Lead Increase</div>
                 </div>
                 <div className="text-center">
-                  <div className={`${isMobile ? 'text-2xl' : 'text-4xl'} font-bold text-hvcg-green mb-1`}>60+</div>
-                  <div className={`text-white ${isMobile ? 'text-xs' : 'text-sm'}`}>Local Contractors Helped</div>
+                  <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-hvcg-green mb-1">60+</div>
+                  <div className="text-white text-xs md:text-sm">Local Contractors Helped</div>
                 </div>
                 <div className="text-center">
-                  <div className={`${isMobile ? 'text-2xl' : 'text-4xl'} font-bold text-hvcg-green mb-1`}>5+</div>
-                  <div className={`text-white ${isMobile ? 'text-xs' : 'text-sm'}`}>Years in Hudson Valley</div>
+                  <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-hvcg-green mb-1">5+</div>
+                  <div className="text-white text-xs md:text-sm">Years in Hudson Valley</div>
                 </div>
               </div>
             </div>
