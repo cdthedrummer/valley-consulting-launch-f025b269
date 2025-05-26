@@ -3,14 +3,24 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bot, Send, User, Loader2 } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Bot, Send, User, Loader2, Plus, Menu } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import ChatSession from "@/components/ChatSession";
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
   content: string;
+}
+
+interface ChatSessionData {
+  id: string;
+  title: string;
+  created_at: string;
 }
 
 const AIDashboard: React.FC = () => {
@@ -19,12 +29,22 @@ const AIDashboard: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasAccess, setHasAccess] = useState(false);
   const [checkingAccess, setCheckingAccess] = useState(true);
+  const [chatSessions, setChatSessions] = useState<ChatSessionData[]>([]);
+  const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     checkSubscriptionAccess();
   }, []);
+
+  useEffect(() => {
+    if (hasAccess && user) {
+      loadChatSessions();
+    }
+  }, [hasAccess, user]);
 
   const checkSubscriptionAccess = async () => {
     try {
@@ -44,11 +64,6 @@ const AIDashboard: React.FC = () => {
 
       if (data.subscribed) {
         setHasAccess(true);
-        // Add welcome message
-        setMessages([{
-          role: 'assistant',
-          content: "Hi! I'm your AI Copilot for contractor marketing in Hudson Valley. Ask me about local market data, marketing strategies, or specific tactics for your business. For example, try asking: 'How many homes sold in my area last quarter?' or 'What's the best way to market HVAC services in Rockland County?'"
-        }]);
       } else {
         setHasAccess(false);
       }
@@ -64,12 +79,155 @@ const AIDashboard: React.FC = () => {
     }
   };
 
+  const loadChatSessions = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('chat_sessions')
+        .select('*')
+        .order('updated_at', { ascending: false });
+
+      if (error) throw error;
+      setChatSessions(data || []);
+      
+      // If no active session and we have sessions, select the first one
+      if (!activeSessionId && data && data.length > 0) {
+        setActiveSessionId(data[0].id);
+        loadChatMessages(data[0].id);
+      }
+    } catch (error) {
+      console.error('Error loading chat sessions:', error);
+    }
+  };
+
+  const loadChatMessages = async (sessionId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('chat_messages')
+        .select('*')
+        .eq('session_id', sessionId)
+        .order('created_at', { ascending: true });
+
+      if (error) throw error;
+      
+      const sessionMessages = data?.map(msg => ({
+        role: msg.role as 'user' | 'assistant' | 'system',
+        content: msg.content
+      })) || [];
+
+      // Add welcome message if it's a new session with no messages
+      if (sessionMessages.length === 0) {
+        setMessages([{
+          role: 'assistant',
+          content: "Hi! I'm your AI Copilot for contractor marketing in Hudson Valley. Ask me about local market data, marketing strategies, or specific tactics for your business. For example, try asking: 'How many homes sold in my area last quarter?' or 'What's the best way to market HVAC services in Rockland County?'"
+        }]);
+      } else {
+        setMessages(sessionMessages);
+      }
+    } catch (error) {
+      console.error('Error loading chat messages:', error);
+    }
+  };
+
+  const createNewChatSession = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('chat_sessions')
+        .insert([{ user_id: user?.id, title: 'New Chat' }])
+        .select()
+        .single();
+
+      if (error) throw error;
+      
+      setChatSessions(prev => [data, ...prev]);
+      setActiveSessionId(data.id);
+      setMessages([{
+        role: 'assistant',
+        content: "Hi! I'm your AI Copilot for contractor marketing in Hudson Valley. Ask me about local market data, marketing strategies, or specific tactics for your business."
+      }]);
+    } catch (error) {
+      console.error('Error creating new chat session:', error);
+      toast({
+        title: "Error",
+        description: "Failed to create new chat session.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const deleteChatSession = async (sessionId: string) => {
+    try {
+      const { error } = await supabase
+        .from('chat_sessions')
+        .delete()
+        .eq('id', sessionId);
+
+      if (error) throw error;
+      
+      setChatSessions(prev => prev.filter(session => session.id !== sessionId));
+      
+      if (activeSessionId === sessionId) {
+        const remainingSessions = chatSessions.filter(session => session.id !== sessionId);
+        if (remainingSessions.length > 0) {
+          setActiveSessionId(remainingSessions[0].id);
+          loadChatMessages(remainingSessions[0].id);
+        } else {
+          setActiveSessionId(null);
+          setMessages([]);
+        }
+      }
+    } catch (error) {
+      console.error('Error deleting chat session:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete chat session.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const updateSessionTitle = async (sessionId: string, firstMessage: string) => {
+    try {
+      const title = firstMessage.slice(0, 50) + (firstMessage.length > 50 ? '...' : '');
+      const { error } = await supabase
+        .from('chat_sessions')
+        .update({ title, updated_at: new Date().toISOString() })
+        .eq('id', sessionId);
+
+      if (error) throw error;
+      
+      setChatSessions(prev => prev.map(session => 
+        session.id === sessionId ? { ...session, title } : session
+      ));
+    } catch (error) {
+      console.error('Error updating session title:', error);
+    }
+  };
+
   const sendMessage = async () => {
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || isLoading || !activeSessionId) return;
 
     const userMessage: Message = { role: 'user', content: input };
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
+    
+    // Save user message to database
+    try {
+      await supabase
+        .from('chat_messages')
+        .insert([{ 
+          session_id: activeSessionId, 
+          role: 'user', 
+          content: input 
+        }]);
+    } catch (error) {
+      console.error('Error saving user message:', error);
+    }
+
+    // Update session title if it's the first message
+    if (messages.length <= 1) {
+      updateSessionTitle(activeSessionId, input);
+    }
+
     setInput("");
     setIsLoading(true);
 
@@ -88,7 +246,21 @@ const AIDashboard: React.FC = () => {
           role: 'assistant',
           content: data.choices[0].message.content
         };
+        
         setMessages([...newMessages, assistantMessage]);
+        
+        // Save assistant message to database
+        try {
+          await supabase
+            .from('chat_messages')
+            .insert([{ 
+              session_id: activeSessionId, 
+              role: 'assistant', 
+              content: assistantMessage.content 
+            }]);
+        } catch (error) {
+          console.error('Error saving assistant message:', error);
+        }
       }
     } catch (error) {
       console.error('Error sending message:', error);
@@ -107,6 +279,11 @@ const AIDashboard: React.FC = () => {
       e.preventDefault();
       sendMessage();
     }
+  };
+
+  const switchChatSession = (sessionId: string) => {
+    setActiveSessionId(sessionId);
+    loadChatMessages(sessionId);
   };
 
   if (checkingAccess) {
@@ -144,11 +321,64 @@ const AIDashboard: React.FC = () => {
 
   return (
     <div className="pt-20 min-h-screen bg-gray-50">
-      <div className="container-custom py-8">
-        <div className="max-w-4xl mx-auto">
-          <Card className="h-[calc(100vh-200px)] flex flex-col">
-            <CardHeader className="border-b">
+      <div className="h-[calc(100vh-80px)] flex">
+        {/* Sidebar */}
+        <div className={`${sidebarOpen ? 'w-80' : 'w-0'} transition-all duration-300 bg-white border-r border-gray-200 flex flex-col overflow-hidden`}>
+          <div className="p-4 border-b border-gray-200">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-semibold text-gray-900">Chat History</h2>
+              <Button onClick={createNewChatSession} size="sm" className="bg-purple-600 hover:bg-purple-700">
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+            {user && (
+              <div className="flex items-center space-x-3 p-2 bg-gray-50 rounded-lg">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={user.user_metadata?.avatar_url} />
+                  <AvatarFallback>
+                    {user.email?.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">
+                    {user.user_metadata?.full_name || user.email}
+                  </p>
+                  <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                </div>
+              </div>
+            )}
+          </div>
+          
+          <ScrollArea className="flex-1">
+            <div className="p-4 space-y-2">
+              {chatSessions.map((session) => (
+                <ChatSession
+                  key={session.id}
+                  id={session.id}
+                  title={session.title}
+                  isActive={activeSessionId === session.id}
+                  onClick={() => switchChatSession(session.id)}
+                  onDelete={() => deleteChatSession(session.id)}
+                  createdAt={session.created_at}
+                />
+              ))}
+            </div>
+          </ScrollArea>
+        </div>
+
+        {/* Main Chat Area */}
+        <div className="flex-1 flex flex-col">
+          <Card className="flex-1 flex flex-col m-4 shadow-sm">
+            <CardHeader className="border-b bg-white rounded-t-lg">
               <CardTitle className="flex items-center">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                  className="mr-3"
+                >
+                  <Menu className="h-4 w-4" />
+                </Button>
                 <Bot className="h-6 w-6 mr-2 text-purple-600" />
                 AI Copilot for Contractors
               </CardTitle>
@@ -156,62 +386,64 @@ const AIDashboard: React.FC = () => {
             
             <CardContent className="flex-1 flex flex-col p-0">
               {/* Messages Area */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-4">
-                {messages.map((message, index) => (
-                  <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`flex max-w-3xl ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                      <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                        message.role === 'user' ? 'bg-blue-500 ml-2' : 'bg-purple-500 mr-2'
-                      }`}>
-                        {message.role === 'user' ? (
-                          <User className="h-4 w-4 text-white" />
-                        ) : (
-                          <Bot className="h-4 w-4 text-white" />
-                        )}
-                      </div>
-                      <div className={`rounded-lg px-4 py-2 ${
-                        message.role === 'user' 
-                          ? 'bg-blue-500 text-white' 
-                          : 'bg-gray-100 text-gray-900'
-                      }`}>
-                        <p className="whitespace-pre-wrap">{message.content}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                
-                {isLoading && (
-                  <div className="flex justify-start">
-                    <div className="flex">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-500 mr-2 flex items-center justify-center">
-                        <Bot className="h-4 w-4 text-white" />
-                      </div>
-                      <div className="bg-gray-100 rounded-lg px-4 py-2">
-                        <div className="flex items-center space-x-1">
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              <ScrollArea className="flex-1 p-6">
+                <div className="space-y-4">
+                  {messages.map((message, index) => (
+                    <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`flex max-w-3xl ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                          message.role === 'user' ? 'bg-blue-500 ml-2' : 'bg-purple-500 mr-2'
+                        }`}>
+                          {message.role === 'user' ? (
+                            <User className="h-4 w-4 text-white" />
+                          ) : (
+                            <Bot className="h-4 w-4 text-white" />
+                          )}
+                        </div>
+                        <div className={`rounded-lg px-4 py-2 ${
+                          message.role === 'user' 
+                            ? 'bg-blue-500 text-white' 
+                            : 'bg-gray-100 text-gray-900'
+                        }`}>
+                          <p className="whitespace-pre-wrap">{message.content}</p>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
+                  ))}
+                  
+                  {isLoading && (
+                    <div className="flex justify-start">
+                      <div className="flex">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-500 mr-2 flex items-center justify-center">
+                          <Bot className="h-4 w-4 text-white" />
+                        </div>
+                        <div className="bg-gray-100 rounded-lg px-4 py-2">
+                          <div className="flex items-center space-x-1">
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </ScrollArea>
               
               {/* Input Area */}
-              <div className="border-t p-4">
+              <div className="border-t p-4 bg-white rounded-b-lg">
                 <div className="flex space-x-2">
                   <Input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Ask about local market data or marketing strategies..."
-                    disabled={isLoading}
+                    disabled={isLoading || !activeSessionId}
                     className="flex-1"
                   />
                   <Button 
                     onClick={sendMessage}
-                    disabled={isLoading || !input.trim()}
+                    disabled={isLoading || !input.trim() || !activeSessionId}
                     className="bg-purple-600 hover:bg-purple-700"
                   >
                     <Send className="h-4 w-4" />
