@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import ChatSession from "@/components/ChatSession";
+import MarkdownMessage from "@/components/MarkdownMessage";
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
@@ -404,7 +405,10 @@ const AIDashboard: React.FC = () => {
                             ? 'bg-blue-500 text-white' 
                             : 'bg-gray-100 text-gray-900'
                         }`}>
-                          <p className="whitespace-pre-wrap">{message.content}</p>
+                          <MarkdownMessage 
+                            content={message.content} 
+                            isUser={message.role === 'user'}
+                          />
                         </div>
                       </div>
                     </div>
