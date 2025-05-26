@@ -6,19 +6,12 @@ import { Bot, Sparkles, CheckCircle, ArrowRight, Users, TrendingUp, MapPin } fro
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 const AICopilot: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState(null);
+  const { user } = useAuth();
   const { toast } = useToast();
-
-  useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-    };
-    getUser();
-  }, []);
 
   const handleStartTrial = async () => {
     if (!user) {
@@ -72,13 +65,19 @@ const AICopilot: React.FC = () => {
               Get instant, actionable marketing advice tailored specifically for contractors in Rockland & Westchester counties.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button 
-                onClick={handleStartTrial}
-                disabled={isLoading}
-                className="bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-3"
-              >
-                {isLoading ? "Starting..." : "Start 7-Day Free Trial"}
-              </Button>
+              {user ? (
+                <Button 
+                  onClick={handleStartTrial}
+                  disabled={isLoading}
+                  className="bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-3"
+                >
+                  {isLoading ? "Starting..." : "Start 7-Day Free Trial"}
+                </Button>
+              ) : (
+                <Button asChild className="bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-3">
+                  <Link to="/auth">Sign In to Start Free Trial</Link>
+                </Button>
+              )}
               <p className="text-white/80">Then $15/month • Cancel anytime</p>
             </div>
           </div>
@@ -241,14 +240,23 @@ const AICopilot: React.FC = () => {
                   </div>
                 </div>
 
-                <Button 
-                  onClick={handleStartTrial}
-                  disabled={isLoading}
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white mb-4"
-                >
-                  {isLoading ? "Starting..." : "Start 7-Day Free Trial"}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                {user ? (
+                  <Button 
+                    onClick={handleStartTrial}
+                    disabled={isLoading}
+                    className="w-full bg-purple-600 hover:bg-purple-700 text-white mb-4"
+                  >
+                    {isLoading ? "Starting..." : "Start 7-Day Free Trial"}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                ) : (
+                  <Button asChild className="w-full bg-purple-600 hover:bg-purple-700 text-white mb-4">
+                    <Link to="/auth">
+                      Sign In to Start Free Trial
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                )}
                 
                 <p className="text-sm text-gray-600">
                   7-day free trial, then $15/month
@@ -268,13 +276,19 @@ const AICopilot: React.FC = () => {
           <p className="text-xl mb-8">
             Join contractors who are already using AI to get more customers in Hudson Valley.
           </p>
-          <Button 
-            onClick={handleStartTrial}
-            disabled={isLoading}
-            className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg px-8 py-3"
-          >
-            {isLoading ? "Starting..." : "Start Your Free Trial Now"}
-          </Button>
+          {user ? (
+            <Button 
+              onClick={handleStartTrial}
+              disabled={isLoading}
+              className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg px-8 py-3"
+            >
+              {isLoading ? "Starting..." : "Start Your Free Trial Now"}
+            </Button>
+          ) : (
+            <Button asChild className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg px-8 py-3">
+              <Link to="/auth">Sign In to Start Your Free Trial</Link>
+            </Button>
+          )}
         </div>
       </section>
     </div>

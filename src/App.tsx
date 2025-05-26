@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { HelmetProvider } from "react-helmet-async";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -15,6 +16,7 @@ import Resources from "./pages/Resources";
 import AICopilot from "./pages/AICopilot";
 import AIDashboard from "./pages/AIDashboard";
 import Privacy from "./pages/Privacy";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import IndustriesIndex from "./pages/industries/index";
 import HVAC from "./pages/industries/HVAC";
@@ -27,42 +29,53 @@ import Advertising from "./pages/services/Advertising";
 import SEO from "./pages/services/SEO";
 import Consulting from "./pages/services/Consulting";
 import ScrollToTop from "./components/ScrollToTop";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <React.StrictMode>
       <HelmetProvider>
-        <BrowserRouter>
-          <ScrollToTop />
-          <div className="flex flex-col min-h-screen">
-            <Navbar />
-            <main className="flex-grow">
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/services/advertising" element={<Advertising />} />
-                <Route path="/services/seo" element={<SEO />} />
-                <Route path="/services/consulting" element={<Consulting />} />
-                <Route path="/booking" element={<Booking />} />
-                <Route path="/testimonials" element={<Testimonials />} />
-                <Route path="/resources" element={<Resources />} />
-                <Route path="/resources/ai-copilot" element={<AICopilot />} />
-                <Route path="/ai/dashboard" element={<AIDashboard />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/industries" element={<IndustriesIndex />} />
-                <Route path="/industries/hvac" element={<HVAC />} />
-                <Route path="/industries/plumbing" element={<Plumbing />} />
-                <Route path="/industries/fencing" element={<Fencing />} />
-                <Route path="/industries/deck-patio" element={<DeckPatio />} />
-                <Route path="/industries/flooring" element={<Flooring />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <Footer />
-          </div>
-          <Toaster />
-        </BrowserRouter>
+        <AuthProvider>
+          <BrowserRouter>
+            <ScrollToTop />
+            <div className="flex flex-col min-h-screen">
+              <Navbar />
+              <main className="flex-grow">
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/services" element={<Services />} />
+                  <Route path="/services/advertising" element={<Advertising />} />
+                  <Route path="/services/seo" element={<SEO />} />
+                  <Route path="/services/consulting" element={<Consulting />} />
+                  <Route path="/booking" element={<Booking />} />
+                  <Route path="/testimonials" element={<Testimonials />} />
+                  <Route path="/resources" element={<Resources />} />
+                  <Route path="/resources/ai-copilot" element={<AICopilot />} />
+                  <Route 
+                    path="/ai/dashboard" 
+                    element={
+                      <ProtectedRoute>
+                        <AIDashboard />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/industries" element={<IndustriesIndex />} />
+                  <Route path="/industries/hvac" element={<HVAC />} />
+                  <Route path="/industries/plumbing" element={<Plumbing />} />
+                  <Route path="/industries/fencing" element={<Fencing />} />
+                  <Route path="/industries/deck-patio" element={<DeckPatio />} />
+                  <Route path="/industries/flooring" element={<Flooring />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+              <Footer />
+            </div>
+            <Toaster />
+          </BrowserRouter>
+        </AuthProvider>
       </HelmetProvider>
     </React.StrictMode>
   );
