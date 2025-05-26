@@ -13,8 +13,10 @@ import { Loader2, Eye, EyeOff } from "lucide-react";
 const Auth: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [signupEmail, setSignupEmail] = useState("");
+  const [signupPassword, setSignupPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,7 +27,7 @@ const Auth: React.FC = () => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        const from = location.state?.from?.pathname || "/";
+        const from = location.state?.from?.pathname || "/ai/dashboard";
         navigate(from, { replace: true });
       }
     };
@@ -57,7 +59,7 @@ const Auth: React.FC = () => {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (password !== confirmPassword) {
+    if (signupPassword !== confirmPassword) {
       toast({
         title: "Error",
         description: "Passwords don't match",
@@ -66,7 +68,7 @@ const Auth: React.FC = () => {
       return;
     }
 
-    if (password.length < 6) {
+    if (signupPassword.length < 6) {
       toast({
         title: "Error",
         description: "Password must be at least 6 characters long",
@@ -78,9 +80,9 @@ const Auth: React.FC = () => {
     setIsLoading(true);
     
     try {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
+      const { data, error } = await supabase.auth.signUp({
+        email: signupEmail,
+        password: signupPassword,
       });
 
       if (error) {
@@ -93,12 +95,13 @@ const Auth: React.FC = () => {
         } else {
           throw error;
         }
-      } else {
+      } else if (data.user) {
         toast({
           title: "Account created!",
           description: "You can now sign in with your credentials.",
         });
-        // Switch to login tab
+        // Switch to login tab and pre-fill email
+        setLoginEmail(signupEmail);
         const loginTab = document.querySelector('[data-value="login"]') as HTMLElement;
         loginTab?.click();
       }
@@ -115,30 +118,40 @@ const Auth: React.FC = () => {
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!loginEmail || !loginPassword) {
+      toast({
+        title: "Error",
+        description: "Please enter both email and password",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
     
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: loginEmail.trim().toLowerCase(),
+        password: loginPassword,
       });
 
       if (error) {
         if (error.message.includes("Invalid login credentials")) {
           toast({
             title: "Error",
-            description: "Invalid email or password. Please check your credentials.",
+            description: "Invalid email or password. Please check your credentials and try again.",
             variant: "destructive",
           });
         } else {
           throw error;
         }
-      } else {
+      } else if (data.user) {
         toast({
           title: "Welcome back!",
           description: "You've successfully signed in.",
         });
-        const from = location.state?.from?.pathname || "/";
+        const from = location.state?.from?.pathname || "/ai/dashboard";
         navigate(from, { replace: true });
       }
     } catch (error: any) {
@@ -217,30 +230,32 @@ const Auth: React.FC = () => {
               <TabsContent value="login">
                 <form onSubmit={handleSignIn} className="space-y-4">
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="login-email" className="block text-sm font-medium text-gray-700 mb-1">
                       Email
                     </label>
                     <Input
-                      id="email"
+                      id="login-email"
                       type="email"
                       placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
                       required
+                      autoComplete="email"
                     />
                   </div>
                   <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="login-password" className="block text-sm font-medium text-gray-700 mb-1">
                       Password
                     </label>
                     <div className="relative">
                       <Input
-                        id="password"
+                        id="login-password"
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={loginPassword}
+                        onChange={(e) => setLoginPassword(e.target.value)}
                         required
+                        autoComplete="current-password"
                       />
                       <Button
                         type="button"
@@ -284,9 +299,10 @@ const Auth: React.FC = () => {
                       id="signup-email"
                       type="email"
                       placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      value={signupEmail}
+                      onChange={(e) => setSignupEmail(e.target.value)}
                       required
+                      autoComplete="email"
                     />
                   </div>
                   <div>
@@ -298,10 +314,11 @@ const Auth: React.FC = () => {
                         id="signup-password"
                         type={showPassword ? "text" : "password"}
                         placeholder="Create a password (min 6 characters)"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={signupPassword}
+                        onChange={(e) => setSignupPassword(e.target.value)}
                         required
                         minLength={6}
+                        autoComplete="new-password"
                       />
                       <Button
                         type="button"
@@ -329,6 +346,7 @@ const Auth: React.FC = () => {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       required
+                      autoComplete="new-password"
                     />
                   </div>
                   <Button 
