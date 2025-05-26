@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -320,8 +319,8 @@ const AIDashboard: React.FC = () => {
   }
 
   return (
-    <div className="pt-20 min-h-screen bg-gray-50">
-      <div className="h-[calc(100vh-80px)] flex">
+    <div className="pt-20 h-screen bg-gray-50 flex flex-col">
+      <div className="flex-1 flex overflow-hidden">
         {/* Sidebar */}
         <div className={`${sidebarOpen ? 'w-80' : 'w-0'} transition-all duration-300 bg-white border-r border-gray-200 flex flex-col overflow-hidden`}>
           <div className="p-4 border-b border-gray-200">
@@ -367,9 +366,9 @@ const AIDashboard: React.FC = () => {
         </div>
 
         {/* Main Chat Area */}
-        <div className="flex-1 flex flex-col">
-          <Card className="flex-1 flex flex-col m-4 shadow-sm">
-            <CardHeader className="border-b bg-white rounded-t-lg">
+        <div className="flex-1 flex flex-col min-w-0">
+          <Card className="flex-1 flex flex-col m-4 shadow-sm min-h-0">
+            <CardHeader className="border-b bg-white rounded-t-lg flex-shrink-0">
               <CardTitle className="flex items-center">
                 <Button
                   variant="ghost"
@@ -384,7 +383,7 @@ const AIDashboard: React.FC = () => {
               </CardTitle>
             </CardHeader>
             
-            <CardContent className="flex-1 flex flex-col p-0">
+            <CardContent className="flex-1 flex flex-col p-0 min-h-0">
               {/* Messages Area */}
               <ScrollArea className="flex-1 p-6">
                 <div className="space-y-4">
@@ -431,7 +430,7 @@ const AIDashboard: React.FC = () => {
               </ScrollArea>
               
               {/* Input Area */}
-              <div className="border-t p-4 bg-white rounded-b-lg">
+              <div className="border-t p-4 bg-white rounded-b-lg flex-shrink-0">
                 <div className="flex space-x-2">
                   <Input
                     value={input}
