@@ -12,6 +12,8 @@ import Services from "./pages/Services";
 import Booking from "./pages/Booking";
 import Testimonials from "./pages/Testimonials";
 import Resources from "./pages/Resources";
+import AICopilot from "./pages/AICopilot";
+import AIDashboard from "./pages/AIDashboard";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import IndustriesIndex from "./pages/industries/index";
@@ -45,6 +47,8 @@ function App() {
                 <Route path="/booking" element={<Booking />} />
                 <Route path="/testimonials" element={<Testimonials />} />
                 <Route path="/resources" element={<Resources />} />
+                <Route path="/resources/ai-copilot" element={<AICopilot />} />
+                <Route path="/ai/dashboard" element={<AIDashboard />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/industries" element={<IndustriesIndex />} />
                 <Route path="/industries/hvac" element={<HVAC />} />

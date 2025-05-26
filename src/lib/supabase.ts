@@ -138,3 +138,35 @@ export async function fetchApprovedTestimonials() {
     return { data: [] };
   }
 }
+
+export async function checkSubscriptionStatus() {
+  try {
+    const { data, error } = await supabase.functions.invoke('check-subscription', {
+      headers: {
+        Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+      },
+    });
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("Error checking subscription:", error);
+    return { subscribed: false };
+  }
+}
+
+export async function createCheckoutSession() {
+  try {
+    const { data, error } = await supabase.functions.invoke('create-checkout', {
+      headers: {
+        Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+      },
+    });
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+    throw error;
+  }
+}

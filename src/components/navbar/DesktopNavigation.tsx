@@ -5,6 +5,7 @@ import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ServicesMenu } from "./ServicesMenu";
 import { IndustriesMenu } from "./IndustriesMenu";
+import { ResourcesMenu } from "./ResourcesMenu";
 
 const DesktopNavigation: React.FC = () => {
   const location = useLocation();
@@ -26,6 +27,7 @@ const DesktopNavigation: React.FC = () => {
       
       <ServicesMenu location={location} />
       <IndustriesMenu location={location} />
+      <ResourcesMenu location={location} />
       
       <Link
         to="/testimonials"
@@ -43,15 +45,6 @@ const DesktopNavigation: React.FC = () => {
         }`}
       >
         About
-      </Link>
-      
-      <Link
-        to="/resources"
-        className={`font-medium transition-colors hover:text-hvcg-blue ${
-          isActive("/resources") ? "text-hvcg-blue" : "text-gray-600"
-        }`}
-      >
-        Free Resources
       </Link>
       
       <Button asChild className="bg-hvcg-blue-dark hover:bg-hvcg-blue transition-colors text-white ml-2">
