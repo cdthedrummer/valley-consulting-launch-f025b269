@@ -11,6 +11,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import ChatSession from "@/components/ChatSession";
 import MarkdownMessage from "@/components/MarkdownMessage";
+import ChatSetup from "@/components/ChatSetup";
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
@@ -35,6 +36,9 @@ const AIDashboard: React.FC = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [userLocation, setUserLocation] = useState<string>('');
+  const [userLocationType, setUserLocationType] = useState<'zipcode' | 'county' | null>(null);
+  const [showSetup, setShowSetup] = useState(true);
 
   useEffect(() => {
     checkSubscriptionAccess();
@@ -203,12 +207,74 @@ const AIDashboard: React.FC = () => {
     }
   };
 
+  const handleSetupComplete = (location: string, locationType: 'zipcode' | 'county') => {
+    setUserLocation(location);
+    setUserLocationType(locationType);
+    setShowSetup(false);
+    
+    // Create a new chat session with location context
+    createNewChatSessionWithLocation(location, locationType);
+  };
+
+  const createNewChatSessionWithLocation = async (location: string, locationType: 'zipcode' | 'county') => {
+    try {
+      const { data, error } = await supabase
+        .from('chat_sessions')
+        .insert([{ 
+          user_id: user?.id, 
+          title: `${locationType === 'zipcode' ? 'ZIP' : 'County'}: ${location}` 
+        }])
+        .select()
+        .single();
+
+      if (error) throw error;
+      
+      setChatSessions(prev => [data, ...prev]);
+      setActiveSessionId(data.id);
+      
+      // Create location-aware welcome message
+      const welcomeMessage = {
+        role: 'assistant' as const,
+        content: `Hi! I'm your AI Copilot for contractor marketing in Hudson Valley. I see you're interested in ${location}. I can help you with local market data, marketing strategies, and specific tactics for your business in this area. 
+
+What would you like to know about ${location}? For example:
+- "How many homes sold in ${location} last quarter?"
+- "Best marketing strategies for HVAC services in ${location}"
+- "Local demographics and market trends for ${location}"`
+      };
+      
+      setMessages([welcomeMessage]);
+    } catch (error) {
+      console.error('Error creating new chat session:', error);
+      toast({
+        title: "Error",
+        description: "Failed to create new chat session.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const sendMessage = async () => {
     if (!input.trim() || isLoading || !activeSessionId) return;
 
     const userMessage: Message = { role: 'user', content: input };
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
+    
+    // Create enhanced messages with location context
+    const locationContext = userLocation && userLocationType 
+      ? `\n\nUser's service area: ${userLocation} (${userLocationType}). Please provide location-specific insights and recommendations when relevant.`
+      : '';
+    
+    const enhancedMessages = [...messages, userMessage];
+    
+    // Add location context to the first user message if we have location data
+    if (userLocation && enhancedMessages.length <= 2) {
+      enhancedMessages[enhancedMessages.length - 1] = {
+        ...userMessage,
+        content: userMessage.content + locationContext
+      };
+    }
+    
+    setMessages([...messages, userMessage]);
     
     // Save user message to database
     try {
@@ -233,7 +299,7 @@ const AIDashboard: React.FC = () => {
 
     try {
       const { data, error } = await supabase.functions.invoke('ai-chat', {
-        body: { messages: newMessages },
+        body: { messages: enhancedMessages },
         headers: {
           Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
         },
@@ -247,7 +313,7 @@ const AIDashboard: React.FC = () => {
           content: data.choices[0].message.content
         };
         
-        setMessages([...newMessages, assistantMessage]);
+        setMessages([...enhancedMessages, assistantMessage]);
         
         // Save assistant message to database
         try {
@@ -285,6 +351,9 @@ const AIDashboard: React.FC = () => {
     setActiveSessionId(sessionId);
     loadChatMessages(sessionId);
   };
+
+  // Show setup if it's a new session or no location is set
+  const shouldShowSetup = showSetup && (!activeSessionId || messages.length === 0);
 
   if (checkingAccess) {
     return (
@@ -327,7 +396,15 @@ const AIDashboard: React.FC = () => {
           <div className="p-4 border-b border-gray-200">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-semibold text-gray-900">Chat History</h2>
-              <Button onClick={createNewChatSession} size="sm" className="bg-purple-600 hover:bg-purple-700">
+              <Button 
+                onClick={() => {
+                  setShowSetup(true);
+                  setActiveSessionId(null);
+                  setMessages([]);
+                }} 
+                size="sm" 
+                className="bg-purple-600 hover:bg-purple-700"
+              >
                 <Plus className="h-4 w-4" />
               </Button>
             </div>
@@ -368,96 +445,105 @@ const AIDashboard: React.FC = () => {
 
         {/* Main Chat Area */}
         <div className="flex-1 flex flex-col min-w-0">
-          <Card className="flex-1 flex flex-col m-4 shadow-sm min-h-0">
-            <CardHeader className="border-b bg-white rounded-t-lg flex-shrink-0">
-              <CardTitle className="flex items-center">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setSidebarOpen(!sidebarOpen)}
-                  className="mr-3"
-                >
-                  <Menu className="h-4 w-4" />
-                </Button>
-                <Bot className="h-6 w-6 mr-2 text-purple-600" />
-                AI Copilot for Contractors
-              </CardTitle>
-            </CardHeader>
-            
-            <CardContent className="flex-1 flex flex-col p-0 min-h-0">
-              {/* Messages Area */}
-              <ScrollArea className="flex-1 p-6">
-                <div className="space-y-4">
-                  {messages.map((message, index) => (
-                    <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`flex max-w-3xl ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                          message.role === 'user' ? 'bg-blue-500 ml-2' : 'bg-purple-500 mr-2'
-                        }`}>
-                          {message.role === 'user' ? (
-                            <User className="h-4 w-4 text-white" />
-                          ) : (
-                            <Bot className="h-4 w-4 text-white" />
-                          )}
-                        </div>
-                        <div className={`rounded-lg px-4 py-2 ${
-                          message.role === 'user' 
-                            ? 'bg-blue-500 text-white' 
-                            : 'bg-gray-100 text-gray-900'
-                        }`}>
-                          <MarkdownMessage 
-                            content={message.content} 
-                            isUser={message.role === 'user'}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  
-                  {isLoading && (
-                    <div className="flex justify-start">
-                      <div className="flex">
-                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-500 mr-2 flex items-center justify-center">
-                          <Bot className="h-4 w-4 text-white" />
-                        </div>
-                        <div className="bg-gray-100 rounded-lg px-4 py-2">
-                          <div className="flex items-center space-x-1">
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+          {shouldShowSetup ? (
+            <ChatSetup onSetupComplete={handleSetupComplete} />
+          ) : (
+            <Card className="flex-1 flex flex-col m-4 shadow-sm min-h-0">
+              <CardHeader className="border-b bg-white rounded-t-lg flex-shrink-0">
+                <CardTitle className="flex items-center">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
+                    className="mr-3"
+                  >
+                    <Menu className="h-4 w-4" />
+                  </Button>
+                  <Bot className="h-6 w-6 mr-2 text-purple-600" />
+                  AI Copilot for Contractors
+                  {userLocation && (
+                    <span className="ml-3 text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                      {userLocation}
+                    </span>
+                  )}
+                </CardTitle>
+              </CardHeader>
+              
+              <CardContent className="flex-1 flex flex-col p-0 min-h-0">
+                {/* Messages Area */}
+                <ScrollArea className="flex-1 p-6">
+                  <div className="space-y-4">
+                    {messages.map((message, index) => (
+                      <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`flex max-w-3xl ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                          <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                            message.role === 'user' ? 'bg-blue-500 ml-2' : 'bg-purple-500 mr-2'
+                          }`}>
+                            {message.role === 'user' ? (
+                              <User className="h-4 w-4 text-white" />
+                            ) : (
+                              <Bot className="h-4 w-4 text-white" />
+                            )}
+                          </div>
+                          <div className={`rounded-lg px-4 py-2 ${
+                            message.role === 'user' 
+                              ? 'bg-blue-500 text-white' 
+                              : 'bg-gray-100 text-gray-900'
+                          }`}>
+                            <MarkdownMessage 
+                              content={message.content} 
+                              isUser={message.role === 'user'}
+                            />
                           </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    ))}
+                    
+                    {isLoading && (
+                      <div className="flex justify-start">
+                        <div className="flex">
+                          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-500 mr-2 flex items-center justify-center">
+                            <Bot className="h-4 w-4 text-white" />
+                          </div>
+                          <div className="bg-gray-100 rounded-lg px-4 py-2">
+                            <div className="flex items-center space-x-1">
+                              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </ScrollArea>
+                
+                {/* Input Area */}
+                <div className="border-t p-4 bg-white rounded-b-lg flex-shrink-0">
+                  <div className="flex space-x-2">
+                    <Input
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      onKeyPress={handleKeyPress}
+                      placeholder="Ask about local market data or marketing strategies..."
+                      disabled={isLoading || !activeSessionId}
+                      className="flex-1"
+                    />
+                    <Button 
+                      onClick={sendMessage}
+                      disabled={isLoading || !input.trim() || !activeSessionId}
+                      className="bg-purple-600 hover:bg-purple-700"
+                    >
+                      <Send className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Try asking: "How many homes sold in Nanuet last quarter?" or "Best Google Ads strategy for HVAC in Rockland County?"
+                  </p>
                 </div>
-              </ScrollArea>
-              
-              {/* Input Area */}
-              <div className="border-t p-4 bg-white rounded-b-lg flex-shrink-0">
-                <div className="flex space-x-2">
-                  <Input
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Ask about local market data or marketing strategies..."
-                    disabled={isLoading || !activeSessionId}
-                    className="flex-1"
-                  />
-                  <Button 
-                    onClick={sendMessage}
-                    disabled={isLoading || !input.trim() || !activeSessionId}
-                    className="bg-purple-600 hover:bg-purple-700"
-                  >
-                    <Send className="h-4 w-4" />
-                  </Button>
-                </div>
-                <p className="text-xs text-gray-500 mt-2">
-                  Try asking: "How many homes sold in Nanuet last quarter?" or "Best Google Ads strategy for HVAC in Rockland County?"
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>
