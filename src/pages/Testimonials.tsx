@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Star, Calendar, Quote } from "lucide-react";
@@ -7,47 +6,51 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { fetchApprovedTestimonials, submitTestimonial } from "@/lib/supabase";
 import { Testimonial } from "@/types/supabase";
 import { useQuery } from "@tanstack/react-query";
-
 const testimonialFormSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal('')),
-  company: z.string().min(2, { message: "Company name is required." }),
-  service: z.string().min(1, { message: "Please select a service." }),
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters."
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email address."
+  }).optional().or(z.literal('')),
+  company: z.string().min(2, {
+    message: "Company name is required."
+  }),
+  service: z.string().min(1, {
+    message: "Please select a service."
+  }),
   rating: z.number().min(1).max(5),
-  testimonial: z.string().min(10, { message: "Testimonial must be at least 10 characters." }),
+  testimonial: z.string().min(10, {
+    message: "Testimonial must be at least 10 characters."
+  }),
   is_human_verified: z.boolean().refine(val => val === true, {
     message: "You must confirm you are human to submit."
-  }),
+  })
 });
-
 type TestimonialFormValues = z.infer<typeof testimonialFormSchema>;
-
 const Testimonials: React.FC = () => {
   const [selectedRating, setSelectedRating] = useState<number>(5);
-  
+
   // Fetch testimonials from Supabase
-  const { data: testimonials = [], isLoading } = useQuery({
+  const {
+    data: testimonials = [],
+    isLoading
+  } = useQuery({
     queryKey: ['testimonials'],
     queryFn: async () => {
-      const { data } = await fetchApprovedTestimonials();
+      const {
+        data
+      } = await fetchApprovedTestimonials();
       return data || [];
     }
   });
-  
   const form = useForm<TestimonialFormValues>({
     resolver: zodResolver(testimonialFormSchema),
     defaultValues: {
@@ -57,34 +60,30 @@ const Testimonials: React.FC = () => {
       service: "",
       rating: 5,
       testimonial: "",
-      is_human_verified: false,
-    },
+      is_human_verified: false
+    }
   });
-  
   const onSubmit = async (data: TestimonialFormValues) => {
     // Ensure all required fields are present to match Testimonial type
     const testimonialData: Testimonial = {
       name: data.name,
-      email: data.email, // Use email instead of email_address
+      email: data.email,
+      // Use email instead of email_address
       company: data.company,
       service: data.service,
       rating: selectedRating,
       testimonial: data.testimonial,
       is_human_verified: true // Force this to be true when submitting
     };
-    
     await submitTestimonial(testimonialData);
     form.reset();
     setSelectedRating(5);
   };
-  
   const handleRatingClick = (rating: number) => {
     setSelectedRating(rating);
     form.setValue('rating', rating);
   };
-
-  return (
-    <div className="pt-20">
+  return <div className="pt-20">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-hvcg-blue-dark to-hvcg-blue text-white py-16">
         <div className="container-custom text-center">
@@ -98,25 +97,17 @@ const Testimonials: React.FC = () => {
       {/* Testimonials Grid */}
       <section className="py-16">
         <div className="container-custom">
-          {isLoading ? (
-            <div className="text-center py-12">
+          {isLoading ? <div className="text-center py-12">
               <div className="animate-spin w-8 h-8 border-4 border-hvcg-blue border-t-transparent rounded-full mx-auto mb-4"></div>
               <p className="text-gray-600">Loading testimonials...</p>
-            </div>
-          ) : testimonials.length === 0 ? (
-            <div className="text-center py-12">
+            </div> : testimonials.length === 0 ? <div className="text-center py-12">
               <p className="text-xl text-gray-600">No testimonials available yet.</p>
               <p className="text-gray-600 mt-2">Be the first to share your experience!</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {testimonials.map((testimonial: Testimonial) => (
-                <Card key={testimonial.id} className="bg-white border-none shadow-lg hover:shadow-xl transition-shadow">
+            </div> : <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {testimonials.map((testimonial: Testimonial) => <Card key={testimonial.id} className="bg-white border-none shadow-lg hover:shadow-xl transition-shadow">
                   <CardContent className="p-8">
                     <div className="flex items-center text-yellow-400 mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="fill-current" size={20} />
-                      ))}
+                      {[...Array(testimonial.rating)].map((_, i) => <Star key={i} className="fill-current" size={20} />)}
                     </div>
                     
                     <div className="mb-6 relative">
@@ -143,10 +134,8 @@ const Testimonials: React.FC = () => {
                       </div>
                     </div>
                   </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
+                </Card>)}
+            </div>}
           
           {/* Submit Your Testimonial Section */}
           <div className="mt-16 bg-hvcg-gray p-8 rounded-lg">
@@ -166,39 +155,29 @@ const Testimonials: React.FC = () => {
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="name" render={({
+                    field
+                  }) => <FormItem>
                           <FormLabel>Your Name</FormLabel>
                           <FormControl>
                             <Input placeholder="John Doe" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="company"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={form.control} name="company" render={({
+                    field
+                  }) => <FormItem>
                           <FormLabel>Company Name</FormLabel>
                           <FormControl>
                             <Input placeholder="Your Company" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                   
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="email" render={({
+                  field
+                }) => <FormItem>
                         <FormLabel>Email Address (Optional)</FormLabel>
                         <FormControl>
                           <Input type="email" placeholder="your.email@example.com" {...field} />
@@ -207,21 +186,14 @@ const Testimonials: React.FC = () => {
                         <p className="text-xs text-gray-500 mt-1">
                           If provided, we'll send you a confirmation email when your testimonial is approved.
                         </p>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                   
-                  <FormField
-                    control={form.control}
-                    name="service"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="service" render={({
+                  field
+                }) => <FormItem>
                         <FormLabel>Service Used</FormLabel>
                         <FormControl>
-                          <select
-                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue"
-                            {...field}
-                          >
+                          <select className="w-full p-2 border border-gray-300 rounded-md focus:ring-hvcg-blue focus:border-hvcg-blue" {...field}>
                             <option value="">Select a service</option>
                             <option value="Introductory Audit & Consultation">Introductory Audit & Consultation</option>
                             <option value="Strategy Package">Strategy Package</option>
@@ -229,79 +201,44 @@ const Testimonials: React.FC = () => {
                           </select>
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                   
-                  <FormField
-                    control={form.control}
-                    name="rating"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="rating" render={({
+                  field
+                }) => <FormItem>
                         <FormLabel>Rating</FormLabel>
                         <FormControl>
                           <div className="flex space-x-4">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <button
-                                key={star}
-                                type="button"
-                                onClick={() => handleRatingClick(star)}
-                                className="focus:outline-none"
-                              >
-                                <Star 
-                                  className={`w-8 h-8 ${
-                                    star <= selectedRating 
-                                      ? "text-yellow-400 fill-current" 
-                                      : "text-gray-300"
-                                  }`}
-                                />
-                              </button>
-                            ))}
+                            {[1, 2, 3, 4, 5].map(star => <button key={star} type="button" onClick={() => handleRatingClick(star)} className="focus:outline-none">
+                                <Star className={`w-8 h-8 ${star <= selectedRating ? "text-yellow-400 fill-current" : "text-gray-300"}`} />
+                              </button>)}
                           </div>
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                   
-                  <FormField
-                    control={form.control}
-                    name="testimonial"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={form.control} name="testimonial" render={({
+                  field
+                }) => <FormItem>
                         <FormLabel>Your Testimonial</FormLabel>
                         <FormControl>
-                          <Textarea
-                            rows={4}
-                            placeholder="Share your experience working with us..."
-                            {...field}
-                          />
+                          <Textarea rows={4} placeholder="Share your experience working with us..." {...field} />
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                   
-                  <FormField
-                    control={form.control}
-                    name="is_human_verified"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormField control={form.control} name="is_human_verified" render={({
+                  field
+                }) => <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                         <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
+                          <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                         </FormControl>
                         <div className="space-y-1 leading-none">
-                          <FormLabel>
-                            I confirm I am human and this is a genuine testimonial
-                          </FormLabel>
+                          <FormLabel>I am human
+                    </FormLabel>
                           <FormMessage />
                         </div>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
                   
                   <Button type="submit" className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
                     Submit Testimonial
@@ -327,8 +264,6 @@ const Testimonials: React.FC = () => {
           </Button>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default Testimonials;
