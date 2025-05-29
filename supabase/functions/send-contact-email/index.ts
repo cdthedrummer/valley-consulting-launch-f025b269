@@ -78,19 +78,38 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Owner email response:", ownerEmailResponse);
 
     console.log("Sending confirmation email to customer");
-    // Send confirmation email to the customer
-    const customerEmailResponse = await resend.emails.send({
-      from: "Hudson Valley Consulting <no-reply@hvcg.us>",
-      to: [email],
-      subject: "Thank you for contacting Hudson Valley Consulting",
-      html: `
+    
+    // Check if this is a marketing checklist request
+    const isMarketingChecklistRequest = message.includes("Marketing Checklist") || service_interest === "Marketing Resources";
+    
+    let customerEmailContent;
+    if (isMarketingChecklistRequest) {
+      customerEmailContent = `
+        <h1>Thanks for downloading our Marketing Checklist!</h1>
+        <p>Hello ${name},</p>
+        <p>Thank you for your interest in our Contractor Marketing Checklist. You can access your download at:</p>
+        <p><a href="https://hudsonvalleycg.com/resources/marketing-checklist" style="background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">View Your Marketing Checklist</a></p>
+        <p>Ready to take your marketing to the next level? We'd love to help you implement these strategies for your business.</p>
+        <p><a href="https://hudsonvalleycg.com/booking" style="color: #2563eb; text-decoration: underline;">Schedule a free consultation</a> to discuss how we can help grow your contracting business.</p>
+        <p>Best regards,<br />Hudson Valley Consulting Team</p>
+      `;
+    } else {
+      customerEmailContent = `
         <h1>Thank you for reaching out!</h1>
         <p>Hello ${name},</p>
         <p>We have received your message and will get back to you as soon as possible.</p>
         <p>Here's a copy of your message:</p>
         <p>${message}</p>
         <p>Best regards,<br />Hudson Valley Consulting Team</p>
-      `,
+      `;
+    }
+
+    // Send confirmation email to the customer
+    const customerEmailResponse = await resend.emails.send({
+      from: "Hudson Valley Consulting <no-reply@hvcg.us>",
+      to: [email],
+      subject: isMarketingChecklistRequest ? "Your Marketing Checklist is Ready!" : "Thank you for contacting Hudson Valley Consulting",
+      html: customerEmailContent,
     });
     console.log("Customer email response:", customerEmailResponse);
 
