@@ -1,9 +1,7 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Calendar, Check, Star, Award, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 const About: React.FC = () => {
   return <div className="pt-20">
       {/* Hero Section */}
@@ -12,14 +10,13 @@ const About: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl lg:text-5xl font-bold mb-4">About Hudson Valley Consulting</h1>
-              <p className="text-xl mb-6 text-white/90">Bringing enterprise advertising expertise to local contractors since 2025</p>
+              <p className="text-xl mb-6 text-white/90">Bringing enterprise advertising expertise to local contractors in the Hudson Valley area</p>
             </div>
             <div className="bg-white/10 p-8 rounded-lg">
-              <p className="italic text-lg">
-                "At Hudson Valley Consulting, we believe local businesses deserve the same sophisticated marketing strategies that larger brands utilize. Our goal is to empower Hudson Valley contractors with the tools to effectively reach and engage their ideal customers."
-              </p>
+              <p className="italic text-lg">"At Hudson Valley Consulting Group, we believe local businesses deserve the same sophisticated marketing strategies that larger brands utilize. Our goal is to empower contractors with the tools to effectively reach and engage their ideal customers."</p>
               <div className="mt-4 flex items-center">
-                <div className="h-12 w-12 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-xl">HVC</div>
+                <div className="h-12 w-12 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-xl">HV
+CG</div>
                 <div className="ml-4">
                   <h4 className="font-semibold">Our Mission</h4>
                   <p className="text-sm text-white/80">Hudson Valley Consulting Team</p>
@@ -68,11 +65,7 @@ const About: React.FC = () => {
                 </ul>
               </div>
             </div>
-            <div className="order-1 lg:order-2">
-              <div className="rounded-xl overflow-hidden shadow-2xl max-w-sm mx-auto lg:max-w-xs">
-                <img alt="Consulting session" src="/lovable-uploads/da252d5c-59e9-44e2-a866-09f08e917fa9.jpg" className="w-full h-auto object-cover" />
-              </div>
-            </div>
+            
           </div>
         </div>
       </section>
@@ -146,5 +139,4 @@ const About: React.FC = () => {
       </section>
     </div>;
 };
-
 export default About;
