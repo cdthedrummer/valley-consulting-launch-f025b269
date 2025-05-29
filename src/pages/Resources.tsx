@@ -5,16 +5,33 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Download, Mail, Check, Bot, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
+import { submitContactForm } from "@/lib/supabase";
 
 const Resources: React.FC = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Lead magnet requested by:", name, email);
-    setSubmitted(true);
+    setIsSubmitting(true);
+    
+    console.log("Marketing checklist requested by:", name, email);
+    
+    // Submit the contact form for the lead magnet
+    const result = await submitContactForm({
+      name,
+      email,
+      message: "Requested the Contractor Marketing Checklist download",
+      service_interest: "Marketing Resources"
+    });
+    
+    if (result.success) {
+      setSubmitted(true);
+    }
+    
+    setIsSubmitting(false);
   };
 
   return (
@@ -113,36 +130,83 @@ const Resources: React.FC = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-4">
-                Download Our FREE Contractor Marketing Checklist
+              <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-6">
+                Contractor Marketing Checklist
               </h3>
-              <p className="text-lg text-gray-700 mb-6">
-                This comprehensive checklist will help you assess your current marketing efforts and identify opportunities for improvement. Perfect for busy contractors who want to attract more local customers.
+              <p className="text-lg text-gray-700 mb-6 font-medium">
+                Your Essential Toolkit for Better Local Marketing
               </p>
               
-              <div className="space-y-4 mb-6">
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                  <span className="text-gray-700">20-point advertising checklist specifically for contractors</span>
+              <div className="space-y-6 mb-8">
+                <div>
+                  <h4 className="font-semibold text-hvcg-blue-dark mb-2 flex items-center">
+                    <Check className="h-5 w-5 text-hvcg-green mr-2" />
+                    20-Point Advertising Checklist
+                  </h4>
+                  <p className="text-gray-700 ml-7">
+                    Maximize your marketing effectiveness with a step-by-step audit tailored specifically for contractors. Quickly evaluate your current ads and pinpoint immediate opportunities for improvement.
+                  </p>
                 </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                  <span className="text-gray-700">Local SEO quick-start guide to rank higher in Hudson Valley</span>
+                
+                <div>
+                  <h4 className="font-semibold text-hvcg-blue-dark mb-2 flex items-center">
+                    <Check className="h-5 w-5 text-hvcg-green mr-2" />
+                    Local SEO Quick-Start Guide
+                  </h4>
+                  <p className="text-gray-700 ml-7">
+                    Learn actionable strategies to help your contracting business rank higher in local search results. Designed specifically for the Hudson Valley region to get you seen by the customers who matter most.
+                  </p>
                 </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                  <span className="text-gray-700">3 ready-to-use templates for responding to customer inquiries</span>
+                
+                <div>
+                  <h4 className="font-semibold text-hvcg-blue-dark mb-2 flex items-center">
+                    <Check className="h-5 w-5 text-hvcg-green mr-2" />
+                    Ready-to-Use Customer Response Templates
+                  </h4>
+                  <p className="text-gray-700 ml-7">
+                    Streamline your client communications with three professionally-crafted response templates:
+                  </p>
+                  <ul className="text-gray-600 ml-9 mt-2 space-y-1">
+                    <li>• Initial Inquiry Response</li>
+                    <li>• Follow-Up Email After a Quote</li>
+                    <li>• Post-Service Satisfaction Check</li>
+                  </ul>
                 </div>
-                <div className="flex items-start">
-                  <Check className="h-5 w-5 text-hvcg-green mt-1 mr-2 flex-shrink-0" />
-                  <span className="text-gray-700">Budget planning worksheet for local advertising</span>
+                
+                <div>
+                  <h4 className="font-semibold text-hvcg-blue-dark mb-2 flex items-center">
+                    <Check className="h-5 w-5 text-hvcg-green mr-2" />
+                    Budget Planning Worksheet
+                  </h4>
+                  <p className="text-gray-700 ml-7">
+                    Take control of your advertising budget with our easy-to-follow worksheet. Plan effectively to ensure maximum ROI on every advertising dollar.
+                  </p>
                 </div>
               </div>
               
               <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
-                <p className="font-medium text-yellow-800">
-                  Over 200 local contractors have already downloaded this valuable resource!
+                <h4 className="font-medium text-yellow-800 mb-2">Join Dozens of Local Contractors</h4>
+                <p className="text-yellow-700 mb-3">
+                  You're in great company—Hudson Valley contractors are already using these resources to:
                 </p>
+                <div className="grid grid-cols-2 gap-2 text-sm text-yellow-700">
+                  <div className="flex items-center">
+                    <Check className="h-4 w-4 text-yellow-600 mr-1" />
+                    Attract more local customers
+                  </div>
+                  <div className="flex items-center">
+                    <Check className="h-4 w-4 text-yellow-600 mr-1" />
+                    Improve online visibility
+                  </div>
+                  <div className="flex items-center">
+                    <Check className="h-4 w-4 text-yellow-600 mr-1" />
+                    Streamline communication
+                  </div>
+                  <div className="flex items-center">
+                    <Check className="h-4 w-4 text-yellow-600 mr-1" />
+                    Maximize marketing spend
+                  </div>
+                </div>
               </div>
             </div>
             
@@ -161,6 +225,11 @@ const Resources: React.FC = () => {
                       <p className="text-sm text-gray-600">
                         If you don't see it, please check your spam folder.
                       </p>
+                      <Button asChild className="mt-4 bg-hvcg-blue hover:bg-hvcg-blue-dark">
+                        <Link to="/resources/marketing-checklist">
+                          View Online Version
+                        </Link>
+                      </Button>
                     </div>
                   ) : (
                     <>
@@ -194,8 +263,13 @@ const Resources: React.FC = () => {
                             required
                           />
                         </div>
-                        <Button type="submit" className="w-full bg-hvcg-green hover:bg-hvcg-green-light">
-                          <Download className="mr-2 h-4 w-4" /> Download Now
+                        <Button 
+                          type="submit" 
+                          disabled={isSubmitting}
+                          className="w-full bg-hvcg-green hover:bg-hvcg-green-light"
+                        >
+                          <Download className="mr-2 h-4 w-4" /> 
+                          {isSubmitting ? "Sending..." : "Download Now"}
                         </Button>
                         <p className="text-xs text-gray-500 text-center mt-2">
                           We respect your privacy. We'll never share your information.
