@@ -19,8 +19,8 @@ const HeroSection: React.FC = () => {
           alt="Contractors shaking hands in an auto repair shop"
           className="w-full h-full object-cover"
         />
-        {/* Black overlay with gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-hvcg-blue-dark/90"></div>
+        {/* Updated overlay with higher opacity for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 to-hvcg-blue-dark/95"></div>
       </div>
 
       {/* Interactive Overlay Content */}
@@ -43,24 +43,24 @@ const HeroSection: React.FC = () => {
           </motion.div>
 
           {/* Main content moved further down to make room for buttons */}
-          <div className="max-w-2xl text-center mb-8 mt-24 md:mt-28 z-10 px-4">
+          <div className="max-w-4xl text-center mb-8 mt-24 md:mt-28 z-10 px-4">
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-white text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg"
+              className="text-white text-4xl md:text-6xl lg:text-7xl font-bold mb-6 drop-shadow-lg leading-tight"
             >
-              We help Contractors 
-              <span className="text-hvcg-green block mt-2">get more customers</span>
+              Marketing strategy built for contractors, 
+              <span className="text-hvcg-green block mt-2">by marketers who've worked with the biggest brands in home services.</span>
             </motion.h1>
             
             <motion.p 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-white text-lg md:text-2xl mb-10 drop-shadow-lg mx-auto"
+              className="text-white text-lg md:text-xl lg:text-2xl mb-10 drop-shadow-lg mx-auto max-w-3xl"
             >
-              Proven marketing strategies specifically designed for contractors serving the Hudson Valley
+              Backed by years of enterprise-level experience helping national home service brands scale local advertising.
             </motion.p>
             
             <motion.div
@@ -71,7 +71,7 @@ const HeroSection: React.FC = () => {
               <Button asChild size="lg" className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg py-6 px-8 shadow-lg group">
                 <Link to="/booking" className="flex items-center">
                   <Calendar className="mr-2 h-6 w-6 group-hover:scale-110 transition-transform" /> 
-                  Book my free strategy call 
+                  Talk to a Specialist – No Hard Pitch
                   <ArrowRight className="ml-2 h-5 w-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </Link>
               </Button>
@@ -87,7 +87,7 @@ const HeroSection: React.FC = () => {
             </motion.div>
           </div>
           
-          {/* Animated statistics section - enhanced for desktop */}
+          {/* Experience credibility section replacing inflated stats */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -95,18 +95,12 @@ const HeroSection: React.FC = () => {
             className="z-10 w-full px-4 absolute bottom-14 sm:bottom-16 md:bottom-24 lg:bottom-28"
           >
             <div className="container mx-auto">
-              <div className="flex justify-center gap-4 md:gap-8 lg:gap-24">
-                <div className="text-center">
-                  <div className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-hvcg-green mb-1">35%</div>
-                  <div className="text-white text-xs md:text-sm lg:text-base">Average Lead Increase</div>
+              <div className="text-center max-w-4xl mx-auto">
+                <div className="text-hvcg-green text-lg md:text-xl font-semibold mb-2">
+                  Decades of combined experience running performance marketing for some of the biggest names in home services—now brought to your local business.
                 </div>
-                <div className="text-center">
-                  <div className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-hvcg-green mb-1">60+</div>
-                  <div className="text-white text-xs md:text-sm lg:text-base">Local Contractors Helped</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-hvcg-green mb-1">5+</div>
-                  <div className="text-white text-xs md:text-sm lg:text-base">Years in Hudson Valley</div>
+                <div className="text-white/90 text-sm md:text-base">
+                  We've worked with enterprise-level teams across HVAC, Decking, Plumbing, and more—and now bring that same level of strategic thinking to Hudson Valley contractors.
                 </div>
               </div>
             </div>
