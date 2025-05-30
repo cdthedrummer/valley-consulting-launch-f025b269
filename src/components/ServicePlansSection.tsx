@@ -34,8 +34,8 @@ const ServicePlansSection: React.FC = () => {
         >
           <h2 className="text-3xl md:text-4xl font-bold text-hvcg-blue-dark mb-4">Choose Your Plan</h2>
           <p className="text-lg text-gray-700">
-            Designed for contractors ready to stop guessing and start growing. We do the heavy lifting on your local targeting, setup, and reporting.<br />
-            <span className="font-medium">Not sure which one fits? Book a free 15-minute call</span> to get matched with the best option.
+            Select the package that fits your needs and budget. Not sure which one is right for you?<br />
+            <span className="font-medium">Book a free 15-minute call</span> to get matched with the best option.
           </p>
         </motion.div>
         
@@ -48,14 +48,14 @@ const ServicePlansSection: React.FC = () => {
         >
           <motion.div variants={item}>
             <PricingCard 
-              title="Quick Start Audit"
+              title="Introductory Audit & Consultation"
               price="$500"
-              description="One-time audit and action plan"
+              description="One-time flat fee"
               features={[
-                "Complete marketing audit: website, keywords, reviews",
-                "Ad account review: wasted spend analysis",
-                "Budget recommendations for Google, Meta, Nextdoor",
-                "Clear action plan + 30-min strategy call"
+                "Site audit: keywords, images, reviews",
+                "Ad check: wasted spend, missed opps",
+                "Budget plan: Google, Meta, Nextdoor",
+                "Action plan + 30-min call"
               ]}
               icon={<Clock className="text-hvcg-blue h-12 w-12" />}
             />
@@ -63,15 +63,16 @@ const ServicePlansSection: React.FC = () => {
           
           <motion.div variants={item}>
             <PricingCard 
-              title="One-Time Strategy + Setup"
+              title="Strategy Package"
               price="$750"
-              description="Complete strategy with implementation guidance"
+              description="Flat fee – includes strategy + support"
               features={[
-                "Everything in Quick Start Audit",
-                "Local competitor analysis and insights",
-                "Google Business Profile optimization review",
-                "Customer journey mapping and lead quality assessment",
-                "1-hour strategy session with implementation roadmap"
+                "Everything in the Introductory Audit",
+                "Competitor + zip code insights",
+                "GMB, Yelp, Angi audit",
+                "Visitor profile: who's clicking + calling",
+                "Spam lead check",
+                "1-hr strategy call"
               ]}
               highlighted={true}
               highlightText="MOST POPULAR"
@@ -81,15 +82,15 @@ const ServicePlansSection: React.FC = () => {
           
           <motion.div variants={item}>
             <PricingCard 
-              title="Ongoing Partnership"
+              title="Premium Retainer"
               price="$1,500"
-              description="Monthly marketing management"
+              description="Ongoing monthly support"
               features={[
-                "Hands-on ad management (Google, Meta, local platforms)",
-                "2 custom ad creatives per month",
-                "Website and review optimization",
-                "Lead tracking with monthly performance reports",
-                "Monthly strategy calls and campaign adjustments"
+                "Ad management (Google, Meta, etc.)",
+                "2 custom image ads per month",
+                "Site + Reviews optimizations",
+                "Lead tracking + monthly report",
+                "Monthly performance call"
               ]}
               icon={<Shield className="text-hvcg-blue-dark h-12 w-12" />}
             />
@@ -104,9 +105,9 @@ const ServicePlansSection: React.FC = () => {
           className="text-center mt-12"
         >
           <div className="bg-hvcg-gray/50 p-6 rounded-lg inline-block">
-            <p className="text-lg mb-4 font-medium">Ready to stop guessing about your marketing?</p>
+            <p className="text-lg mb-4 font-medium">Not sure which plan is right for your business?</p>
             <Button asChild variant="default" size="lg" className="bg-hvcg-blue hover:bg-hvcg-blue-dark text-white shadow-md">
-              <Link to="/booking">Talk to a Specialist</Link>
+              <Link to="/booking">Contact Us for Help</Link>
             </Button>
           </div>
         </motion.div>
