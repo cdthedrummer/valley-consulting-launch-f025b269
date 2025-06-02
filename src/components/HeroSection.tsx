@@ -42,9 +42,9 @@ const HeroSection: React.FC = () => {
             </Link>
           </motion.div>
 
-          {/* Main content centered */}
-          <div className="flex-1 flex items-center justify-center">
-            <div className="max-w-4xl text-center z-10 px-4">
+          {/* Main content container */}
+          <div className="flex-1 flex flex-col justify-center items-center min-h-0 py-16 md:py-20 lg:py-24">
+            <div className="max-w-4xl text-center z-10 px-4 mb-8 lg:mb-12 xl:mb-16">
               <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -68,7 +68,7 @@ const HeroSection: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.5 }}
-                className="mb-4 sm:mb-6 md:mb-8"
+                className="mb-6 sm:mb-8 md:mb-10 lg:mb-12"
               >
                 <Button asChild size="lg" className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg sm:text-xl md:text-2xl py-4 sm:py-5 md:py-6 px-6 sm:px-8 md:px-10 shadow-lg group">
                   <Link to="/booking" className="flex items-center">
@@ -83,7 +83,7 @@ const HeroSection: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.0, duration: 0.5 }}
-                className="text-white/80 text-base sm:text-lg md:text-xl"
+                className="text-white/80 text-base sm:text-lg md:text-xl mb-12 lg:mb-16 xl:mb-20"
               >
                 15-minute call, no obligations
               </motion.div>
@@ -95,7 +95,7 @@ const HeroSection: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.3, duration: 0.5 }}
-            className="mt-8 mb-4 z-10"
+            className="z-10 pb-4"
           >
             <div className="flex justify-center gap-4 sm:gap-8 md:gap-12 lg:gap-16 xl:gap-24">
               <div className="text-center">
@@ -140,7 +140,7 @@ const HeroSection: React.FC = () => {
             </svg>
           </span>
           Compare Plans
-        </a>
+        </Link>
       </div>
     </section>
   );
