@@ -82,7 +82,7 @@ const HeroSection: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.0, duration: 0.5 }}
-              className="text-white/80 text-base sm:text-lg md:text-xl"
+              className="text-white/80 text-base sm:text-lg md:text-xl mb-16 sm:mb-20 md:mb-24 lg:mb-28 xl:mb-32"
             >
               15-minute call, no obligations
             </motion.div>
