@@ -9,10 +9,10 @@ const testimonials = [
   {
     id: 1,
     text: "Hudson Valley Consulting transformed our advertising strategy. Within 3 months, our leads increased by 200% and our close rate improved dramatically. Their knowledge of the local market made all the difference.",
-    name: "John Doe",
+    name: "Robert Chen",
     company: "ABC Contractors, Hudson Valley",
     rating: 5,
-    initials: "JD",
+    initials: "RC",
     service: "Premium Retainer"
   },
   {
