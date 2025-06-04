@@ -19,6 +19,7 @@ import AIDashboard from "./pages/AIDashboard";
 import Privacy from "./pages/Privacy";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import CaseStudies from "./pages/CaseStudies";
 import IndustriesIndex from "./pages/industries/index";
 import HVAC from "./pages/industries/HVAC";
 import Plumbing from "./pages/industries/Plumbing";
@@ -51,6 +52,7 @@ function App() {
                   <Route path="/services/consulting" element={<Consulting />} />
                   <Route path="/booking" element={<Booking />} />
                   <Route path="/testimonials" element={<Testimonials />} />
+                  <Route path="/case-studies" element={<CaseStudies />} />
                   <Route path="/resources" element={<Resources />} />
                   <Route path="/resources/marketing-checklist" element={<MarketingChecklist />} />
                   <Route path="/resources/ai-copilot" element={<AICopilot />} />

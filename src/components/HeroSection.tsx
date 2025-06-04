@@ -12,11 +12,12 @@ const HeroSection: React.FC = () => {
 
   return (
     <section className="relative overflow-hidden">
-      {/* Background Image */}
+      {/* Background Video/Image */}
       <div className="w-full h-screen relative">
+        {/* Fallback to image for now - you can replace with video later */}
         <img 
           src="/lovable-uploads/1c9721c3-7053-4d03-ad41-97ed9a163d6f.png" 
-          alt="Contractors shaking hands in an auto repair shop"
+          alt="Professional contractors discussing project plans and shaking hands in a modern office setting"
           className="w-full h-full object-cover"
         />
         {/* Black overlay with gradient - increased opacity for better text readability */}
