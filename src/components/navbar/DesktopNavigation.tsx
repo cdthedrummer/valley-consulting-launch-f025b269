@@ -41,23 +41,7 @@ const DesktopNavigation: React.FC = () => {
       <IndustriesMenu location={location} />
       <ResourcesMenu location={location} />
       
-      <Link
-        to="/testimonials"
-        className={`font-medium transition-colors hover:text-hvcg-blue ${
-          isActive("/testimonials") ? "text-hvcg-blue" : "text-gray-600"
-        }`}
-      >
-        Testimonials
-      </Link>
       
-      <Link
-        to="/about"
-        className={`font-medium transition-colors hover:text-hvcg-blue ${
-          isActive("/about") ? "text-hvcg-blue" : "text-gray-600"
-        }`}
-      >
-        About
-      </Link>
       
       {user ? (
         <div className="flex items-center space-x-4">

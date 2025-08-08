@@ -83,13 +83,6 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
             </div>}
         </div>
         
-        <Link to="/testimonials" className={`font-medium p-2 transition-colors hover:text-hvcg-blue hover:bg-gray-100 rounded-md ${isActive("/testimonials") ? "text-hvcg-blue bg-gray-100" : "text-gray-600"}`}>
-          Testimonials
-        </Link>
-        
-        <Link to="/about" className={`font-medium p-2 transition-colors hover:text-hvcg-blue hover:bg-gray-100 rounded-md ${isActive("/about") ? "text-hvcg-blue bg-gray-100" : "text-gray-600"}`}>
-          About
-        </Link>
         
         <Link to="/resources" className={`font-medium p-2 transition-colors hover:text-hvcg-blue hover:bg-gray-100 rounded-md ${isActive("/resources") ? "text-hvcg-blue bg-gray-100" : "text-gray-600"}`}>Resources</Link>
         

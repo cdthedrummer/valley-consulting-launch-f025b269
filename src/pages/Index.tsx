@@ -5,7 +5,9 @@ import HeroSection from "@/components/HeroSection";
 import ServicesPreviewSection from "@/components/ServicesPreviewSection";
 import ServicePlansSection from "@/components/ServicePlansSection";
 import IndustriesSection from "@/components/IndustriesSection";
-import TestimonialSection from "@/components/TestimonialSection";
+import CertificationsSection from "@/components/CertificationsSection";
+import ApproachSection from "@/components/ApproachSection";
+import SchemaOrganization from "@/components/SchemaOrganization";
 import FooterCTASection from "@/components/FooterCTASection";
 import MobileCallButton from "@/components/MobileCallButton";
 import TrustSignalsSection from "@/components/TrustSignalsSection";
@@ -31,11 +33,20 @@ const Index: React.FC = () => {
       {/* AI Copilot Banner - NEW */}
       <AICopilotBanner />
 
+      {/* Schema.org Organization */}
+      <SchemaOrganization />
+
       {/* Problems We Solve */}
       <ProblemsWeSolve />
 
       {/* Trust Signals Section */}
       <TrustSignalsSection />
+
+      {/* Certifications */}
+      <CertificationsSection />
+
+      {/* Our Approach */}
+      <ApproachSection />
 
       {/* Services Preview Section */}
       <ServicesPreviewSection />
@@ -46,9 +57,7 @@ const Index: React.FC = () => {
       {/* Industries We Serve */}
       <IndustriesWeServe />
       
-      {/* Testimonial Highlight */}
-      <TestimonialSection />
-      
+      {/* Testimonials temporarily removed until we publish real local quotes */}
       {/* Service Packages Section */}
       <ServicePlansSection />
 
