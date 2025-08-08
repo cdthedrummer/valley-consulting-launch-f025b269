@@ -42,6 +42,7 @@ function App() {
             <ScrollToTop />
             <div className="flex flex-col min-h-screen">
               <Navbar />
+              <div className="h-16 md:h-20" aria-hidden="true" />
               <main className="flex-grow">
                 <Routes>
                   <Route path="/" element={<Index />} />

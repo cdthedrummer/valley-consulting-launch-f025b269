@@ -39,7 +39,7 @@ const HeroSection: React.FC = () => {
             initial={{ opacity: 0, x: -100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 1.2, duration: 0.5 }}
-            className="absolute top-16 left-4 md:top-20 lg:top-24 xl:top-32 md:left-8 lg:left-12 z-10"
+            className="absolute top-24 left-4 md:top-28 lg:top-32 xl:top-36 md:left-8 lg:left-12 z-10"
           >
             <Link to="/industries">
               <BusinessTagButton 
@@ -102,7 +102,7 @@ const HeroSection: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.3, duration: 0.5 }}
-            className="z-10 pb-4"
+            className="z-10 pb-28 md:pb-8"
           >
             <div className="flex justify-center gap-4 sm:gap-8 md:gap-12 lg:gap-16 xl:gap-24">
               <div className="text-center">
