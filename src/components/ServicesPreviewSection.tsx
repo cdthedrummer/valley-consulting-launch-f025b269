@@ -10,9 +10,9 @@ const ServicesPreviewSection: React.FC = () => {
     <section className="py-16 bg-white">
       <div className="container-custom">
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-4">Our Services</h2>
+          <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-4">Services that grow your business</h2>
           <p className="text-lg text-gray-700">
-            We help contractors like you get more customers and grow your business with proven strategies.
+            Clear, practical marketing, AI, and advertising for local businesses—built to drive leads, repeat customers, and revenue.
           </p>
         </div>
         
@@ -20,21 +20,21 @@ const ServicesPreviewSection: React.FC = () => {
           <ServiceCard 
             icon={<Building className="text-hvcg-blue-dark w-8 h-8" />}
             title="Advertising"
-            description="Targeted local ads that reach homeowners in need of your services, right when they're searching."
+            description="Local search and paid campaigns tuned to high‑intent customers—measurable and profitable."
             link="/services/advertising"
           />
           
           <ServiceCard 
             icon={<Search className="text-hvcg-blue-dark w-8 h-8" />}
             title="SEO"
-            description="Help local customers find your business when they search online for contractors in Hudson Valley."
+            description="Be found when people in your area search for you. Technical SEO + content that converts."
             link="/services/seo"
           />
           
           <ServiceCard 
             icon={<User className="text-hvcg-blue-dark w-8 h-8" />}
             title="Consulting"
-            description="Expert advice tailored to your contracting business, helping you make smart marketing decisions."
+            description="Hands-on guidance: audits, growth plans, and AI enablement tailored to your business."
             link="/services/consulting"
           />
         </div>

@@ -11,15 +11,18 @@ import MobileCallButton from "@/components/MobileCallButton";
 import TrustSignalsSection from "@/components/TrustSignalsSection";
 import AICopilotBanner from "@/components/AICopilotBanner";
 import { motion } from "framer-motion";
+import ProblemsWeSolve from "@/components/ProblemsWeSolve";
+import IndustriesWeServe from "@/components/IndustriesWeServe";
+import AboutPreviewSection from "@/components/AboutPreviewSection";
 
 const Index: React.FC = () => {
   return (
     <div>
       <SEOHead 
-        title="Hudson Valley Consulting | Marketing & Advertising for Local Contractors"
-        description="Expert marketing and advertising services for contractors in the Hudson Valley region. Get more qualified leads with our proven strategies. 35% average lead increase."
+        title="Hudson Valley Consulting | Marketing, AI & Advertising for Local Businesses"
+        description="Practical marketing, AI, and advertising to grow leads and loyalty for dentists, legal, salons, home services and more. Local experts, real results."
         canonicalUrl="/"
-        keywords="contractor marketing, hudson valley advertising, local contractor ads, hvac marketing, plumbing advertising, contractor SEO, deck builder marketing"
+        keywords="local marketing, small business advertising, AI marketing, dentist marketing, law firm marketing, salon advertising, contractor SEO"
       />
 
       {/* Hero Section with interactive elements */}
@@ -28,11 +31,20 @@ const Index: React.FC = () => {
       {/* AI Copilot Banner - NEW */}
       <AICopilotBanner />
 
+      {/* Problems We Solve */}
+      <ProblemsWeSolve />
+
       {/* Trust Signals Section */}
       <TrustSignalsSection />
 
       {/* Services Preview Section */}
       <ServicesPreviewSection />
+
+      {/* About Preview */}
+      <AboutPreviewSection />
+
+      {/* Industries We Serve */}
+      <IndustriesWeServe />
       
       {/* Testimonial Highlight */}
       <TestimonialSection />

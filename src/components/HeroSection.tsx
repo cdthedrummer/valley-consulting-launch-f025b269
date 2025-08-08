@@ -14,13 +14,19 @@ const HeroSection: React.FC = () => {
     <section className="relative overflow-hidden">
       {/* Background Video/Image */}
       <div className="w-full h-screen relative">
-        {/* Fallback to image for now - you can replace with video later */}
-        <img 
-          src="/lovable-uploads/1c9721c3-7053-4d03-ad41-97ed9a163d6f.png" 
-          alt="Professional contractors discussing project plans and shaking hands in a modern office setting"
+        <video
           className="w-full h-full object-cover"
-        />
-        {/* Black overlay with gradient - increased opacity for better text readability */}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/lovable-uploads/1c9721c3-7053-4d03-ad41-97ed9a163d6f.png"
+          aria-label="Local business owners and contractors collaborating on site and in-office"
+        >
+          <source src="/videos/contractors-hero.mp4" type="video/mp4" />
+        </video>
+        {/* Overlay for readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 to-hvcg-blue-dark/95"></div>
       </div>
 
@@ -35,9 +41,9 @@ const HeroSection: React.FC = () => {
             transition={{ delay: 1.2, duration: 0.5 }}
             className="absolute top-16 left-4 md:top-20 lg:top-24 xl:top-32 md:left-8 lg:left-12 z-10"
           >
-            <Link to="/industries/deck-patio">
+            <Link to="/industries">
               <BusinessTagButton 
-                text="Best Deck Builder in Hudson Valley" 
+                text="Trusted by local businesses across the Hudson Valley" 
                 className="shadow-lg bg-hvcg-blue/95 hover:bg-hvcg-blue text-xs sm:text-sm" 
               />
             </Link>
@@ -52,7 +58,7 @@ const HeroSection: React.FC = () => {
                 transition={{ duration: 0.8 }}
                 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6 md:mb-8 drop-shadow-lg leading-tight"
               >
-                We help Contractors 
+                We help local businesses
                 <span className="text-hvcg-green block mt-1 sm:mt-2">get more customers</span>
               </motion.h1>
               
@@ -62,7 +68,7 @@ const HeroSection: React.FC = () => {
                 transition={{ delay: 0.4, duration: 0.8 }}
                 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl mb-6 sm:mb-8 md:mb-10 drop-shadow-lg mx-auto max-w-3xl leading-relaxed"
               >
-                Proven marketing strategies specifically designed for contractors serving the Hudson Valley
+                Practical marketing, AI, and advertising to grow leads and loyalty for dentists, law firms, salons, home services and more.
               </motion.p>
               
               <motion.div
@@ -105,11 +111,11 @@ const HeroSection: React.FC = () => {
               </div>
               <div className="text-center">
                 <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-hvcg-green mb-1">60+</div>
-                <div className="text-white text-xs sm:text-sm md:text-base lg:text-lg">Local Contractors Helped</div>
+                <div className="text-white text-xs sm:text-sm md:text-base lg:text-lg">Local Businesses Helped</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-hvcg-green mb-1">5+</div>
-                <div className="text-white text-xs sm:text-sm md:text-base lg:text-lg">Years in Hudson Valley</div>
+                <div className="text-white text-xs sm:text-sm md:text-base lg:text-lg">Years Serving Hudson Valley</div>
               </div>
             </div>
           </motion.div>
