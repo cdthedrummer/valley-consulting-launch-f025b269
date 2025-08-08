@@ -45,7 +45,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
     name: "All Services",
     path: "/services"
   }];
-  return <div className={`lg:hidden absolute w-full bg-white shadow-md transition-all duration-300 ease-in-out transform ${isOpen ? "translate-y-0 opacity-100" : "-translate-y-10 opacity-0 pointer-events-none"}`}>
+  return <div id="mobile-navigation" className={`lg:hidden absolute top-full left-0 w-full bg-white border-t border-gray-200 shadow-md transition-all duration-300 ease-in-out transform ${isOpen ? "translate-y-0 opacity-100" : "-translate-y-10 opacity-0 pointer-events-none"}`}>
       <div className="container-custom py-4 flex flex-col space-y-2">
         <Link to="/" className={`font-medium p-2 transition-colors hover:text-hvcg-blue hover:bg-gray-100 rounded-md flex items-center ${isActive("/") ? "text-hvcg-blue bg-gray-100" : "text-gray-600"}`}>
           Home
@@ -93,17 +93,6 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
         
         <Link to="/resources" className={`font-medium p-2 transition-colors hover:text-hvcg-blue hover:bg-gray-100 rounded-md ${isActive("/resources") ? "text-hvcg-blue bg-gray-100" : "text-gray-600"}`}>Resources</Link>
         
-        <div className="pt-2">
-          <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue transition-colors text-white">
-            <Link to="/booking" className="flex items-center justify-center">
-              <Calendar className="mr-2 h-4 w-4" /> Book Now
-            </Link>
-          </Button>
-        </div>
-        
-        <a href="tel:+18455551234" className="flex items-center justify-center font-medium p-2 bg-hvcg-green text-white rounded-md hover:bg-hvcg-green-light transition-colors mt-2">
-          <Phone className="mr-2 h-4 w-4" /> Call (845) 555-1234
-        </a>
       </div>
     </div>;
 };

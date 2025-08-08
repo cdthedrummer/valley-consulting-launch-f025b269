@@ -12,8 +12,10 @@ const MobileMenuButton: React.FC<MobileMenuButtonProps> = ({ isOpen, toggleMenu 
     <div className="lg:hidden">
       <button
         onClick={toggleMenu}
-        className="text-gray-700 focus:outline-none"
-        aria-label={isOpen ? "Close Menu" : "Open Menu"}
+        className="inline-flex h-10 w-10 items-center justify-center rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+        aria-label={isOpen ? "Close menu" : "Open menu"}
+        aria-expanded={isOpen}
+        aria-controls="mobile-navigation"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
