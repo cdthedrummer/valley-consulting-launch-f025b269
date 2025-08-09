@@ -1,14 +1,10 @@
 
 import React from "react";
-import { BadgeCheck, Shield, Award, Globe2 } from "lucide-react";
+import { BadgeCheck, Globe2 } from "lucide-react";
 
 const certifications = [
   { label: "Google Ads Certified", Icon: BadgeCheck },
   { label: "YouTube Certified", Icon: BadgeCheck },
-  { label: "Meta Blueprint Certified", Icon: BadgeCheck },
-  { label: "TikTok Marketing Certified", Icon: BadgeCheck },
-  { label: "Data & Privacy First", Icon: Shield },
-  { label: "Measurement & QA", Icon: Award },
 ];
 
 const platforms = [

@@ -39,6 +39,12 @@ const DesktopNavigation: React.FC = () => {
       
       <ServicesMenu location={location} />
       <IndustriesMenu location={location} />
+      <Link
+        to="/approach"
+        className={`font-medium transition-colors hover:text-hvcg-blue ${isActive("/approach") ? "text-hvcg-blue" : "text-gray-600"}`}
+      >
+        Approach
+      </Link>
       <ResourcesMenu location={location} />
       
       

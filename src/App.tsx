@@ -11,7 +11,7 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Booking from "./pages/Booking";
-
+import Approach from "./pages/Approach";
 import Resources from "./pages/Resources";
 import MarketingChecklist from "./pages/MarketingChecklist";
 import AICopilot from "./pages/AICopilot";
@@ -47,6 +47,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/about" element={<About />} />
+                  <Route path="/approach" element={<Approach />} />
                   <Route path="/services" element={<Services />} />
                   <Route path="/services/advertising" element={<Advertising />} />
                   <Route path="/services/seo" element={<SEO />} />
