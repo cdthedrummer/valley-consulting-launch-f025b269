@@ -84,28 +84,7 @@ const HeroSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Statistics section at bottom with proper spacing */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.3, duration: 0.5 }}
-            className="z-10 pb-16 md:pb-10"
-          >
-            <div className="flex justify-center gap-4 sm:gap-8 md:gap-12 lg:gap-16 xl:gap-24">
-              <div className="text-center">
-                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-hvcg-green mb-1">35%</div>
-                <div className="text-white text-xs sm:text-sm md:text-base lg:text-lg">Average Lead Increase</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-hvcg-green mb-1">60+</div>
-                <div className="text-white text-xs sm:text-sm md:text-base lg:text-lg">Local Businesses Helped</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-hvcg-green mb-1">5+</div>
-                <div className="text-white text-xs sm:text-sm md:text-base lg:text-lg">Years Serving Hudson Valley</div>
-              </div>
-            </div>
-          </motion.div>
+          {/* Bottom spacing preserved without unverifiable stats */}
         </div>
       </div>
 

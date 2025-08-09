@@ -9,7 +9,7 @@ import WhyChooseSection from "@/components/WhyChooseSection";
 
 const Services: React.FC = () => {
   return (
-    <div className="pt-20">
+    <div>
       {/* Hero Section */}
       <ServicesHero />
 
