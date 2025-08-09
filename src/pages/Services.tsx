@@ -2,6 +2,7 @@
 import React from "react";
 import { Building, Search, Users, Code, Share2 } from "lucide-react";
 import ServicesHero from "@/components/ServicesHero";
+import SEOHead from "@/components/SEOHead";
 import ServiceContent from "@/components/ServiceContent";
 import ServicesCTA from "@/components/ServicesCTA";
 import ServicePlansSection from "@/components/ServicePlansSection";
@@ -10,6 +11,11 @@ import WhyChooseSection from "@/components/WhyChooseSection";
 const Services: React.FC = () => {
   return (
     <div>
+      <SEOHead
+        title="Services | Hudson Valley Consulting"
+        description="Marketing, SEO, ads, websites, and consulting for contractors in the Hudson Valley."
+        canonicalUrl="/services"
+      />
       {/* Hero Section */}
       <ServicesHero />
 

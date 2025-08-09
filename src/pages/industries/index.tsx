@@ -2,6 +2,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { Helmet } from "react-helmet-async";
+import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -74,8 +76,26 @@ const IndustriesIndex: React.FC = () => {
     },
   ];
 
+  const siteUrl = "https://hudsonvalleycg.com";
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "Industries", item: `${siteUrl}/industries` },
+    ],
+  };
+
   return (
     <div className="pt-20">
+      <SEOHead
+        title="Industries We Serve | Hudson Valley Consulting"
+        description="Marketing and consulting for contractors across HVAC, plumbing, fencing, decking, and flooring in the Hudson Valley."
+        canonicalUrl="/industries"
+      />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+      </Helmet>
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-hvcg-blue-dark to-hvcg-blue text-white py-16">
         <div className="container-custom">
@@ -87,7 +107,16 @@ const IndustriesIndex: React.FC = () => {
           </div>
         </div>
       </section>
-      
+      {/* Breadcrumbs */}
+      <div className="container-custom mt-6">
+        <nav className="mb-6 text-sm" aria-label="Breadcrumb">
+          <ol className="flex items-center space-x-2 text-gray-600">
+            <li><Link to="/">Home</Link></li>
+            <li aria-hidden="true">/</li>
+            <li className="text-gray-800" aria-current="page">Industries</li>
+          </ol>
+        </nav>
+      </div>
       {/* Industries List */}
       <section className="py-16">
         <div className="container-custom">

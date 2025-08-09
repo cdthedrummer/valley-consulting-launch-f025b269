@@ -1,6 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Calendar, Check } from "lucide-react";
+import { Helmet } from "react-helmet-async";
+import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 
 interface ImageProps {
@@ -25,8 +27,40 @@ const IndustryTemplate: React.FC<IndustryTemplateProps> = ({
   solutions,
   images = [],
 }) => {
+  const location = useLocation();
+  const siteUrl = "https://hudsonvalleycg.com";
+  const pageUrl = `${siteUrl}${location.pathname}`;
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "Industries", item: `${siteUrl}/industries` },
+      { "@type": "ListItem", position: 3, name: industryName, item: pageUrl },
+    ],
+  };
   return (
     <div className="pt-20">
+      <SEOHead
+        title={`${industryName} Marketing in ${region} | Hudson Valley Consulting`}
+        description={`Marketing for ${industryName} contractors in ${region}: local SEO, ads, and consulting to grow leads.`}
+        canonicalUrl={location.pathname}
+      />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+      </Helmet>
+      {/* Breadcrumbs */}
+      <div className="container-custom">
+        <nav className="mb-6 text-sm" aria-label="Breadcrumb">
+          <ol className="flex items-center space-x-2 text-gray-600">
+            <li><Link to="/">Home</Link></li>
+            <li aria-hidden="true">/</li>
+            <li><Link to="/industries">Industries</Link></li>
+            <li aria-hidden="true">/</li>
+            <li className="text-gray-800" aria-current="page">{industryName}</li>
+          </ol>
+        </nav>
+      </div>
       {/* Hero Section */}
       <section className="relative bg-hvcg-blue-dark py-16 md:py-24">
         <div className="absolute inset-0 z-0 opacity-20">
