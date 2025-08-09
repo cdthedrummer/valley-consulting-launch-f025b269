@@ -2,10 +2,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import SEOHead from "@/components/SEOHead";
 
 const Privacy: React.FC = () => {
   return (
     <div className="pt-20">
+      <SEOHead
+        title="Privacy Policy | Hudson Valley Consulting"
+        description="Read Hudson Valley Consulting’s privacy policy."
+        canonicalUrl="/privacy"
+      />
       <section className="py-16 bg-white">
         <div className="container-custom max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold text-hvcg-blue-dark mb-6">Privacy Policy</h1>

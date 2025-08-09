@@ -12,6 +12,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import ChatSession from "@/components/ChatSession";
 import MarkdownMessage from "@/components/MarkdownMessage";
 import ChatSetup from "@/components/ChatSetup";
+import SEOHead from "@/components/SEOHead";
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
@@ -358,6 +359,11 @@ What would you like to know about ${location}? For example:
   if (checkingAccess) {
     return (
       <div className="pt-20 min-h-screen flex items-center justify-center">
+        <SEOHead
+          title="AI Copilot Dashboard | Hudson Valley Consulting"
+          description="Access your AI Copilot conversations and local marketing insights."
+          canonicalUrl="/ai/dashboard"
+        />
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
           <p>Checking subscription access...</p>
@@ -369,6 +375,11 @@ What would you like to know about ${location}? For example:
   if (!hasAccess) {
     return (
       <div className="pt-20 min-h-screen flex items-center justify-center">
+        <SEOHead
+          title="AI Copilot Dashboard | Hudson Valley Consulting"
+          description="Access your AI Copilot conversations and local marketing insights."
+          canonicalUrl="/ai/dashboard"
+        />
         <Card className="max-w-md mx-auto">
           <CardContent className="p-8 text-center">
             <Bot className="h-12 w-12 mx-auto mb-4 text-gray-400" />
@@ -390,6 +401,11 @@ What would you like to know about ${location}? For example:
 
   return (
     <div className="pt-20 h-screen bg-gray-50 flex flex-col">
+      <SEOHead
+        title="AI Copilot Dashboard | Hudson Valley Consulting"
+        description="Access your AI Copilot conversations and local marketing insights."
+        canonicalUrl="/ai/dashboard"
+      />
       <div className="flex-1 flex overflow-hidden">
         {/* Sidebar */}
         <div className={`${sidebarOpen ? 'w-80' : 'w-0'} transition-all duration-300 bg-white border-r border-gray-200 flex flex-col overflow-hidden`}>

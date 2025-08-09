@@ -105,6 +105,7 @@ const CaseStudies: React.FC = () => {
                       src={study.image} 
                       alt={`${study.industry} contractor case study`}
                       className="w-full h-full object-cover"
+                      loading="lazy"
                     />
                     <div className="absolute top-4 left-4">
                       <span className="bg-hvcg-blue text-white px-3 py-1 rounded-full text-sm font-medium">

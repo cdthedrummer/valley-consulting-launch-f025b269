@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import SEOHead from "@/components/SEOHead";
 
 const AICopilot: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -49,6 +50,11 @@ const AICopilot: React.FC = () => {
 
   return (
     <div className="pt-20">
+      <SEOHead
+        title="AI Copilot for Contractors | Hudson Valley Consulting"
+        description="Local marketing insights, data, and tactics for contractors—available 24/7."
+        canonicalUrl="/resources/ai-copilot"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-20">
         <div className="container-custom">

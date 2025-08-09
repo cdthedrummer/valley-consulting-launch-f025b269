@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Download, Mail, Check, Bot, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { submitContactForm } from "@/lib/supabase";
+import SEOHead from "@/components/SEOHead";
 
 const Resources: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -36,6 +37,11 @@ const Resources: React.FC = () => {
 
   return (
     <div className="pt-20">
+      <SEOHead
+        title="Resources | Hudson Valley Consulting"
+        description="Free guides and premium AI tools for contractors in the Hudson Valley."
+        canonicalUrl="/resources"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-hvcg-blue-dark to-hvcg-blue text-white py-16">
         <div className="container-custom">

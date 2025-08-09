@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Eye, EyeOff } from "lucide-react";
+import SEOHead from "@/components/SEOHead";
 
 const Auth: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -167,6 +168,11 @@ const Auth: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <SEOHead
+        title="Sign In | Hudson Valley Consulting"
+        description="Access your AI Copilot account."
+        canonicalUrl="/auth"
+      />
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-hvcg-blue-dark">Welcome</h1>

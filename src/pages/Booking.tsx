@@ -14,6 +14,7 @@ import CalendlyEmbed from "@/components/CalendlyEmbed";
 import { CALENDLY_URL } from "@/config/calendly";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
+import SEOHead from "@/components/SEOHead";
 const contactFormSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters."
@@ -58,7 +59,13 @@ const Booking: React.FC = () => {
     await submitContactForm(formData);
     form.reset();
   };
-  return <div className="pt-20">
+return (
+      <div className="pt-20">
+        <SEOHead
+          title="Book a Consultation | Hudson Valley Consulting"
+          description="Schedule a consultation or send us a message—serving contractors across the Hudson Valley."
+          canonicalUrl="/booking"
+        />
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-hvcg-blue-dark to-hvcg-blue text-white py-16">
         <div className="container-custom text-center">
@@ -352,6 +359,7 @@ const Booking: React.FC = () => {
           </div>
         </div>
       </section>
-    </div>;
+    </div>
+  );
 };
 export default Booking;

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, Download, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import SEOHead from "@/components/SEOHead";
 
 const MarketingChecklist: React.FC = () => {
   const handlePrint = () => {
@@ -12,6 +13,11 @@ const MarketingChecklist: React.FC = () => {
 
   return (
     <div className="pt-20 pb-16">
+      <SEOHead
+        title="Contractor Marketing Checklist | Hudson Valley Consulting"
+        description="Download our free marketing checklist and resources for contractors."
+        canonicalUrl="/resources/marketing-checklist"
+      />
       {/* Header */}
       <section className="bg-gradient-to-r from-hvcg-blue-dark to-hvcg-blue text-white py-8">
         <div className="container-custom">
