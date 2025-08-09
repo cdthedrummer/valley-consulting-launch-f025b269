@@ -3,6 +3,7 @@ import React from "react";
 import { Search } from "lucide-react";
 import ServiceDetailLayout from "@/components/ServiceDetailLayout";
 import FAQSection from "@/components/FAQSection";
+import SEOHead from "@/components/SEOHead";
 
 const SEO: React.FC = () => {
   const approachDescription = (
@@ -18,6 +19,11 @@ const SEO: React.FC = () => {
 
   return (
     <>
+      <SEOHead
+        title="SEO Services | Hudson Valley Consulting"
+        description="Local SEO that helps Hudson Valley businesses rank, get calls, and grow."
+        canonicalUrl="/services/seo"
+      />
       <ServiceDetailLayout
         icon={<Search className="text-hvcg-blue-dark w-10 h-10" />}
         title="SEO Services"

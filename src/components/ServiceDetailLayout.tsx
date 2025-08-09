@@ -1,7 +1,8 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft, Calendar } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import WhyChooseSection from "./WhyChooseSection";
 
@@ -29,11 +30,53 @@ const ServiceDetailLayout: React.FC<ServiceDetailLayoutProps> = ({
   whyChooseTitle,
   whyChooseFeatures,
 }) => {
+  const location = useLocation();
+  const siteUrl = "https://hudsonvalleycg.com";
+  const pageUrl = `${siteUrl}${location.pathname}`;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "Services", item: `${siteUrl}/services` },
+      { "@type": "ListItem", position: 3, name: title, item: pageUrl },
+    ],
+  };
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: title,
+    description,
+    provider: {
+      "@type": "Organization",
+      name: "Hudson Valley Consulting",
+      url: siteUrl,
+    },
+    areaServed: "Hudson Valley, NY",
+    url: pageUrl,
+  };
+
   return (
     <div className="container mx-auto py-12 px-4">
-      <Link to="/services" className="inline-flex items-center text-hvcg-blue mb-8 hover:text-hvcg-blue-dark transition-colors">
-        <ArrowLeft className="mr-2 h-4 w-4" /> Back to Services
-      </Link>
+<nav className="mb-6 text-sm" aria-label="Breadcrumb">
+  <ol className="flex items-center space-x-2 text-gray-600">
+    <li>
+      <Link to="/" className="hover:text-hvcg-blue">Home</Link>
+    </li>
+    <li aria-hidden="true">/</li>
+    <li>
+      <Link to="/services" className="hover:text-hvcg-blue">Services</Link>
+    </li>
+    <li aria-hidden="true">/</li>
+    <li className="text-gray-800" aria-current="page">{title}</li>
+  </ol>
+</nav>
+<Helmet>
+  <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+  <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
+</Helmet>
       
       <div className="max-w-4xl mx-auto">
         <div className="mb-10 text-center">

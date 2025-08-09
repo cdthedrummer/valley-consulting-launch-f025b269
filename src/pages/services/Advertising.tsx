@@ -3,6 +3,7 @@ import React from "react";
 import { Building } from "lucide-react";
 import ServiceDetailLayout from "@/components/ServiceDetailLayout";
 import FAQSection from "@/components/FAQSection";
+import SEOHead from "@/components/SEOHead";
 
 const Advertising: React.FC = () => {
   const approachDescription = (
@@ -18,6 +19,11 @@ const Advertising: React.FC = () => {
 
   return (
     <>
+      <SEOHead
+        title="Advertising Services | Hudson Valley Consulting"
+        description="Targeted local ads across Google and social to drive qualified leads for Hudson Valley businesses."
+        canonicalUrl="/services/advertising"
+      />
       <ServiceDetailLayout
         icon={<Building className="text-hvcg-blue-dark w-10 h-10" />}
         title="Advertising Services"
