@@ -72,6 +72,10 @@ const IndustryTemplate: React.FC<IndustryTemplateProps> = ({
             alt={`${industryName} Contractor in ${region}`}
             className="w-full h-full object-cover"
             loading="lazy"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = `/images/industries/${industryName.toLowerCase().replace(/&/g,'and').replace(/\s+/g,'-')}/${industryName.toLowerCase().replace(/&/g,'and').replace(/\s+/g,'-')}-hero.jpg`;
+            }}
           />
         </div>
         <div className="container-custom relative z-10">
@@ -169,9 +173,14 @@ const IndustryTemplate: React.FC<IndustryTemplateProps> = ({
                 <div key={index} className="overflow-hidden rounded-lg shadow-md">
                   <img 
                     src={image.src} 
-                    alt={image.alt} 
+                    alt={image.alt || `${industryName} project example ${index + 1} in ${region}`} 
                     className="w-full h-64 object-cover transition-transform hover:scale-105"
                     loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      const slug = `${industryName.toLowerCase().replace(/&/g,'and').replace(/\s+/g,'-')}`;
+                      e.currentTarget.src = `/images/industries/${slug}/${slug}-${index + 1}.jpg`;
+                    }}
                   />
                 </div>
               ))}
