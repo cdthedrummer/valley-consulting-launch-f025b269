@@ -38,6 +38,12 @@ const HVACPage: React.FC = () => {
     }
   ];
 
+  const faqs = [
+    { question: "How do you generate HVAC leads?", answer: "We combine local SEO, Google Ads, and optimized Google Business Profile to capture high-intent searches like 'AC repair near me'." },
+    { question: "Is HVAC marketing seasonal?", answer: "Demand spikes in summer and winter, so we front-load SEO and run targeted campaigns to smooth volume in shoulder seasons." },
+    { question: "Can you track calls and form fills?", answer: "Yes. We implement call tracking and conversion tagging, reporting real leads — not vanity metrics." },
+  ];
+
   return (
     <IndustryTemplate
       industryName="HVAC"
@@ -45,6 +51,7 @@ const HVACPage: React.FC = () => {
       challenges={challenges}
       solutions={solutions}
       images={images}
+      faqs={faqs}
     />
   );
 };

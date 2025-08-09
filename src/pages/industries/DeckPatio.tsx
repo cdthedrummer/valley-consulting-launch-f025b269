@@ -38,6 +38,12 @@ const DeckPatioPage: React.FC = () => {
     }
   ];
 
+  const faqs = [
+    { question: "How do you handle seasonality?", answer: "We build pipelines early with design/estimate offers and run off‑season lead gen for spring installs." },
+    { question: "Can you promote premium materials?", answer: "Yes — we position composite and hardwood options to attract higher‑value projects." },
+    { question: "Do you use before/after content?", answer: "We create visual galleries and social ads that showcase transformations and drive inquiries." },
+  ];
+
   return (
     <IndustryTemplate
       industryName="Deck & Patio"
@@ -45,6 +51,7 @@ const DeckPatioPage: React.FC = () => {
       challenges={challenges}
       solutions={solutions}
       images={images}
+      faqs={faqs}
     />
   );
 };

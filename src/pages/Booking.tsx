@@ -81,7 +81,7 @@ return (
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Calendly Integration */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
+              <div id="schedule" className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-2xl font-bold text-hvcg-blue-dark mb-6">Schedule a Consultation</h2>
               <p className="text-gray-700 mb-6">
                 Use our online calendar to find a time that works for you. Consultations are conducted via Zoom.
@@ -347,7 +347,7 @@ return (
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button asChild size="lg" className="bg-hvcg-green hover:bg-hvcg-green-light text-white">
-              <a href="#" className="flex items-center">
+              <a href="#schedule" className="flex items-center">
                 <Calendar className="mr-2 h-5 w-5" /> Book a Consultation
               </a>
             </Button>

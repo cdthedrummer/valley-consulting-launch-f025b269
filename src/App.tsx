@@ -30,6 +30,8 @@ import Flooring from "./pages/industries/Flooring";
 import Advertising from "./pages/services/Advertising";
 import SEO from "./pages/services/SEO";
 import Consulting from "./pages/services/Consulting";
+import Testimonials from "./pages/Testimonials";
+import Terms from "./pages/Terms";
 import ScrollToTop from "./components/ScrollToTop";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -68,6 +70,8 @@ function App() {
                   />
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/testimonials" element={<Testimonials />} />
+                  <Route path="/terms" element={<Terms />} />
                   <Route path="/industries" element={<IndustriesIndex />} />
                   <Route path="/industries/hvac" element={<HVAC />} />
                   <Route path="/industries/plumbing" element={<Plumbing />} />

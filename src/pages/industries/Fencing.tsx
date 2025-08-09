@@ -38,6 +38,12 @@ const FencingPage: React.FC = () => {
     }
   ];
 
+  const faqs = [
+    { question: "Which fencing projects should we feature?", answer: "Show diverse materials (wood, vinyl, metal) and before/after galleries — this increases conversion rates." },
+    { question: "Do you target neighborhoods?", answer: "Yes, we use geo‑targeting to reach high‑fit neighborhoods and zip codes in your service area." },
+    { question: "How do you reduce ad waste?", answer: "We negative‑match low‑quality terms and optimize for calls/forms, not clicks." },
+  ];
+
   return (
     <IndustryTemplate
       industryName="Fencing"
@@ -45,6 +51,7 @@ const FencingPage: React.FC = () => {
       challenges={challenges}
       solutions={solutions}
       images={images}
+      faqs={faqs}
     />
   );
 };

@@ -4,6 +4,7 @@ import { Calendar, Check } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
+import FAQSection from "@/components/FAQSection";
 
 interface ImageProps {
   src: string;
@@ -17,6 +18,7 @@ interface IndustryTemplateProps {
   challenges: string[];
   solutions: string[];
   images?: ImageProps[];
+  faqs?: { question: string; answer: string }[];
 }
 
 const IndustryTemplate: React.FC<IndustryTemplateProps> = ({
@@ -26,6 +28,7 @@ const IndustryTemplate: React.FC<IndustryTemplateProps> = ({
   challenges,
   solutions,
   images = [],
+  faqs = [],
 }) => {
   const location = useLocation();
   const siteUrl = "https://hudsonvalleycg.com";
@@ -234,6 +237,12 @@ const IndustryTemplate: React.FC<IndustryTemplateProps> = ({
           </div>
         </div>
       </section>
+      
+      {faqs && faqs.length > 0 && (
+        <div className="container mx-auto px-4">
+          <FAQSection title={`${industryName} marketing: frequently asked questions`} faqs={faqs} />
+        </div>
+      )}
       
       {/* CTA Section */}
       <section className="py-16 bg-hvcg-blue-dark text-white">

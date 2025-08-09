@@ -38,6 +38,12 @@ const PlumbingPage: React.FC = () => {
     }
   ];
 
+  const faqs = [
+    { question: "What plumbing keywords convert best?", answer: "Emergency and near‑me queries (e.g., 'emergency plumber near me') are high intent; we optimize pages and ads to match them." },
+    { question: "How fast can we see results?", answer: "Ads drive leads immediately; SEO builds within 8–12 weeks and compounds from there." },
+    { question: "Do you handle reviews?", answer: "We implement review generation and response workflows to boost Google Business Profile visibility and trust." },
+  ];
+
   return (
     <IndustryTemplate
       industryName="Plumbing"
@@ -45,6 +51,7 @@ const PlumbingPage: React.FC = () => {
       challenges={challenges}
       solutions={solutions}
       images={images}
+      faqs={faqs}
     />
   );
 };

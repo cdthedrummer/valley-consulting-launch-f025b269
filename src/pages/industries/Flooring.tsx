@@ -38,6 +38,12 @@ const FlooringPage: React.FC = () => {
     }
   ];
 
+  const faqs = [
+    { question: "What content attracts flooring leads?", answer: "Style guides, material comparisons, and cost/maintenance explainers perform well in search and social." },
+    { question: "Can you target higher‑value installs?", answer: "We segment by household value and interests to attract hardwood, tile, and luxury vinyl projects." },
+    { question: "Do you support showroom bookings?", answer: "Yes — we drive calls and appointment requests with tracked CTAs and chat." },
+  ];
+
   return (
     <IndustryTemplate
       industryName="Flooring"
@@ -45,6 +51,7 @@ const FlooringPage: React.FC = () => {
       challenges={challenges}
       solutions={solutions}
       images={images}
+      faqs={faqs}
     />
   );
 };
