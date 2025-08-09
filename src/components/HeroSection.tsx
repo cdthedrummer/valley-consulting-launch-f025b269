@@ -41,8 +41,8 @@ const HeroSection: React.FC = () => {
                 transition={{ duration: 0.8 }}
                 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6 md:mb-8 drop-shadow-lg leading-tight"
               >
-                We help local businesses
-                <span className="text-hvcg-green block mt-1 sm:mt-2">get more customers</span>
+                Hudson Valley marketing experts
+                <span className="text-hvcg-green block mt-1 sm:mt-2">powered by big‑brand experience</span>
               </motion.h1>
 
               <motion.p
@@ -51,7 +51,7 @@ const HeroSection: React.FC = () => {
                 transition={{ delay: 0.4, duration: 0.8 }}
                 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl mb-6 sm:mb-8 md:mb-10 drop-shadow-lg mx-auto max-w-3xl leading-relaxed"
               >
-                Practical marketing, AI, and advertising to grow leads and loyalty for dentists, law firms, salons, home services and more.
+                Practical SEO, ads, and AI automation for dentists, law firms, salons, and home services—built to turn searches into calls.
               </motion.p>
 
               <motion.div

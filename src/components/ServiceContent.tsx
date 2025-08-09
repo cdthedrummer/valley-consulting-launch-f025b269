@@ -34,7 +34,7 @@ const ServiceContent: React.FC<ServiceContentProps> = ({ icon, title, descriptio
               ))}
             </div>
             <Button asChild className="bg-hvcg-blue-dark hover:bg-hvcg-blue">
-              <Link to="/booking">Book a {title} Consultation</Link>
+              <Link to="/booking" aria-label={`Book a ${title} consultation`}>Book a {title} consultation</Link>
             </Button>
           </div>
         </div>
