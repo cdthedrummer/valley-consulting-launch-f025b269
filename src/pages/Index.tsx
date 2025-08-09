@@ -16,6 +16,7 @@ import { motion } from "framer-motion";
 import ProblemsWeSolve from "@/components/ProblemsWeSolve";
 import IndustriesWeServe from "@/components/IndustriesWeServe";
 import AboutPreviewSection from "@/components/AboutPreviewSection";
+import ServiceAreaSection from "@/components/ServiceAreaSection";
 
 const Index: React.FC = () => {
   return (
@@ -57,7 +58,9 @@ const Index: React.FC = () => {
       {/* Industries We Serve */}
       <IndustriesWeServe />
       
-      {/* Testimonials temporarily removed until we publish real local quotes */}
+      {/* Service Area */}
+      <ServiceAreaSection />
+      
       {/* Service Packages Section */}
       <ServicePlansSection />
 

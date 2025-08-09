@@ -16,6 +16,7 @@ const SchemaOrganization: React.FC<SchemaOrganizationProps> = ({
     "@type": "Organization",
     name,
     url,
+    areaServed: ["Hudson Valley, NY"],
   };
 
   return (

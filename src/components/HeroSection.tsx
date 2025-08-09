@@ -31,7 +31,7 @@ const HeroSection: React.FC = () => {
       {/* Interactive Overlay Content */}
       <div className="absolute top-0 left-0 w-full h-full">
         {/* Main Content Container with flexbox layout */}
-        <div className="container mx-auto h-full flex flex-col justify-between relative px-4 py-8">
+        <div className="container-custom h-full flex flex-col justify-between relative px-4 pt-12 md:pt-16 pb-8">
           {/* Main content container */}
           <div className="flex-1 flex flex-col justify-center items-center min-h-0 md:py-20 lg:py-24 py-16">
             <div className="max-w-4xl text-center z-10 px-4 mb-8 lg:mb-12 xl:mb-16">
