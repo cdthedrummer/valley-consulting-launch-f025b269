@@ -3,6 +3,7 @@ import React from "react";
 import SEOHead from "@/components/SEOHead";
 import HeroSection from "@/components/HeroSection";
 import ServicesPreviewSection from "@/components/ServicesPreviewSection";
+import CaseSnapshotsSection from "@/components/CaseSnapshotsSection";
 import ServicePlansSection from "@/components/ServicePlansSection";
 import IndustriesSection from "@/components/IndustriesSection";
 import CertificationsSection from "@/components/CertificationsSection";
@@ -48,6 +49,9 @@ const Index: React.FC = () => {
 
       {/* Our Approach */}
       <ApproachSection />
+
+      {/* Case Snapshots (anonymized) */}
+      <CaseSnapshotsSection />
 
       {/* Services Preview Section */}
       <ServicesPreviewSection />

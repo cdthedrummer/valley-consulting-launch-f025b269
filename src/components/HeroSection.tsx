@@ -89,7 +89,7 @@ const HeroSection: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.3, duration: 0.5 }}
-            className="z-10 pb-28 md:pb-8"
+            className="z-10 pb-16 md:pb-10"
           >
             <div className="flex justify-center gap-4 sm:gap-8 md:gap-12 lg:gap-16 xl:gap-24">
               <div className="text-center">

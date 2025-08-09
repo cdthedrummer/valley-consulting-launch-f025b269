@@ -16,6 +16,7 @@ const SchemaOrganization: React.FC<SchemaOrganizationProps> = ({
     "@type": "Organization",
     name,
     url,
+    sameAs: ["https://www.linkedin.com/in/charliemarketing"],
     areaServed: ["Hudson Valley, NY"],
   };
 
