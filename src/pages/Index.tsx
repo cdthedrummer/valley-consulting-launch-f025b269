@@ -9,6 +9,7 @@ import IndustriesSection from "@/components/IndustriesSection";
 import CertificationsSection from "@/components/CertificationsSection";
 import ApproachSection from "@/components/ApproachSection";
 import SchemaOrganization from "@/components/SchemaOrganization";
+import SchemaLocalBusiness from "@/components/SchemaLocalBusiness";
 import FooterCTASection from "@/components/FooterCTASection";
 import MobileCallButton from "@/components/MobileCallButton";
 import TrustSignalsSection from "@/components/TrustSignalsSection";
@@ -23,10 +24,10 @@ const Index: React.FC = () => {
   return (
     <div>
       <SEOHead 
-        title="Hudson Valley Consulting | Marketing, AI & Advertising for Local Businesses"
-        description="Practical marketing, AI, and advertising to grow leads and loyalty for dentists, legal, salons, home services and more. Local experts, real results."
+        title="Hudson Valley Contractor Marketing | SEO, Ads & AI Automation"
+        description="Local contractor marketing in the Hudson Valley: SEO, Google Ads, and AI automation to turn searches into calls."
         canonicalUrl="/"
-        keywords="local marketing, small business advertising, AI marketing, dentist marketing, law firm marketing, salon advertising, contractor SEO"
+        keywords="Hudson Valley contractor marketing, local SEO, Google Ads, AI automation, home services marketing, plumbing marketing, HVAC marketing"
       />
 
       {/* Hero Section with interactive elements */}
@@ -35,9 +36,9 @@ const Index: React.FC = () => {
       {/* AI Copilot Banner - NEW */}
       <AICopilotBanner />
 
-      {/* Schema.org Organization */}
+      {/* Schema.org structured data */}
       <SchemaOrganization />
-
+      <SchemaLocalBusiness />
       {/* Problems We Solve */}
       <ProblemsWeSolve />
 

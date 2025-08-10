@@ -33,6 +33,7 @@ import Consulting from "./pages/services/Consulting";
 import Testimonials from "./pages/Testimonials";
 import Terms from "./pages/Terms";
 import ScrollToTop from "./components/ScrollToTop";
+import BackToTopButton from "./components/BackToTopButton";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -82,6 +83,7 @@ function App() {
                 </Routes>
               </main>
               <Footer />
+              <BackToTopButton />
             </div>
             <Toaster />
           </BrowserRouter>

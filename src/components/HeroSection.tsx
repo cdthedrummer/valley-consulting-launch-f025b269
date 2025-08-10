@@ -41,7 +41,7 @@ const HeroSection: React.FC = () => {
                 transition={{ duration: 0.8 }}
                 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6 md:mb-8 drop-shadow-lg leading-tight"
               >
-                Hudson Valley marketing experts
+                Hudson Valley contractor marketing experts
                 <span className="text-hvcg-green block mt-1 sm:mt-2">powered by big‑brand experience</span>
               </motion.h1>
 

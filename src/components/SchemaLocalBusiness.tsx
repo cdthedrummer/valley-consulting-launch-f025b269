@@ -1,25 +1,26 @@
-
 import React from "react";
 import { Helmet } from "react-helmet-async";
 
-interface SchemaOrganizationProps {
+interface SchemaLocalBusinessProps {
   name?: string;
   url?: string;
+  sameAs?: string[];
 }
 
-const SchemaOrganization: React.FC<SchemaOrganizationProps> = ({
+const SchemaLocalBusiness: React.FC<SchemaLocalBusinessProps> = ({
   name = "Hudson Valley Consulting",
   url = "https://hudsonvalleycg.com",
+  sameAs = [
+    "https://www.linkedin.com/in/charliemarketing",
+    "https://share.google/LTKY4PPSzk6va0vVB",
+  ],
 }) => {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": "LocalBusiness",
     name,
     url,
-    sameAs: [
-      "https://www.linkedin.com/in/charliemarketing",
-      "https://share.google/LTKY4PPSzk6va0vVB"
-    ],
+    sameAs,
     areaServed: ["Hudson Valley, NY"],
   };
 
@@ -30,4 +31,4 @@ const SchemaOrganization: React.FC<SchemaOrganizationProps> = ({
   );
 };
 
-export default SchemaOrganization;
+export default SchemaLocalBusiness;

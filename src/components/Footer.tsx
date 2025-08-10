@@ -80,6 +80,17 @@ const Footer: React.FC = () => {
                 <Mail className="mr-2 h-5 w-5 flex-shrink-0 text-hvcg-green" />
                 <span>contact@hvcg.us</span>
               </li>
+              <li className="flex items-start">
+                <a
+                  href="https://share.google/LTKY4PPSzk6va0vVB"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-hvcg-green transition-colors"
+                  aria-label="View our Google Business Profile"
+                >
+                  Find us on Google
+                </a>
+              </li>
             </ul>
           </div>
         </div>
