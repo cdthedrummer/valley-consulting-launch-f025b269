@@ -42,6 +42,20 @@ const IndustryTemplate: React.FC<IndustryTemplateProps> = ({
       { "@type": "ListItem", position: 3, name: industryName, item: pageUrl },
     ],
   };
+
+  const faqSchema = faqs && faqs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: f.answer,
+      },
+    })),
+  } : null;
+
   return (
     <div className="pt-20">
       <SEOHead
@@ -51,6 +65,9 @@ const IndustryTemplate: React.FC<IndustryTemplateProps> = ({
       />
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+        {faqSchema && (
+          <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        )}
       </Helmet>
       {/* Breadcrumbs */}
       <div className="container-custom">
