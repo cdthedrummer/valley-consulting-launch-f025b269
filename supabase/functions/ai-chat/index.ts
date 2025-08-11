@@ -73,7 +73,7 @@ serve(async (req) => {
         'Authorization': `Bearer ${Deno.env.get("OPENROUTER_API_KEY")}`,
       },
       body: JSON.stringify({
-        model: 'openai/gpt-4o-mini',
+        model: 'openai/o4-mini',
         messages: messagesWithSystem,
         usage: { include: true },
       }),
@@ -89,7 +89,7 @@ serve(async (req) => {
         completion_tokens: result.usage.completion_tokens || 0,
         total_tokens: result.usage.total_tokens || 0,
         cost_usd: (result.usage.total_tokens || 0) * 0.00015 / 1000, // Estimate cost
-        model: 'openai/gpt-4o-mini',
+        model: 'openai/o4-mini',
       });
     }
 

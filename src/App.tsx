@@ -35,6 +35,7 @@ import Terms from "./pages/Terms";
 import ScrollToTop from "./components/ScrollToTop";
 import BackToTopButton from "./components/BackToTopButton";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ElevenLabsConvaiWidget from "./components/ElevenLabsConvaiWidget";
 
 function App() {
   return (
@@ -86,6 +87,7 @@ function App() {
               <BackToTopButton />
             </div>
             <Toaster />
+            <ElevenLabsConvaiWidget />
           </BrowserRouter>
         </AuthProvider>
       </HelmetProvider>
