@@ -20,13 +20,13 @@ const SEO: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="SEO Services | Hudson Valley Consulting"
+        title="SEO for Contractors | Hudson Valley Consulting"
         description="Local SEO that helps Hudson Valley businesses rank, get calls, and grow."
         canonicalUrl="/services/seo"
       />
       <ServiceDetailLayout
         icon={<Search className="text-hvcg-blue-dark w-10 h-10" />}
-        title="SEO Services"
+        title="SEO for Contractors"
         description="Help local customers find your business when they search online for contractors in Hudson Valley."
         approachTitle="Our SEO Approach"
         approachDescription={approachDescription}

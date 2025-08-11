@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Calendar, TrendingUp, Users, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SEOHead from "@/components/SEOHead";
+import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 
 const CaseStudies: React.FC = () => {
@@ -58,8 +59,20 @@ const CaseStudies: React.FC = () => {
     }
   ];
 
+  const siteUrl = "https://hudsonvalleycg.com";
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "Case Studies", item: `${siteUrl}/case-studies` }
+    ],
+  };
   return (
     <div className="pt-20">
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+      </Helmet>
       <SEOHead 
         title="Case Studies | Hudson Valley Consulting Success Stories"
         description="See how Hudson Valley contractors have grown their businesses with our marketing strategies. Real results from HVAC, plumbing, and deck building companies."

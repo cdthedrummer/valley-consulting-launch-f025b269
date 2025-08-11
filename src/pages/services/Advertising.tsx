@@ -20,13 +20,13 @@ const Advertising: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Advertising Services | Hudson Valley Consulting"
+        title="Google Ads for Contractors | Hudson Valley Consulting"
         description="Targeted local ads across Google and social to drive qualified leads for Hudson Valley businesses."
         canonicalUrl="/services/advertising"
       />
       <ServiceDetailLayout
         icon={<Building className="text-hvcg-blue-dark w-10 h-10" />}
-        title="Advertising Services"
+        title="Google Ads for Contractors"
         description="Targeted local ads that reach homeowners in need of your services, right when they're searching."
         approachTitle="Our Advertising Approach"
         approachDescription={approachDescription}

@@ -20,13 +20,13 @@ const Consulting: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Consulting Services | Hudson Valley Consulting"
+        title="Consulting for Contractors | Hudson Valley Consulting"
         description="Practical marketing consulting for Hudson Valley businesses—audits, strategy, and roadmaps that drive growth."
         canonicalUrl="/services/consulting"
       />
       <ServiceDetailLayout
         icon={<Users className="text-hvcg-blue-dark w-10 h-10" />}
-        title="Consulting Services"
+        title="Consulting for Contractors"
         description="Expert advice tailored to your contracting business, helping you make smart marketing decisions."
         approachTitle="Our Consulting Approach"
         approachDescription={approachDescription}
