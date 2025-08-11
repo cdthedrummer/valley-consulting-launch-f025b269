@@ -1,6 +1,6 @@
 
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -36,6 +36,13 @@ import ScrollToTop from "./components/ScrollToTop";
 import BackToTopButton from "./components/BackToTopButton";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ElevenLabsConvaiWidget from "./components/ElevenLabsConvaiWidget";
+
+// Render the Convai widget on all routes except the AI Dashboard
+const ConvaiWidgetGate: React.FC = () => {
+  const location = useLocation();
+  if (location.pathname.startsWith("/ai/dashboard")) return null;
+  return <ElevenLabsConvaiWidget />;
+};
 
 function App() {
   return (
@@ -87,7 +94,7 @@ function App() {
               <BackToTopButton />
             </div>
             <Toaster />
-            <ElevenLabsConvaiWidget />
+            <ConvaiWidgetGate />
           </BrowserRouter>
         </AuthProvider>
       </HelmetProvider>
