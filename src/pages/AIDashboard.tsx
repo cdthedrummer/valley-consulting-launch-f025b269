@@ -13,6 +13,7 @@ import ChatSession from "@/components/ChatSession";
 import MarkdownMessage from "@/components/MarkdownMessage";
 import ChatSetup from "@/components/ChatSetup";
 import SEOHead from "@/components/SEOHead";
+import VoiceAgent from "@/components/VoiceAgent";
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
@@ -486,6 +487,9 @@ What would you like to know about ${location}? For example:
               </CardHeader>
               
               <CardContent className="flex-1 flex flex-col p-0 min-h-0">
+                <div className="p-4 bg-white border-b">
+                  <VoiceAgent />
+                </div>
                 {/* Messages Area */}
                 <ScrollArea className="flex-1 p-6">
                   <div className="space-y-4">
