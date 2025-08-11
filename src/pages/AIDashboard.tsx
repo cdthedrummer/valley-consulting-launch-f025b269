@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Bot, Send, User, Loader2, Plus, Menu } from "lucide-react";
+import { Bot, Send, User, Loader2, Plus, Menu, Volume2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
@@ -41,6 +41,7 @@ const AIDashboard: React.FC = () => {
   const [userLocation, setUserLocation] = useState<string>('');
   const [userLocationType, setUserLocationType] = useState<'zipcode' | 'county' | null>(null);
   const [showSetup, setShowSetup] = useState(true);
+  const [playingIndex, setPlayingIndex] = useState<number | null>(null);
 
   useEffect(() => {
     checkSubscriptionAccess();
@@ -342,6 +343,25 @@ What would you like to know about ${location}? For example:
     }
   };
 
+  const speakReply = async (text: string, index: number) => {
+    try {
+      setPlayingIndex(index);
+      const session = (await supabase.auth.getSession()).data.session;
+      const { data, error } = await supabase.functions.invoke('elevenlabs-tts', {
+        body: { text, voiceId: '9BWtsMINqrJLrRacOk9x' },
+        headers: session ? { Authorization: `Bearer ${session.access_token}` } : undefined,
+      });
+      if (error) throw error;
+      const audio = new Audio(`data:audio/mpeg;base64,${data.audioBase64}`);
+      audio.onended = () => setPlayingIndex(null);
+      await audio.play();
+    } catch (err) {
+      console.error('TTS error', err);
+      setPlayingIndex(null);
+      toast({ title: 'Text-to-speech failed', description: 'Please try again.', variant: 'destructive' });
+    }
+  };
+
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -514,6 +534,15 @@ What would you like to know about ${location}? For example:
                               content={message.content} 
                               isUser={message.role === 'user'}
                             />
+                            {message.role !== 'user' && (
+                              <button
+                                onClick={() => speakReply(message.content, index)}
+                                className="mt-2 inline-flex items-center text-xs text-purple-700 hover:underline"
+                                aria-label="Listen to reply"
+                              >
+                                <Volume2 className="h-3 w-3 mr-1" /> {playingIndex === index ? 'Playing…' : 'Listen'}
+                              </button>
+                            )}
                           </div>
                         </div>
                       </div>
