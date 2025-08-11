@@ -16,6 +16,7 @@ const VoiceAgent: React.FC = () => {
 
   const { toast } = useToast();
   const [agentId, setAgentId] = useState("");
+  const [signedUrl, setSignedUrl] = useState("");
   const [connecting, setConnecting] = useState(false);
 
   const requestMic = async () => {
@@ -37,31 +38,40 @@ const VoiceAgent: React.FC = () => {
     if (!ok) return;
     try {
       setConnecting(true);
-      if (!agentId.trim()) {
-        toast({ title: "Enter your ElevenLabs Agent ID" });
+      if (!signedUrl.trim() && !agentId.trim()) {
+        toast({ title: "Enter an Agent ID or paste a Signed URL" });
         return;
       }
 
-      // Try to get a signed URL from our Edge Function (works for private agents)
-      const session = (await supabase.auth.getSession()).data.session;
       let started = false;
-      try {
-        const { data, error } = await supabase.functions.invoke('elevenlabs-signed-url', {
-          body: { agentId: agentId.trim() },
-          headers: session ? { Authorization: `Bearer ${session.access_token}` } : undefined,
-        });
-        if (!error) {
-          const signedUrl = data?.signed_url || data?.url;
-          if (signedUrl) {
-            await conversation.startSession({ url: signedUrl } as any);
-            started = true;
-          }
-        }
-      } catch (e) {
-        console.warn('Signed URL request failed, falling back to public Agent ID');
+
+      // If a signed URL was provided, use it directly (best for private agents)
+      if (signedUrl.trim()) {
+        await conversation.startSession({ url: signedUrl.trim() } as any);
+        started = true;
       }
 
-      if (!started) {
+      if (!started && agentId.trim()) {
+        // Try to get a signed URL from our Edge Function (works for private agents)
+        const session = (await supabase.auth.getSession()).data.session;
+        try {
+          const { data, error } = await supabase.functions.invoke('elevenlabs-signed-url', {
+            body: { agentId: agentId.trim() },
+            headers: session ? { Authorization: `Bearer ${session.access_token}` } : undefined,
+          });
+          if (!error) {
+            const signed = data?.signed_url || data?.url;
+            if (signed) {
+              await conversation.startSession({ url: signed } as any);
+              started = true;
+            }
+          }
+        } catch (e) {
+          console.warn('Signed URL request failed, falling back to public Agent ID');
+        }
+      }
+
+      if (!started && agentId.trim()) {
         await conversation.startSession({ agentId: agentId.trim() });
       }
     } catch (e: any) {
@@ -96,15 +106,22 @@ const VoiceAgent: React.FC = () => {
           <div className="text-xs text-gray-500">{conversation.status}</div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
-          <Input
-            placeholder="ElevenLabs Agent ID (public)"
-            value={agentId}
-            onChange={(e) => setAgentId(e.target.value)}
-          />
-          <div className="flex gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
+          <div className="space-y-2">
+            <Input
+              placeholder="ElevenLabs Agent ID (public)"
+              value={agentId}
+              onChange={(e) => setAgentId(e.target.value)}
+            />
+            <Input
+              placeholder="Signed URL (optional, paste to connect directly)"
+              value={signedUrl}
+              onChange={(e) => setSignedUrl(e.target.value)}
+            />
+          </div>
+          <div className="md:col-span-2 flex gap-2">
             <Button onClick={start} disabled={connecting || conversation.status === "connected"} className="bg-purple-600 hover:bg-purple-700 flex-1">
-              <Mic className="h-4 w-4 mr-2" /> Start
+              <Mic className="h-4 w-4 mr-2" /> {connecting ? 'Connecting…' : 'Start'}
             </Button>
             <Button variant="outline" onClick={stop} disabled={conversation.status !== "connected"} className="flex-1">
               <MicOff className="h-4 w-4 mr-2" /> Stop
@@ -113,7 +130,7 @@ const VoiceAgent: React.FC = () => {
         </div>
 
         <p className="text-xs text-gray-500">
-          Note: If your agent is private, we’ll auto-generate a signed URL via a secure Edge Function (uses your ElevenLabs API key stored in Supabase). Public agents work with just the Agent ID.
+          Note: For private agents, paste a Signed URL or leave it blank and we’ll auto-generate one via a secure Edge Function (uses your ElevenLabs API key in Supabase). Public agents work with just the Agent ID.
         </p>
       </CardContent>
     </Card>
