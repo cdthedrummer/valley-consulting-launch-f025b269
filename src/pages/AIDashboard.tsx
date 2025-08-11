@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Bot, Send, User, Loader2, Plus, Menu, Volume2 } from "lucide-react";
+import { Bot, Send, User, Loader2, Plus, Menu, Volume2, Clipboard, Download } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
@@ -362,6 +362,25 @@ What would you like to know about ${location}? For example:
     }
   };
 
+  const copyMessage = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast({ title: 'Copied to clipboard' });
+    } catch (e) {
+      toast({ title: 'Copy failed', variant: 'destructive' });
+    }
+  };
+
+  const exportTranscript = () => {
+    const md = messages.map(m => `## ${m.role === 'user' ? 'You' : 'AI'}\n\n${m.content}\n`).join('\n');
+    const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ai-copilot-${new Date().toISOString()}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -487,23 +506,30 @@ What would you like to know about ${location}? For example:
           ) : (
             <Card className="flex-1 flex flex-col m-4 shadow-sm min-h-0">
               <CardHeader className="border-b bg-white rounded-t-lg flex-shrink-0">
-                <CardTitle className="flex items-center">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setSidebarOpen(!sidebarOpen)}
-                    className="mr-3"
-                  >
-                    <Menu className="h-4 w-4" />
-                  </Button>
-                  <Bot className="h-6 w-6 mr-2 text-purple-600" />
-                  AI Copilot for Contractors
-                  {userLocation && (
-                    <span className="ml-3 text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                      {userLocation}
-                    </span>
-                  )}
-                </CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setSidebarOpen(!sidebarOpen)}
+                      className="mr-3"
+                    >
+                      <Menu className="h-4 w-4" />
+                    </Button>
+                    <Bot className="h-6 w-6 mr-2 text-purple-600" />
+                    AI Copilot for Contractors
+                    {userLocation && (
+                      <span className="ml-3 text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                        {userLocation}
+                      </span>
+                    )}
+                  </CardTitle>
+                  <div className="flex items-center gap-2">
+                    <Button variant="outline" size="sm" onClick={exportTranscript}>
+                      <Download className="h-4 w-4 mr-1" /> Export
+                    </Button>
+                  </div>
+                </div>
               </CardHeader>
               
               <CardContent className="flex-1 flex flex-col p-0 min-h-0">
@@ -534,15 +560,24 @@ What would you like to know about ${location}? For example:
                               content={message.content} 
                               isUser={message.role === 'user'}
                             />
-                            {message.role !== 'user' && (
+                            <div className="mt-2 flex items-center gap-3">
+                              {message.role !== 'user' && (
+                                <button
+                                  onClick={() => speakReply(message.content, index)}
+                                  className="inline-flex items-center text-xs text-purple-700 hover:underline"
+                                  aria-label="Listen to reply"
+                                >
+                                  <Volume2 className="h-3 w-3 mr-1" /> {playingIndex === index ? 'Playing…' : 'Listen'}
+                                </button>
+                              )}
                               <button
-                                onClick={() => speakReply(message.content, index)}
-                                className="mt-2 inline-flex items-center text-xs text-purple-700 hover:underline"
-                                aria-label="Listen to reply"
+                                onClick={() => copyMessage(message.content)}
+                                className="inline-flex items-center text-xs text-gray-600 hover:underline"
+                                aria-label="Copy message"
                               >
-                                <Volume2 className="h-3 w-3 mr-1" /> {playingIndex === index ? 'Playing…' : 'Listen'}
+                                <Clipboard className="h-3 w-3 mr-1" /> Copy
                               </button>
-                            )}
+                            </div>
                           </div>
                         </div>
                       </div>
