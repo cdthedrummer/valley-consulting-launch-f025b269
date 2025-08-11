@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mic, MicOff, Radio, Activity } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const VoiceAgent: React.FC = () => {
   const conversation = useConversation({
@@ -36,14 +37,36 @@ const VoiceAgent: React.FC = () => {
     if (!ok) return;
     try {
       setConnecting(true);
-      if (agentId.trim()) {
-        await conversation.startSession({ agentId: agentId.trim() });
-      } else {
+      if (!agentId.trim()) {
         toast({ title: "Enter your ElevenLabs Agent ID" });
+        return;
+      }
+
+      // Try to get a signed URL from our Edge Function (works for private agents)
+      const session = (await supabase.auth.getSession()).data.session;
+      let started = false;
+      try {
+        const { data, error } = await supabase.functions.invoke('elevenlabs-signed-url', {
+          body: { agentId: agentId.trim() },
+          headers: session ? { Authorization: `Bearer ${session.access_token}` } : undefined,
+        });
+        if (!error) {
+          const signedUrl = data?.signed_url || data?.url;
+          if (signedUrl) {
+            await conversation.startSession({ url: signedUrl } as any);
+            started = true;
+          }
+        }
+      } catch (e) {
+        console.warn('Signed URL request failed, falling back to public Agent ID');
+      }
+
+      if (!started) {
+        await conversation.startSession({ agentId: agentId.trim() });
       }
     } catch (e: any) {
       console.error(e);
-      toast({ title: "Failed to start voice", description: e?.message ?? "" , variant: "destructive" });
+      toast({ title: "Failed to start voice", description: e?.message ?? "", variant: "destructive" });
     } finally {
       setConnecting(false);
     }
@@ -90,7 +113,7 @@ const VoiceAgent: React.FC = () => {
         </div>
 
         <p className="text-xs text-gray-500">
-          Note: For private agents, generate a signed URL in ElevenLabs and paste it here. Public agents work with just the Agent ID. We recommend adding your ElevenLabs API key to the project later for production.
+          Note: If your agent is private, we’ll auto-generate a signed URL via a secure Edge Function (uses your ElevenLabs API key stored in Supabase). Public agents work with just the Agent ID.
         </p>
       </CardContent>
     </Card>
