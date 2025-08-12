@@ -112,8 +112,8 @@ export default {
 				'fade-in': 'fade-in 0.5s ease-out forwards'
 			},
 			fontFamily: {
-				sans: ['Inter', 'sans-serif'],
-				display: ['Montserrat', 'sans-serif'],
+				sans: ['Work Sans', 'Inter', 'system-ui', 'sans-serif'],
+				display: ['Space Grotesk', 'Montserrat', 'sans-serif'],
 			},
 		}
 	},

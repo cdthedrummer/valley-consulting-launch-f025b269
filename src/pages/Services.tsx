@@ -37,6 +37,7 @@ const Services: React.FC = () => {
               ]}
               ctaTo="/resources/ai-copilot"
               ctaLabel="Start Free Trial"
+              ctaClassName="bg-brand-red hover:brightness-110 text-white"
             />
 
             {/* Google Ads Section */}
