@@ -63,15 +63,24 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// HVCG custom colors
-				hvcg: {
-					'blue-dark': '#0E3B65',
-					'blue': '#2C73C8',
-					'blue-light': '#5A9BE4',
-					'green': '#3AAA35',
-					'green-light': '#6DC968',
-					'gray': '#F3F4F6',
-				}
+                // Brand semantic colors
+                brand: {
+                    bg: 'hsl(var(--brand-bg))',
+                    black: 'hsl(var(--brand-black))',
+                    red: 'hsl(var(--brand-red))',
+                    indigo: 'hsl(var(--brand-indigo))',
+                    teal: 'hsl(var(--brand-teal))',
+                    gray: 'hsl(var(--brand-gray))',
+                },
+                // HVCG custom colors
+                hvcg: {
+                    'blue-dark': '#0E3B65',
+                    'blue': '#2C73C8',
+                    'blue-light': '#5A9BE4',
+                    'green': '#3AAA35',
+                    'green-light': '#6DC968',
+                    'gray': '#F3F4F6',
+                }
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
