@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Check, Calendar } from "lucide-react";
+import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface ServiceContentProps {
@@ -10,9 +10,11 @@ interface ServiceContentProps {
   description: string;
   features: string[];
   id: string;
+  ctaTo?: string;
+  ctaLabel?: string;
 }
 
-const ServiceContent: React.FC<ServiceContentProps> = ({ icon, title, description, features, id }) => {
+const ServiceContent: React.FC<ServiceContentProps> = ({ icon, title, description, features, id, ctaTo, ctaLabel }) => {
   return (
     <section id={id} className="scroll-mt-24">
       <div className="bg-white rounded-lg shadow-lg p-8">
@@ -34,7 +36,9 @@ const ServiceContent: React.FC<ServiceContentProps> = ({ icon, title, descriptio
               ))}
             </div>
             <Button asChild className="bg-hvcg-blue-dark hover:bg-hvcg-blue">
-              <Link to="/booking" aria-label={`Book a ${title} consultation`}>Book a {title} consultation</Link>
+              <Link to={ctaTo ?? "/booking"} aria-label={ctaLabel ? ctaLabel : `Book a ${title} consultation`}>
+                {ctaLabel ?? `Book a ${title} consultation`}
+              </Link>
             </Button>
           </div>
         </div>

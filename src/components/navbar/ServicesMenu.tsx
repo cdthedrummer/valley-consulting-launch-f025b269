@@ -16,6 +16,7 @@ interface ServicesMenuProps {
 
 export const ServicesMenu: React.FC<ServicesMenuProps> = ({ location }) => {
   const services = [
+    { name: "AI Solutions", path: "/services#ai-solutions" },
     { name: "Advertising", path: "/services#google-ads" },
     { name: "SEO", path: "/services#seo" },
     { name: "Consulting", path: "/services#consulting" },

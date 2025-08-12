@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Building, Search, Users, Code, Share2 } from "lucide-react";
+import { Building, Search, Users, Code, Share2, Bot } from "lucide-react";
 import ServicesHero from "@/components/ServicesHero";
 import SEOHead from "@/components/SEOHead";
 import ServiceContent from "@/components/ServiceContent";
@@ -23,6 +23,22 @@ const Services: React.FC = () => {
       <div className="bg-hvcg-gray py-16">
         <div className="container-custom">
           <div className="grid grid-cols-1 gap-16">
+            {/* AI Solutions Section */}
+            <ServiceContent
+              id="ai-solutions"
+              icon={<Bot className="text-hvcg-blue-dark w-16 h-16" />}
+              title="AI Solutions"
+              description="AI that turns searches into customers: chatbots that qualify leads, automate follow‑ups, and surface insights to lower cost per lead."
+              features={[
+                "7‑day free trial (code: tryai)",
+                "AI chatbots for lead capture and routing",
+                "Automated follow-ups and outreach",
+                "Analytics and performance insights"
+              ]}
+              ctaTo="/resources/ai-copilot"
+              ctaLabel="Start Free Trial"
+            />
+
             {/* Google Ads Section */}
             <ServiceContent
               id="google-ads"
