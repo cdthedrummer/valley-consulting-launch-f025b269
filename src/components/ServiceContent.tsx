@@ -12,10 +12,9 @@ interface ServiceContentProps {
   id: string;
   ctaTo?: string;
   ctaLabel?: string;
-  ctaClassName?: string;
 }
 
-const ServiceContent: React.FC<ServiceContentProps> = ({ icon, title, description, features, id, ctaTo, ctaLabel, ctaClassName }) => {
+const ServiceContent: React.FC<ServiceContentProps> = ({ icon, title, description, features, id, ctaTo, ctaLabel }) => {
   return (
     <section id={id} className="scroll-mt-24">
       <div className="bg-white rounded-lg shadow-lg p-8">
@@ -36,7 +35,7 @@ const ServiceContent: React.FC<ServiceContentProps> = ({ icon, title, descriptio
                 </div>
               ))}
             </div>
-            <Button asChild className={ctaClassName ?? "bg-hvcg-blue-dark hover:bg-hvcg-blue"}>
+            <Button asChild className="bg-hvcg-blue-dark hover:bg-hvcg-blue">
               <Link to={ctaTo ?? "/booking"} aria-label={ctaLabel ? ctaLabel : `Book a ${title} consultation`}>
                 {ctaLabel ?? `Book a ${title} consultation`}
               </Link>

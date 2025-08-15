@@ -63,24 +63,15 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-                // Brand semantic colors
-                brand: {
-                    bg: 'hsl(var(--brand-bg))',
-                    black: 'hsl(var(--brand-black))',
-                    red: 'hsl(var(--brand-red))',
-                    indigo: 'hsl(var(--brand-indigo))',
-                    teal: 'hsl(var(--brand-teal))',
-                    gray: 'hsl(var(--brand-gray))',
-                },
-                // HVCG custom colors
-                hvcg: {
-                    'blue-dark': '#0E3B65',
-                    'blue': '#2C73C8',
-                    'blue-light': '#5A9BE4',
-                    'green': '#3AAA35',
-                    'green-light': '#6DC968',
-                    'gray': '#F3F4F6',
-                }
+				// HVCG custom colors
+				hvcg: {
+					'blue-dark': '#0E3B65',
+					'blue': '#2C73C8',
+					'blue-light': '#5A9BE4',
+					'green': '#3AAA35',
+					'green-light': '#6DC968',
+					'gray': '#F3F4F6',
+				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -121,8 +112,8 @@ export default {
 				'fade-in': 'fade-in 0.5s ease-out forwards'
 			},
 			fontFamily: {
-				sans: ['Work Sans', 'Inter', 'system-ui', 'sans-serif'],
-				display: ['Space Grotesk', 'Montserrat', 'sans-serif'],
+				sans: ['Inter', 'sans-serif'],
+				display: ['Montserrat', 'sans-serif'],
 			},
 		}
 	},
