@@ -45,6 +45,7 @@ const AIDashboard: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [questionsOpen, setQuestionsOpen] = useState(true);
+  const [historyOpen, setHistoryOpen] = useState(true);
   const { toast } = useToast();
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -710,47 +711,61 @@ What would you like to know about ${location}? For example:
                 </div>
               </CollapsibleContent>
             </Collapsible>
+
+            {/* Collapsible Chat History */}
+            <Collapsible open={historyOpen} onOpenChange={setHistoryOpen}>
+              <CollapsibleTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="w-full flex items-center justify-between p-4 h-auto text-left border-t hover:bg-gray-50"
+                >
+                  <span className="text-sm font-medium">Chat History</span>
+                  <ChevronLeft className={cn("h-4 w-4 transition-transform", historyOpen && "rotate-90")} />
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="px-4 pb-4">
+                <div className="flex items-center justify-between mb-3">
+                  <Button 
+                    onClick={() => {
+                      setShowQuestionnaire(true);
+                      setActiveSessionId(null);
+                      setMessages([]);
+                      // Auto-close sidebar on mobile after creating new chat
+                      if (isMobile) setSidebarOpen(false);
+                    }} 
+                    size="sm" 
+                    className="bg-purple-600 hover:bg-purple-700 w-full"
+                  >
+                    New Chat
+                  </Button>
+                </div>
+                <div className="max-h-48 overflow-y-auto space-y-2">
+                  {chatSessions.map((session) => (
+                    <ChatSession
+                      key={session.id}
+                      id={session.id}
+                      title={session.title}
+                      isActive={activeSessionId === session.id}
+                      onClick={() => {
+                        switchChatSession(session.id);
+                        setShowQuestionnaire(false);
+                        setShowSetup(false);
+                        // Auto-close sidebar on mobile after selecting chat
+                        if (isMobile) setSidebarOpen(false);
+                      }}
+                      onDelete={() => deleteChatSession(session.id)}
+                      createdAt={session.created_at}
+                    />
+                  ))}
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
           </div>
 
-          {/* Chat History */}
+          {/* User Profile - Always visible at bottom */}
           <div className="border-t p-4">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-semibold text-gray-900">Chat History</h3>
-              <Button 
-                onClick={() => {
-                  setShowQuestionnaire(true);
-                  setActiveSessionId(null);
-                  setMessages([]);
-                  // Auto-close sidebar on mobile after creating new chat
-                  if (isMobile) setSidebarOpen(false);
-                }} 
-                size="sm" 
-                className="bg-purple-600 hover:bg-purple-700"
-              >
-                New Chat
-              </Button>
-            </div>
-            <div className="max-h-48 overflow-y-auto space-y-2">
-              {chatSessions.map((session) => (
-                <ChatSession
-                  key={session.id}
-                  id={session.id}
-                  title={session.title}
-                  isActive={activeSessionId === session.id}
-                  onClick={() => {
-                    switchChatSession(session.id);
-                    setShowQuestionnaire(false);
-                    setShowSetup(false);
-                    // Auto-close sidebar on mobile after selecting chat
-                    if (isMobile) setSidebarOpen(false);
-                  }}
-                  onDelete={() => deleteChatSession(session.id)}
-                  createdAt={session.created_at}
-                />
-              ))}
-            </div>
             {user && (
-              <div className="flex items-center space-x-3 p-2 bg-gray-50 rounded-lg mt-4">
+              <div className="flex items-center space-x-3 p-2 bg-gray-50 rounded-lg">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={user.user_metadata?.avatar_url} />
                   <AvatarFallback>
