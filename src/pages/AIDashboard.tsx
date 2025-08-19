@@ -530,12 +530,12 @@ What would you like to know about ${location}? For example:
   };
 
   const exportTranscript = () => {
-    const md = messages.map(m => `## ${m.role === 'user' ? 'You' : 'AI'}\n\n${m.content}\n`).join('\n');
-    const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+    const content = messages.map(m => `${m.role === 'user' ? 'You' : 'AI'}: ${m.content}`).join('\n\n');
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `ai-copilot-${new Date().toISOString()}.md`;
+    a.download = `ai-copilot-${new Date().toISOString().split('T')[0]}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -610,7 +610,7 @@ What would you like to know about ${location}? For example:
           <div className="p-4 border-b border-gray-200">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-semibold text-gray-900">Chat History</h2>
-              <Button 
+               <Button 
                 onClick={() => {
                   setShowQuestionnaire(true);
                   setActiveSessionId(null);
@@ -619,7 +619,7 @@ What would you like to know about ${location}? For example:
                 size="sm" 
                 className="bg-purple-600 hover:bg-purple-700"
               >
-                <Plus className="h-4 w-4" />
+                New Chat
               </Button>
             </div>
             {user && (
@@ -648,7 +648,11 @@ What would you like to know about ${location}? For example:
                   id={session.id}
                   title={session.title}
                   isActive={activeSessionId === session.id}
-                  onClick={() => switchChatSession(session.id)}
+                  onClick={() => {
+                    switchChatSession(session.id);
+                    setShowQuestionnaire(false);
+                    setShowSetup(false);
+                  }}
                   onDelete={() => deleteChatSession(session.id)}
                   createdAt={session.created_at}
                 />
@@ -726,15 +730,6 @@ What would you like to know about ${location}? For example:
                               isUser={message.role === 'user'}
                             />
                             <div className="mt-2 flex items-center gap-3">
-                              {message.role !== 'user' && (
-                                <button
-                                  onClick={() => speakReply(message.content, index)}
-                                  className="inline-flex items-center text-xs text-purple-700 hover:underline"
-                                  aria-label="Listen to reply"
-                                >
-                                  <Volume2 className="h-3 w-3 mr-1" /> {playingIndex === index ? 'Playing…' : 'Listen'}
-                                </button>
-                              )}
                               <button
                                 onClick={() => copyMessage(message.content)}
                                 className="inline-flex items-center text-xs text-gray-600 hover:underline"

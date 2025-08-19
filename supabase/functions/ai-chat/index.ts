@@ -87,7 +87,7 @@ serve(async (req) => {
         'Authorization': `Bearer ${Deno.env.get("OPENROUTER_API_KEY")}`,
       },
       body: JSON.stringify({
-        model: 'openai/gpt-4o',
+        model: 'openai/gpt-oss-120b',
         messages: messagesWithSystem,
         usage: { include: true },
       }),
@@ -102,8 +102,8 @@ serve(async (req) => {
         prompt_tokens: result.usage.prompt_tokens || 0,
         completion_tokens: result.usage.completion_tokens || 0,
         total_tokens: result.usage.total_tokens || 0,
-        cost_usd: (result.usage.total_tokens || 0) * 0.00015 / 1000, // Estimate cost
-        model: 'openai/gpt-4o',
+        cost_usd: (result.usage.prompt_tokens || 0) * 0.072 / 1000000 + (result.usage.completion_tokens || 0) * 0.28 / 1000000, // OSS-120b pricing
+        model: 'openai/gpt-oss-120b',
       });
     }
 

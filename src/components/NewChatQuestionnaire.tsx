@@ -50,7 +50,7 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
 
   return (
     <div className="flex items-center justify-center min-h-[80vh] p-4">
-      <Card className="w-full max-w-4xl">
+      <Card className="w-full max-w-6xl mx-auto">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full w-fit">
             <Bot className="h-8 w-8 text-primary" />
@@ -82,7 +82,7 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
           <Separator />
 
           {/* Setup Form */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
             {/* Left Column - Basic Info */}
             <div className="space-y-6">
               <div>

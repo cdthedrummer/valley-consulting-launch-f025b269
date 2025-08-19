@@ -78,7 +78,7 @@ const PrefilledQuestions: React.FC<PrefilledQuestionsProps> = ({
         <h3 className="font-semibold text-foreground">Quick Start Questions</h3>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {questions.map((category, categoryIndex) => (
           <Card key={categoryIndex} className="p-4">
             <CardContent className="p-0">
@@ -91,10 +91,10 @@ const PrefilledQuestions: React.FC<PrefilledQuestionsProps> = ({
                   <Button
                     key={questionIndex}
                     variant="ghost"
-                    className="w-full text-left justify-start h-auto p-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent"
+                    className="w-full text-left justify-start h-auto p-3 text-sm text-muted-foreground hover:text-foreground hover:bg-accent whitespace-normal"
                     onClick={() => onQuestionSelect(question)}
                   >
-                    {question}
+                    <span className="break-words">{question}</span>
                   </Button>
                 ))}
               </div>
