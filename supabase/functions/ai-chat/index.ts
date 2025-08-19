@@ -6,23 +6,35 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const SYSTEM_PROMPT = `You are Contractor AI Copilot, serving small-to-mid size home-service businesses in Rockland & Westchester counties, NY.
+const generateSystemPrompt = (location?: string, locationType?: string, industry?: string, language: string = 'English') => {
+  const basePrompt = `You are Contractor AI Copilot, serving small-to-mid size home-service businesses in Rockland & Westchester counties, NY.
+
+RESPOND IN ${language.toUpperCase()} LANGUAGE.
+
+USER CONTEXT:
+${location ? `- Service Area: ${location} (${locationType})` : '- Service Area: Hudson Valley region'}
+${industry ? `- Industry: ${industry}` : '- Industry: General contracting/home services'}
 
 RULES:
 1. ALWAYS provide specific, actionable marketing recommendations with step-by-step instructions.
-2. When discussing local areas (Nanuet, New City, Pearl River, Spring Valley, etc.), provide realistic market insights and ask follow-up questions to help implement strategies.
-3. For ANY marketing question, ALWAYS end with 2-3 specific follow-up questions like:
-   - "Are you currently running Google Ads in [specific town]? Would you like a step-by-step guide to set them up?"
-   - "Do you have a Google My Business listing optimized for [specific service] in [specific area]?"
-   - "Would you like me to walk you through creating a Nextdoor marketing campaign for your area?"
-4. Include specific local references: mention towns by name, reference local landmarks, seasonal patterns, demographics.
-5. When asked for numbers (home sales, prices, permits), provide realistic estimates for Hudson Valley and immediately suggest specific marketing actions based on those numbers.
-6. ALWAYS ask if they want detailed implementation steps for any recommendation you make.
-7. Keep responses under 200 words but packed with actionable value.
-8. Focus on immediate, implementable tactics rather than general advice.
+2. When discussing local areas, provide realistic market insights and ask follow-up questions to help implement strategies.
+${location ? `3. Focus heavily on ${location}-specific data, demographics, and opportunities.` : '3. Reference local Hudson Valley towns and markets.'}
+${industry ? `4. Tailor all advice specifically for ${industry} businesses.` : '4. Provide industry-specific advice when the user mentions their trade.'}
+5. For ANY marketing question, ALWAYS end with 2-3 specific follow-up questions like:
+   - "Are you currently running Google Ads in [specific area]? Would you like a step-by-step guide?"
+   - "Do you have a Google My Business listing optimized for [specific service]?"
+   - "Would you like me to walk you through creating a local marketing campaign?"
+6. Include specific local references: mention towns by name, reference local landmarks, seasonal patterns, demographics.
+7. When asked for numbers (home sales, prices, permits), provide realistic estimates and immediately suggest specific marketing actions.
+8. ALWAYS ask if they want detailed implementation steps for any recommendation.
+9. Keep responses under 250 words but packed with actionable value.
+10. Focus on immediate, implementable tactics rather than general advice.
 
 EXAMPLE RESPONSE STRUCTURE:
 [Specific local market insight] → [Actionable recommendation] → [Follow-up questions about implementation]`;
+
+  return basePrompt;
+};
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -59,12 +71,14 @@ serve(async (req) => {
       });
     }
 
-    const { messages } = await req.json();
+    const { messages, userContext } = await req.json();
+    const { location, locationType, industry, language } = userContext || {};
 
-    // Add system prompt if not present
+    // Add dynamic system prompt if not present
+    const systemPrompt = generateSystemPrompt(location, locationType, industry, language);
     const messagesWithSystem = messages.find(m => m.role === 'system') 
       ? messages 
-      : [{ role: 'system', content: SYSTEM_PROMPT }, ...messages];
+      : [{ role: 'system', content: systemPrompt }, ...messages];
 
     const openRouterResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
@@ -73,7 +87,7 @@ serve(async (req) => {
         'Authorization': `Bearer ${Deno.env.get("OPENROUTER_API_KEY")}`,
       },
       body: JSON.stringify({
-        model: 'openai/o4-mini',
+        model: 'openai/gpt-4o',
         messages: messagesWithSystem,
         usage: { include: true },
       }),
@@ -89,7 +103,7 @@ serve(async (req) => {
         completion_tokens: result.usage.completion_tokens || 0,
         total_tokens: result.usage.total_tokens || 0,
         cost_usd: (result.usage.total_tokens || 0) * 0.00015 / 1000, // Estimate cost
-        model: 'openai/o4-mini',
+        model: 'openai/gpt-4o',
       });
     }
 

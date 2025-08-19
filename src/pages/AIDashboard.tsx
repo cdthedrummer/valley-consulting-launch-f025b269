@@ -13,6 +13,12 @@ import ChatSession from "@/components/ChatSession";
 import MarkdownMessage from "@/components/MarkdownMessage";
 import ChatSetup from "@/components/ChatSetup";
 import SEOHead from "@/components/SEOHead";
+import NewChatQuestionnaire from "@/components/NewChatQuestionnaire";
+import PrefilledQuestions from "@/components/PrefilledQuestions";
+import LanguageSelector from "@/components/LanguageSelector";
+import IndustrySelector from "@/components/IndustrySelector";
+import LocationInput from "@/components/LocationInput";
+import ChatControls from "@/components/ChatControls";
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
@@ -39,7 +45,10 @@ const AIDashboard: React.FC = () => {
   const { user } = useAuth();
   const [userLocation, setUserLocation] = useState<string>('');
   const [userLocationType, setUserLocationType] = useState<'zipcode' | 'county' | null>(null);
+  const [userIndustry, setUserIndustry] = useState<string>('');
+  const [userLanguage, setUserLanguage] = useState<string>('English');
   const [showSetup, setShowSetup] = useState(true);
+  const [showQuestionnaire, setShowQuestionnaire] = useState(false);
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
 
   useEffect(() => {
@@ -218,6 +227,30 @@ const AIDashboard: React.FC = () => {
     createNewChatSessionWithLocation(location, locationType);
   };
 
+  const handleQuestionnaireComplete = (config: {
+    location?: string;
+    locationType?: 'zipcode' | 'county';
+    industry?: string;
+    language: string;
+    initialQuestion?: string;
+  }) => {
+    setUserLocation(config.location || '');
+    setUserLocationType(config.locationType || null);
+    setUserIndustry(config.industry || '');
+    setUserLanguage(config.language);
+    setShowQuestionnaire(false);
+    setShowSetup(false);
+    
+    // Create new chat session with full context
+    createNewChatSessionWithContext(config);
+  };
+
+  const handleSkipSetup = () => {
+    setShowQuestionnaire(false);
+    setShowSetup(false);
+    createNewChatSession();
+  };
+
   const createNewChatSessionWithLocation = async (location: string, locationType: 'zipcode' | 'county') => {
     try {
       const { data, error } = await supabase
@@ -253,6 +286,125 @@ What would you like to know about ${location}? For example:
         description: "Failed to create new chat session.",
         variant: "destructive",
       });
+    }
+  };
+
+  const createNewChatSessionWithContext = async (config: {
+    location?: string;
+    locationType?: 'zipcode' | 'county';
+    industry?: string;
+    language: string;
+    initialQuestion?: string;
+  }) => {
+    try {
+      const titleParts = [];
+      if (config.location) titleParts.push(config.location);
+      if (config.industry) titleParts.push(config.industry);
+      const title = titleParts.length > 0 ? titleParts.join(' - ') : 'New Chat';
+
+      const { data, error } = await supabase
+        .from('chat_sessions')
+        .insert([{ 
+          user_id: user?.id, 
+          title 
+        }])
+        .select()
+        .single();
+
+      if (error) throw error;
+      
+      setChatSessions(prev => [data, ...prev]);
+      setActiveSessionId(data.id);
+      
+      // Create enhanced welcome message
+      const welcomeParts = [];
+      welcomeParts.push(`Hi! I'm your AI Copilot for contractor marketing in Hudson Valley.`);
+      
+      if (config.location && config.industry) {
+        welcomeParts.push(`I see you're in the ${config.industry} business serving ${config.location}.`);
+      } else if (config.location) {
+        welcomeParts.push(`I see you're interested in the ${config.location} market.`);
+      } else if (config.industry) {
+        welcomeParts.push(`I see you're in the ${config.industry} business.`);
+      }
+      
+      welcomeParts.push(`I can help you with local market data, marketing strategies, and specific tactics for your business.`);
+      
+      const welcomeMessage = {
+        role: 'assistant' as const,
+        content: welcomeParts.join(' ')
+      };
+      
+      const initialMessages: Message[] = [welcomeMessage];
+      
+      // If there's an initial question, add it and get AI response
+      if (config.initialQuestion) {
+        const userMessage: Message = { role: 'user', content: config.initialQuestion };
+        initialMessages.push(userMessage);
+        
+        // Save the initial question to database
+        await supabase
+          .from('chat_messages')
+          .insert([{ 
+            session_id: data.id, 
+            role: 'user', 
+            content: config.initialQuestion 
+          }]);
+        
+        // Get AI response for the initial question
+        await getInitialAIResponse(data.id, config, initialMessages);
+      } else {
+        setMessages(initialMessages);
+      }
+    } catch (error) {
+      console.error('Error creating new chat session:', error);
+      toast({
+        title: "Error",
+        description: "Failed to create new chat session.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const getInitialAIResponse = async (sessionId: string, config: any, messages: any[]) => {
+    try {
+      const userContext = {
+        location: config.location,
+        locationType: config.locationType,
+        industry: config.industry,
+        language: config.language
+      };
+
+      const { data, error } = await supabase.functions.invoke('ai-chat', {
+        body: { messages, userContext },
+        headers: {
+          Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+        },
+      });
+
+      if (error) throw error;
+
+      if (data.choices && data.choices[0]) {
+        const assistantMessage = {
+          role: 'assistant' as const,
+          content: data.choices[0].message.content
+        };
+        
+        const finalMessages = [...messages, assistantMessage];
+        setMessages(finalMessages);
+        
+        // Save assistant message to database
+        await supabase
+          .from('chat_messages')
+          .insert([{ 
+            session_id: sessionId, 
+            role: 'assistant', 
+            content: assistantMessage.content 
+          }]);
+      }
+    } catch (error) {
+      console.error('Error getting initial AI response:', error);
+      setMessages(messages); // Just show the messages without AI response
     }
   };
 
@@ -300,8 +452,15 @@ What would you like to know about ${location}? For example:
     setIsLoading(true);
 
     try {
+      const userContext = {
+        location: userLocation || undefined,
+        locationType: userLocationType || undefined,
+        industry: userIndustry || undefined,
+        language: userLanguage
+      };
+
       const { data, error } = await supabase.functions.invoke('ai-chat', {
-        body: { messages: enhancedMessages },
+        body: { messages: enhancedMessages, userContext },
         headers: {
           Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
         },
@@ -453,7 +612,7 @@ What would you like to know about ${location}? For example:
               <h2 className="font-semibold text-gray-900">Chat History</h2>
               <Button 
                 onClick={() => {
-                  setShowSetup(true);
+                  setShowQuestionnaire(true);
                   setActiveSessionId(null);
                   setMessages([]);
                 }} 
@@ -500,7 +659,12 @@ What would you like to know about ${location}? For example:
 
         {/* Main Chat Area */}
         <div className="flex-1 flex flex-col min-w-0">
-          {shouldShowSetup ? (
+          {showQuestionnaire ? (
+            <NewChatQuestionnaire 
+              onSetupComplete={handleQuestionnaireComplete}
+              onSkipSetup={handleSkipSetup}
+            />
+          ) : shouldShowSetup ? (
             <ChatSetup onSetupComplete={handleSetupComplete} />
           ) : (
             <Card className="flex-1 flex flex-col m-4 shadow-sm min-h-0">
@@ -524,6 +688,10 @@ What would you like to know about ${location}? For example:
                     )}
                   </CardTitle>
                   <div className="flex items-center gap-2">
+                    <LanguageSelector 
+                      value={userLanguage} 
+                      onValueChange={setUserLanguage}
+                    />
                     <Button variant="outline" size="sm" onClick={exportTranscript}>
                       <Download className="h-4 w-4 mr-1" /> Export
                     </Button>
