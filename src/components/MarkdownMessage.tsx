@@ -100,13 +100,13 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ content, isUser }) =>
               Copy for Excel/Sheets
             </Button>
           </div>
-          <div className="overflow-x-auto max-w-full">
+          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             <div className="min-w-max">
-              <Table>
+              <Table className="table-auto">
                 <TableHeader>
                   <TableRow>
                     {headers.map((header, index) => (
-                      <TableHead key={index} className="text-xs font-medium whitespace-nowrap min-w-[100px]">
+                      <TableHead key={index} className="text-xs font-medium whitespace-nowrap min-w-[120px] px-3 py-2 border-r last:border-r-0">
                         {header}
                       </TableHead>
                     ))}
@@ -116,8 +116,10 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ content, isUser }) =>
                   {rows.map((row, rowIndex) => (
                     <TableRow key={rowIndex}>
                       {row.map((cell, cellIndex) => (
-                        <TableCell key={cellIndex} className="text-xs p-2 whitespace-nowrap min-w-[100px]">
-                          {cell}
+                        <TableCell key={cellIndex} className="text-xs p-3 whitespace-nowrap min-w-[120px] border-r last:border-r-0 max-w-[200px] overflow-hidden text-ellipsis">
+                          <span title={cell} className="block truncate">
+                            {cell}
+                          </span>
                         </TableCell>
                       ))}
                     </TableRow>
