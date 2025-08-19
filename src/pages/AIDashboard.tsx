@@ -18,7 +18,7 @@ import PrefilledQuestions from "@/components/PrefilledQuestions";
 import LanguageSelector from "@/components/LanguageSelector";
 import IndustrySelector from "@/components/IndustrySelector";
 import LocationInput from "@/components/LocationInput";
-import ChatControls from "@/components/ChatControls";
+import ChatWithControls from "@/components/ChatWithControls";
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
@@ -671,122 +671,33 @@ What would you like to know about ${location}? For example:
           ) : shouldShowSetup ? (
             <ChatSetup onSetupComplete={handleSetupComplete} />
           ) : (
-            <Card className="flex-1 flex flex-col m-4 shadow-sm min-h-0">
-              <CardHeader className="border-b bg-white rounded-t-lg flex-shrink-0">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="flex items-center">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setSidebarOpen(!sidebarOpen)}
-                      className="mr-3"
-                    >
-                      <Menu className="h-4 w-4" />
-                    </Button>
-                    <Bot className="h-6 w-6 mr-2 text-purple-600" />
-                    AI Copilot for Contractors
-                    {userLocation && (
-                      <span className="ml-3 text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                        {userLocation}
-                      </span>
-                    )}
-                  </CardTitle>
-                  <div className="flex items-center gap-2">
-                    <LanguageSelector 
-                      value={userLanguage} 
-                      onValueChange={setUserLanguage}
-                    />
-                    <Button variant="outline" size="sm" onClick={exportTranscript}>
-                      <Download className="h-4 w-4 mr-1" /> Export
-                    </Button>
-                  </div>
-                </div>
-              </CardHeader>
-              
-              <CardContent className="flex-1 flex flex-col p-0 min-h-0">
-{/* Voice support handled by global ElevenLabs widget */}
-                {/* Messages Area */}
-                <ScrollArea className="flex-1 p-6">
-                  <div className="space-y-4">
-                    {messages.map((message, index) => (
-                      <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`flex max-w-3xl ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                          <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                            message.role === 'user' ? 'bg-blue-500 ml-2' : 'bg-purple-500 mr-2'
-                          }`}>
-                            {message.role === 'user' ? (
-                              <User className="h-4 w-4 text-white" />
-                            ) : (
-                              <Bot className="h-4 w-4 text-white" />
-                            )}
-                          </div>
-                          <div className={`rounded-lg px-4 py-2 ${
-                            message.role === 'user' 
-                              ? 'bg-blue-500 text-white' 
-                              : 'bg-gray-100 text-gray-900'
-                          }`}>
-                            <MarkdownMessage 
-                              content={message.content} 
-                              isUser={message.role === 'user'}
-                            />
-                            <div className="mt-2 flex items-center gap-3">
-                              <button
-                                onClick={() => copyMessage(message.content)}
-                                className="inline-flex items-center text-xs text-gray-600 hover:underline"
-                                aria-label="Copy message"
-                              >
-                                <Clipboard className="h-3 w-3 mr-1" /> Copy
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                    
-                    {isLoading && (
-                      <div className="flex justify-start">
-                        <div className="flex">
-                          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-500 mr-2 flex items-center justify-center">
-                            <Bot className="h-4 w-4 text-white" />
-                          </div>
-                          <div className="bg-gray-100 rounded-lg px-4 py-2">
-                            <div className="flex items-center space-x-1">
-                              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </ScrollArea>
-                
-                {/* Input Area */}
-                <div className="border-t p-4 bg-white rounded-b-lg flex-shrink-0">
-                  <div className="flex space-x-2">
-                    <Input
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      onKeyPress={handleKeyPress}
-                      placeholder="Ask about local market data or marketing strategies..."
-                      disabled={isLoading || !activeSessionId}
-                      className="flex-1"
-                    />
-                    <Button 
-                      onClick={sendMessage}
-                      disabled={isLoading || !input.trim() || !activeSessionId}
-                      className="bg-purple-600 hover:bg-purple-700"
-                    >
-                      <Send className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <p className="text-xs text-gray-500 mt-2">
-                    Try asking: "How many homes sold in Nanuet last quarter?" or "Best Google Ads strategy for HVAC in Rockland County?"
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            <ChatWithControls
+              messages={messages}
+              input={input}
+              isLoading={isLoading}
+              activeSessionId={activeSessionId}
+              userLocation={userLocation}
+              userLocationType={userLocationType}
+              userIndustry={userIndustry}
+              userLanguage={userLanguage}
+              sidebarOpen={sidebarOpen}
+              onInputChange={setInput}
+              onSendMessage={sendMessage}
+              onKeyPress={handleKeyPress}
+              onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+              onLocationChange={(location, type) => {
+                setUserLocation(location);
+                setUserLocationType(type);
+              }}
+              onIndustryChange={setUserIndustry}
+              onLanguageChange={setUserLanguage}
+              onQuestionSelect={(question) => {
+                setInput(question);
+                sendMessage();
+              }}
+              onExportTranscript={exportTranscript}
+              onCopyMessage={copyMessage}
+            />
           )}
         </div>
       </div>
