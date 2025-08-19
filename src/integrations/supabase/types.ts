@@ -338,6 +338,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: boolean
       }
+      search_web_for_property_data: {
+        Args: { location: string; query_type: string }
+        Returns: Json
+      }
     }
     Enums: {
       app_role: "admin" | "user"
