@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import ChatSession from "@/components/ChatSession";
 import MarkdownMessage from "@/components/MarkdownMessage";
 import ChatSetup from "@/components/ChatSetup";
@@ -42,6 +43,8 @@ const AIDashboard: React.FC = () => {
   const [chatSessions, setChatSessions] = useState<ChatSessionData[]>([]);
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [questionsOpen, setQuestionsOpen] = useState(true);
   const { toast } = useToast();
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -627,64 +630,91 @@ What would you like to know about ${location}? For example:
             sidebarOpen ? "w-80" : "w-0"
           )
         )}>
-          <div className="p-4 border-b border-gray-200">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-gray-900">Chat Settings</h2>
-              {isMobile && (
-                <Button 
-                  size="sm" 
+          <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+            <h2 className="font-semibold text-gray-900">Chat Settings</h2>
+            {isMobile && (
+              <Button 
+                size="sm" 
+                variant="ghost"
+                onClick={() => setSidebarOpen(false)}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+          
+          <div className="flex-1 overflow-y-auto">
+            {/* Collapsible Settings */}
+            <Collapsible open={settingsOpen} onOpenChange={setSettingsOpen}>
+              <CollapsibleTrigger asChild>
+                <Button
                   variant="ghost"
-                  onClick={() => setSidebarOpen(false)}
+                  className="w-full flex items-center justify-between p-4 h-auto text-left hover:bg-gray-50"
                 >
-                  <X className="h-4 w-4" />
+                  <span className="text-sm font-medium">Settings</span>
+                  <ChevronLeft className={cn("h-4 w-4 transition-transform", settingsOpen && "rotate-90")} />
                 </Button>
-              )}
-            </div>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="px-4 pb-4 space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Location</label>
+                  <LocationInput
+                    onLocationSelect={(location, type) => {
+                      setUserLocation(location);
+                      setUserLocationType(type);
+                    }}
+                  />
+                </div>
 
-            {/* Chat Controls Section */}
-            <div className="space-y-4 mb-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Location</label>
-                <LocationInput
-                  onLocationSelect={(location, type) => {
-                    setUserLocation(location);
-                    setUserLocationType(type);
-                  }}
-                />
-              </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Industry</label>
+                  <IndustrySelector
+                    value={userIndustry}
+                    onValueChange={setUserIndustry}
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Industry</label>
-                <IndustrySelector
-                  value={userIndustry}
-                  onValueChange={setUserIndustry}
-                />
-              </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Language</label>
+                  <LanguageSelector
+                    value={userLanguage}
+                    onValueChange={setUserLanguage}
+                  />
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Language</label>
-                <LanguageSelector
-                  value={userLanguage}
-                  onValueChange={setUserLanguage}
-                />
-              </div>
-            </div>
+            {/* Collapsible Quick Start Questions */}
+            <Collapsible open={questionsOpen} onOpenChange={setQuestionsOpen}>
+              <CollapsibleTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="w-full flex items-center justify-between p-4 h-auto text-left border-t hover:bg-gray-50"
+                >
+                  <span className="text-sm font-medium">Quick Start Questions</span>
+                  <ChevronLeft className={cn("h-4 w-4 transition-transform", questionsOpen && "rotate-90")} />
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="px-4 pb-4">
+                <div className="max-h-64 overflow-y-auto">
+                  <PrefilledQuestions
+                    onQuestionSelect={(question) => {
+                      setInput(question);
+                      // Auto-close sidebar on mobile after question selection
+                      if (isMobile) setSidebarOpen(false);
+                    }}
+                    location={userLocation}
+                    industry={userIndustry}
+                    className="text-sm"
+                  />
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          </div>
 
-            {/* Quick Start Questions */}
-            <div className="mb-4">
-              <PrefilledQuestions
-                onQuestionSelect={(question) => {
-                  setInput(question);
-                  // Auto-close sidebar on mobile after question selection
-                  if (isMobile) setSidebarOpen(false);
-                }}
-                location={userLocation}
-                industry={userIndustry}
-                className="text-sm"
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
+          {/* Chat History */}
+          <div className="border-t p-4">
+            <div className="flex items-center justify-between mb-3">
               <h3 className="font-semibold text-gray-900">Chat History</h3>
               <Button 
                 onClick={() => {
@@ -700,26 +730,7 @@ What would you like to know about ${location}? For example:
                 New Chat
               </Button>
             </div>
-            {user && (
-              <div className="flex items-center space-x-3 p-2 bg-gray-50 rounded-lg">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={user.user_metadata?.avatar_url} />
-                  <AvatarFallback>
-                    {user.email?.charAt(0).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">
-                    {user.user_metadata?.full_name || user.email}
-                  </p>
-                  <p className="text-xs text-gray-500 truncate">{user.email}</p>
-                </div>
-              </div>
-            )}
-          </div>
-          
-          <ScrollArea className="flex-1">
-            <div className="p-4 space-y-2">
+            <div className="max-h-48 overflow-y-auto space-y-2">
               {chatSessions.map((session) => (
                 <ChatSession
                   key={session.id}
@@ -738,7 +749,23 @@ What would you like to know about ${location}? For example:
                 />
               ))}
             </div>
-          </ScrollArea>
+            {user && (
+              <div className="flex items-center space-x-3 p-2 bg-gray-50 rounded-lg mt-4">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={user.user_metadata?.avatar_url} />
+                  <AvatarFallback>
+                    {user.email?.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">
+                    {user.user_metadata?.full_name || user.email}
+                  </p>
+                  <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Main Chat Area */}

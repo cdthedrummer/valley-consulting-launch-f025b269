@@ -101,28 +101,30 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ content, isUser }) =>
             </Button>
           </div>
           <div className="overflow-x-auto max-w-full">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  {headers.map((header, index) => (
-                    <TableHead key={index} className="text-xs font-medium whitespace-nowrap">
-                      {header}
-                    </TableHead>
-                  ))}
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {rows.map((row, rowIndex) => (
-                  <TableRow key={rowIndex}>
-                    {row.map((cell, cellIndex) => (
-                      <TableCell key={cellIndex} className="text-xs p-2 whitespace-nowrap">
-                        {cell}
-                      </TableCell>
+            <div className="min-w-max">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    {headers.map((header, index) => (
+                      <TableHead key={index} className="text-xs font-medium whitespace-nowrap min-w-[100px]">
+                        {header}
+                      </TableHead>
                     ))}
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {rows.map((row, rowIndex) => (
+                    <TableRow key={rowIndex}>
+                      {row.map((cell, cellIndex) => (
+                        <TableCell key={cellIndex} className="text-xs p-2 whitespace-nowrap min-w-[100px]">
+                          {cell}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
         </div>
         
