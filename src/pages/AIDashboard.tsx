@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Bot, Send, User, Loader2, Plus, Menu, Volume2, Clipboard, Download } from "lucide-react";
+import { Bot, Send, User, Loader2, Plus, Menu, Volume2, Clipboard, Download, X, ChevronLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,8 @@ import LanguageSelector from "@/components/LanguageSelector";
 import IndustrySelector from "@/components/IndustrySelector";
 import LocationInput from "@/components/LocationInput";
 import ChatWithControls from "@/components/ChatWithControls";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
@@ -50,6 +52,7 @@ const AIDashboard: React.FC = () => {
   const [showSetup, setShowSetup] = useState(true);
   const [showQuestionnaire, setShowQuestionnaire] = useState(false);
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     checkSubscriptionAccess();
@@ -605,16 +608,91 @@ What would you like to know about ${location}? For example:
         canonicalUrl="/ai/dashboard"
       />
       <div className="flex-1 flex overflow-hidden">
+        {/* Mobile Sidebar Overlay */}
+        {isMobile && sidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+
         {/* Sidebar */}
-        <div className={`${sidebarOpen ? 'w-80' : 'w-0'} transition-all duration-300 bg-white border-r border-gray-200 flex flex-col overflow-hidden`}>
+        <div className={cn(
+          "transition-all duration-300 bg-white border-r border-gray-200 flex flex-col overflow-hidden z-50",
+          isMobile ? (
+            sidebarOpen 
+              ? "fixed left-0 top-0 h-full w-80 pt-20" 
+              : "w-0"
+          ) : (
+            sidebarOpen ? "w-80" : "w-0"
+          )
+        )}>
           <div className="p-4 border-b border-gray-200">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-gray-900">Chat History</h2>
-               <Button 
+              <h2 className="font-semibold text-gray-900">Chat Settings</h2>
+              {isMobile && (
+                <Button 
+                  size="sm" 
+                  variant="ghost"
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              )}
+            </div>
+
+            {/* Chat Controls Section */}
+            <div className="space-y-4 mb-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">Location</label>
+                <LocationInput
+                  onLocationSelect={(location, type) => {
+                    setUserLocation(location);
+                    setUserLocationType(type);
+                  }}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">Industry</label>
+                <IndustrySelector
+                  value={userIndustry}
+                  onValueChange={setUserIndustry}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">Language</label>
+                <LanguageSelector
+                  value={userLanguage}
+                  onValueChange={setUserLanguage}
+                />
+              </div>
+            </div>
+
+            {/* Quick Start Questions */}
+            <div className="mb-4">
+              <PrefilledQuestions
+                onQuestionSelect={(question) => {
+                  setInput(question);
+                  // Auto-close sidebar on mobile after question selection
+                  if (isMobile) setSidebarOpen(false);
+                }}
+                location={userLocation}
+                industry={userIndustry}
+                className="text-sm"
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold text-gray-900">Chat History</h3>
+              <Button 
                 onClick={() => {
                   setShowQuestionnaire(true);
                   setActiveSessionId(null);
                   setMessages([]);
+                  // Auto-close sidebar on mobile after creating new chat
+                  if (isMobile) setSidebarOpen(false);
                 }} 
                 size="sm" 
                 className="bg-purple-600 hover:bg-purple-700"
@@ -652,6 +730,8 @@ What would you like to know about ${location}? For example:
                     switchChatSession(session.id);
                     setShowQuestionnaire(false);
                     setShowSetup(false);
+                    // Auto-close sidebar on mobile after selecting chat
+                    if (isMobile) setSidebarOpen(false);
                   }}
                   onDelete={() => deleteChatSession(session.id)}
                   createdAt={session.created_at}
@@ -685,6 +765,7 @@ What would you like to know about ${location}? For example:
               onSendMessage={sendMessage}
               onKeyPress={handleKeyPress}
               onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+              isMobile={isMobile}
               onLocationChange={(location, type) => {
                 setUserLocation(location);
                 setUserLocationType(type);
@@ -693,7 +774,7 @@ What would you like to know about ${location}? For example:
               onLanguageChange={setUserLanguage}
               onQuestionSelect={(question) => {
                 setInput(question);
-                sendMessage();
+                // Don't auto-send, let user review and edit if needed
               }}
               onExportTranscript={exportTranscript}
               onCopyMessage={copyMessage}

@@ -2,6 +2,10 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Copy } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface MarkdownMessageProps {
   content: string;
@@ -9,6 +13,134 @@ interface MarkdownMessageProps {
 }
 
 const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ content, isUser }) => {
+  const { toast } = useToast();
+
+  // Enhanced table detection to handle various formats
+  const detectAndFormatTables = (text: string) => {
+    // Detect pipe-separated tables (markdown style)
+    const markdownTableRegex = /^\|[^\n\r]*\|[\s]*[\n\r]+\|[-\s:|]+\|[\s]*[\n\r]+((?:\|[^\n\r]*\|[\s]*[\n\r]*)+)/gm;
+    
+    // Detect space/tab separated data that looks like a table
+    const dataTableRegex = /^([A-Za-z\s#]+[|]\s*[A-Za-z\s#]+[|][\s\S]*?)(?=\n\n|\n$|$)/gm;
+    
+    // Check if content has pipe-separated structured data
+    if (text.includes('|') && text.split('\n').filter(line => line.includes('|')).length >= 3) {
+      return formatAsTable(text);
+    }
+    
+    return text;
+  };
+
+  const formatAsTable = (text: string) => {
+    const lines = text.split('\n').filter(line => line.trim() && line.includes('|'));
+    
+    if (lines.length < 2) return text;
+    
+    // Parse the table data
+    const tableData = lines.map(line => 
+      line.split('|')
+        .map(cell => cell.trim())
+        .filter(cell => cell.length > 0)
+    );
+    
+    if (tableData.length === 0) return text;
+    
+    const headers = tableData[0];
+    const rows = tableData.slice(1);
+    
+    // Filter out any separator rows (lines with mostly dashes)
+    const dataRows = rows.filter(row => 
+      !row.every(cell => /^[-\s]+$/.test(cell))
+    );
+    
+    if (dataRows.length === 0) return text;
+    
+    return { type: 'table', headers, rows: dataRows, originalText: text };
+  };
+
+  const copyTableData = (headers: string[], rows: string[][]) => {
+    // Format as tab-separated values for easy pasting into Excel/Sheets
+    const tsvData = [
+      headers.join('\t'),
+      ...rows.map(row => row.join('\t'))
+    ].join('\n');
+    
+    navigator.clipboard.writeText(tsvData).then(() => {
+      toast({
+        title: "Table copied!",
+        description: "Data copied as tab-separated values. You can paste it directly into Excel or Google Sheets.",
+      });
+    }).catch(() => {
+      toast({
+        title: "Copy failed",
+        description: "Please try again.",
+        variant: "destructive"
+      });
+    });
+  };
+
+  const processedContent = detectAndFormatTables(content);
+  
+  // If we detected a table, render it specially
+  if (typeof processedContent === 'object' && processedContent.type === 'table') {
+    const { headers, rows, originalText } = processedContent;
+    
+    return (
+      <div className="space-y-4">
+        <div className="bg-background rounded-lg border overflow-hidden">
+          <div className="flex items-center justify-between p-2 bg-muted border-b">
+            <span className="text-sm font-medium">Data Table</span>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => copyTableData(headers, rows)}
+              className="h-7 px-2"
+            >
+              <Copy className="h-3 w-3 mr-1" />
+              Copy for Excel/Sheets
+            </Button>
+          </div>
+          <div className="overflow-x-auto max-w-full">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  {headers.map((header, index) => (
+                    <TableHead key={index} className="text-xs font-medium whitespace-nowrap">
+                      {header}
+                    </TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {rows.map((row, rowIndex) => (
+                  <TableRow key={rowIndex}>
+                    {row.map((cell, cellIndex) => (
+                      <TableCell key={cellIndex} className="text-xs p-2 whitespace-nowrap">
+                        {cell}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+        
+        {/* Show any remaining content that wasn't part of the table */}
+        {originalText.replace(/^\|[^\n\r]*\|[\s]*[\n\r]+\|[-\s:|]+\|[\s]*[\n\r]+((?:\|[^\n\r]*\|[\s]*[\n\r]*)+)/gm, '').trim() && (
+          <div className={cn(
+            "prose prose-sm max-w-none",
+            isUser ? "prose-invert" : "prose-gray",
+            "[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+          )}>
+            <ReactMarkdown>
+              {originalText.replace(/^\|[^\n\r]*\|[\s]*[\n\r]+\|[-\s:|]+\|[\s]*[\n\r]+((?:\|[^\n\r]*\|[\s]*[\n\r]*)+)/gm, '').trim()}
+            </ReactMarkdown>
+          </div>
+        )}
+      </div>
+    );
+  }
   return (
     <div className={cn(
       "prose prose-sm max-w-none",

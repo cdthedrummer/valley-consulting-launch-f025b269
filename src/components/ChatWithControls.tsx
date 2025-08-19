@@ -23,6 +23,7 @@ interface ChatWithControlsProps {
   userIndustry?: string;
   userLanguage: string;
   sidebarOpen: boolean;
+  isMobile: boolean;
   onInputChange: (value: string) => void;
   onSendMessage: () => void;
   onKeyPress: (e: React.KeyboardEvent) => void;
@@ -45,6 +46,7 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
   userIndustry,
   userLanguage,
   sidebarOpen,
+  isMobile,
   onInputChange,
   onSendMessage,
   onKeyPress,
@@ -57,53 +59,39 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
   onCopyMessage,
 }) => {
   return (
-    <div className="flex h-full gap-4">
-      {/* Chat Controls Sidebar */}
-      <div className="w-80 hidden lg:block">
-        <ChatControls
-          location={userLocation}
-          locationType={userLocationType}
-          industry={userIndustry}
-          language={userLanguage}
-          onLocationChange={onLocationChange}
-          onIndustryChange={onIndustryChange}
-          onLanguageChange={onLanguageChange}
-          onQuestionSelect={onQuestionSelect}
-        />
-      </div>
-
-      {/* Main Chat Area */}
-      <Card className="flex-1 flex flex-col shadow-sm min-h-0">
-        <CardHeader className="border-b bg-background rounded-t-lg flex-shrink-0">
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={onToggleSidebar}
-                className="mr-3"
-              >
-                <Menu className="h-4 w-4" />
-              </Button>
-              <Bot className="h-6 w-6 mr-2 text-primary" />
-              AI Copilot for Contractors
-              {userLocation && (
-                <span className="ml-3 text-sm text-muted-foreground bg-accent px-2 py-1 rounded">
-                  {userLocation}
-                </span>
-              )}
-            </CardTitle>
-            <div className="flex items-center gap-2">
+    <Card className="flex-1 flex flex-col shadow-sm min-h-0">
+      <CardHeader className="border-b bg-background rounded-t-lg flex-shrink-0">
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onToggleSidebar}
+              className="mr-3"
+            >
+              <Menu className="h-4 w-4" />
+            </Button>
+            <Bot className="h-6 w-6 mr-2 text-primary" />
+            AI Copilot for Contractors
+            {userLocation && (
+              <span className="ml-3 text-sm text-muted-foreground bg-accent px-2 py-1 rounded">
+                {userLocation}
+              </span>
+            )}
+          </CardTitle>
+          <div className="flex items-center gap-2">
+            {!isMobile && (
               <LanguageSelector 
                 value={userLanguage} 
                 onValueChange={onLanguageChange}
               />
-              <Button variant="outline" size="sm" onClick={onExportTranscript}>
-                <Download className="h-4 w-4 mr-1" /> Export
-              </Button>
-            </div>
+            )}
+            <Button variant="outline" size="sm" onClick={onExportTranscript}>
+              <Download className="h-4 w-4 mr-1" /> Export
+            </Button>
           </div>
-        </CardHeader>
+        </div>
+      </CardHeader>
         
         <CardContent className="flex-1 flex flex-col p-0 min-h-0">
           {/* Messages Area */}
@@ -188,7 +176,6 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
           </div>
         </CardContent>
       </Card>
-    </div>
   );
 };
 
