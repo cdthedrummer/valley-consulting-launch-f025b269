@@ -1,20 +1,19 @@
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Bot, Sparkles, CheckCircle, ArrowRight, Users, TrendingUp, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import SEOHead from "@/components/SEOHead";
 
 const AICopilot: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
 
-  const handleStartTrial = async () => {
+  const handleStartTrial = () => {
     if (!user) {
       toast({
         title: "Please sign in",
@@ -24,30 +23,8 @@ const AICopilot: React.FC = () => {
       return;
     }
 
-    setIsLoading(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
-        headers: {
-          Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
-        },
-      });
-
-      if (error) throw error;
-
-      // Redirect to Stripe checkout in the same tab
-      if (data?.url) {
-        window.location.href = data.url;
-      }
-    } catch (error) {
-      console.error('Error creating checkout:', error);
-      toast({
-        title: "Error",
-        description: "Failed to start checkout process. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    // Redirect to Stripe Payment Link
+    window.open('https://buy.stripe.com/7sYbJ17kQespcID7aJ0x200', '_blank');
   };
 
   return (
@@ -76,10 +53,9 @@ const AICopilot: React.FC = () => {
               {user ? (
                 <Button 
                   onClick={handleStartTrial}
-                  disabled={isLoading}
                   className="bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-3"
                 >
-                  {isLoading ? "Starting..." : "Start 7-Day Free Trial"}
+                  Start 7-Day Free Trial
                 </Button>
               ) : (
                 <Button asChild className="bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-3">
@@ -251,10 +227,9 @@ const AICopilot: React.FC = () => {
                 {user ? (
                   <Button 
                     onClick={handleStartTrial}
-                    disabled={isLoading}
                     className="w-full bg-purple-600 hover:bg-purple-700 text-white mb-4"
                   >
-                    {isLoading ? "Starting..." : "Start 7-Day Free Trial"}
+                    Start 7-Day Free Trial
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 ) : (
@@ -287,10 +262,9 @@ const AICopilot: React.FC = () => {
           {user ? (
             <Button 
               onClick={handleStartTrial}
-              disabled={isLoading}
               className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg px-8 py-3"
             >
-              {isLoading ? "Starting..." : "Start Your Free Trial Now"}
+              Start Your Free Trial Now
             </Button>
           ) : (
             <Button asChild className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg px-8 py-3">

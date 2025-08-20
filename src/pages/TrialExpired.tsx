@@ -3,44 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertCircle, Sparkles } from 'lucide-react';
-import { createCheckoutSession } from '@/lib/supabase';
-import { useToast } from '@/hooks/use-toast';
 
 const TrialExpired: React.FC = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
 
-  const handleUpgrade = async () => {
-    try {
-      const { url } = await createCheckoutSession();
-      if (url) {
-        window.open(url, '_blank');
-      }
-    } catch (error) {
-      console.error('Error creating checkout session:', error);
-      toast({
-        title: "Error",
-        description: "Failed to start checkout process. Please try again.",
-        variant: "destructive",
-      });
-    }
+  const handleUpgrade = () => {
+    // Redirect to Stripe Payment Link
+    window.open('https://buy.stripe.com/7sYbJ17kQespcID7aJ0x200', '_blank');
   };
 
-  const handleUpgradeWithDiscount = async () => {
-    try {
-      // Use regular checkout for now
-      const { url } = await createCheckoutSession();
-      if (url) {
-        window.open(url, '_blank');
-      }
-    } catch (error) {
-      console.error('Error creating checkout session with discount:', error);
-      toast({
-        title: "Error",
-        description: "Failed to start checkout process. Please try again.",
-        variant: "destructive",
-      });
-    }
+  const handleUpgradeWithDiscount = () => {
+    // Redirect to Stripe Payment Link (same link for now)
+    window.open('https://buy.stripe.com/7sYbJ17kQespcID7aJ0x200', '_blank');
   };
 
   return (

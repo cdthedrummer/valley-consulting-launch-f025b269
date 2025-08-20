@@ -3,34 +3,20 @@ import { AlertTriangle, Clock, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { SubscriptionStatus } from '@/types/supabase';
-import { reactivateSubscription } from '@/lib/supabase';
-import { useToast } from '@/hooks/use-toast';
 
 interface SubscriptionBannerProps {
   subscriptionStatus: SubscriptionStatus;
 }
 
 export const SubscriptionBanner: React.FC<SubscriptionBannerProps> = ({ subscriptionStatus }) => {
-  const { toast } = useToast();
 
   if (!subscriptionStatus.is_canceled || !subscriptionStatus.subscribed) {
     return null;
   }
 
-  const handleReactivate = async () => {
-    try {
-      const { url } = await reactivateSubscription();
-      if (url) {
-        window.open(url, '_blank');
-      }
-    } catch (error) {
-      console.error('Error reactivating subscription:', error);
-      toast({
-        title: "Error",
-        description: "Failed to start reactivation process. Please try again.",
-        variant: "destructive",
-      });
-    }
+  const handleReactivate = () => {
+    // Redirect to Stripe Payment Link
+    window.open('https://buy.stripe.com/7sYbJ17kQespcID7aJ0x200', '_blank');
   };
 
   return (
