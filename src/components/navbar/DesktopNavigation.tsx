@@ -1,9 +1,10 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Calendar, LogOut, User } from "lucide-react";
+import { Calendar, LogOut, User, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +25,23 @@ const DesktopNavigation: React.FC = () => {
 
   const handleSignOut = async () => {
     await signOut();
+  };
+
+  const handleManageAccount = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke('customer-portal', {
+        headers: {
+          Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+        },
+      });
+      
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, '_blank');
+      }
+    } catch (error) {
+      console.error('Error accessing customer portal:', error);
+    }
   };
 
   return (
@@ -68,6 +86,10 @@ const DesktopNavigation: React.FC = () => {
                 <Link to="/ai/dashboard" className="w-full">
                   AI Dashboard
                 </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleManageAccount}>
+                <CreditCard className="mr-2 h-4 w-4" />
+                Manage Account
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleSignOut}>
                 <LogOut className="mr-2 h-4 w-4" />

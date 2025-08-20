@@ -1,4 +1,3 @@
-
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
@@ -27,42 +26,21 @@ serve(async (req) => {
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", { apiVersion: "2023-10-16" });
     
-    // Check if customer already exists
+    // Find customer
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
-    let customerId;
-    if (customers.data.length > 0) {
-      customerId = customers.data[0].id;
+    if (customers.data.length === 0) {
+      throw new Error("No Stripe customer found for this user");
     }
-
-    const session = await stripe.checkout.sessions.create({
+    
+    const customerId = customers.data[0].id;
+    
+    // Create billing portal session
+    const portalSession = await stripe.billingPortal.sessions.create({
       customer: customerId,
-      customer_email: customerId ? undefined : user.email,
-      line_items: [
-        {
-          price_data: {
-            currency: "usd",
-            product_data: { 
-              name: "Contractor AI Copilot",
-              description: "AI assistant for contractor marketing in Hudson Valley"
-            },
-            unit_amount: 1500, // $15.00
-            recurring: { interval: "month" },
-          },
-          quantity: 1,
-        },
-      ],
-      mode: "subscription",
-      subscription_data: {
-        trial_period_days: 7, // 7-day free trial
-      },
-      success_url: `${req.headers.get("origin")}/ai/dashboard`,
-      cancel_url: `${req.headers.get("origin")}/resources/ai-copilot`,
-      metadata: {
-        user_id: user.id,
-      },
+      return_url: `${req.headers.get("origin")}/ai/dashboard`,
     });
 
-    return new Response(JSON.stringify({ url: session.url }), {
+    return new Response(JSON.stringify({ url: portalSession.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
