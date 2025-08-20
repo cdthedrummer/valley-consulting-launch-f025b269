@@ -50,17 +50,22 @@ serve(async (req) => {
     }
 
     const customerId = customers.data[0].id;
+    // Check for both active and trialing subscriptions
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
-      status: "active",
-      limit: 1,
+      limit: 10, // Get more to check all statuses
     });
     
-    const hasActiveSub = subscriptions.data.length > 0;
+    // Filter for active or trialing subscriptions
+    const validSubscriptions = subscriptions.data.filter(sub => 
+      sub.status === "active" || sub.status === "trialing"
+    );
+    
+    const hasValidSub = validSubscriptions.length > 0;
     let subscriptionEnd = null;
 
-    if (hasActiveSub) {
-      const subscription = subscriptions.data[0];
+    if (hasValidSub) {
+      const subscription = validSubscriptions[0];
       subscriptionEnd = new Date(subscription.current_period_end * 1000).toISOString();
     }
 
@@ -68,16 +73,16 @@ serve(async (req) => {
       email: user.email,
       user_id: user.id,
       stripe_customer_id: customerId,
-      stripe_subscription_id: hasActiveSub ? subscriptions.data[0].id : null,
-      subscribed: hasActiveSub,
-      subscription_tier: hasActiveSub ? "ai_copilot" : null,
+      stripe_subscription_id: hasValidSub ? validSubscriptions[0].id : null,
+      subscribed: hasValidSub,
+      subscription_tier: hasValidSub ? "ai_copilot" : null,
       subscription_end: subscriptionEnd,
       updated_at: new Date().toISOString(),
     }, { onConflict: 'email' });
 
     return new Response(JSON.stringify({
-      subscribed: hasActiveSub,
-      subscription_tier: hasActiveSub ? "ai_copilot" : null,
+      subscribed: hasValidSub,
+      subscription_tier: hasValidSub ? "ai_copilot" : null,
       subscription_end: subscriptionEnd
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

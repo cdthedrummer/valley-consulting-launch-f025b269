@@ -42,7 +42,7 @@ serve(async (req) => {
           price_data: {
             currency: "usd",
             product_data: { 
-              name: "Contractor AI Copilot",
+              name: "AI Copilot",
               description: "AI assistant for contractor marketing in Hudson Valley"
             },
             unit_amount: 1500, // $15.00
