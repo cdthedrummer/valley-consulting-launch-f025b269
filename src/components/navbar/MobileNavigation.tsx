@@ -32,10 +32,12 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
       
       if (error) throw error;
       if (data?.url) {
-        window.open(data.url, '_blank');
+        window.location.href = data.url;
       }
     } catch (error) {
       console.error('Error accessing customer portal:', error);
+      // Add user-friendly error handling
+      alert('Unable to access account management. Please try again later.');
     }
   };
   const isActive = (path: string) => {

@@ -18,6 +18,8 @@ const Auth: React.FC = () => {
   const [loginPassword, setLoginPassword] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
+  const [resetEmail, setResetEmail] = useState("");
+  const [showResetForm, setShowResetForm] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
@@ -156,6 +158,44 @@ const Auth: React.FC = () => {
     }
   };
 
+  const handlePasswordReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!resetEmail) {
+      toast({
+        title: "Error",
+        description: "Please enter your email address",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail.trim().toLowerCase(), {
+        redirectTo: `${window.location.origin}/auth?reset=true`,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Reset link sent!",
+        description: "Check your email for the password reset link.",
+      });
+      setShowResetForm(false);
+      setResetEmail("");
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to send reset email",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <SEOHead
@@ -217,11 +257,54 @@ const Auth: React.FC = () => {
               </div>
             </div>
             
-            <Tabs defaultValue="login" className="w-full mt-6">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="login" data-value="login">Sign In</TabsTrigger>
-                <TabsTrigger value="signup">Sign Up</TabsTrigger>
-              </TabsList>
+            {showResetForm ? (
+              <div className="mt-6">
+                <h3 className="text-lg font-semibold text-center mb-4">Reset Your Password</h3>
+                <form onSubmit={handlePasswordReset} className="space-y-4">
+                  <div>
+                    <label htmlFor="reset-email" className="block text-sm font-medium text-gray-700 mb-1">
+                      Email
+                    </label>
+                    <Input
+                      id="reset-email"
+                      type="email"
+                      placeholder="Enter your email"
+                      value={resetEmail}
+                      onChange={(e) => setResetEmail(e.target.value)}
+                      required
+                      autoComplete="email"
+                    />
+                  </div>
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-hvcg-blue hover:bg-hvcg-blue-dark"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      "Send Reset Link"
+                    )}
+                  </Button>
+                  <Button 
+                    type="button" 
+                    variant="ghost"
+                    className="w-full"
+                    onClick={() => setShowResetForm(false)}
+                  >
+                    Back to Sign In
+                  </Button>
+                </form>
+              </div>
+            ) : (
+              <Tabs defaultValue="login" className="w-full mt-6">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="login" data-value="login">Sign In</TabsTrigger>
+                  <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                </TabsList>
               
               <TabsContent value="login">
                 <form onSubmit={handleSignIn} className="space-y-4">
@@ -281,6 +364,14 @@ const Auth: React.FC = () => {
                     ) : (
                       "Sign In"
                     )}
+                  </Button>
+                  <Button 
+                    type="button" 
+                    variant="ghost"
+                    className="w-full text-sm"
+                    onClick={() => setShowResetForm(true)}
+                  >
+                    Forgot your password?
                   </Button>
                 </form>
               </TabsContent>
@@ -348,6 +439,7 @@ const Auth: React.FC = () => {
                 </form>
               </TabsContent>
             </Tabs>
+            )}
           </CardContent>
         </Card>
         
