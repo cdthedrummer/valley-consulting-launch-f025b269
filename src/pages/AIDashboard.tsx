@@ -99,7 +99,12 @@ const AIDashboard: React.FC = () => {
           navigate('/ai/trial-expired');
           return;
         }
-        setHasAccess(false);
+        // If subscription is canceled but still has days remaining, grant access
+        if (subscriptionData.subscription_status === 'canceled' && subscriptionData.days_remaining && subscriptionData.days_remaining > 0) {
+          setHasAccess(true);
+        } else {
+          setHasAccess(false);
+        }
       }
     } catch (error) {
       console.error('Error checking subscription:', error);
