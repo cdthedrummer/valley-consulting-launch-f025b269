@@ -90,19 +90,33 @@ const AIDashboard: React.FC = () => {
       const subscriptionData = data as SubscriptionStatus;
       setSubscriptionInfo(subscriptionData);
       
-      // Check if access should be granted
+      // Enhanced access logic that handles more subscription states
       if (subscriptionData.subscribed) {
         setHasAccess(true);
       } else {
-        // If truly expired (not just canceled), redirect to trial expired page
-        if (subscriptionData.subscription_status === 'canceled' && subscriptionData.days_remaining && subscriptionData.days_remaining <= 0) {
+        // Handle different subscription statuses
+        const status = subscriptionData.subscription_status;
+        const daysRemaining = subscriptionData.days_remaining || 0;
+        
+        // Grant access for processing subscriptions (incomplete/past_due) for recent payments
+        if (status === 'incomplete' || status === 'past_due') {
+          setHasAccess(true);
+          toast({
+            title: "Subscription Processing",
+            description: "Your subscription is being processed. You have temporary access.",
+          });
+        }
+        // Grant access for canceled subscriptions with remaining time
+        else if (status === 'canceled' && daysRemaining > 0) {
+          setHasAccess(true);
+        }
+        // Redirect to trial expired for truly expired subscriptions
+        else if (status === 'canceled' && daysRemaining <= 0) {
           navigate('/ai/trial-expired');
           return;
         }
-        // If subscription is canceled but still has days remaining, grant access
-        if (subscriptionData.subscription_status === 'canceled' && subscriptionData.days_remaining && subscriptionData.days_remaining > 0) {
-          setHasAccess(true);
-        } else {
+        // No access for other cases
+        else {
           setHasAccess(false);
         }
       }
@@ -110,7 +124,7 @@ const AIDashboard: React.FC = () => {
       console.error('Error checking subscription:', error);
       toast({
         title: "Error",
-        description: "Failed to verify subscription status.",
+        description: "Failed to verify subscription status. Please try refreshing the page.",
         variant: "destructive",
       });
     } finally {

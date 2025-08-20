@@ -63,7 +63,12 @@ serve(async (req) => {
       limit: 10,
     });
     
-    // Check for subscriptions that give access (active, trialing, or canceled but still valid)
+    logStep("Found subscriptions", { 
+      count: subscriptions.data.length, 
+      statuses: subscriptions.data.map(s => ({ id: s.id, status: s.status, created: s.created }))
+    });
+    
+    // Check for subscriptions that give access (active, trialing, incomplete, past_due, or canceled but still valid)
     let hasValidAccess = false;
     let subscriptionEnd = null;
     let subscriptionStatus = null;
@@ -71,20 +76,47 @@ serve(async (req) => {
     let trialEnd = null;
     let validSubscription = null;
 
-    for (const subscription of subscriptions.data) {
+    // Sort subscriptions by creation date (newest first) to prioritize recent subscriptions
+    const sortedSubscriptions = subscriptions.data.sort((a, b) => b.created - a.created);
+
+    for (const subscription of sortedSubscriptions) {
       const now = new Date();
       const currentPeriodEnd = new Date(subscription.current_period_end * 1000);
       const trialEndDate = subscription.trial_end ? new Date(subscription.trial_end * 1000) : null;
+      const createdDate = new Date(subscription.created * 1000);
+      const isRecentSubscription = (now.getTime() - createdDate.getTime()) < (24 * 60 * 60 * 1000); // Created within 24 hours
       
+      logStep("Processing subscription", { 
+        id: subscription.id, 
+        status: subscription.status, 
+        created: createdDate.toISOString(),
+        isRecent: isRecentSubscription,
+        trialEnd: trialEndDate?.toISOString(),
+        currentPeriodEnd: currentPeriodEnd.toISOString()
+      });
+      
+      // Active, trialing, or processing subscriptions
       if (subscription.status === "active" || subscription.status === "trialing") {
         hasValidAccess = true;
         validSubscription = subscription;
         subscriptionStatus = subscription.status;
         subscriptionEnd = currentPeriodEnd.toISOString();
         if (trialEndDate) trialEnd = trialEndDate.toISOString();
+        logStep("Found active/trialing subscription", { id: subscription.id, status: subscription.status });
         break;
-      } else if (subscription.status === "canceled") {
-        // Check if canceled subscription still has valid access
+      } 
+      // Incomplete subscriptions that are recent (payment might still be processing)
+      else if ((subscription.status === "incomplete" || subscription.status === "past_due") && isRecentSubscription) {
+        hasValidAccess = true;
+        validSubscription = subscription;
+        subscriptionStatus = subscription.status;
+        subscriptionEnd = currentPeriodEnd.toISOString();
+        if (trialEndDate) trialEnd = trialEndDate.toISOString();
+        logStep("Found recent incomplete/past_due subscription, granting access", { id: subscription.id, status: subscription.status });
+        break;
+      }
+      // Canceled subscriptions with remaining access
+      else if (subscription.status === "canceled") {
         const accessUntil = trialEndDate && trialEndDate > now ? trialEndDate : 
                            currentPeriodEnd > now ? currentPeriodEnd : null;
         
@@ -95,6 +127,7 @@ serve(async (req) => {
           isCanceled = true;
           subscriptionEnd = accessUntil.toISOString();
           if (trialEndDate) trialEnd = trialEndDate.toISOString();
+          logStep("Found canceled subscription with remaining access", { id: subscription.id, accessUntil: accessUntil.toISOString() });
           break;
         }
       }

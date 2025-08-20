@@ -66,7 +66,7 @@ export type ChatMessage = {
 export type SubscriptionStatus = {
   subscribed: boolean;
   subscription_tier?: string;
-  subscription_status?: 'active' | 'trialing' | 'canceled' | 'inactive';
+  subscription_status?: 'active' | 'trialing' | 'canceled' | 'inactive' | 'incomplete' | 'past_due';
   subscription_end?: string;
   trial_end?: string;
   is_canceled?: boolean;

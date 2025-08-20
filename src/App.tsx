@@ -17,6 +17,7 @@ import MarketingChecklist from "./pages/MarketingChecklist";
 import AICopilot from "./pages/AICopilot";
 import AIDashboard from "./pages/AIDashboard";
 import TrialExpired from "./pages/TrialExpired";
+import PaymentSuccess from "./pages/PaymentSuccess";
 import Privacy from "./pages/Privacy";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
@@ -79,6 +80,14 @@ function App() {
                     } 
                   />
                   <Route path="/ai/trial-expired" element={<TrialExpired />} />
+                  <Route 
+                    path="/payment-success" 
+                    element={
+                      <ProtectedRoute>
+                        <PaymentSuccess />
+                      </ProtectedRoute>
+                    } 
+                  />
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/privacy" element={<Privacy />} />
                   <Route path="/testimonials" element={<Testimonials />} />
