@@ -16,6 +16,7 @@ import Resources from "./pages/Resources";
 import MarketingChecklist from "./pages/MarketingChecklist";
 import AICopilot from "./pages/AICopilot";
 import AIDashboard from "./pages/AIDashboard";
+import TrialExpired from "./pages/TrialExpired";
 import Privacy from "./pages/Privacy";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
@@ -77,6 +78,7 @@ function App() {
                       </ProtectedRoute>
                     } 
                   />
+                  <Route path="/ai/trial-expired" element={<TrialExpired />} />
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/privacy" element={<Privacy />} />
                   <Route path="/testimonials" element={<Testimonials />} />

@@ -155,18 +155,36 @@ export async function checkSubscriptionStatus() {
   }
 }
 
-export async function createCheckoutSession() {
-  try {
-    const { data, error } = await supabase.functions.invoke('create-checkout', {
-      headers: {
-        Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
-      },
-    });
+export const createCheckoutSession = async (discountCode?: string): Promise<any> => {
+  const { data, error } = await supabase.functions.invoke('create-checkout', {
+    body: { discount_code: discountCode },
+    headers: {
+      Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+    },
+  });
 
-    if (error) throw error;
-    return data;
-  } catch (error) {
-    console.error("Error creating checkout session:", error);
-    throw error;
-  }
-}
+  if (error) throw error;
+  return data;
+};
+
+export const reactivateSubscription = async (): Promise<any> => {
+  const { data, error } = await supabase.functions.invoke('reactivate-subscription', {
+    headers: {
+      Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+    },
+  });
+
+  if (error) throw error;
+  return data;
+};
+
+export const createCustomerPortalSession = async (): Promise<any> => {
+  const { data, error } = await supabase.functions.invoke('customer-portal', {
+    headers: {
+      Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+    },
+  });
+
+  if (error) throw error;
+  return data;
+};

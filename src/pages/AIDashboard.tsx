@@ -6,6 +6,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Bot, Send, User, Loader2, Plus, Menu, Volume2, Clipboard, Download, X, ChevronLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { SubscriptionStatus } from '@/types/supabase';
+import { SubscriptionBanner } from '@/components/SubscriptionBanner';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -39,6 +41,7 @@ const AIDashboard: React.FC = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [hasAccess, setHasAccess] = useState(false);
+  const [subscriptionInfo, setSubscriptionInfo] = useState<SubscriptionStatus | null>(null);
   const [checkingAccess, setCheckingAccess] = useState(true);
   const [chatSessions, setChatSessions] = useState<ChatSessionData[]>([]);
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
@@ -83,10 +86,19 @@ const AIDashboard: React.FC = () => {
       });
 
       if (error) throw error;
-
-      if (data.subscribed) {
+      
+      const subscriptionData = data as SubscriptionStatus;
+      setSubscriptionInfo(subscriptionData);
+      
+      // Check if access should be granted
+      if (subscriptionData.subscribed) {
         setHasAccess(true);
       } else {
+        // If truly expired (not just canceled), redirect to trial expired page
+        if (subscriptionData.subscription_status === 'canceled' && subscriptionData.days_remaining && subscriptionData.days_remaining <= 0) {
+          navigate('/ai/trial-expired');
+          return;
+        }
         setHasAccess(false);
       }
     } catch (error) {
@@ -793,7 +805,11 @@ What would you like to know about ${location}? For example:
           ) : shouldShowSetup ? (
             <ChatSetup onSetupComplete={handleSetupComplete} />
           ) : (
-            <ChatWithControls
+            <>
+              {subscriptionInfo && (
+                <SubscriptionBanner subscriptionStatus={subscriptionInfo} />
+              )}
+              <ChatWithControls
               messages={messages}
               input={input}
               isLoading={isLoading}
@@ -821,6 +837,7 @@ What would you like to know about ${location}? For example:
               onExportTranscript={exportTranscript}
               onCopyMessage={copyMessage}
             />
+            </>
           )}
         </div>
       </div>

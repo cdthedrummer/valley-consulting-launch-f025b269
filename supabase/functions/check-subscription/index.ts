@@ -8,6 +8,11 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+const logStep = (step: string, details?: any) => {
+  const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
+  console.log(`[CHECK-SUBSCRIPTION] ${step}${detailsStr}`);
+};
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -50,40 +55,87 @@ serve(async (req) => {
     }
 
     const customerId = customers.data[0].id;
-    // Check for both active and trialing subscriptions
+    logStep("Found Stripe customer", { customerId });
+
+    // Get all subscriptions to check status including canceled ones
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
-      limit: 10, // Get more to check all statuses
+      limit: 10,
     });
     
-    // Filter for active or trialing subscriptions
-    const validSubscriptions = subscriptions.data.filter(sub => 
-      sub.status === "active" || sub.status === "trialing"
-    );
-    
-    const hasValidSub = validSubscriptions.length > 0;
+    // Check for subscriptions that give access (active, trialing, or canceled but still valid)
+    let hasValidAccess = false;
     let subscriptionEnd = null;
+    let subscriptionStatus = null;
+    let isCanceled = false;
+    let trialEnd = null;
+    let validSubscription = null;
 
-    if (hasValidSub) {
-      const subscription = validSubscriptions[0];
-      subscriptionEnd = new Date(subscription.current_period_end * 1000).toISOString();
+    for (const subscription of subscriptions.data) {
+      const now = new Date();
+      const currentPeriodEnd = new Date(subscription.current_period_end * 1000);
+      const trialEndDate = subscription.trial_end ? new Date(subscription.trial_end * 1000) : null;
+      
+      if (subscription.status === "active" || subscription.status === "trialing") {
+        hasValidAccess = true;
+        validSubscription = subscription;
+        subscriptionStatus = subscription.status;
+        subscriptionEnd = currentPeriodEnd.toISOString();
+        if (trialEndDate) trialEnd = trialEndDate.toISOString();
+        break;
+      } else if (subscription.status === "canceled") {
+        // Check if canceled subscription still has valid access
+        const accessUntil = trialEndDate && trialEndDate > now ? trialEndDate : 
+                           currentPeriodEnd > now ? currentPeriodEnd : null;
+        
+        if (accessUntil) {
+          hasValidAccess = true;
+          validSubscription = subscription;
+          subscriptionStatus = "canceled";
+          isCanceled = true;
+          subscriptionEnd = accessUntil.toISOString();
+          if (trialEndDate) trialEnd = trialEndDate.toISOString();
+          break;
+        }
+      }
     }
+
+    logStep("Subscription check completed", { 
+      hasValidAccess, 
+      subscriptionStatus, 
+      isCanceled, 
+      subscriptionEnd,
+      trialEnd 
+    });
 
     await supabaseClient.from("subscribers").upsert({
       email: user.email,
       user_id: user.id,
       stripe_customer_id: customerId,
-      stripe_subscription_id: hasValidSub ? validSubscriptions[0].id : null,
-      subscribed: hasValidSub,
-      subscription_tier: hasValidSub ? "ai_copilot" : null,
+      stripe_subscription_id: hasValidAccess && validSubscription ? validSubscription.id : null,
+      subscribed: hasValidAccess,
+      subscription_tier: hasValidAccess ? "ai_copilot" : null,
+      subscription_status: subscriptionStatus,
       subscription_end: subscriptionEnd,
+      trial_end: trialEnd,
+      is_canceled: isCanceled,
       updated_at: new Date().toISOString(),
     }, { onConflict: 'email' });
 
+    logStep("Updated database with subscription info", { 
+      subscribed: hasValidAccess, 
+      subscriptionStatus,
+      isCanceled 
+    });
+
     return new Response(JSON.stringify({
-      subscribed: hasValidSub,
-      subscription_tier: hasValidSub ? "ai_copilot" : null,
-      subscription_end: subscriptionEnd
+      subscribed: hasValidAccess,
+      subscription_tier: hasValidAccess ? "ai_copilot" : null,
+      subscription_status: subscriptionStatus,
+      subscription_end: subscriptionEnd,
+      trial_end: trialEnd,
+      is_canceled: isCanceled,
+      days_remaining: subscriptionEnd ? Math.ceil((new Date(subscriptionEnd).getTime() - Date.now()) / (1000 * 60 * 60 * 24)) : 0
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,

@@ -62,3 +62,13 @@ export type ChatMessage = {
   content: string;
   created_at: string;
 };
+
+export type SubscriptionStatus = {
+  subscribed: boolean;
+  subscription_tier?: string;
+  subscription_status?: 'active' | 'trialing' | 'canceled' | 'inactive';
+  subscription_end?: string;
+  trial_end?: string;
+  is_canceled?: boolean;
+  days_remaining?: number;
+};
