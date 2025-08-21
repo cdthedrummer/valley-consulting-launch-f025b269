@@ -1,6 +1,7 @@
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
 
 // Initialize Resend with the API key
 const resendApiKey = Deno.env.get("RESEND_API_KEY");
@@ -15,6 +16,26 @@ const corsHeaders = {
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type",
 };
+
+// Input validation and sanitization functions
+const sanitizeInput = (input: string): string => {
+  return input?.toString()
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // Remove script tags
+    .replace(/[<>]/g, '') // Remove angle brackets
+    .trim()
+    .substring(0, 1000) // Limit length
+}
+
+const validateEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
+
+const getClientIP = (req: Request): string => {
+  return req.headers.get('x-forwarded-for') || 
+         req.headers.get('x-real-ip') || 
+         'unknown'
+}
 
 interface ContactFormData {
   name: string;
@@ -33,20 +54,51 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  try {
-    console.log("Parsing request body");
-    const formData: ContactFormData = await req.json();
-    console.log("Form data received:", formData);
-    
-    const { name, email, message, company, phone, service_interest } = formData;
+  const supabase = createClient(
+    Deno.env.get('SUPABASE_URL') ?? '',
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+  )
 
-    // Validate the necessary fields
-    if (!name || !email || !message) {
-      console.error("Missing required fields");
+  try {
+    const clientIP = getClientIP(req)
+    
+    // Check rate limiting (10 requests per hour per IP)
+    const { data: rateLimitCheck } = await supabase.rpc('check_rate_limit', {
+      _ip_address: clientIP,
+      _endpoint: 'contact-form',
+      _max_requests: 10,
+      _window_minutes: 60
+    })
+
+    if (!rateLimitCheck) {
+      console.warn(`Rate limit exceeded for IP: ${clientIP}`)
+      return new Response(
+        JSON.stringify({ error: 'Too many requests. Please try again later.' }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 429,
+        },
+      )
+    }
+
+    console.log("Parsing request body");
+    const rawData: ContactFormData = await req.json();
+    console.log("Form data received (sanitized)");
+    
+    // Sanitize and validate input
+    const name = sanitizeInput(rawData.name);
+    const email = sanitizeInput(rawData.email);
+    const message = sanitizeInput(rawData.message);
+    const company = rawData.company ? sanitizeInput(rawData.company) : undefined;
+    const phone = rawData.phone ? sanitizeInput(rawData.phone) : undefined;
+    const service_interest = rawData.service_interest ? sanitizeInput(rawData.service_interest) : undefined;
+
+    // Enhanced validation
+    if (!name || name.length < 2) {
       return new Response(
         JSON.stringify({ 
           success: false, 
-          error: "Missing required fields" 
+          error: "Name must be at least 2 characters" 
         }),
         {
           status: 400,
@@ -58,8 +110,49 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    if (!email || !validateEmail(email)) {
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: "Valid email address is required" 
+        }),
+        {
+          status: 400,
+          headers: { 
+            "Content-Type": "application/json",
+            ...corsHeaders 
+          },
+        }
+      );
+    }
+
+    if (!message || message.length < 10) {
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: "Message must be at least 10 characters" 
+        }),
+        {
+          status: 400,
+          headers: { 
+            "Content-Type": "application/json",
+            ...corsHeaders 
+          },
+        }
+      );
+    }
+
+    // Log audit trail
+    await supabase.from('audit_logs').insert({
+      table_name: 'contact_submissions',
+      operation: 'INSERT',
+      new_data: { name, email, masked_phone: phone ? '***' : null, company, service_interest },
+      ip_address: clientIP,
+      user_agent: req.headers.get('user-agent')
+    })
+
     console.log("Sending email to business owner");
-    // Send email to business owner
+    // Send email to business owner (with sanitized content)
     const ownerEmailResponse = await resend.emails.send({
       from: "Hudson Valley Consulting <no-reply@hvcg.us>",
       to: ["contact@hvcg.us"],
@@ -73,6 +166,7 @@ const handler = async (req: Request): Promise<Response> => {
         ${service_interest ? `<p><strong>Service Interest:</strong> ${service_interest}</p>` : ''}
         <p><strong>Message:</strong></p>
         <p>${message}</p>
+        <p><small>IP: ${clientIP}</small></p>
       `,
     });
     console.log("Owner email response:", ownerEmailResponse);
@@ -130,10 +224,20 @@ const handler = async (req: Request): Promise<Response> => {
     );
   } catch (error) {
     console.error("Error in send-contact-email function:", error);
+    
+    // Log security incident
+    await supabase.from('audit_logs').insert({
+      table_name: 'contact_submissions',
+      operation: 'INSERT',
+      new_data: { error: 'Processing failed', ip_address: getClientIP(req) },
+      ip_address: getClientIP(req),
+      user_agent: req.headers.get('user-agent')
+    }).catch(console.error)
+
     return new Response(
       JSON.stringify({ 
         success: false, 
-        error: error.message 
+        error: "Failed to process contact form submission" 
       }),
       {
         status: 500,

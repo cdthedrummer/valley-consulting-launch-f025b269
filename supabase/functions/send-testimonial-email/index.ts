@@ -1,6 +1,7 @@
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
 
 // Initialize Resend with the API key
 const resendApiKey = Deno.env.get("RESEND_API_KEY");
@@ -15,6 +16,26 @@ const corsHeaders = {
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type",
 };
+
+// Input validation and sanitization functions
+const sanitizeInput = (input: string): string => {
+  return input?.toString()
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // Remove script tags
+    .replace(/[<>]/g, '') // Remove angle brackets
+    .trim()
+    .substring(0, 1000) // Limit length
+}
+
+const validateEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
+
+const getClientIP = (req: Request): string => {
+  return req.headers.get('x-forwarded-for') || 
+         req.headers.get('x-real-ip') || 
+         'unknown'
+}
 
 interface TestimonialData {
   name: string;
@@ -34,22 +55,51 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  try {
-    console.log("Parsing testimonial request body");
-    const testimonialData: TestimonialData = await req.json();
-    console.log("Testimonial data received:", testimonialData);
-    
-    // Get email from the field
-    const emailToUse = testimonialData.email;
-    const { name, company, service, rating, testimonial } = testimonialData;
+  const supabase = createClient(
+    Deno.env.get('SUPABASE_URL') ?? '',
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+  )
 
-    // Validate the necessary fields
-    if (!name || !company || !testimonial) {
-      console.error("Missing required testimonial fields");
+  try {
+    const clientIP = getClientIP(req)
+    
+    // Check rate limiting (5 testimonials per hour per IP)
+    const { data: rateLimitCheck } = await supabase.rpc('check_rate_limit', {
+      _ip_address: clientIP,
+      _endpoint: 'testimonial-form',
+      _max_requests: 5,
+      _window_minutes: 60
+    })
+
+    if (!rateLimitCheck) {
+      console.warn(`Rate limit exceeded for testimonial submission from IP: ${clientIP}`)
+      return new Response(
+        JSON.stringify({ error: 'Too many submissions. Please try again later.' }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 429,
+        },
+      )
+    }
+
+    console.log("Parsing testimonial request body");
+    const rawData: TestimonialData = await req.json();
+    console.log("Testimonial data received (sanitized)");
+    
+    // Sanitize and validate input
+    const name = sanitizeInput(rawData.name);
+    const company = sanitizeInput(rawData.company);
+    const service = sanitizeInput(rawData.service);
+    const rating = parseInt(rawData.rating.toString());
+    const testimonial = sanitizeInput(rawData.testimonial);
+    const emailToUse = rawData.email ? sanitizeInput(rawData.email) : undefined;
+
+    // Enhanced validation
+    if (!name || name.length < 2) {
       return new Response(
         JSON.stringify({ 
           success: false, 
-          error: "Missing required fields" 
+          error: "Name must be at least 2 characters" 
         }),
         {
           status: 400,
@@ -61,8 +111,97 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    if (!company || company.length < 2) {
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: "Company must be at least 2 characters" 
+        }),
+        {
+          status: 400,
+          headers: { 
+            "Content-Type": "application/json",
+            ...corsHeaders 
+          },
+        }
+      );
+    }
+
+    if (!service || service.length < 2) {
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: "Service must be at least 2 characters" 
+        }),
+        {
+          status: 400,
+          headers: { 
+            "Content-Type": "application/json",
+            ...corsHeaders 
+          },
+        }
+      );
+    }
+
+    if (!rating || rating < 1 || rating > 5) {
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: "Rating must be between 1 and 5" 
+        }),
+        {
+          status: 400,
+          headers: { 
+            "Content-Type": "application/json",
+            ...corsHeaders 
+          },
+        }
+      );
+    }
+
+    if (!testimonial || testimonial.length < 20) {
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: "Testimonial must be at least 20 characters" 
+        }),
+        {
+          status: 400,
+          headers: { 
+            "Content-Type": "application/json",
+            ...corsHeaders 
+          },
+        }
+      );
+    }
+
+    if (emailToUse && !validateEmail(emailToUse)) {
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: "Valid email address is required if provided" 
+        }),
+        {
+          status: 400,
+          headers: { 
+            "Content-Type": "application/json",
+            ...corsHeaders 
+          },
+        }
+      );
+    }
+
+    // Log audit trail
+    await supabase.from('audit_logs').insert({
+      table_name: 'testimonials',
+      operation: 'INSERT',
+      new_data: { name, company, service, rating, has_email: !!emailToUse },
+      ip_address: clientIP,
+      user_agent: req.headers.get('user-agent')
+    })
+
     console.log("Sending testimonial notification to business owner");
-    // Send email to business owner about the new testimonial
+    // Send email to business owner about the new testimonial (with sanitized content)
     const ownerEmailResponse = await resend.emails.send({
       from: "Hudson Valley Consulting <no-reply@hvcg.us>",
       to: ["contact@hvcg.us"],
@@ -76,6 +215,7 @@ const handler = async (req: Request): Promise<Response> => {
         <p><strong>Testimonial:</strong></p>
         <p>"${testimonial}"</p>
         <p>Please review this testimonial in your dashboard and approve it if appropriate.</p>
+        <p><small>IP: ${clientIP}</small></p>
       `,
     });
     console.log("Owner testimonial notification email response:", ownerEmailResponse);
@@ -136,10 +276,20 @@ const handler = async (req: Request): Promise<Response> => {
     }
   } catch (error) {
     console.error("Error in send-testimonial-email function:", error);
+    
+    // Log security incident
+    await supabase.from('audit_logs').insert({
+      table_name: 'testimonials',
+      operation: 'INSERT',
+      new_data: { error: 'Processing failed', ip_address: getClientIP(req) },
+      ip_address: getClientIP(req),
+      user_agent: req.headers.get('user-agent')
+    }).catch(console.error)
+
     return new Response(
       JSON.stringify({ 
         success: false, 
-        error: error.message 
+        error: "Failed to process testimonial submission" 
       }),
       {
         status: 500,

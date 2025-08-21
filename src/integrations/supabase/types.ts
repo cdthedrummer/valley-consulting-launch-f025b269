@@ -86,6 +86,42 @@ export type Database = {
         }
         Relationships: []
       }
+      audit_logs: {
+        Row: {
+          created_at: string | null
+          id: string
+          ip_address: unknown | null
+          new_data: Json | null
+          old_data: Json | null
+          operation: string
+          table_name: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown | null
+          new_data?: Json | null
+          old_data?: Json | null
+          operation: string
+          table_name: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown | null
+          new_data?: Json | null
+          old_data?: Json | null
+          operation?: string
+          table_name?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       chat_messages: {
         Row: {
           content: string
@@ -205,6 +241,33 @@ export type Database = {
         }
         Relationships: []
       }
+      rate_limits: {
+        Row: {
+          created_at: string | null
+          endpoint: string
+          id: string
+          ip_address: unknown
+          request_count: number | null
+          window_start: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          endpoint: string
+          id?: string
+          ip_address: unknown
+          request_count?: number | null
+          window_start?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          endpoint?: string
+          id?: string
+          ip_address?: unknown
+          request_count?: number | null
+          window_start?: string | null
+        }
+        Relationships: []
+      }
       subscribers: {
         Row: {
           created_at: string
@@ -260,6 +323,7 @@ export type Database = {
         Row: {
           company: string
           created_at: string
+          email: string | null
           id: string
           image_url: string | null
           is_approved: boolean
@@ -271,6 +335,7 @@ export type Database = {
         Insert: {
           company: string
           created_at?: string
+          email?: string | null
           id?: string
           image_url?: string | null
           is_approved?: boolean
@@ -282,6 +347,7 @@ export type Database = {
         Update: {
           company?: string
           created_at?: string
+          email?: string | null
           id?: string
           image_url?: string | null
           is_approved?: boolean
@@ -339,6 +405,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      anonymize_old_customer_data: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      check_rate_limit: {
+        Args: {
+          _endpoint: string
+          _ip_address: unknown
+          _max_requests?: number
+          _window_minutes?: number
+        }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
