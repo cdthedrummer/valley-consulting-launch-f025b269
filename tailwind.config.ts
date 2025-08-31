@@ -63,6 +63,16 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
+				// Dashboard specific colors
+				"dashboard-bg": "hsl(var(--dashboard-bg))",
+				"widget-bg": "hsl(var(--widget-bg))",
+				"widget-border": "hsl(var(--widget-border))",
+				"stat-text": "hsl(var(--stat-text))",
+				"chart-primary": "hsl(var(--chart-primary))",
+				"chart-secondary": "hsl(var(--chart-secondary))",
+				"chart-accent": "hsl(var(--chart-accent))",
+				"gradient-from": "hsl(var(--gradient-from))",
+				"gradient-to": "hsl(var(--gradient-to))",
 				// HVCG custom colors
 				hvcg: {
 					'blue-dark': '#0E3B65',

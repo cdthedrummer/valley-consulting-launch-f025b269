@@ -37,6 +37,17 @@
 
     --radius: 0.5rem;
 
+    /* Dashboard specific tokens */
+    --dashboard-bg: 0 0% 98%;
+    --widget-bg: 0 0% 100%;
+    --widget-border: 214.3 31.8% 91.4%;
+    --stat-text: 222.2 84% 4.9%;
+    --chart-primary: 210 100% 50%;
+    --chart-secondary: 142 53% 44%;
+    --chart-accent: 45 93% 47%;
+    --gradient-from: 210 100% 97%;
+    --gradient-to: 210 40% 95%;
+
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -57,24 +68,36 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 100% 24%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 210 100% 56%;
+    --primary-foreground: 222.2 84% 4.9%;
 
-    --secondary: 210 80% 48%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 210 80% 60%;
+    --secondary-foreground: 222.2 84% 4.9%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 142 53% 44%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 142 53% 56%;
+    --accent-foreground: 222.2 84% 4.9%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 62.8% 50.6%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+
+    /* Dashboard specific tokens - dark mode */
+    --dashboard-bg: 222.2 84% 3%;
+    --widget-bg: 217.2 32.6% 17.5%;
+    --widget-border: 217.2 32.6% 25%;
+    --stat-text: 210 40% 98%;
+    --chart-primary: 210 100% 65%;
+    --chart-secondary: 142 53% 60%;
+    --chart-accent: 45 93% 58%;
+    --gradient-from: 217.2 32.6% 20%;
+    --gradient-to: 222.2 84% 8%;
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;

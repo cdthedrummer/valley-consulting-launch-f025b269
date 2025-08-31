@@ -15,16 +15,16 @@ const StatsCard: React.FC<StatsCardProps> = ({ title, value, change, className, 
   const isPositive = change && change > 0;
   
   return (
-    <div className={cn("flex flex-col p-4 backdrop-blur-sm rounded-lg", className)}>
+    <div className={cn("flex flex-col p-4 rounded-lg bg-widget-bg border border-widget-border", className)}>
       <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-medium text-white font-medium">{title}</span>
-        {icon && <div className="text-white">{icon}</div>}
+        <span className="text-sm font-medium text-stat-text">{title}</span>
+        {icon && <div className="text-muted-foreground">{icon}</div>}
       </div>
-      <div className="text-2xl font-bold text-white">{value}</div>
+      <div className="text-2xl font-bold text-stat-text">{value}</div>
       {change !== undefined && (
         <div className={cn(
           "flex items-center text-sm mt-1",
-          isPositive ? "text-green-400" : "text-red-400"
+          isPositive ? "text-green-600" : "text-red-600"
         )}>
           {isPositive ? (
             <ArrowUp className="h-4 w-4 mr-1" />
@@ -32,7 +32,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ title, value, change, className, 
             <ArrowDown className="h-4 w-4 mr-1" />
           )}
           <span>{Math.abs(change)}%</span>
-          <span className="text-white/70 ml-1">vs last week</span>
+          <span className="text-muted-foreground ml-1">vs last week</span>
         </div>
       )}
     </div>

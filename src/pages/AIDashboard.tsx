@@ -22,7 +22,7 @@ import LanguageSelector from "@/components/LanguageSelector";
 import IndustrySelector from "@/components/IndustrySelector";
 import LocationInput from "@/components/LocationInput";
 import ChatWithControls from "@/components/ChatWithControls";
-import VisualDashboard from "@/components/dashboard/VisualDashboard";
+import ResponsiveDashboard from "@/components/dashboard/ResponsiveDashboard";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { BarChart3, MessageSquare } from "lucide-react";
@@ -941,7 +941,7 @@ What would you like to know about ${location}? For example:
               {/* Conditional Content */}
               {viewMode === 'visual' ? (
                 <div className="flex-1 overflow-y-auto p-6">
-                  <VisualDashboard
+                  <ResponsiveDashboard
                     location={userLocation || 'Hudson Valley'}
                     locationType={userLocationType}
                     industry={userIndustry || 'Construction'}

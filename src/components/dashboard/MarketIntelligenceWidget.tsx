@@ -173,14 +173,14 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
                 />
               </div>
               
-              <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4">
-                <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
+              <div className="bg-widget-bg border border-widget-border rounded-lg p-4">
+                <h4 className="text-sm font-medium mb-3 flex items-center gap-2 text-stat-text">
                   <TrendingUp className="h-4 w-4" />
                   Sales Trend
                 </h4>
                 <SimpleChart 
                   data={marketData?.chartData || []} 
-                  color="#0066CC"
+                  color="hsl(var(--chart-primary))"
                   height={80}
                 />
               </div>
@@ -202,20 +202,20 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
                 />
               </div>
               
-              <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4">
-                <h4 className="text-sm font-medium mb-3">Age Distribution</h4>
+              <div className="bg-widget-bg border border-widget-border rounded-lg p-4">
+                <h4 className="text-sm font-medium mb-3 text-stat-text">Age Distribution</h4>
                 <div className="space-y-2">
                   {Object.entries(marketData?.demographics.ageGroups || {}).map(([age, percentage]) => (
                     <div key={age} className="flex justify-between items-center">
-                      <span className="text-sm">{age}</span>
+                      <span className="text-sm text-stat-text">{age}</span>
                       <div className="flex items-center gap-2">
                         <div className="w-20 h-2 bg-muted rounded-full overflow-hidden">
                           <div 
-                            className="h-full bg-primary rounded-full" 
+                            className="h-full bg-chart-primary rounded-full" 
                             style={{ width: `${percentage}%` }}
                           />
                         </div>
-                        <span className="text-sm font-medium w-8">{percentage}%</span>
+                        <span className="text-sm font-medium w-8 text-stat-text">{percentage}%</span>
                       </div>
                     </div>
                   ))}
@@ -239,8 +239,8 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
                 />
               </div>
               
-              <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4">
-                <h4 className="text-sm font-medium mb-2">Market Insights</h4>
+              <div className="bg-widget-bg border border-widget-border rounded-lg p-4">
+                <h4 className="text-sm font-medium mb-2 text-stat-text">Market Insights</h4>
                 <ul className="text-sm text-muted-foreground space-y-1">
                   <li>• {marketData?.businessData.totalEstablishments} total establishments in area</li>
                   <li>• {marketData?.demographics.homeOwnershipRate}% homeownership rate</li>
