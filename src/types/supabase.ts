@@ -70,5 +70,6 @@ export type SubscriptionStatus = {
   subscription_end?: string;
   trial_end?: string;
   is_canceled?: boolean;
+  is_trial_active?: boolean;
   days_remaining?: number;
 };

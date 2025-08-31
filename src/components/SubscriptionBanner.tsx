@@ -10,9 +10,13 @@ interface SubscriptionBannerProps {
 
 export const SubscriptionBanner: React.FC<SubscriptionBannerProps> = ({ subscriptionStatus }) => {
 
-  if (!subscriptionStatus.is_canceled || !subscriptionStatus.subscribed) {
+  // Show banner for canceled subscriptions with remaining access OR active trials approaching end
+  if ((!subscriptionStatus.is_canceled || !subscriptionStatus.subscribed) && !subscriptionStatus.is_trial_active) {
     return null;
   }
+
+  const isActiveTrial = subscriptionStatus.is_trial_active;
+  const daysRemaining = subscriptionStatus.days_remaining || 0;
 
   const handleReactivate = () => {
     // Redirect to Stripe Payment Link
@@ -26,8 +30,11 @@ export const SubscriptionBanner: React.FC<SubscriptionBannerProps> = ({ subscrip
         <div className="flex items-center gap-2">
           <Clock className="h-4 w-4" />
           <span>
-            Your trial ends in <strong>{subscriptionStatus.days_remaining || 0} days</strong>.
-            You'll lose access to your chat history unless you reactivate.
+            {isActiveTrial ? (
+              <>Your trial ends in <strong>{daysRemaining} days</strong>. Subscribe to continue access.</>
+            ) : (
+              <>Your subscription was canceled but you have <strong>{daysRemaining} days</strong> remaining. Reactivate to maintain access.</>
+            )}
           </span>
         </div>
         <Button
@@ -36,7 +43,7 @@ export const SubscriptionBanner: React.FC<SubscriptionBannerProps> = ({ subscrip
           className="ml-4 flex items-center gap-1"
         >
           <Sparkles className="h-3 w-3" />
-          Reactivate Subscription
+          {isActiveTrial ? 'Subscribe Now' : 'Reactivate Subscription'}
         </Button>
       </AlertDescription>
     </Alert>

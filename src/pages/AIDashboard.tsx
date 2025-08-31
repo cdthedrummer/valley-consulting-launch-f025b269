@@ -87,12 +87,17 @@ const AIDashboard: React.FC = () => {
 
       if (error) throw error;
       
-      const subscriptionData = data as SubscriptionStatus;
+      const subscriptionData = data as SubscriptionStatus & { is_trial_active?: boolean };
       setSubscriptionInfo(subscriptionData);
       
-      // Enhanced access logic that handles more subscription states
-      if (subscriptionData.subscribed) {
+      // Enhanced access logic that handles both paid subscriptions AND active trials
+      const hasValidAccess = subscriptionData.subscribed || subscriptionData.is_trial_active || false;
+      
+      if (hasValidAccess) {
         setHasAccess(true);
+        if (subscriptionData.is_trial_active) {
+          console.log('User has active trial access');
+        }
       } else {
         // Handle different subscription statuses
         const status = subscriptionData.subscription_status;

@@ -57,10 +57,11 @@ serve(async (req) => {
     const customerId = customers.data[0].id;
     logStep("Found Stripe customer", { customerId });
 
-    // Get all subscriptions to check status including canceled ones
+    // Get ALL subscriptions (including trial, incomplete, etc.) to check status
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
       limit: 10,
+      // Remove status filter to get ALL subscriptions
     });
     
     logStep("Found subscriptions", { 
@@ -75,6 +76,7 @@ serve(async (req) => {
     let isCanceled = false;
     let trialEnd = null;
     let validSubscription = null;
+    let isTrialActive = false;
 
     // Sort subscriptions by creation date (newest first) to prioritize recent subscriptions
     const sortedSubscriptions = subscriptions.data.sort((a, b) => b.created - a.created);
@@ -95,16 +97,32 @@ serve(async (req) => {
         currentPeriodEnd: currentPeriodEnd.toISOString()
       });
       
-      // Active, trialing, or processing subscriptions
-      if (subscription.status === "active" || subscription.status === "trialing") {
+      // Active subscriptions (paid)
+      if (subscription.status === "active") {
         hasValidAccess = true;
         validSubscription = subscription;
         subscriptionStatus = subscription.status;
         subscriptionEnd = currentPeriodEnd.toISOString();
         if (trialEndDate) trialEnd = trialEndDate.toISOString();
-        logStep("Found active/trialing subscription", { id: subscription.id, status: subscription.status });
+        logStep("Found active subscription", { id: subscription.id, status: subscription.status });
         break;
-      } 
+      }
+      // Trial subscriptions (should have full access during trial period)
+      else if (subscription.status === "trialing") {
+        const trialStillActive = trialEndDate && trialEndDate > now;
+        if (trialStillActive) {
+          hasValidAccess = true;
+          validSubscription = subscription;
+          subscriptionStatus = subscription.status;
+          isTrialActive = true;
+          subscriptionEnd = trialEndDate.toISOString();
+          trialEnd = trialEndDate.toISOString();
+          logStep("Found active trial subscription", { id: subscription.id, status: subscription.status, trialEnd: trialEndDate.toISOString() });
+          break;
+        } else {
+          logStep("Found expired trial subscription", { id: subscription.id, status: subscription.status, trialEnd: trialEndDate?.toISOString() });
+        }
+      }
       // Incomplete subscriptions that are recent (payment might still be processing)
       else if ((subscription.status === "incomplete" || subscription.status === "past_due") && isRecentSubscription) {
         hasValidAccess = true;
@@ -138,7 +156,8 @@ serve(async (req) => {
       subscriptionStatus, 
       isCanceled, 
       subscriptionEnd,
-      trialEnd 
+      trialEnd,
+      isTrialActive
     });
 
     await supabaseClient.from("subscribers").upsert({
@@ -168,6 +187,7 @@ serve(async (req) => {
       subscription_end: subscriptionEnd,
       trial_end: trialEnd,
       is_canceled: isCanceled,
+      is_trial_active: isTrialActive,
       days_remaining: subscriptionEnd ? Math.ceil((new Date(subscriptionEnd).getTime() - Date.now()) / (1000 * 60 * 60 * 24)) : 0
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
