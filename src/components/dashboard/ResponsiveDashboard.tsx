@@ -121,17 +121,17 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className={cn("space-y-6", className)}
+      className={cn("space-y-3 md:space-y-4", className)}
     >
       {/* Header */}
       <Card className="border-0 bg-gradient-to-r from-gradient-from to-gradient-to">
-        <CardHeader>
+        <CardHeader className="pb-3">
           <CardTitle className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <BarChart3 className="h-6 w-6 text-primary" />
               <div>
-                <h2 className="text-2xl font-bold">Market Intelligence Dashboard</h2>
-                <p className="text-sm text-muted-foreground font-normal">
+                <h2 className="text-xl md:text-2xl font-bold">Market Intelligence Dashboard</h2>
+                <p className="text-xs md:text-sm text-muted-foreground font-normal">
                   Real-time insights for {industry} businesses in {displayLocation}
                 </p>
               </div>
@@ -166,9 +166,9 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
                 </Button>
               </div>
               
-              <div className="text-right hidden lg:block">
-                <div className="text-sm text-muted-foreground">Data Sources</div>
-                <div className="text-xs text-muted-foreground">
+              <div className="text-right hidden xl:block">
+                <div className="text-xs text-muted-foreground">Data Sources</div>
+                <div className="text-xs text-muted-foreground opacity-75">
                   US Census • Local Data • Market Analysis
                 </div>
               </div>
@@ -215,28 +215,28 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
 
       {/* Action Items - Always visible at bottom */}
       <Card className="border-0 bg-gradient-to-r from-green-500/5 to-blue-500/5">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <TrendingUp className="h-5 w-5 text-green-600" />
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+            <TrendingUp className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
             Recommended Actions
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="p-4 bg-widget-bg rounded-lg border border-widget-border">
-              <h4 className="font-medium text-sm mb-2 text-stat-text">High Priority</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="p-3 bg-widget-bg rounded-lg border border-widget-border">
+              <h4 className="font-medium text-xs md:text-sm mb-1 text-stat-text">High Priority</h4>
               <p className="text-xs text-muted-foreground">
                 Target {displayLocation} homeowners aged 35-54 for {industry} services. Market demand is 12% above average.
               </p>
             </div>
-            <div className="p-4 bg-widget-bg rounded-lg border border-widget-border">
-              <h4 className="font-medium text-sm mb-2 text-stat-text">Pricing Opportunity</h4>
+            <div className="p-3 bg-widget-bg rounded-lg border border-widget-border">
+              <h4 className="font-medium text-xs md:text-sm mb-1 text-stat-text">Pricing Opportunity</h4>
               <p className="text-xs text-muted-foreground">
                 Current pricing is 5% below optimal. Consider $50-80 increase for new projects.
               </p>
             </div>
-            <div className="p-4 bg-widget-bg rounded-lg border border-widget-border">
-              <h4 className="font-medium text-sm mb-2 text-stat-text">Seasonal Planning</h4>
+            <div className="p-3 bg-widget-bg rounded-lg border border-widget-border">
+              <h4 className="font-medium text-xs md:text-sm mb-1 text-stat-text">Seasonal Planning</h4>
               <p className="text-xs text-muted-foreground">
                 Schedule maintenance campaigns for next quarter when demand typically increases 25%.
               </p>

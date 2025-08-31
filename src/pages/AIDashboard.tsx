@@ -22,7 +22,7 @@ import LanguageSelector from "@/components/LanguageSelector";
 import IndustrySelector from "@/components/IndustrySelector";
 import LocationInput from "@/components/LocationInput";
 import ChatWithControls from "@/components/ChatWithControls";
-import ResponsiveDashboard from "@/components/dashboard/ResponsiveDashboard";
+import DashboardWithControls from "@/components/DashboardWithControls";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { BarChart3, MessageSquare } from "lucide-react";
@@ -61,7 +61,7 @@ const AIDashboard: React.FC = () => {
   const [showSetup, setShowSetup] = useState(true);
   const [showQuestionnaire, setShowQuestionnaire] = useState(false);
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
-  const [viewMode, setViewMode] = useState<'visual' | 'chat'>('visual');
+  const [viewMode, setViewMode] = useState<'chat' | 'dashboard'>('dashboard');
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -912,9 +912,9 @@ What would you like to know about ${location}? For example:
                 <div className="flex items-center gap-2">
                   <div className="flex bg-muted rounded-lg p-1">
                     <Button
-                      variant={viewMode === 'visual' ? 'default' : 'ghost'}
+                      variant={viewMode === 'dashboard' ? 'default' : 'ghost'}
                       size="sm"
-                      onClick={() => setViewMode('visual')}
+                      onClick={() => setViewMode('dashboard')}
                       className="h-8 px-3 flex items-center gap-2"
                     >
                       <BarChart3 className="h-4 w-4" />
@@ -930,7 +930,7 @@ What would you like to know about ${location}? For example:
                       Chat
                     </Button>
                   </div>
-                  {viewMode === 'visual' && userLocation && (
+                  {viewMode === 'dashboard' && userLocation && (
                     <div className="text-sm text-muted-foreground">
                       Showing data for {userLocation} {userIndustry && `• ${userIndustry}`}
                     </div>
@@ -939,12 +939,27 @@ What would you like to know about ${location}? For example:
               </div>
 
               {/* Conditional Content */}
-              {viewMode === 'visual' ? (
+              {viewMode === 'dashboard' ? (
                 <div className="flex-1 overflow-y-auto p-6">
-                  <ResponsiveDashboard
-                    location={userLocation || 'Hudson Valley'}
-                    locationType={userLocationType}
-                    industry={userIndustry || 'Construction'}
+                  <DashboardWithControls
+                    userLocation={userLocation || 'Hudson Valley'}
+                    userLocationType={userLocationType}
+                    userIndustry={userIndustry || 'Construction'}
+                    userLanguage={userLanguage}
+                    sidebarOpen={sidebarOpen}
+                    isMobile={isMobile}
+                    onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+                    onLocationChange={(location, type) => {
+                      setUserLocation(location);
+                      setUserLocationType(type);
+                    }}
+                    onIndustryChange={setUserIndustry}
+                    onLanguageChange={setUserLanguage}
+                    onQuestionSelect={(question) => {
+                      setInput(question);
+                      // Switch to chat mode when question is selected
+                      setViewMode('chat');
+                    }}
                   />
                 </div>
               ) : (
