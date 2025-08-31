@@ -62,6 +62,7 @@ serve(async (req) => {
       customer: customerId,
       limit: 10,
       // Remove status filter to get ALL subscriptions
+      expand: ['data.default_payment_method'],
     });
     
     logStep("Found subscriptions", { 
@@ -122,6 +123,16 @@ serve(async (req) => {
         } else {
           logStep("Found expired trial subscription", { id: subscription.id, status: subscription.status, trialEnd: trialEndDate?.toISOString() });
         }
+      }
+      // Check for incomplete_expired subscriptions that were recently created (payment processing)
+      else if (subscription.status === "incomplete_expired" && isRecentSubscription) {
+        hasValidAccess = true;
+        validSubscription = subscription;
+        subscriptionStatus = "incomplete_expired";
+        subscriptionEnd = currentPeriodEnd.toISOString();
+        if (trialEndDate) trialEnd = trialEndDate.toISOString();
+        logStep("Found recent incomplete_expired subscription, granting temporary access", { id: subscription.id, status: subscription.status });
+        break;
       }
       // Incomplete subscriptions that are recent (payment might still be processing)
       else if ((subscription.status === "incomplete" || subscription.status === "past_due") && isRecentSubscription) {
