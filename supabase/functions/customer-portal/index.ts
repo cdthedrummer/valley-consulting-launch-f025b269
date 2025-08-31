@@ -30,13 +30,28 @@ serve(async (req) => {
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", { apiVersion: "2023-10-16" });
     
-    // Find customer
-    const customers = await stripe.customers.list({ email: user.email, limit: 1 });
-    if (customers.data.length === 0) {
-      throw new Error("No Stripe customer found for this user");
-    }
+    let customerId;
     
-    const customerId = customers.data[0].id;
+    // First try to get customer ID from our database
+    const { data: subscriber, error: subError } = await supabaseClient
+      .from("subscribers")
+      .select("stripe_customer_id")
+      .eq("email", user.email)
+      .single();
+    
+    if (subscriber?.stripe_customer_id) {
+      customerId = subscriber.stripe_customer_id;
+      console.log(`[CUSTOMER-PORTAL] Using stored customer ID: ${customerId}`);
+    } else {
+      // Fallback to Stripe email search
+      console.log(`[CUSTOMER-PORTAL] No stored customer ID, searching Stripe by email: ${user.email}`);
+      const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+      if (customers.data.length === 0) {
+        throw new Error("No Stripe customer found for this user");
+      }
+      customerId = customers.data[0].id;
+      console.log(`[CUSTOMER-PORTAL] Found customer via email search: ${customerId}`);
+    }
     
     // Create billing portal session
     const portalSession = await stripe.billingPortal.sessions.create({
