@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
-import { MapPin, Building2, Globe, Settings, ChevronDown, ChevronUp, Moon, Sun } from 'lucide-react';
+import { MapPin, Building2, Globe, Settings, ChevronDown, ChevronUp } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { useTheme } from 'next-themes';
 import LocationInput from './LocationInput';
 import IndustrySelector from './IndustrySelector';
 import LanguageSelector from './LanguageSelector';
@@ -36,7 +34,6 @@ const ChatControls: React.FC<ChatControlsProps> = ({
 }) => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [questionsOpen, setQuestionsOpen] = useState(true);
-  const { theme, setTheme } = useTheme();
 
   return (
     <div className={`space-y-3 md:space-y-4 ${className}`}>
@@ -66,18 +63,6 @@ const ChatControls: React.FC<ChatControlsProps> = ({
               <Globe className="h-3 w-3" />
               <span>{language}</span>
             </Badge>
-          </div>
-
-          {/* Dark Mode Toggle */}
-          <div className="flex items-center justify-between py-2 border-t">
-            <div className="flex items-center gap-2">
-              {theme === 'dark' ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-              <span className="text-sm font-medium">Dark Mode</span>
-            </div>
-            <Switch
-              checked={theme === 'dark'}
-              onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')}
-            />
           </div>
           
           <Collapsible open={settingsOpen} onOpenChange={setSettingsOpen}>
