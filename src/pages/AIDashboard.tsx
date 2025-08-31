@@ -22,8 +22,10 @@ import LanguageSelector from "@/components/LanguageSelector";
 import IndustrySelector from "@/components/IndustrySelector";
 import LocationInput from "@/components/LocationInput";
 import ChatWithControls from "@/components/ChatWithControls";
+import VisualDashboard from "@/components/dashboard/VisualDashboard";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
+import { BarChart3, MessageSquare } from "lucide-react";
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
@@ -59,6 +61,7 @@ const AIDashboard: React.FC = () => {
   const [showSetup, setShowSetup] = useState(true);
   const [showQuestionnaire, setShowQuestionnaire] = useState(false);
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
+  const [viewMode, setViewMode] = useState<'visual' | 'chat'>('visual');
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -903,34 +906,78 @@ What would you like to know about ${location}? For example:
                   )}
                 </div>
               )}
-              <ChatWithControls
-              messages={messages}
-              input={input}
-              isLoading={isLoading}
-              activeSessionId={activeSessionId}
-              userLocation={userLocation}
-              userLocationType={userLocationType}
-              userIndustry={userIndustry}
-              userLanguage={userLanguage}
-              sidebarOpen={sidebarOpen}
-              onInputChange={setInput}
-              onSendMessage={sendMessage}
-              onKeyPress={handleKeyPress}
-              onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-              isMobile={isMobile}
-              onLocationChange={(location, type) => {
-                setUserLocation(location);
-                setUserLocationType(type);
-              }}
-              onIndustryChange={setUserIndustry}
-              onLanguageChange={setUserLanguage}
-              onQuestionSelect={(question) => {
-                setInput(question);
-                // Don't auto-send, let user review and edit if needed
-              }}
-              onExportTranscript={exportTranscript}
-              onCopyMessage={copyMessage}
-            />
+              
+              {/* View Mode Toggle */}
+              <div className="px-6 py-3 border-b bg-background">
+                <div className="flex items-center gap-2">
+                  <div className="flex bg-muted rounded-lg p-1">
+                    <Button
+                      variant={viewMode === 'visual' ? 'default' : 'ghost'}
+                      size="sm"
+                      onClick={() => setViewMode('visual')}
+                      className="h-8 px-3 flex items-center gap-2"
+                    >
+                      <BarChart3 className="h-4 w-4" />
+                      Dashboard
+                    </Button>
+                    <Button
+                      variant={viewMode === 'chat' ? 'default' : 'ghost'}
+                      size="sm"
+                      onClick={() => setViewMode('chat')}
+                      className="h-8 px-3 flex items-center gap-2"
+                    >
+                      <MessageSquare className="h-4 w-4" />
+                      Chat
+                    </Button>
+                  </div>
+                  {viewMode === 'visual' && userLocation && (
+                    <div className="text-sm text-muted-foreground">
+                      Showing data for {userLocation} {userIndustry && `• ${userIndustry}`}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Conditional Content */}
+              {viewMode === 'visual' ? (
+                <div className="flex-1 overflow-y-auto p-6">
+                  <VisualDashboard
+                    location={userLocation || 'Hudson Valley'}
+                    locationType={userLocationType}
+                    industry={userIndustry || 'Construction'}
+                  />
+                </div>
+              ) : (
+                <ChatWithControls
+                  messages={messages}
+                  input={input}
+                  isLoading={isLoading}
+                  activeSessionId={activeSessionId}
+                  userLocation={userLocation}
+                  userLocationType={userLocationType}
+                  userIndustry={userIndustry}
+                  userLanguage={userLanguage}
+                  sidebarOpen={sidebarOpen}
+                  onInputChange={setInput}
+                  onSendMessage={sendMessage}
+                  onKeyPress={handleKeyPress}
+                  onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+                  isMobile={isMobile}
+                  onLocationChange={(location, type) => {
+                    setUserLocation(location);
+                    setUserLocationType(type);
+                  }}
+                  onIndustryChange={setUserIndustry}
+                  onLanguageChange={setUserLanguage}
+                  onQuestionSelect={(question) => {
+                    setInput(question);
+                    // Switch to chat mode when question is selected
+                    setViewMode('chat');
+                  }}
+                  onExportTranscript={exportTranscript}
+                  onCopyMessage={copyMessage}
+                />
+              )}
             </>
           )}
         </div>
