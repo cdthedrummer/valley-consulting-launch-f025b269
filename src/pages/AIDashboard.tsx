@@ -71,7 +71,15 @@ const AIDashboard: React.FC = () => {
     }
   }, [hasAccess, user]);
 
-  const checkSubscriptionAccess = async () => {
+  const checkSubscriptionAccess = async (showToast = false) => {
+    setCheckingAccess(true);
+    if (showToast) {
+      toast({
+        title: "Checking subscription status...",
+        description: "Please wait while we verify your access.",
+      });
+    }
+    
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -85,7 +93,17 @@ const AIDashboard: React.FC = () => {
         },
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Subscription check error:', error);
+        if (showToast) {
+          toast({
+            title: "Access check failed",
+            description: "Unable to verify your subscription. Please try again or contact support.",
+            variant: "destructive",
+          });
+        }
+        throw error;
+      }
       
       const subscriptionData = data as SubscriptionStatus & { is_trial_active?: boolean };
       setSubscriptionInfo(subscriptionData);
@@ -95,6 +113,12 @@ const AIDashboard: React.FC = () => {
       
       if (hasValidAccess) {
         setHasAccess(true);
+        if (showToast) {
+          toast({
+            title: "Access confirmed!",
+            description: `You have access via ${subscriptionData.is_trial_active ? 'trial' : 'subscription'}.`,
+          });
+        }
         if (subscriptionData.is_trial_active) {
           console.log('User has active trial access');
         }
@@ -106,10 +130,12 @@ const AIDashboard: React.FC = () => {
         // Grant access for processing subscriptions (incomplete/past_due) for recent payments
         if (status === 'incomplete' || status === 'past_due') {
           setHasAccess(true);
-          toast({
-            title: "Subscription Processing",
-            description: "Your subscription is being processed. You have temporary access.",
-          });
+          if (showToast) {
+            toast({
+              title: "Subscription Processing",
+              description: "Your subscription is being processed. You have temporary access.",
+            });
+          }
         }
         // Grant access for canceled subscriptions with remaining time
         else if (status === 'canceled' && daysRemaining > 0) {
@@ -123,15 +149,32 @@ const AIDashboard: React.FC = () => {
         // No access for other cases
         else {
           setHasAccess(false);
+          if (showToast) {
+            toast({
+              title: "No active subscription",
+              description: "Please complete your subscription to access the dashboard.",
+              variant: "destructive",
+            });
+          }
         }
       }
     } catch (error) {
       console.error('Error checking subscription:', error);
-      toast({
-        title: "Error",
-        description: "Failed to verify subscription status. Please try refreshing the page.",
-        variant: "destructive",
-      });
+      setHasAccess(false);
+      setSubscriptionInfo(null);
+      if (showToast) {
+        toast({
+          title: "Connection error",
+          description: "Unable to connect to subscription service. Please check your internet connection.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to verify subscription status. Please try refreshing the page.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setCheckingAccess(false);
     }
@@ -831,7 +874,34 @@ What would you like to know about ${location}? For example:
           ) : (
             <>
               {subscriptionInfo && (
-                <SubscriptionBanner subscriptionStatus={subscriptionInfo} />
+                <div className="space-y-3">
+                  <SubscriptionBanner subscriptionStatus={subscriptionInfo} />
+                  {(!subscriptionInfo.subscribed && !subscriptionInfo.is_trial_active) && (
+                    <div className="mx-6 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm text-blue-800">
+                          <strong>Just completed payment?</strong> Your subscription may still be processing.
+                        </div>
+                        <Button
+                          onClick={() => checkSubscriptionAccess(true)}
+                          disabled={checkingAccess}
+                          size="sm"
+                          variant="outline"
+                          className="border-blue-300 text-blue-700 hover:bg-blue-100"
+                        >
+                          {checkingAccess ? (
+                            <>
+                              <Loader2 className="h-3 w-3 animate-spin mr-1" />
+                              Checking...
+                            </>
+                          ) : (
+                            'Refresh Status'
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               )}
               <ChatWithControls
               messages={messages}

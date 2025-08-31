@@ -35,9 +35,60 @@ serve(async (req) => {
     if (!user?.email) throw new Error("User not authenticated or email not available");
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", { apiVersion: "2023-10-16" });
-    const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+    
+    // Try multiple customer search methods
+    let customers = await stripe.customers.list({ email: user.email, limit: 10 });
+    logStep("Initial customer search", { email: user.email, foundCount: customers.data.length });
+    
+    // If no exact email match, try searching for customers with similar emails
+    if (customers.data.length === 0) {
+      // Try searching without case sensitivity
+      const allCustomers = await stripe.customers.list({ limit: 100 });
+      const matchingCustomers = allCustomers.data.filter(c => 
+        c.email?.toLowerCase() === user.email.toLowerCase()
+      );
+      logStep("Case-insensitive search", { foundCount: matchingCustomers.length });
+      customers.data = matchingCustomers;
+    }
     
     if (customers.data.length === 0) {
+      logStep("No customer found, checking for very recent signups");
+      // For users who just signed up, grant temporary access and create a basic customer record
+      const userCreatedAt = new Date(user.created_at);
+      const now = new Date();
+      const minutesSinceCreation = (now.getTime() - userCreatedAt.getTime()) / (1000 * 60);
+      
+      if (minutesSinceCreation < 30) { // User created within last 30 minutes
+        logStep("Recent user detected, granting temporary trial access", { minutesSinceCreation });
+        
+        await supabaseClient.from("subscribers").upsert({
+          email: user.email,
+          user_id: user.id,
+          stripe_customer_id: null,
+          subscribed: true, // Grant temporary access
+          subscription_tier: "ai_copilot",
+          subscription_status: "trialing",
+          subscription_end: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now
+          trial_end: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+          is_canceled: false,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: 'email' });
+        
+        return new Response(JSON.stringify({ 
+          subscribed: true,
+          subscription_tier: "ai_copilot",
+          subscription_status: "trialing",
+          subscription_end: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+          trial_end: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+          is_canceled: false,
+          is_trial_active: true,
+          days_remaining: 7
+        }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 200,
+        });
+      }
+      
       await supabaseClient.from("subscribers").upsert({
         email: user.email,
         user_id: user.id,
@@ -63,6 +114,23 @@ serve(async (req) => {
       limit: 10,
       // Remove status filter to get ALL subscriptions
       expand: ['data.default_payment_method'],
+    });
+    
+    // Also check for any Checkout sessions that might be pending/completed
+    const checkoutSessions = await stripe.checkout.sessions.list({
+      customer: customerId,
+      limit: 10,
+    });
+    
+    logStep("Found checkout sessions", { 
+      count: checkoutSessions.data.length,
+      sessions: checkoutSessions.data.map(s => ({ 
+        id: s.id, 
+        status: s.status, 
+        payment_status: s.payment_status,
+        mode: s.mode,
+        created: s.created 
+      }))
     });
     
     logStep("Found subscriptions", { 
@@ -159,6 +227,31 @@ serve(async (req) => {
           logStep("Found canceled subscription with remaining access", { id: subscription.id, accessUntil: accessUntil.toISOString() });
           break;
         }
+      }
+    }
+
+    // If no subscription found but there are recent completed checkout sessions, grant temporary access
+    if (!hasValidAccess && checkoutSessions.data.length > 0) {
+      const recentCompletedSession = checkoutSessions.data.find(session => {
+        const sessionAge = Date.now() - (session.created * 1000);
+        const isRecent = sessionAge < (60 * 60 * 1000); // Within last hour
+        const isCompleted = session.status === 'complete' && session.payment_status === 'paid';
+        const isSubscription = session.mode === 'subscription';
+        return isRecent && isCompleted && isSubscription;
+      });
+      
+      if (recentCompletedSession) {
+        logStep("Found recent completed checkout session, granting temporary access", { 
+          sessionId: recentCompletedSession.id,
+          created: recentCompletedSession.created,
+          mode: recentCompletedSession.mode 
+        });
+        
+        hasValidAccess = true;
+        subscriptionStatus = "trialing";
+        isTrialActive = true;
+        subscriptionEnd = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(); // 7 days from now
+        trialEnd = subscriptionEnd;
       }
     }
 
