@@ -153,14 +153,18 @@ const IndustryInsightsWidget: React.FC<IndustryInsightsWidgetProps> = ({
 
   return (
     <ScrollableWidget delay={300}>
-      <Card className={cn("border-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 overflow-hidden", className)}>
-        <CardHeader className="pb-2">
-          <CardTitle className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Wrench className="h-5 w-5 text-purple-600" />
-              {industry} Insights
+      <Card className={cn(
+        "border-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 overflow-hidden",
+        "shadow-lg transition-all duration-300 hover:shadow-xl",
+        className
+      )}>
+        <CardHeader className="pb-2 px-4 sm:px-6">
+          <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div className="flex items-center gap-2 flex-wrap">
+              <Wrench className="h-5 w-5 text-purple-600 transition-transform duration-200 hover:scale-110" />
+              <span className="text-lg sm:text-xl">{industry} Insights</span>
             </div>
-            <Badge variant="outline" className="text-xs">
+            <Badge variant="outline" className="text-xs self-start sm:self-center transition-all duration-200 hover:scale-105">
               {location}
             </Badge>
           </CardTitle>
@@ -168,29 +172,43 @@ const IndustryInsightsWidget: React.FC<IndustryInsightsWidgetProps> = ({
         
         <CardContent className="p-0">
           <Tabs defaultValue="trends" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mx-4 mb-4">
-              <TabsTrigger value="trends">Trends</TabsTrigger>
-              <TabsTrigger value="seasonal">Seasonal</TabsTrigger>
-              <TabsTrigger value="insights">Tips</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-3 mx-4 sm:mx-6 mb-4 bg-background shadow-sm">
+              <TabsTrigger value="trends" className="touch-target text-sm transition-all duration-200">
+                Trends
+              </TabsTrigger>
+              <TabsTrigger value="seasonal" className="touch-target text-sm transition-all duration-200">
+                <span className="hidden sm:inline">Seasonal</span>
+                <span className="sm:hidden">Season</span>
+              </TabsTrigger>
+              <TabsTrigger value="insights" className="touch-target text-sm transition-all duration-200">
+                Tips
+              </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="trends" className="px-4 pb-4 space-y-3">
+            <TabsContent value="trends" className="mobile-section space-y-3">
               {trends.map((trend, index) => (
-                <div key={index} className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-sm">{trend.metric}</h4>
+                <div key={index} className="widget-card p-4 sm:p-5 transition-all duration-300 hover:shadow-lg group">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="font-medium text-sm group-hover:text-primary transition-colors duration-200">
+                      {trend.metric}
+                    </h4>
                     <div className={cn(
-                      "flex items-center gap-1 px-2 py-1 rounded-full text-xs",
+                      "flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-all duration-200 hover:scale-105",
                       getTrendColor(trend.trend)
                     )}>
-                      {getTrendIcon(trend.trend)}
+                      <div className="transform transition-transform duration-200 group-hover:scale-110">
+                        {getTrendIcon(trend.trend)}
+                      </div>
                       {Math.abs(trend.change)}%
                     </div>
                   </div>
                   
-                  <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
-                    <span>{trend.timeframe}</span>
-                    <span className="font-medium">
+                  <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
+                    <span className="flex items-center gap-1">
+                      <div className="w-1 h-1 bg-muted-foreground rounded-full"></div>
+                      {trend.timeframe}
+                    </span>
+                    <span className="font-medium text-stat-text">
                       {trend.metric.includes('Price') ? `$${trend.value}` : 
                        trend.metric.includes('Index') || trend.metric.includes('Satisfaction') || 
                        trend.metric.includes('Demand') ? `${trend.value}%` : trend.value}
@@ -199,35 +217,36 @@ const IndustryInsightsWidget: React.FC<IndustryInsightsWidgetProps> = ({
                   
                   <Progress 
                     value={trend.value} 
-                    className="h-2" 
+                    className="h-2.5 transition-all duration-300" 
                   />
                 </div>
               ))}
             </TabsContent>
 
-            <TabsContent value="seasonal" className="px-4 pb-4 space-y-4">
-              <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border">
-                <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
-                  <Calendar className="h-4 w-4" />
+            <TabsContent value="seasonal" className="mobile-section space-y-4">
+              <div className="widget-card p-4 sm:p-5 transition-all duration-300 hover:shadow-lg">
+                <h4 className="text-sm font-medium mb-4 flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-primary" />
+                  <div className="w-2 h-2 bg-chart-primary rounded-full"></div>
                   Seasonal Demand Pattern
                 </h4>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {seasonalData.map((month, index) => (
                     <div 
                       key={month.month} 
                       className={cn(
-                        "flex items-center justify-between p-2 rounded-md",
-                        index === getCurrentMonthIndex() ? "bg-primary/10 border border-primary/20" : ""
+                        "flex items-center justify-between p-3 rounded-md transition-all duration-200 hover:bg-background/50 hover:scale-[1.02]",
+                        index === getCurrentMonthIndex() ? "bg-primary/10 border border-primary/20 shadow-sm" : ""
                       )}
                     >
                       <span className="text-sm font-medium w-8">{month.month}</span>
-                      <div className="flex-1 mx-3">
-                        <Progress value={month.demand} className="h-2" />
+                      <div className="flex-1 mx-4">
+                        <Progress value={month.demand} className="h-2.5 transition-all duration-500" />
                       </div>
-                      <div className="flex items-center gap-2 text-xs">
-                        <span className="text-muted-foreground">${month.avgPrice}</span>
+                      <div className="flex items-center gap-3 text-xs">
+                        <span className="text-muted-foreground font-medium">${month.avgPrice}</span>
                         <div className={cn(
-                          "w-2 h-2 rounded-full",
+                          "w-2.5 h-2.5 rounded-full transition-all duration-200 hover:scale-110",
                           month.competition > 75 ? "bg-red-500" :
                           month.competition > 50 ? "bg-yellow-500" : "bg-green-500"
                         )} />
@@ -237,48 +256,71 @@ const IndustryInsightsWidget: React.FC<IndustryInsightsWidgetProps> = ({
                 </div>
               </div>
 
-              <div className="text-xs text-muted-foreground space-y-1">
-                <p>• Peak season: June-August (highest demand)</p>
-                <p>• Best pricing: December-February</p>
-                <p>• Competition level: <span className="inline-flex items-center gap-1">
-                  <div className="w-2 h-2 bg-red-500 rounded-full" /> High
-                  <div className="w-2 h-2 bg-yellow-500 rounded-full" /> Medium
-                  <div className="w-2 h-2 bg-green-500 rounded-full" /> Low
-                </span></p>
+              <div className="text-xs text-muted-foreground space-y-2 p-3 rounded-lg bg-background/30">
+                <p className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+                  Peak season: June-August (highest demand)
+                </p>
+                <p className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+                  Best pricing: December-February
+                </p>
+                <p className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+                  Competition level: 
+                  <span className="inline-flex items-center gap-2 ml-1">
+                    <div className="w-2 h-2 bg-red-500 rounded-full" /> High
+                    <div className="w-2 h-2 bg-yellow-500 rounded-full" /> Medium
+                    <div className="w-2 h-2 bg-green-500 rounded-full" /> Low
+                  </span>
+                </p>
               </div>
             </TabsContent>
 
-            <TabsContent value="insights" className="px-4 pb-4 space-y-3">
-              <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border">
-                <div className="flex items-center gap-2 mb-3">
-                  <Lightbulb className="h-4 w-4 text-yellow-600" />
-                  <h4 className="text-sm font-medium">Marketing Tips</h4>
+            <TabsContent value="insights" className="mobile-section space-y-3">
+              <div className="widget-card p-4 sm:p-5 transition-all duration-300 hover:shadow-lg group">
+                <div className="flex items-center gap-2 mb-4">
+                  <Lightbulb className="h-4 w-4 text-yellow-600 transition-transform duration-200 group-hover:scale-110" />
+                  <h4 className="text-sm font-medium group-hover:text-primary transition-colors duration-200">
+                    Marketing Tips
+                  </h4>
                 </div>
-                <ul className="text-xs text-muted-foreground space-y-2">
-                  <li className="flex items-start gap-2">
-                    <Target className="h-3 w-3 mt-0.5 text-green-600 flex-shrink-0" />
+                <ul className="text-xs text-muted-foreground space-y-3">
+                  <li className="flex items-start gap-3 p-2 rounded-md hover:bg-background/50 transition-colors duration-200">
+                    <Target className="h-3 w-3 mt-0.5 text-green-600 flex-shrink-0 transition-transform duration-200 hover:scale-110" />
                     Target homeowners aged 35-54 for highest conversion rates
                   </li>
-                  <li className="flex items-start gap-2">
-                    <Clock className="h-3 w-3 mt-0.5 text-blue-600 flex-shrink-0" />
+                  <li className="flex items-start gap-3 p-2 rounded-md hover:bg-background/50 transition-colors duration-200">
+                    <Clock className="h-3 w-3 mt-0.5 text-blue-600 flex-shrink-0 transition-transform duration-200 hover:scale-110" />
                     Schedule maintenance campaigns 2 months before peak seasons
                   </li>
-                  <li className="flex items-start gap-2">
-                    <DollarSign className="h-3 w-3 mt-0.5 text-purple-600 flex-shrink-0" />
+                  <li className="flex items-start gap-3 p-2 rounded-md hover:bg-background/50 transition-colors duration-200">
+                    <DollarSign className="h-3 w-3 mt-0.5 text-purple-600 flex-shrink-0 transition-transform duration-200 hover:scale-110" />
                     Offer winter discounts to capture off-season business
                   </li>
                 </ul>
               </div>
 
-              <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border">
-                <div className="flex items-center gap-2 mb-3">
-                  <AlertCircle className="h-4 w-4 text-orange-600" />
-                  <h4 className="text-sm font-medium">Market Alerts</h4>
+              <div className="widget-card p-4 sm:p-5 transition-all duration-300 hover:shadow-lg group">
+                <div className="flex items-center gap-2 mb-4">
+                  <AlertCircle className="h-4 w-4 text-orange-600 transition-transform duration-200 group-hover:scale-110" />
+                  <h4 className="text-sm font-medium group-hover:text-primary transition-colors duration-200">
+                    Market Alerts
+                  </h4>
                 </div>
                 <ul className="text-xs text-muted-foreground space-y-2">
-                  <li>• Service demand increased 12% this month</li>
-                  <li>• Competition in area is 3% lower than average</li>
-                  <li>• Price optimization opportunity: $50-80 above market rate</li>
+                  <li className="flex items-start gap-2 p-2 rounded-md hover:bg-background/50 transition-colors duration-200">
+                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                    Service demand increased 12% this month
+                  </li>
+                  <li className="flex items-start gap-2 p-2 rounded-md hover:bg-background/50 transition-colors duration-200">
+                    <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                    Competition in area is 3% lower than average
+                  </li>
+                  <li className="flex items-start gap-2 p-2 rounded-md hover:bg-background/50 transition-colors duration-200">
+                    <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
+                    Price optimization opportunity: $50-80 above market rate
+                  </li>
                 </ul>
               </div>
             </TabsContent>

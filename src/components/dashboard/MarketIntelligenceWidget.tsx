@@ -219,108 +219,116 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
 
   return (
     <ScrollableWidget className={className}>
-      <Card className="border-0 bg-gradient-to-br from-primary/5 to-secondary/5">
+      <Card className="border-0 bg-gradient-to-br from-primary/5 to-secondary/5 shadow-lg transition-all duration-300 hover:shadow-xl">
         {/* Enhanced Error Banner */}
         {error && (
           <div 
             role="alert" 
             aria-live="assertive" 
             className={cn(
-              "px-4 pt-3 pb-2 text-sm border-b",
+              "px-4 sm:px-6 pt-3 pb-2 text-sm border-b transition-all duration-200",
               dataSource === 'fallback' 
-                ? "text-amber-800 bg-amber-50 border-amber-200" 
-                : "text-red-800 bg-red-50 border-red-200"
+                ? "text-amber-800 bg-amber-50 border-amber-200 dark:text-amber-200 dark:bg-amber-900/20" 
+                : "text-red-800 bg-red-50 border-red-200 dark:text-red-200 dark:bg-red-900/20"
             )}
           >
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="h-4 w-4 flex-shrink-0" />
-                <span>{error}</span>
+                <AlertTriangle className="h-4 w-4 flex-shrink-0 animate-pulse" />
+                <span className="text-xs sm:text-sm">{error}</span>
               </div>
               <Button
                 onClick={handleRetry}
                 disabled={isRetrying}
                 size="sm"
                 variant="outline"
-                className="ml-auto flex-shrink-0"
+                className="ml-auto flex-shrink-0 touch-target transition-all duration-200 hover:scale-105 active:scale-95"
               >
                 <RefreshCcw className={cn("h-3 w-3 mr-1", isRetrying && "animate-spin")} />
-                {isRetrying ? 'Retrying...' : 'Retry'}
+                <span className="hidden sm:inline">{isRetrying ? 'Retrying...' : 'Retry'}</span>
               </Button>
             </div>
           </div>
         )}
         
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5" />
-              Market Intelligence
+        <CardHeader className="pb-3 px-4 sm:px-6">
+          <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div className="flex items-center gap-2 flex-wrap">
+              <TrendingUp className="h-5 w-5 text-primary transition-transform duration-200 hover:scale-110" />
+              <span className="text-lg sm:text-xl">Market Intelligence</span>
               {location && (
                 <span className="text-sm font-normal text-muted-foreground">
                   • {location}
                 </span>
               )}
-              {/* Data Source Indicator */}
-              <Badge 
-                variant={dataSource === 'live' ? 'default' : 'secondary'}
-                className="text-xs"
-              >
-                {dataSource === 'live' ? 'Live Data' : 'Sample Data'}
-              </Badge>
             </div>
+            {/* Data Source Indicator */}
+            <Badge 
+              variant={dataSource === 'live' ? 'default' : 'secondary'}
+              className="text-xs self-start sm:self-center transition-all duration-200 hover:scale-105"
+            >
+              {dataSource === 'live' ? 'Live Data' : 'Sample Data'}
+            </Badge>
           </CardTitle>
         </CardHeader>
         
         <CardContent className="p-0">
           <Tabs defaultValue="demographics" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mx-4 mb-4 bg-background">
-              <TabsTrigger value="demographics">Demographics</TabsTrigger>
-              <TabsTrigger value="business">Business</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 mx-4 sm:mx-6 mb-4 bg-background shadow-sm">
+              <TabsTrigger value="demographics" className="touch-target text-sm transition-all duration-200">
+                <span className="hidden sm:inline">Demographics</span>
+                <span className="sm:hidden">Demo</span>
+              </TabsTrigger>
+              <TabsTrigger value="business" className="touch-target text-sm transition-all duration-200">
+                Business
+              </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="demographics" className="px-4 pb-4 space-y-4">
-              <div className="grid grid-cols-2 gap-3">
+            <TabsContent value="demographics" className="mobile-section space-y-4">
+              <div className="mobile-grid grid-cols-1 sm:grid-cols-2">
                 <StatsCard
                   title="Households"
                   value={marketData?.demographics.totalHouseholds || 0}
                   icon={<Users className="h-4 w-4" />}
-                  className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20"
+                  className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20 hover:border-blue-500/40"
                 />
                 <StatsCard
                   title="Median Income"
                   value={`$${(marketData?.demographics.medianIncome || 0).toLocaleString()}`}
                   icon={<DollarSign className="h-4 w-4" />}
-                  className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20"
+                  className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 hover:border-green-500/40"
                 />
                 <StatsCard
                   title="Avg Home Value"
                   value={`$${(marketData?.demographics.avgHomeValue || 0).toLocaleString()}`}
                   icon={<Building2 className="h-4 w-4" />}
-                  className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20"
+                  className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20 hover:border-purple-500/40"
                 />
                 <StatsCard
                   title="Ownership Rate"
                   value={`${marketData?.demographics.homeOwnershipRate || 0}%`}
                   icon={<DollarSign className="h-4 w-4" />}
-                  className="bg-gradient-to-br from-orange-500/10 to-red-500/10 border border-orange-500/20"
+                  className="bg-gradient-to-br from-orange-500/10 to-red-500/10 border border-orange-500/20 hover:border-orange-500/40"
                 />
               </div>
               
-              <div className="bg-widget-bg border border-widget-border rounded-lg p-4">
-                <h4 className="text-sm font-medium mb-3 text-stat-text">Age Distribution</h4>
-                <div className="space-y-2">
+              <div className="widget-card p-4 sm:p-5 transition-all duration-300 hover:shadow-lg">
+                <h4 className="text-sm font-medium mb-4 text-stat-text flex items-center gap-2">
+                  <div className="w-2 h-2 bg-chart-primary rounded-full"></div>
+                  Age Distribution
+                </h4>
+                <div className="space-y-3">
                   {Object.entries(marketData?.demographics.ageGroups || {}).map(([age, percentage]) => (
-                    <div key={age} className="flex justify-between items-center">
-                      <span className="text-sm text-stat-text">{age}</span>
-                      <div className="flex items-center gap-2">
-                        <div className="w-20 h-2 bg-muted rounded-full overflow-hidden">
+                    <div key={age} className="flex justify-between items-center p-2 rounded-md hover:bg-background/50 transition-colors duration-200">
+                      <span className="text-sm font-medium text-stat-text">{age}</span>
+                      <div className="flex items-center gap-3">
+                        <div className="w-20 sm:w-24 h-2.5 bg-muted rounded-full overflow-hidden">
                           <div 
-                            className="h-full bg-chart-primary rounded-full" 
+                            className="h-full bg-gradient-to-r from-chart-primary to-chart-secondary rounded-full transition-all duration-500 ease-out" 
                             style={{ width: `${percentage}%` }}
                           />
                         </div>
-                        <span className="text-sm font-medium w-8 text-stat-text">{percentage}%</span>
+                        <span className="text-sm font-medium w-10 text-right text-stat-text">{percentage}%</span>
                       </div>
                     </div>
                   ))}
@@ -328,46 +336,64 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
               </div>
             </TabsContent>
 
-            <TabsContent value="business" className="px-4 pb-4 space-y-4">
-              <div className="grid grid-cols-2 gap-3">
+            <TabsContent value="business" className="mobile-section space-y-4">
+              <div className="mobile-grid grid-cols-1 sm:grid-cols-2">
                 <StatsCard
                   title="Competitors"
                   value={marketData?.businessData.competitorCount || 0}
                   icon={<Building2 className="h-4 w-4" />}
-                  className="bg-gradient-to-br from-amber-500/10 to-yellow-500/10 border border-amber-500/20"
+                  className="bg-gradient-to-br from-amber-500/10 to-yellow-500/10 border border-amber-500/20 hover:border-amber-500/40"
                 />
                 <StatsCard
                   title="Market Trend"
                   value={marketData?.businessData.marketTrend?.charAt(0).toUpperCase() + (marketData?.businessData.marketTrend?.slice(1) || '')}
                   icon={<TrendingUp className="h-4 w-4" />}
-                  className="bg-gradient-to-br from-teal-500/10 to-green-500/10 border border-teal-500/20"
+                  className="bg-gradient-to-br from-teal-500/10 to-green-500/10 border border-teal-500/20 hover:border-teal-500/40"
                 />
               </div>
               
-              <div className="bg-widget-bg border border-widget-border rounded-lg p-4">
-                <h4 className="text-sm font-medium mb-2 text-stat-text">Market Insights</h4>
-                <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• {marketData?.businessData.totalEstablishments} total establishments in area</li>
-                  <li>• {marketData?.demographics.homeOwnershipRate}% homeownership rate</li>
-                  <li>• Best opportunities in 35-54 age groups</li>
-                  <li>• Market showing {marketData?.businessData.marketTrend} trends</li>
+              <div className="widget-card p-4 sm:p-5 transition-all duration-300 hover:shadow-lg">
+                <h4 className="text-sm font-medium mb-3 text-stat-text flex items-center gap-2">
+                  <div className="w-2 h-2 bg-chart-secondary rounded-full"></div>
+                  Market Insights
+                </h4>
+                <ul className="text-sm text-muted-foreground space-y-2">
+                  <li className="flex items-start gap-2 p-2 rounded-md hover:bg-background/50 transition-colors duration-200">
+                    <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                    {marketData?.businessData.totalEstablishments} total establishments in area
+                  </li>
+                  <li className="flex items-start gap-2 p-2 rounded-md hover:bg-background/50 transition-colors duration-200">
+                    <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                    {marketData?.demographics.homeOwnershipRate}% homeownership rate
+                  </li>
+                  <li className="flex items-start gap-2 p-2 rounded-md hover:bg-background/50 transition-colors duration-200">
+                    <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                    Best opportunities in 35-54 age groups
+                  </li>
+                  <li className="flex items-start gap-2 p-2 rounded-md hover:bg-background/50 transition-colors duration-200">
+                    <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                    Market showing {marketData?.businessData.marketTrend} trends
+                  </li>
                 </ul>
               </div>
             </TabsContent>
           </Tabs>
           
           {/* Data Attribution Footer */}
-          <div className="px-4 pb-4">
+          <div className="px-4 sm:px-6 pb-4 sm:pb-6">
             <div className="pt-3 border-t border-muted space-y-2">
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <span>Last updated: {marketData?.lastUpdated}</span>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-muted-foreground">
+                <span className="flex items-center gap-1">
+                  <div className="w-1 h-1 bg-muted-foreground rounded-full"></div>
+                  Last updated: {marketData?.lastUpdated}
+                </span>
                 <Badge 
                   variant="outline" 
                   className={cn(
-                    "text-xs",
-                    marketData?.dataSources?.reliability === 'high' ? 'border-green-300 text-green-700' :
-                    marketData?.dataSources?.reliability === 'medium' ? 'border-yellow-300 text-yellow-700' :
-                    'border-orange-300 text-orange-700'
+                    "text-xs transition-all duration-200 hover:scale-105",
+                    marketData?.dataSources?.reliability === 'high' ? 'border-green-300 text-green-700 bg-green-50' :
+                    marketData?.dataSources?.reliability === 'medium' ? 'border-yellow-300 text-yellow-700 bg-yellow-50' :
+                    'border-orange-300 text-orange-700 bg-orange-50'
                   )}
                 >
                   {marketData?.dataSources?.reliability === 'high' ? '🟢' : 
