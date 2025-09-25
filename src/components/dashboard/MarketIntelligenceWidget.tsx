@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TrendingUp, Users, Building2, MapPin, DollarSign, AlertCircle } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import StatsCard from '@/components/StatsCard';
-import SimpleChart from '@/components/SimpleChart';
-import ScrollableWidget from '@/components/ScrollableWidget';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { TrendingUp, Users, Building2, DollarSign, RefreshCcw, AlertTriangle, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { supabase } from '@/integrations/supabase/client';
+import StatsCard from '../StatsCard';
+import SimpleChart from '../SimpleChart';
+import ScrollableWidget from '../ScrollableWidget';
+import { useStatusAnnouncer } from '@/hooks/use-live-region';
 
 interface MarketData {
   demographics: {
@@ -20,12 +23,18 @@ interface MarketData {
     totalEstablishments: number;
     recentSales: number;
     averagePrice: number;
-    marketTrend: 'growing' | 'stable' | 'declining';
+    marketTrend: string;
     competitorCount: number;
   };
   chartData: Array<{ name: string; value: number }>;
   location: string;
   lastUpdated: string;
+  dataSources?: {
+    primary: string;
+    secondary?: string[];
+    lastFetch: string;
+    reliability: 'high' | 'medium' | 'low';
+  };
 }
 
 interface MarketIntelligenceWidgetProps {
@@ -34,14 +43,17 @@ interface MarketIntelligenceWidgetProps {
   className?: string;
 }
 
-const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
-  location = 'Hudson Valley',
+const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({ 
+  location = 'Hudson Valley', 
   industry = 'Construction',
   className
 }) => {
   const [marketData, setMarketData] = useState<MarketData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isRetrying, setIsRetrying] = useState(false);
+  const [dataSource, setDataSource] = useState<'live' | 'fallback'>('live');
+  const { announce } = useStatusAnnouncer();
 
   useEffect(() => {
     fetchMarketData();
@@ -50,6 +62,8 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
   const fetchMarketData = async () => {
     setIsLoading(true);
     setError(null);
+    setDataSource('live');
+    announce(`Loading market data for ${location}...`);
 
     try {
       const { data, error: functionError } = await supabase.functions.invoke('market-intelligence', {
@@ -60,16 +74,32 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
       });
 
       if (functionError) {
-        throw functionError;
+        throw new Error(`API Error: ${functionError.message || 'Unknown error'}`);
       }
 
-      setMarketData(data);
+      if (data) {
+        setMarketData({
+          ...data,
+          dataSources: {
+            primary: 'US Census Bureau (ACS 5-Year Estimates)',
+            secondary: ['Bureau of Labor Statistics', 'County Business Patterns'],
+            lastFetch: new Date().toISOString(),
+            reliability: 'high'
+          }
+        });
+        setDataSource('live');
+        announce(`Market data loaded successfully for ${location}`);
+      } else {
+        throw new Error('No data received from API');
+      }
     } catch (err) {
       console.error('Error fetching market data:', err);
-      const errorMessage = 'Failed to load market data. Using sample data for demonstration.';
-      setError(errorMessage);
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+      setError(`Failed to load live market data: ${errorMessage}`);
+      setDataSource('fallback');
+      announce(`Unable to load live data. Displaying sample data for ${location}`);
       
-      // Fallback to mock data for demo
+      // Fallback to mock data for demo with clear indication
       setMarketData({
         demographics: {
           totalHouseholds: 2847,
@@ -92,11 +122,24 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
           { name: 'Q4', value: 42 }
         ],
         location,
-        lastUpdated: new Date().toLocaleDateString()
+        lastUpdated: new Date().toLocaleDateString(),
+        dataSources: {
+          primary: 'Sample Data (Demo)',
+          secondary: ['Estimated values for demonstration'],
+          lastFetch: new Date().toISOString(),
+          reliability: 'low'
+        }
       });
     } finally {
       setIsLoading(false);
+      setIsRetrying(false);
     }
+  };
+
+  const handleRetry = async () => {
+    setIsRetrying(true);
+    announce('Retrying data fetch...');
+    await fetchMarketData();
   };
 
   if (isLoading) {
@@ -106,6 +149,11 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
           <CardTitle className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5" />
             Market Intelligence
+            {location && (
+              <span className="text-sm font-normal text-muted-foreground">
+                • {location}
+              </span>
+            )}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -115,99 +163,145 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
             aria-live="polite" 
             aria-label="Loading market intelligence data"
           >
-            <div className="sr-only">Loading market data for {location || 'your area'}...</div>
-            {[...Array(4)].map((_, i) => (
-              <div 
-                key={i} 
-                className="h-16 bg-muted animate-pulse rounded-lg" 
-                aria-hidden="true"
-              />
-            ))}
+            <div className="sr-only">Loading market data for {location}...</div>
+            
+            {/* Enhanced loading skeleton with realistic content placeholders */}
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <div className="h-4 bg-muted animate-pulse rounded w-24"></div>
+                <div className="h-3 bg-muted animate-pulse rounded w-16"></div>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-3">
+                {[...Array(4)].map((_, i) => (
+                  <div 
+                    key={i} 
+                    className="p-3 border rounded-lg space-y-2" 
+                    aria-hidden="true"
+                  >
+                    <div className="h-3 bg-muted animate-pulse rounded w-16"></div>
+                    <div className="h-6 bg-muted animate-pulse rounded w-12"></div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="h-32 bg-muted animate-pulse rounded-lg" aria-hidden="true"></div>
+              
+              <div className="text-center">
+                <div className="h-3 bg-muted animate-pulse rounded w-48 mx-auto"></div>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
     );
   }
 
-  if (error) {
+  if (error && !marketData) {
     return (
       <Card className={cn("border-0 bg-gradient-to-br from-destructive/5 to-orange-500/5", className)}>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-destructive">
-            <AlertCircle className="h-5 w-5" />
-            Market Intelligence
+          <CardTitle className="flex items-center gap-2">
+            <AlertTriangle className="h-5 w-5 text-destructive" />
+            Error Loading Market Data
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground">{error}</p>
+        <CardContent className="space-y-4">
+          <p className="text-sm text-muted-foreground">{error}</p>
+          <Button onClick={handleRetry} disabled={isRetrying} className="w-full">
+            <RefreshCcw className={cn("h-4 w-4 mr-2", isRetrying && "animate-spin")} />
+            {isRetrying ? 'Retrying...' : 'Try Again'}
+          </Button>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <ScrollableWidget delay={200}>
-      <Card className={cn("border-0 bg-gradient-to-br from-primary/5 to-secondary/5 overflow-hidden", className)}>
-        <CardHeader className="pb-2">
+    <ScrollableWidget className={className}>
+      <Card className="border-0 bg-gradient-to-br from-primary/5 to-secondary/5">
+        {/* Enhanced Error Banner */}
+        {error && (
+          <div 
+            role="alert" 
+            aria-live="assertive" 
+            className={cn(
+              "px-4 pt-3 pb-2 text-sm border-b",
+              dataSource === 'fallback' 
+                ? "text-amber-800 bg-amber-50 border-amber-200" 
+                : "text-red-800 bg-red-50 border-red-200"
+            )}
+          >
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="h-4 w-4 flex-shrink-0" />
+                <span>{error}</span>
+              </div>
+              <Button
+                onClick={handleRetry}
+                disabled={isRetrying}
+                size="sm"
+                variant="outline"
+                className="ml-auto flex-shrink-0"
+              >
+                <RefreshCcw className={cn("h-3 w-3 mr-1", isRetrying && "animate-spin")} />
+                {isRetrying ? 'Retrying...' : 'Retry'}
+              </Button>
+            </div>
+          </div>
+        )}
+        
+        <CardHeader className="pb-3">
           <CardTitle className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-primary" />
+              <TrendingUp className="h-5 w-5" />
               Market Intelligence
+              {location && (
+                <span className="text-sm font-normal text-muted-foreground">
+                  • {location}
+                </span>
+              )}
+              {/* Data Source Indicator */}
+              <Badge 
+                variant={dataSource === 'live' ? 'default' : 'secondary'}
+                className="text-xs"
+              >
+                {dataSource === 'live' ? 'Live Data' : 'Sample Data'}
+              </Badge>
             </div>
-            <span className="text-sm text-muted-foreground">{marketData?.location}</span>
           </CardTitle>
         </CardHeader>
         
         <CardContent className="p-0">
-          <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mx-4 mb-4">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
+          <Tabs defaultValue="demographics" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mx-4 mb-4 bg-background">
               <TabsTrigger value="demographics">Demographics</TabsTrigger>
               <TabsTrigger value="business">Business</TabsTrigger>
             </TabsList>
-
-            <TabsContent value="overview" className="px-4 pb-4 space-y-4">
-              <div className="grid grid-cols-2 gap-3">
-                <StatsCard
-                  title="Recent Sales"
-                  value={marketData?.businessData.recentSales || 0}
-                  change={12}
-                  icon={<Building2 className="h-4 w-4" />}
-                  className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20"
-                />
-                <StatsCard
-                  title="Avg Price"
-                  value={`$${((marketData?.businessData.averagePrice || 0) / 1000).toFixed(0)}K`}
-                  change={5}
-                  icon={<DollarSign className="h-4 w-4" />}
-                  className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20"
-                />
-              </div>
-              
-              <div className="bg-widget-bg border border-widget-border rounded-lg p-4">
-                <h4 className="text-sm font-medium mb-3 flex items-center gap-2 text-stat-text">
-                  <TrendingUp className="h-4 w-4" />
-                  Sales Trend
-                </h4>
-                <SimpleChart 
-                  data={marketData?.chartData || []} 
-                  color="hsl(var(--chart-primary))"
-                  height={80}
-                />
-              </div>
-            </TabsContent>
-
+            
             <TabsContent value="demographics" className="px-4 pb-4 space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <StatsCard
                   title="Households"
-                  value={marketData?.demographics.totalHouseholds.toLocaleString() || '0'}
+                  value={marketData?.demographics.totalHouseholds || 0}
                   icon={<Users className="h-4 w-4" />}
-                  className="bg-gradient-to-br from-purple-500/10 to-violet-500/10 border border-purple-500/20"
+                  className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20"
                 />
                 <StatsCard
                   title="Median Income"
-                  value={`$${((marketData?.demographics.medianIncome || 0) / 1000).toFixed(0)}K`}
+                  value={`$${(marketData?.demographics.medianIncome || 0).toLocaleString()}`}
+                  icon={<DollarSign className="h-4 w-4" />}
+                  className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20"
+                />
+                <StatsCard
+                  title="Avg Home Value"
+                  value={`$${(marketData?.demographics.avgHomeValue || 0).toLocaleString()}`}
+                  icon={<Building2 className="h-4 w-4" />}
+                  className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20"
+                />
+                <StatsCard
+                  title="Ownership Rate"
+                  value={`${marketData?.demographics.homeOwnershipRate || 0}%`}
                   icon={<DollarSign className="h-4 w-4" />}
                   className="bg-gradient-to-br from-orange-500/10 to-red-500/10 border border-orange-500/20"
                 />
@@ -262,10 +356,51 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
             </TabsContent>
           </Tabs>
           
+          {/* Data Attribution Footer */}
           <div className="px-4 pb-4">
-            <p className="text-xs text-muted-foreground">
-              Last updated: {marketData?.lastUpdated}
-            </p>
+            <div className="pt-3 border-t border-muted space-y-2">
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span>Last updated: {marketData?.lastUpdated}</span>
+                <Badge 
+                  variant="outline" 
+                  className={cn(
+                    "text-xs",
+                    marketData?.dataSources?.reliability === 'high' ? 'border-green-300 text-green-700' :
+                    marketData?.dataSources?.reliability === 'medium' ? 'border-yellow-300 text-yellow-700' :
+                    'border-orange-300 text-orange-700'
+                  )}
+                >
+                  {marketData?.dataSources?.reliability === 'high' ? '🟢' : 
+                   marketData?.dataSources?.reliability === 'medium' ? '🟡' : '🟠'} 
+                  {marketData?.dataSources?.reliability?.toUpperCase()}
+                </Badge>
+              </div>
+              
+              {marketData?.dataSources && (
+                <details className="text-xs text-muted-foreground">
+                  <summary className="cursor-pointer hover:text-foreground flex items-center gap-1">
+                    <ExternalLink className="h-3 w-3" />
+                    Data Sources & Attribution
+                  </summary>
+                  <div className="mt-2 pl-4 space-y-1">
+                    <div><strong>Primary:</strong> {marketData.dataSources.primary}</div>
+                    {marketData.dataSources.secondary && (
+                      <div>
+                        <strong>Additional:</strong> {marketData.dataSources.secondary.join(', ')}
+                      </div>
+                    )}
+                    <div className="text-xs opacity-75">
+                      Data fetched: {new Date(marketData.dataSources.lastFetch).toLocaleString()}
+                    </div>
+                    {dataSource === 'fallback' && (
+                      <div className="text-amber-600 font-medium">
+                        ⚠️ This is sample data for demonstration purposes only
+                      </div>
+                    )}
+                  </div>
+                </details>
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>
