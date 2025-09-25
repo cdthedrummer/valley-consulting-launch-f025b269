@@ -23,6 +23,7 @@ import IndustrySelector from "@/components/IndustrySelector";
 import LocationInput from "@/components/LocationInput";
 import ChatWithControls from "@/components/ChatWithControls";
 import DashboardWithControls from "@/components/DashboardWithControls";
+import DashboardHamburgerMenu from "@/components/DashboardHamburgerMenu";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { BarChart3, MessageSquare } from "lucide-react";
@@ -687,216 +688,95 @@ What would you like to know about ${location}? For example:
   }
 
   return (
-    <div className="pt-20 h-screen bg-gray-50 flex flex-col">
+    <div className="pt-20 min-h-screen bg-background">
       <SEOHead
         title="AI Copilot Dashboard | Hudson Valley Consulting"
         description="Access your AI Copilot conversations and local marketing insights."
         canonicalUrl="/ai/dashboard"
       />
-      <div className="flex-1 flex overflow-hidden">
-        {/* Mobile Sidebar Overlay */}
-        {isMobile && sidebarOpen && (
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-40"
-            onClick={() => setSidebarOpen(false)}
-            role="presentation"
-            aria-hidden="true"
-          />
-        )}
-
-        {/* Sidebar Navigation */}
-        <aside 
-          className={cn(
-            "transition-all duration-300 bg-white border-r border-gray-200 flex flex-col overflow-hidden z-50",
-            isMobile ? (
-              sidebarOpen 
-                ? "fixed left-0 top-0 h-full w-80 pt-20" 
-                : "w-0"
-            ) : (
-              sidebarOpen ? "w-80" : "w-0"
-            )
-          )}
-          role="complementary"
-          aria-label="Chat settings and navigation"
-          aria-hidden={!sidebarOpen}
-        >
-          <header className="p-4 border-b border-gray-200 flex items-center justify-between">
-            <h2 className="font-semibold text-gray-900">Chat Settings</h2>
-            {isMobile && (
-              <Button 
-                size="sm" 
-                variant="ghost"
-                onClick={() => setSidebarOpen(false)}
-                aria-label="Close sidebar"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            )}
-          </header>
-          
-          <nav className="flex-1 overflow-y-auto" aria-label="Dashboard navigation">
-            {/* Collapsible Settings */}
-            <Collapsible open={settingsOpen} onOpenChange={setSettingsOpen}>
-              <CollapsibleTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="w-full flex items-center justify-between p-4 h-auto text-left hover:bg-gray-50"
-                  aria-expanded={settingsOpen}
-                  aria-controls="settings-content"
-                >
-                  <span className="text-sm font-medium">Settings</span>
-                  <ChevronLeft className={cn("h-4 w-4 transition-transform", settingsOpen && "rotate-90")} />
-                </Button>
-              </CollapsibleTrigger>
-              <CollapsibleContent 
-                className="px-4 pb-4 space-y-4" 
-                id="settings-content"
-                role="region"
-                aria-labelledby="settings-heading"
-              >
-                <div className="space-y-2">
-                  <label htmlFor="location-input" className="text-sm font-medium text-gray-700">Location</label>
-                  <LocationInput
-                    onLocationSelect={(location, type) => {
-                      setUserLocation(location);
-                      setUserLocationType(type);
-                    }}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="industry-select" className="text-sm font-medium text-gray-700">Industry</label>
-                  <IndustrySelector
-                    value={userIndustry}
-                    onValueChange={setUserIndustry}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="language-select" className="text-sm font-medium text-gray-700">Language</label>
-                  <LanguageSelector
-                    value={userLanguage}
-                    onValueChange={setUserLanguage}
-                  />
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
-
-            {/* Collapsible Quick Start Questions */}
-            <Collapsible open={questionsOpen} onOpenChange={setQuestionsOpen}>
-              <CollapsibleTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="w-full flex items-center justify-between p-4 h-auto text-left border-t hover:bg-gray-50"
-                  aria-expanded={questionsOpen}
-                  aria-controls="questions-content"
-                >
-                  <span className="text-sm font-medium">Quick Start Questions</span>
-                  <ChevronLeft className={cn("h-4 w-4 transition-transform", questionsOpen && "rotate-90")} />
-                </Button>
-              </CollapsibleTrigger>
-              <CollapsibleContent 
-                className="px-4 pb-4" 
-                id="questions-content"
-                role="region"
-                aria-label="Quick start questions"
-              >
-                <div className="max-h-64 overflow-y-auto">
-                  <PrefilledQuestions
-                    onQuestionSelect={(question) => {
-                      setInput(question);
-                      // Auto-close sidebar on mobile after question selection
-                      if (isMobile) setSidebarOpen(false);
-                    }}
-                    location={userLocation}
-                    industry={userIndustry}
-                    className="text-sm"
-                  />
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
-
-            {/* Collapsible Chat History */}
-            <Collapsible open={historyOpen} onOpenChange={setHistoryOpen}>
-              <CollapsibleTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="w-full flex items-center justify-between p-4 h-auto text-left border-t hover:bg-gray-50"
-                  aria-expanded={historyOpen}
-                  aria-controls="history-content"
-                >
-                  <span className="text-sm font-medium">Chat History</span>
-                  <ChevronLeft className={cn("h-4 w-4 transition-transform", historyOpen && "rotate-90")} />
-                </Button>
-              </CollapsibleTrigger>
-              <CollapsibleContent 
-                className="px-4 pb-4" 
-                id="history-content"
-                role="region"
-                aria-label="Chat history and session management"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <Button 
-                    onClick={() => {
-                      setShowQuestionnaire(true);
-                      setActiveSessionId(null);
-                      setMessages([]);
-                      // Auto-close sidebar on mobile after creating new chat
-                      if (isMobile) setSidebarOpen(false);
-                    }} 
-                    size="sm" 
-                    className="bg-purple-600 hover:bg-purple-700 w-full"
-                    aria-label="Start new chat session"
-                  >
-                    New Chat
-                  </Button>
-                </div>
-                <div className="max-h-48 overflow-y-auto space-y-2" role="list" aria-label="Previous chat sessions">
-                  {chatSessions.map((session) => (
-                    <ChatSession
-                      key={session.id}
-                      id={session.id}
-                      title={session.title}
-                      isActive={activeSessionId === session.id}
-                      onClick={() => {
-                        switchChatSession(session.id);
-                        setShowQuestionnaire(false);
-                        setShowSetup(false);
-                        // Auto-close sidebar on mobile after selecting chat
-                        if (isMobile) setSidebarOpen(false);
-                      }}
-                      onDelete={() => deleteChatSession(session.id)}
-                      createdAt={session.created_at}
-                    />
-                  ))}
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
-          </nav>
-
-          {/* User Profile - Always visible at bottom */}
-          <footer className="border-t p-4">
-            {user && (
-              <div className="flex items-center space-x-3 p-2 bg-gray-50 rounded-lg">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={user.user_metadata?.avatar_url} />
-                  <AvatarFallback>
-                    {user.email?.charAt(0).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">
-                    {user.user_metadata?.full_name || user.email}
-                  </p>
-                  <p className="text-xs text-gray-500 truncate">{user.email}</p>
-                </div>
+      
+      {/* Main Content Container */}
+      <div className="flex flex-col min-h-screen pt-20">
+        {/* Header with Menu and Toggle */}
+        <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-20 z-30">
+          <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+            {/* Left side - Menu and Title */}
+            <div className="flex items-center gap-4">
+              <DashboardHamburgerMenu
+                user={user}
+                userLocation={userLocation}
+                userLocationType={userLocationType}
+                userIndustry={userIndustry}
+                userLanguage={userLanguage}
+                settingsOpen={settingsOpen}
+                questionsOpen={questionsOpen}
+                historyOpen={historyOpen}
+                chatSessions={chatSessions}
+                activeSessionId={activeSessionId}
+                isMobile={isMobile}
+                onSettingsOpenChange={setSettingsOpen}
+                onQuestionsOpenChange={setQuestionsOpen}
+                onHistoryOpenChange={setHistoryOpen}
+                onLocationChange={(location, type) => {
+                  setUserLocation(location);
+                  setUserLocationType(type);
+                }}
+                onIndustryChange={setUserIndustry}
+                onLanguageChange={setUserLanguage}
+                onQuestionSelect={(question) => {
+                  setInput(question);
+                  setViewMode('chat');
+                }}
+                onNewChat={() => {
+                  setShowQuestionnaire(true);
+                  setActiveSessionId(null);
+                  setMessages([]);
+                }}
+                onChatSessionSelect={(sessionId) => {
+                  switchChatSession(sessionId);
+                  setShowQuestionnaire(false);
+                  setShowSetup(false);
+                }}
+                onDeleteChatSession={deleteChatSession}
+              />
+              
+              <div className="hidden md:block">
+                <h1 className="text-lg font-semibold">Hudson Valley Consulting</h1>
               </div>
-            )}
-          </footer>
-        </aside>
+            </div>
 
-        {/* Main Content Area */}
-        <main className="flex-1 flex flex-col min-w-0" role="main" aria-label="Dashboard content">
+            {/* Right side - View Toggle */}
+            <div className="flex items-center gap-2">
+              <div className="flex bg-muted rounded-lg p-1" role="tablist">
+                <Button
+                  variant={viewMode === 'dashboard' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('dashboard')}
+                  className="h-8 px-3 flex items-center gap-2"
+                  role="tab"
+                  aria-selected={viewMode === 'dashboard'}
+                >
+                  <BarChart3 className="h-4 w-4" />
+                  <span className="hidden sm:inline">Dashboard</span>
+                </Button>
+                <Button
+                  variant={viewMode === 'chat' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('chat')}
+                  className="h-8 px-3 flex items-center gap-2"
+                  role="tab"
+                  aria-selected={viewMode === 'chat'}
+                >
+                  <MessageSquare className="h-4 w-4" />
+                  <span className="hidden sm:inline">Chat</span>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <main className="flex-1" role="main">
           {showQuestionnaire ? (
             <NewChatQuestionnaire 
               onSetupComplete={handleQuestionnaireComplete}
@@ -937,98 +817,47 @@ What would you like to know about ${location}? For example:
                 </div>
               )}
               
-              {/* View Mode Toggle */}
-              <nav className="px-6 py-3 border-b bg-background" aria-label="View mode selection">
-                <div className="flex items-center gap-2">
-                  <div className="flex bg-muted rounded-lg p-1" role="tablist">
-                    <Button
-                      variant={viewMode === 'dashboard' ? 'default' : 'ghost'}
-                      size="sm"
-                      onClick={() => setViewMode('dashboard')}
-                      className="h-8 px-3 flex items-center gap-2"
-                      role="tab"
-                      aria-selected={viewMode === 'dashboard'}
-                      aria-controls="dashboard-content"
-                    >
-                      <BarChart3 className="h-4 w-4" />
-                      Dashboard
-                    </Button>
-                    <Button
-                      variant={viewMode === 'chat' ? 'default' : 'ghost'}
-                      size="sm"
-                      onClick={() => setViewMode('chat')}
-                      className="h-8 px-3 flex items-center gap-2"
-                      role="tab"
-                      aria-selected={viewMode === 'chat'}
-                      aria-controls="chat-content"
-                    >
-                      <MessageSquare className="h-4 w-4" />
-                      Chat
-                    </Button>
-                  </div>
-                  {viewMode === 'dashboard' && userLocation && (
-                    <div className="text-sm text-muted-foreground">
-                      Showing data for {userLocation} {userIndustry && `• ${userIndustry}`}
-                    </div>
-                  )}
-                </div>
-              </nav>
-
-              {/* Conditional Content */}
-              {viewMode === 'dashboard' ? (
-                <div className="flex-1 overflow-y-auto p-6">
+              {/* Content Area */}
+              <div className="container mx-auto px-4 py-6">
+                {viewMode === 'dashboard' ? (
                   <DashboardWithControls
                     userLocation={userLocation || 'Hudson Valley'}
                     userLocationType={userLocationType}
                     userIndustry={userIndustry || 'Construction'}
-                    userLanguage={userLanguage}
-                    sidebarOpen={sidebarOpen}
-                    isMobile={isMobile}
-                    onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-                    onLocationChange={(location, type) => {
-                      setUserLocation(location);
-                      setUserLocationType(type);
-                    }}
-                    onIndustryChange={setUserIndustry}
-                    onLanguageChange={setUserLanguage}
-                    onQuestionSelect={(question) => {
-                      setInput(question);
-                      // Switch to chat mode when question is selected
-                      setViewMode('chat');
-                    }}
+                    className="max-w-7xl mx-auto"
                   />
-                </div>
-              ) : (
-                <ChatWithControls
-                  messages={messages}
-                  input={input}
-                  isLoading={isLoading}
-                  activeSessionId={activeSessionId}
-                  userLocation={userLocation}
-                  userLocationType={userLocationType}
-                  userIndustry={userIndustry}
-                  userLanguage={userLanguage}
-                  sidebarOpen={sidebarOpen}
-                  onInputChange={setInput}
-                  onSendMessage={sendMessage}
-                  onKeyPress={handleKeyPress}
-                  onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-                  isMobile={isMobile}
-                  onLocationChange={(location, type) => {
-                    setUserLocation(location);
-                    setUserLocationType(type);
-                  }}
-                  onIndustryChange={setUserIndustry}
-                  onLanguageChange={setUserLanguage}
-                  onQuestionSelect={(question) => {
-                    setInput(question);
-                    // Switch to chat mode when question is selected
-                    setViewMode('chat');
-                  }}
-                  onExportTranscript={exportTranscript}
-                  onCopyMessage={copyMessage}
-                />
-              )}
+                ) : (
+                  <div className="max-w-4xl mx-auto">
+                    <ChatWithControls
+                      messages={messages}
+                      input={input}
+                      isLoading={isLoading}
+                      activeSessionId={activeSessionId}
+                      userLocation={userLocation}
+                      userLocationType={userLocationType}
+                      userIndustry={userIndustry}
+                      userLanguage={userLanguage}
+                      sidebarOpen={false}
+                      onInputChange={setInput}
+                      onSendMessage={sendMessage}
+                      onKeyPress={handleKeyPress}
+                      onToggleSidebar={() => setViewMode('dashboard')}
+                      isMobile={isMobile}
+                      onLocationChange={(location, type) => {
+                        setUserLocation(location);
+                        setUserLocationType(type);
+                      }}
+                      onIndustryChange={setUserIndustry}
+                      onLanguageChange={setUserLanguage}
+                      onQuestionSelect={(question) => {
+                        setInput(question);
+                      }}
+                      onExportTranscript={exportTranscript}
+                      onCopyMessage={copyMessage}
+                    />
+                  </div>
+                )}
+              </div>
             </>
           )}
         </main>

@@ -63,16 +63,8 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
       <CardHeader className="border-b bg-background rounded-t-lg flex-shrink-0">
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onToggleSidebar}
-              className="mr-3"
-            >
-              <Menu className="h-4 w-4" />
-            </Button>
             <Bot className="h-6 w-6 mr-2 text-primary" />
-            AI Copilot for Contractors
+            AI Assistant
             {userLocation && (
               <span className="ml-3 text-sm text-muted-foreground bg-accent px-2 py-1 rounded">
                 {userLocation}
@@ -86,7 +78,7 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
                 onValueChange={onLanguageChange}
               />
             )}
-            <Button variant="outline" size="sm" onClick={onExportTranscript}>
+            <Button variant="outline" size="sm" onClick={onExportTranscript} disabled={messages.length === 0}>
               <Download className="h-4 w-4 mr-1" /> Export
             </Button>
           </div>
