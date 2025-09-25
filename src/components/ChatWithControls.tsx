@@ -151,28 +151,51 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
             </div>
           </ScrollArea>
           
-          {/* Input Area */}
+          {/* Chat Input Form */}
           <div className="border-t p-4 bg-background rounded-b-lg flex-shrink-0">
-            <div className="flex space-x-2">
-              <Input
-                value={input}
-                onChange={(e) => onInputChange(e.target.value)}
-                onKeyPress={onKeyPress}
-                placeholder="Ask about local market data or marketing strategies..."
-                disabled={isLoading || !activeSessionId}
-                className="flex-1"
-              />
-              <Button 
-                onClick={onSendMessage}
-                disabled={isLoading || !input.trim() || !activeSessionId}
-                className="bg-primary hover:bg-primary/90"
-              >
-                <Send className="h-4 w-4" />
-              </Button>
-            </div>
-            <p className="text-xs text-muted-foreground mt-2">
-              Try asking: "How many homes sold in Nanuet last quarter?" or "Best Google Ads strategy for HVAC in Rockland County?"
-            </p>
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                onSendMessage();
+              }}
+              className="space-y-2"
+              aria-label="Send message"
+            >
+              <div className="flex space-x-2">
+                <label htmlFor="chat-input" className="sr-only">
+                  Message input
+                </label>
+                <textarea
+                  id="chat-input"
+                  value={input}
+                  onChange={(e) => onInputChange(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      onSendMessage();
+                    }
+                  }}
+                  placeholder="Ask about local market data or marketing strategies..."
+                  disabled={isLoading || !activeSessionId}
+                  className="flex-1 min-h-[40px] max-h-32 resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  rows={1}
+                  aria-describedby="chat-input-help"
+                />
+                <Button 
+                  type="submit"
+                  disabled={isLoading || !input.trim() || !activeSessionId}
+                  className="bg-primary hover:bg-primary/90 self-end"
+                  aria-label="Send message"
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
+              <p id="chat-input-help" className="text-xs text-muted-foreground">
+                Try asking: "How many homes sold in Nanuet last quarter?" or "Best Google Ads strategy for HVAC in Rockland County?"
+                <br />
+                <span className="font-medium">Press Enter to send, Shift+Enter for new line</span>
+              </p>
+            </form>
           </div>
         </CardContent>
       </Card>

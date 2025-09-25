@@ -699,48 +699,63 @@ What would you like to know about ${location}? For example:
           <div 
             className="fixed inset-0 bg-black bg-opacity-50 z-40"
             onClick={() => setSidebarOpen(false)}
+            role="presentation"
+            aria-hidden="true"
           />
         )}
 
-        {/* Sidebar */}
-        <div className={cn(
-          "transition-all duration-300 bg-white border-r border-gray-200 flex flex-col overflow-hidden z-50",
-          isMobile ? (
-            sidebarOpen 
-              ? "fixed left-0 top-0 h-full w-80 pt-20" 
-              : "w-0"
-          ) : (
-            sidebarOpen ? "w-80" : "w-0"
-          )
-        )}>
-          <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+        {/* Sidebar Navigation */}
+        <aside 
+          className={cn(
+            "transition-all duration-300 bg-white border-r border-gray-200 flex flex-col overflow-hidden z-50",
+            isMobile ? (
+              sidebarOpen 
+                ? "fixed left-0 top-0 h-full w-80 pt-20" 
+                : "w-0"
+            ) : (
+              sidebarOpen ? "w-80" : "w-0"
+            )
+          )}
+          role="complementary"
+          aria-label="Chat settings and navigation"
+          aria-hidden={!sidebarOpen}
+        >
+          <header className="p-4 border-b border-gray-200 flex items-center justify-between">
             <h2 className="font-semibold text-gray-900">Chat Settings</h2>
             {isMobile && (
               <Button 
                 size="sm" 
                 variant="ghost"
                 onClick={() => setSidebarOpen(false)}
+                aria-label="Close sidebar"
               >
                 <X className="h-4 w-4" />
               </Button>
             )}
-          </div>
+          </header>
           
-          <div className="flex-1 overflow-y-auto">
+          <nav className="flex-1 overflow-y-auto" aria-label="Dashboard navigation">
             {/* Collapsible Settings */}
             <Collapsible open={settingsOpen} onOpenChange={setSettingsOpen}>
               <CollapsibleTrigger asChild>
                 <Button
                   variant="ghost"
                   className="w-full flex items-center justify-between p-4 h-auto text-left hover:bg-gray-50"
+                  aria-expanded={settingsOpen}
+                  aria-controls="settings-content"
                 >
                   <span className="text-sm font-medium">Settings</span>
                   <ChevronLeft className={cn("h-4 w-4 transition-transform", settingsOpen && "rotate-90")} />
                 </Button>
               </CollapsibleTrigger>
-              <CollapsibleContent className="px-4 pb-4 space-y-4">
+              <CollapsibleContent 
+                className="px-4 pb-4 space-y-4" 
+                id="settings-content"
+                role="region"
+                aria-labelledby="settings-heading"
+              >
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Location</label>
+                  <label htmlFor="location-input" className="text-sm font-medium text-gray-700">Location</label>
                   <LocationInput
                     onLocationSelect={(location, type) => {
                       setUserLocation(location);
@@ -750,7 +765,7 @@ What would you like to know about ${location}? For example:
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Industry</label>
+                  <label htmlFor="industry-select" className="text-sm font-medium text-gray-700">Industry</label>
                   <IndustrySelector
                     value={userIndustry}
                     onValueChange={setUserIndustry}
@@ -758,7 +773,7 @@ What would you like to know about ${location}? For example:
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Language</label>
+                  <label htmlFor="language-select" className="text-sm font-medium text-gray-700">Language</label>
                   <LanguageSelector
                     value={userLanguage}
                     onValueChange={setUserLanguage}
@@ -773,12 +788,19 @@ What would you like to know about ${location}? For example:
                 <Button
                   variant="ghost"
                   className="w-full flex items-center justify-between p-4 h-auto text-left border-t hover:bg-gray-50"
+                  aria-expanded={questionsOpen}
+                  aria-controls="questions-content"
                 >
                   <span className="text-sm font-medium">Quick Start Questions</span>
                   <ChevronLeft className={cn("h-4 w-4 transition-transform", questionsOpen && "rotate-90")} />
                 </Button>
               </CollapsibleTrigger>
-              <CollapsibleContent className="px-4 pb-4">
+              <CollapsibleContent 
+                className="px-4 pb-4" 
+                id="questions-content"
+                role="region"
+                aria-label="Quick start questions"
+              >
                 <div className="max-h-64 overflow-y-auto">
                   <PrefilledQuestions
                     onQuestionSelect={(question) => {
@@ -800,12 +822,19 @@ What would you like to know about ${location}? For example:
                 <Button
                   variant="ghost"
                   className="w-full flex items-center justify-between p-4 h-auto text-left border-t hover:bg-gray-50"
+                  aria-expanded={historyOpen}
+                  aria-controls="history-content"
                 >
                   <span className="text-sm font-medium">Chat History</span>
                   <ChevronLeft className={cn("h-4 w-4 transition-transform", historyOpen && "rotate-90")} />
                 </Button>
               </CollapsibleTrigger>
-              <CollapsibleContent className="px-4 pb-4">
+              <CollapsibleContent 
+                className="px-4 pb-4" 
+                id="history-content"
+                role="region"
+                aria-label="Chat history and session management"
+              >
                 <div className="flex items-center justify-between mb-3">
                   <Button 
                     onClick={() => {
@@ -817,11 +846,12 @@ What would you like to know about ${location}? For example:
                     }} 
                     size="sm" 
                     className="bg-purple-600 hover:bg-purple-700 w-full"
+                    aria-label="Start new chat session"
                   >
                     New Chat
                   </Button>
                 </div>
-                <div className="max-h-48 overflow-y-auto space-y-2">
+                <div className="max-h-48 overflow-y-auto space-y-2" role="list" aria-label="Previous chat sessions">
                   {chatSessions.map((session) => (
                     <ChatSession
                       key={session.id}
@@ -842,10 +872,10 @@ What would you like to know about ${location}? For example:
                 </div>
               </CollapsibleContent>
             </Collapsible>
-          </div>
+          </nav>
 
           {/* User Profile - Always visible at bottom */}
-          <div className="border-t p-4">
+          <footer className="border-t p-4">
             {user && (
               <div className="flex items-center space-x-3 p-2 bg-gray-50 rounded-lg">
                 <Avatar className="h-8 w-8">
@@ -862,11 +892,11 @@ What would you like to know about ${location}? For example:
                 </div>
               </div>
             )}
-          </div>
-        </div>
+          </footer>
+        </aside>
 
-        {/* Main Chat Area */}
-        <div className="flex-1 flex flex-col min-w-0">
+        {/* Main Content Area */}
+        <main className="flex-1 flex flex-col min-w-0" role="main" aria-label="Dashboard content">
           {showQuestionnaire ? (
             <NewChatQuestionnaire 
               onSetupComplete={handleQuestionnaireComplete}
@@ -908,14 +938,17 @@ What would you like to know about ${location}? For example:
               )}
               
               {/* View Mode Toggle */}
-              <div className="px-6 py-3 border-b bg-background">
+              <nav className="px-6 py-3 border-b bg-background" aria-label="View mode selection">
                 <div className="flex items-center gap-2">
-                  <div className="flex bg-muted rounded-lg p-1">
+                  <div className="flex bg-muted rounded-lg p-1" role="tablist">
                     <Button
                       variant={viewMode === 'dashboard' ? 'default' : 'ghost'}
                       size="sm"
                       onClick={() => setViewMode('dashboard')}
                       className="h-8 px-3 flex items-center gap-2"
+                      role="tab"
+                      aria-selected={viewMode === 'dashboard'}
+                      aria-controls="dashboard-content"
                     >
                       <BarChart3 className="h-4 w-4" />
                       Dashboard
@@ -925,6 +958,9 @@ What would you like to know about ${location}? For example:
                       size="sm"
                       onClick={() => setViewMode('chat')}
                       className="h-8 px-3 flex items-center gap-2"
+                      role="tab"
+                      aria-selected={viewMode === 'chat'}
+                      aria-controls="chat-content"
                     >
                       <MessageSquare className="h-4 w-4" />
                       Chat
@@ -936,7 +972,7 @@ What would you like to know about ${location}? For example:
                     </div>
                   )}
                 </div>
-              </div>
+              </nav>
 
               {/* Conditional Content */}
               {viewMode === 'dashboard' ? (
@@ -995,7 +1031,7 @@ What would you like to know about ${location}? For example:
               )}
             </>
           )}
-        </div>
+        </main>
       </div>
     </div>
   );

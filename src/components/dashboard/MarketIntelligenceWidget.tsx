@@ -66,7 +66,8 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
       setMarketData(data);
     } catch (err) {
       console.error('Error fetching market data:', err);
-      setError('Failed to load market data');
+      const errorMessage = 'Failed to load market data. Using sample data for demonstration.';
+      setError(errorMessage);
       
       // Fallback to mock data for demo
       setMarketData({
@@ -108,9 +109,19 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
+          <div 
+            className="space-y-4" 
+            role="status" 
+            aria-live="polite" 
+            aria-label="Loading market intelligence data"
+          >
+            <div className="sr-only">Loading market data for {location || 'your area'}...</div>
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-16 bg-muted animate-pulse rounded-lg" />
+              <div 
+                key={i} 
+                className="h-16 bg-muted animate-pulse rounded-lg" 
+                aria-hidden="true"
+              />
             ))}
           </div>
         </CardContent>
