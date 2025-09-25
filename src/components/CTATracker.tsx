@@ -27,17 +27,23 @@ const CTATracker: React.FC<CTATrackerProps> = ({
 
   const trackCTAClick = async () => {
     try {
-      // Track CTA clicks in analytics table
-      await supabase.from('cta_clicks').insert({
-        cta_type: ctaType,
-        cta_label: label,
-        destination: to,
-        user_id: user?.id || null,
-        timestamp: new Date().toISOString(),
-        user_agent: navigator.userAgent,
-        page_url: window.location.href,
-        referrer: document.referrer || null
-      });
+      // Track CTA clicks in analytics table using generic approach since types aren't updated yet
+      const { error } = await supabase
+        .from('cta_clicks' as any)
+        .insert({
+          cta_type: ctaType,
+          cta_label: label,
+          destination: to,
+          user_id: user?.id || null,
+          timestamp: new Date().toISOString(),
+          user_agent: navigator.userAgent,
+          page_url: window.location.href,
+          referrer: document.referrer || null
+        });
+      
+      if (error) {
+        console.error('CTA tracking error:', error);
+      }
     } catch (error) {
       console.error('Error tracking CTA click:', error);
       // Don't block the navigation if tracking fails

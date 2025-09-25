@@ -16,6 +16,7 @@ import Resources from "./pages/Resources";
 import MarketingChecklist from "./pages/MarketingChecklist";
 import AICopilot from "./pages/AICopilot";
 import AIDashboard from "./pages/AIDashboard";
+import AIDashboardSellIn from "./pages/AIDashboardSellIn";
 import TrialExpired from "./pages/TrialExpired";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Privacy from "./pages/Privacy";
@@ -72,6 +73,7 @@ function App() {
                   <Route path="/resources" element={<Resources />} />
                   <Route path="/resources/marketing-checklist" element={<MarketingChecklist />} />
                   <Route path="/resources/ai-copilot" element={<AICopilot />} />
+                  <Route path="/resources/ai-dashboard-sell-in" element={<AIDashboardSellIn />} />
                   <Route 
                     path="/ai/dashboard" 
                     element={

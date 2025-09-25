@@ -20,14 +20,14 @@ const AICopilotBanner: React.FC = () => {
               <Bot className="h-8 w-8" />
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-1">Try Our AI Marketing Copilot</h3>
-              <p className="text-white/90">Get instant marketing insights and strategies tailored for your contracting business</p>
+              <h3 className="text-xl font-bold mb-1">Launch Your AI Marketing Dashboard</h3>
+              <p className="text-white/90">Get real-time market intelligence and data-driven insights for your contracting business</p>
             </div>
           </div>
           
           <Button asChild size="lg" className="bg-hvcg-green hover:bg-hvcg-green-light text-white whitespace-nowrap group">
-            <Link to="/resources/ai-copilot" className="flex items-center">
-              Try AI Copilot Free
+            <Link to="/ai/dashboard" className="flex items-center">
+              Launch Dashboard
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </Button>

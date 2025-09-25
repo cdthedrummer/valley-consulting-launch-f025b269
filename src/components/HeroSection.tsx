@@ -51,7 +51,7 @@ const HeroSection: React.FC = () => {
                 transition={{ delay: 0.4, duration: 0.8 }}
                 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl mb-6 sm:mb-8 md:mb-10 drop-shadow-lg mx-auto max-w-3xl leading-relaxed"
               >
-                Practical SEO, ads, and AI automation for dentists, law firms, salons, and home services—built to turn searches into calls.
+                Smart SEO, targeted ads, and AI-powered market insights for contractors—designed to turn local searches into profitable leads.
               </motion.p>
 
               <motion.div

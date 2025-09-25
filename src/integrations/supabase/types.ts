@@ -214,6 +214,45 @@ export type Database = {
         }
         Relationships: []
       }
+      cta_clicks: {
+        Row: {
+          created_at: string
+          cta_label: string
+          cta_type: string
+          destination: string
+          id: string
+          page_url: string | null
+          referrer: string | null
+          timestamp: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          cta_label: string
+          cta_type: string
+          destination: string
+          id?: string
+          page_url?: string | null
+          referrer?: string | null
+          timestamp?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          cta_label?: string
+          cta_type?: string
+          destination?: string
+          id?: string
+          page_url?: string | null
+          referrer?: string | null
+          timestamp?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

@@ -24,10 +24,10 @@ const Index: React.FC = () => {
   return (
     <div>
       <SEOHead 
-        title="Hudson Valley Contractor Marketing | SEO, Ads & AI Automation"
-        description="Local contractor marketing in the Hudson Valley: SEO, Google Ads, and AI automation to turn searches into calls."
+        title="Hudson Valley Contractor Marketing | AI-Powered Market Intelligence"
+        description="AI-powered marketing dashboard for contractors: real-time market data, competitor analysis, and smart insights for HVAC, plumbing, and home services in Hudson Valley."
         canonicalUrl="/"
-        keywords="Hudson Valley contractor marketing, local SEO, Google Ads, AI automation, home services marketing, plumbing marketing, HVAC marketing"
+        keywords="Hudson Valley contractor marketing, AI marketing dashboard, market intelligence, Google Ads, local SEO, HVAC marketing, plumbing marketing"
       />
 
       {/* Hero Section with interactive elements */}
