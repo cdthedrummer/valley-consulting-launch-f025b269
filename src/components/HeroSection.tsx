@@ -65,9 +65,9 @@ const HeroSection: React.FC = () => {
                   size="lg"
                   className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg sm:text-xl md:text-2xl py-4 sm:py-5 md:py-6 px-6 sm:px-8 md:px-10 shadow-lg group"
                 >
-                  <Link to="/booking" className="flex items-center">
+                  <Link to="/ai/dashboard" className="flex items-center">
                     <Calendar className="mr-2 h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 group-hover:scale-110 transition-transform" />
-                    Book my free strategy call
+                    Launch AI Dashboard
                     <ArrowRight className="ml-2 h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                   </Link>
                 </Button>
@@ -79,7 +79,7 @@ const HeroSection: React.FC = () => {
                 transition={{ delay: 1.0, duration: 0.5 }}
                 className="text-white/80 text-base sm:text-lg md:text-xl mb-12 lg:mb-16 xl:mb-20"
               >
-                15-minute call, no obligations
+                Start exploring market insights in 30 seconds
               </motion.div>
             </div>
           </div>

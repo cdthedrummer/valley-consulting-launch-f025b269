@@ -137,11 +137,11 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
           </>
         )}
         
-        {/* Book Now Button */}
+        {/* Launch AI Dashboard Button */}
         <div className="pt-2">
           <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue transition-colors text-white">
-            <Link to="/booking" className="flex items-center justify-center">
-              <Calendar className="mr-2 h-4 w-4" /> Book Now
+            <Link to="/ai/dashboard" className="flex items-center justify-center">
+              <Calendar className="mr-2 h-4 w-4" /> Launch AI Dashboard
             </Link>
           </Button>
         </div>

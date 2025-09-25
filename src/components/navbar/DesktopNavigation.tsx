@@ -70,8 +70,8 @@ const DesktopNavigation: React.FC = () => {
       {user ? (
         <div className="flex items-center space-x-4">
           <Button asChild className="bg-hvcg-blue-dark hover:bg-hvcg-blue transition-colors text-white">
-            <Link to="/booking" className="flex items-center">
-              <Calendar className="mr-2 h-4 w-4" /> Book Now
+            <Link to="/ai/dashboard" className="flex items-center">
+              <Calendar className="mr-2 h-4 w-4" /> Launch AI Dashboard
             </Link>
           </Button>
           
@@ -101,8 +101,8 @@ const DesktopNavigation: React.FC = () => {
       ) : (
         <div className="flex items-center space-x-2">
           <Button asChild className="bg-hvcg-blue-dark hover:bg-hvcg-blue transition-colors text-white">
-            <Link to="/booking" className="flex items-center">
-              <Calendar className="mr-2 h-4 w-4" /> Book Now
+            <Link to="/ai/dashboard" className="flex items-center">
+              <Calendar className="mr-2 h-4 w-4" /> Launch AI Dashboard
             </Link>
           </Button>
           
