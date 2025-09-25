@@ -817,8 +817,16 @@ What would you like to know about ${location}? For example:
                 </div>
               )}
               
+              {/* Dashboard Title */}
+              <div className="container mx-auto px-4 pt-6 pb-2">
+                <h1 className="text-2xl md:text-3xl font-bold mb-2">Market Intelligence Dashboard</h1>
+                <p className="text-muted-foreground">
+                  Real-time insights for {userIndustry} businesses in {userLocation || 'Hudson Valley'}
+                </p>
+              </div>
+
               {/* Content Area */}
-              <div className="container mx-auto px-4 py-6">
+              <div className="container mx-auto px-4 pb-6">
                 {viewMode === 'dashboard' ? (
                   <DashboardWithControls
                     userLocation={userLocation || 'Hudson Valley'}

@@ -21,18 +21,6 @@ const DashboardWithControls: React.FC<DashboardWithControlsProps> = ({
 
   return (
     <div className={className}>
-      {/* Dashboard Header */}
-      <div className="mb-6">
-        <div className="flex items-center gap-3 mb-2">
-          <BarChart3 className="h-6 w-6 text-primary" />
-          <h1 className="text-2xl font-bold">Market Intelligence Dashboard</h1>
-        </div>
-        <p className="text-muted-foreground">
-          Real-time insights for {userIndustry} businesses in {displayLocation}
-        </p>
-      </div>
-
-      {/* Dashboard Content */}
       <ResponsiveDashboard
         location={userLocation}
         locationType={userLocationType}

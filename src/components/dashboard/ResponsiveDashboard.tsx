@@ -123,59 +123,42 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       transition={{ duration: 0.5 }}
       className={cn("space-y-3 md:space-y-4", className)}
     >
-      {/* Header */}
-      <Card className="border-0 bg-gradient-to-r from-gradient-from to-gradient-to">
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <BarChart3 className="h-6 w-6 text-primary" />
-              <div>
-                <h2 className="text-xl md:text-2xl font-bold">Market Intelligence Dashboard</h2>
-                <p className="text-xs md:text-sm text-muted-foreground font-normal">
-                  Real-time insights for {industry} businesses in {displayLocation}
-                </p>
-              </div>
-            </div>
-            
-            {/* View Controls */}
-            <div className="flex items-center gap-2">
-              <div className="hidden md:flex items-center gap-1 bg-background/50 rounded-lg p-1">
-                <Button
-                  variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('grid')}
-                  className="h-8 w-8 p-0"
-                >
-                  <Grid3X3 className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant={viewMode === 'list' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('list')}
-                  className="h-8 w-8 p-0"
-                >
-                  <List className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant={viewMode === 'focus' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('focus')}
-                  className="h-8 w-8 p-0"
-                >
-                  <Eye className="h-4 w-4" />
-                </Button>
-              </div>
-              
-              <div className="text-right hidden xl:block">
-                <div className="text-xs text-muted-foreground">Data Sources</div>
-                <div className="text-xs text-muted-foreground opacity-75">
-                  US Census • Local Data • Market Analysis
-                </div>
-              </div>
-            </div>
-          </CardTitle>
-        </CardHeader>
-      </Card>
+      {/* View Controls - Desktop */}
+      <div className="mb-6 flex items-center justify-between">
+        <div className="hidden md:flex items-center gap-1 bg-background/50 rounded-lg p-1">
+          <Button
+            variant={viewMode === 'grid' ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => setViewMode('grid')}
+            className="h-8 w-8 p-0"
+          >
+            <Grid3X3 className="h-4 w-4" />
+          </Button>
+          <Button
+            variant={viewMode === 'list' ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => setViewMode('list')}
+            className="h-8 w-8 p-0"
+          >
+            <List className="h-4 w-4" />
+          </Button>
+          <Button
+            variant={viewMode === 'focus' ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => setViewMode('focus')}
+            className="h-8 w-8 p-0"
+          >
+            <Eye className="h-4 w-4" />
+          </Button>
+        </div>
+        
+        <div className="text-right hidden xl:block">
+          <div className="text-xs text-muted-foreground">Data Sources</div>
+          <div className="text-xs text-muted-foreground opacity-75">
+            US Census • Local Data • Market Analysis
+          </div>
+        </div>
+      </div>
 
       {/* Mobile View Toggle */}
       <div className="md:hidden">
