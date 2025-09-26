@@ -126,7 +126,8 @@ export default {
 				display: ['Montserrat', 'sans-serif'],
 			},
 			fontSize: {
-				table: ["0.9375rem", { lineHeight: "1.5rem", letterSpacing: "0.01em" }]
+				table: ["0.95rem", { lineHeight: "1.5rem", letterSpacing: "0.01em" }],
+				"table-xs": ["0.8125rem", { lineHeight: "1.25rem", letterSpacing: "0.02em" }],
 			},
 		}
 	},

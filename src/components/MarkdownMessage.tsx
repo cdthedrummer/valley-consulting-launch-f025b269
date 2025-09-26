@@ -1,6 +1,7 @@
 
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -87,8 +88,8 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ content, isUser }) =>
     
     return (
       <div className="space-y-4">
-        <div className="bg-background rounded-lg border overflow-hidden">
-          <div className="flex items-center justify-between p-2 bg-muted border-b">
+        <div className="bg-white rounded-2xl border border-border/60 shadow-sm overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3 bg-muted/70 border-b border-border/70">
             <span className="text-sm font-medium">Data Table</span>
             <Button
               size="sm"
@@ -100,31 +101,40 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ content, isUser }) =>
               Copy for Excel/Sheets
             </Button>
           </div>
-          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-            <div className="min-w-max">
-              <Table className="table-auto">
-                <TableHeader>
-                  <TableRow>
-                    {headers.map((header, index) => (
-                      <TableHead key={index} className="text-table font-semibold uppercase tracking-wide px-4 py-2 bg-muted/70 text-foreground/80 first:rounded-tl-lg last:rounded-tr-lg">
-                        {header}
-                      </TableHead>
-                    ))}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {rows.map((row, rowIndex) => (
-                    <TableRow key={rowIndex}>
-                      {row.map((cell, cellIndex) => (
-                        <TableCell key={cellIndex} className="text-table leading-6 px-4 py-3 align-top border-r last:border-r-0 whitespace-normal">
-                          {cell}
-                        </TableCell>
-                      ))}
-                    </TableRow>
+          <div className="overflow-x-auto">
+            <Table className="w-full border border-border/70 rounded-xl shadow-xs">
+              <TableHeader className="sticky top-0 z-10">
+                <TableRow>
+                  {headers.map((header, index) => (
+                    <TableHead key={index} className={index === 0 ? "w-[40px] text-center" : ""}>
+                      {header}
+                    </TableHead>
                   ))}
-                </TableBody>
-              </Table>
-            </div>
+                </TableRow>
+              </TableHeader>
+              <TableBody className="[&_tr:nth-child(even)]:bg-muted/40">
+                {rows.map((row, rowIndex) => (
+                  <TableRow key={rowIndex}>
+                    {row.map((cell, cellIndex) => {
+                      const alignment = 
+                        cellIndex === 0 ? "text-center" :
+                        /\d{3}-\d{3}-\d{4}/.test(cell) ? "text-right tabular-nums tracking-tight" :
+                        "text-left";
+                      
+                      return (
+                        <TableCell key={cellIndex} className={cn(alignment, cellIndex === 0 && "text-table-xs text-muted-foreground font-semibold w-[40px]")}>
+                          <div className="text-table leading-6 text-foreground/90 [&_strong]:font-semibold [&_strong]:text-foreground">
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                              {cell}
+                            </ReactMarkdown>
+                          </div>
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         </div>
         
@@ -132,10 +142,12 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ content, isUser }) =>
         {originalText.replace(/^\|[^\n\r]*\|[\s]*[\n\r]+\|[-\s:|]+\|[\s]*[\n\r]+((?:\|[^\n\r]*\|[\s]*[\n\r]*)+)/gm, '').trim() && (
           <div className={cn(
             "prose prose-base md:prose-lg max-w-none",
+            "[&_h1]:text-3xl [&_h1]:mb-4 [&_h2]:text-2xl [&_h2]:mt-6",
+            "[&_p]:leading-[1.7] [&_p]:mt-3 [&_ul]:mt-4 [&_ul]:space-y-2 [&_li]:leading-[1.65]",
             isUser ? "prose-invert" : "prose-gray",
             "[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
           )}>
-            <ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {originalText.replace(/^\|[^\n\r]*\|[\s]*[\n\r]+\|[-\s:|]+\|[\s]*[\n\r]+((?:\|[^\n\r]*\|[\s]*[\n\r]*)+)/gm, '').trim()}
             </ReactMarkdown>
           </div>
@@ -146,6 +158,8 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ content, isUser }) =>
   return (
     <div className={cn(
       "prose prose-base md:prose-lg max-w-none",
+      "[&_h1]:text-3xl [&_h1]:mb-4 [&_h2]:text-2xl [&_h2]:mt-6",
+      "[&_p]:leading-[1.7] [&_p]:mt-3 [&_ul]:mt-4 [&_ul]:space-y-2 [&_li]:leading-[1.65]",
       isUser ? "prose-invert" : "prose-gray",
       // Custom prose styling for chat messages
       "[&>*:first-child]:mt-0 [&>*:last-child]:mb-0",
@@ -162,6 +176,7 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ content, isUser }) =>
         : "[&>code]:bg-gray-200 [&>code]:text-gray-800"
     )}>
       <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
         components={{
           // Custom components for better styling
           strong: ({ children }) => (
