@@ -73,18 +73,30 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
         },
       });
 
-      if (functionError) {
-        console.error('Market intelligence function error:', functionError);
-        
-        // Handle different error types more gracefully
-        if (functionError.message?.includes('Rate limit') || functionError.message?.includes('Too many requests')) {
-          throw new Error('Rate limit exceeded. The dashboard is receiving high traffic. Please wait a few minutes and try refreshing.');
-        } else if (functionError.message?.includes('API Error')) {
-          throw new Error(`Service temporarily unavailable: ${functionError.message}`);
-        } else {
+        if (functionError) {
+          console.error('Market intelligence function error:', functionError);
+          
+          // Attempt to inspect response for more details (Supabase FunctionsError may include response)
+          const ctx: any = functionError as any;
+          const resp: Response | undefined = ctx?.context?.response;
+          const status = (resp as any)?.status;
+
+          // Handle rate limiting explicitly
+          if (status === 429 || functionError.message?.includes('Too many requests') || functionError.message?.toLowerCase().includes('rate limit')) {
+            throw new Error('Rate limit exceeded. The dashboard is receiving high traffic. Please wait a few minutes and try refreshing.');
+          }
+
+          // Handle generic non-2xx edge function errors gracefully
+          if (functionError.message?.includes('non-2xx')) {
+            throw new Error('Service temporarily busy. Showing sample data. Please retry shortly.');
+          }
+
+          if (functionError.message?.includes('API Error')) {
+            throw new Error(`Service temporarily unavailable: ${functionError.message}`);
+          }
+
           throw new Error(`API Error: ${functionError.message || 'Unknown error'}`);
         }
-      }
 
       if (data) {
         setMarketData({
@@ -114,6 +126,12 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
         }, 300000); // 5 minutes
       } else if (errorMessage.includes('Service temporarily unavailable')) {
         setError('Market data service is temporarily unavailable. Using sample data.');
+      } else if (errorMessage.includes('non-2xx') || errorMessage.toLowerCase().includes('temporarily busy')) {
+        setError('Market data service is busy. Showing sample data; please retry in a moment.');
+        // Auto-retry after 2 minutes for transient non-2xx errors
+        setTimeout(() => {
+          fetchMarketData();
+        }, 120000); // 2 minutes
       } else {
         setError(`Unable to load live market data: ${errorMessage}`);
       }
