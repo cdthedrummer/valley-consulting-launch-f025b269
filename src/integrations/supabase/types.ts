@@ -307,6 +307,42 @@ export type Database = {
         }
         Relationships: []
       }
+      security_incidents: {
+        Row: {
+          created_at: string
+          description: string | null
+          endpoint: string | null
+          id: string
+          incident_type: string
+          ip_address: unknown | null
+          resolved: boolean | null
+          severity: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          endpoint?: string | null
+          id?: string
+          incident_type: string
+          ip_address?: unknown | null
+          resolved?: boolean | null
+          severity?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          endpoint?: string | null
+          id?: string
+          incident_type?: string
+          ip_address?: unknown | null
+          resolved?: boolean | null
+          severity?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       subscribers: {
         Row: {
           created_at: string
@@ -449,6 +485,15 @@ export type Database = {
         Returns: undefined
       }
       check_rate_limit: {
+        Args: {
+          _endpoint: string
+          _ip_address: unknown
+          _max_requests?: number
+          _window_minutes?: number
+        }
+        Returns: boolean
+      }
+      check_rate_limit_with_security: {
         Args: {
           _endpoint: string
           _ip_address: unknown
