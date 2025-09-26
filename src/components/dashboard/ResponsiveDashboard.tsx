@@ -7,13 +7,16 @@ import {
   BarChart3, 
   TrendingUp, 
   MapPin, 
-  Grid3X3, 
+  Grid3X3 as LayoutGrid, 
   List,
-  Eye,
+  Eye as Focus,
   Maximize2,
-  Minimize2
+  Minimize2,
+  ChevronLeft
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ErrorBoundary } from '@/components/ui/error-boundary';
+import { DashboardLoading } from '@/components/ui/enhanced-loading';
 import MarketIntelligenceWidget from './MarketIntelligenceWidget';
 import OpportunityMapWidget from './OpportunityMapWidget';
 import IndustryInsightsWidget from './IndustryInsightsWidget';
@@ -138,7 +141,7 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
             variant={viewMode === 'list' ? 'default' : 'ghost'}
             size="sm"
             onClick={() => setViewMode('list')}
-            className="h-8 w-8 p-0 touch-optimized focus-enhanced"
+            className="h-8 w-8 p-0 touch-target focus-enhanced"
           >
             <List className="h-4 w-4" />
           </Button>
@@ -146,9 +149,9 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
             variant={viewMode === 'focus' ? 'default' : 'ghost'}
             size="sm"
             onClick={() => setViewMode('focus')}
-            className="h-8 w-8 p-0 touch-optimized focus-enhanced"
+            className="h-8 w-8 p-0 touch-target focus-enhanced"
           >
-            <Eye className="h-4 w-4" />
+            <Focus className="h-4 w-4" />
           </Button>
         </div>
         
@@ -160,22 +163,22 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
         </div>
       </div>
 
-      {/* Mobile View Toggle */}
-      <div className="md:hidden">
-        <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as any)}>
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="grid" className="flex items-center gap-2">
-              <Grid3X3 className="h-4 w-4" />
-              Grid
-            </TabsTrigger>
-            <TabsTrigger value="list" className="flex items-center gap-2">
-              <List className="h-4 w-4" />
-              List
-            </TabsTrigger>
-            <TabsTrigger value="focus" className="flex items-center gap-2">
-              <Eye className="h-4 w-4" />
-              Focus
-            </TabsTrigger>
+        {/* Mobile View Toggle */}
+        <div className="md:hidden">
+          <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as any)}>
+            <TabsList className="grid w-full grid-cols-3 bg-background/50 backdrop-blur-sm">
+              <TabsTrigger value="grid" className="flex items-center gap-2 touch-target">
+                <LayoutGrid className="h-4 w-4" />
+                <span className="hidden sm:inline">Grid</span>
+              </TabsTrigger>
+              <TabsTrigger value="list" className="flex items-center gap-2 touch-target">
+                <List className="h-4 w-4" />
+                <span className="hidden sm:inline">List</span>
+              </TabsTrigger>
+              <TabsTrigger value="focus" className="flex items-center gap-2 touch-target">
+                <Focus className="h-4 w-4" />
+                <span className="hidden sm:inline">Focus</span>
+              </TabsTrigger>
           </TabsList>
         </Tabs>
       </div>

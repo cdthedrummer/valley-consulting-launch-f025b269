@@ -4,6 +4,7 @@ import { Calendar, Phone, Building, User, ChevronDown, LogOut, CreditCard, Monit
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 interface MobileNavigationProps {
   isOpen: boolean;
 }
@@ -14,6 +15,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
   const [servicesOpen, setServicesOpen] = useState(false);
   const location = useLocation();
   const { user, signOut } = useAuth();
+  const { toast } = useToast();
   
   const toggleIndustries = () => setIndustriesOpen(!industriesOpen);
   const toggleServices = () => setServicesOpen(!servicesOpen);
@@ -34,11 +36,14 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
       if (data?.url) {
         window.location.href = data.url;
       }
-    } catch (error) {
-      console.error('Error accessing customer portal:', error);
-      // Add user-friendly error handling
-      alert('Unable to access account management. Please try again later.');
-    }
+      } catch (error) {
+        console.error('Error accessing customer portal:', error);
+        toast({
+          title: "Access Error",
+          description: "Unable to access account management. Please try again later.",
+          variant: "destructive",
+        });
+      }
   };
   const isActive = (path: string) => {
     return location.pathname === path;
@@ -72,23 +77,23 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
     name: "All Services",
     path: "/services"
   }];
-  return <div id="mobile-navigation" className={`lg:hidden absolute top-full left-0 w-full bg-white border-t border-gray-200 shadow-md transition-all duration-300 ease-in-out transform ${isOpen ? "translate-y-0 opacity-100" : "-translate-y-10 opacity-0 pointer-events-none"}`}>
-      <div className="container-custom py-4 flex flex-col space-y-2">
-        <Link to="/" className={`font-medium p-2 transition-colors hover:text-hvcg-blue hover:bg-gray-100 rounded-md flex items-center ${isActive("/") ? "text-hvcg-blue bg-gray-100" : "text-gray-600"}`}>
+  return <div id="mobile-navigation" className={`lg:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-md border-t border-border shadow-lg transition-all duration-300 ease-in-out transform ${isOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0 pointer-events-none"}`}>
+      <div className="container-custom py-6 flex flex-col space-y-1">
+        <Link to="/" className={`font-medium p-4 transition-all duration-200 hover:text-primary hover:bg-accent rounded-lg flex items-center touch-target ${isActive("/") ? "text-primary bg-accent" : "text-foreground"}`}>
           Home
         </Link>
         
         {/* Services Dropdown (Mobile) */}
         <div>
-          <button onClick={toggleServices} className={`font-medium p-2 transition-colors hover:text-hvcg-blue hover:bg-gray-100 rounded-md w-full text-left flex items-center justify-between ${location.pathname === "/services" ? "text-hvcg-blue bg-gray-100" : "text-gray-600"}`}>
+          <button onClick={toggleServices} className={`font-medium p-4 transition-all duration-200 hover:text-primary hover:bg-accent rounded-lg w-full text-left flex items-center justify-between touch-target ${location.pathname === "/services" ? "text-primary bg-accent" : "text-foreground"}`}>
             <div className="flex items-center">
-              <Building className="mr-2 h-4 w-4" /> Services
+              <Building className="mr-3 h-5 w-5" /> Services
             </div>
-            <ChevronDown className={`h-4 w-4 transition-transform ${servicesOpen ? "transform rotate-180" : ""}`} />
+            <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${servicesOpen ? "transform rotate-180" : ""}`} />
           </button>
           
-          {servicesOpen && <div className="pl-4 mt-1 space-y-1">
-              {services.map(service => <Link key={service.name} to={service.path} className="block p-2 text-gray-600 hover:text-hvcg-blue hover:bg-gray-100 rounded-md">
+          {servicesOpen && <div className="pl-6 mt-2 space-y-1 animate-fade-in">
+              {services.map(service => <Link key={service.name} to={service.path} className="block p-3 text-muted-foreground hover:text-primary hover:bg-accent/50 rounded-md transition-all duration-200 touch-target">
                   {service.name}
                 </Link>)}
             </div>}
@@ -96,52 +101,52 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
         
         {/* Industries Dropdown (Mobile) */}
         <div>
-          <button onClick={toggleIndustries} className={`font-medium p-2 transition-colors hover:text-hvcg-blue hover:bg-gray-100 rounded-md w-full text-left flex items-center justify-between ${location.pathname.includes("/industries") ? "text-hvcg-blue bg-gray-100" : "text-gray-600"}`}>
+          <button onClick={toggleIndustries} className={`font-medium p-4 transition-all duration-200 hover:text-primary hover:bg-accent rounded-lg w-full text-left flex items-center justify-between touch-target ${location.pathname.includes("/industries") ? "text-primary bg-accent" : "text-foreground"}`}>
             <div className="flex items-center">
-              <User className="mr-2 h-4 w-4" /> Industries
+              <User className="mr-3 h-5 w-5" /> Industries
             </div>
-            <ChevronDown className={`h-4 w-4 transition-transform ${industriesOpen ? "transform rotate-180" : ""}`} />
+            <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${industriesOpen ? "transform rotate-180" : ""}`} />
           </button>
           
-          {industriesOpen && <div className="pl-4 mt-1 space-y-1">
-              {industries.map(industry => <Link key={industry.name} to={industry.path} className="block p-2 text-gray-600 hover:text-hvcg-blue hover:bg-gray-100 rounded-md">
+          {industriesOpen && <div className="pl-6 mt-2 space-y-1 animate-fade-in">
+              {industries.map(industry => <Link key={industry.name} to={industry.path} className="block p-3 text-muted-foreground hover:text-primary hover:bg-accent/50 rounded-md transition-all duration-200 touch-target">
                   {industry.name}
                 </Link>)}
             </div>}
         </div>
         
         
-        <Link to="/approach" className={`font-medium p-2 transition-colors hover:text-hvcg-blue hover:bg-gray-100 rounded-md ${isActive("/approach") ? "text-hvcg-blue bg-gray-100" : "text-gray-600"}`}>Approach</Link>
-        <Link to="/resources" className={`font-medium p-2 transition-colors hover:text-hvcg-blue hover:bg-gray-100 rounded-md ${isActive("/resources") ? "text-hvcg-blue bg-gray-100" : "text-gray-600"}`}>Resources</Link>
+        <Link to="/approach" className={`font-medium p-4 transition-all duration-200 hover:text-primary hover:bg-accent rounded-lg touch-target ${isActive("/approach") ? "text-primary bg-accent" : "text-foreground"}`}>Approach</Link>
+        <Link to="/resources" className={`font-medium p-4 transition-all duration-200 hover:text-primary hover:bg-accent rounded-lg touch-target ${isActive("/resources") ? "text-primary bg-accent" : "text-foreground"}`}>Resources</Link>
         
         {/* AI & Authentication Section */}
         {user ? (
           <>
-            <div className="border-t border-gray-200 my-2"></div>
-            <Link to="/ai/dashboard" className={`font-medium p-2 transition-colors hover:text-hvcg-blue hover:bg-gray-100 rounded-md flex items-center ${isActive("/ai/dashboard") ? "text-hvcg-blue bg-gray-100" : "text-gray-600"}`}>
-              <Monitor className="mr-2 h-4 w-4" /> AI Dashboard
+            <div className="border-t border-border my-4"></div>
+            <Link to="/ai/dashboard" className={`font-medium p-4 transition-all duration-200 hover:text-primary hover:bg-accent rounded-lg flex items-center touch-target ${isActive("/ai/dashboard") ? "text-primary bg-accent" : "text-foreground"}`}>
+              <Monitor className="mr-3 h-5 w-5" /> AI Dashboard
             </Link>
-            <button onClick={handleManageAccount} className="font-medium p-2 transition-colors hover:text-hvcg-blue hover:bg-gray-100 rounded-md w-full text-left flex items-center text-gray-600">
-              <CreditCard className="mr-2 h-4 w-4" /> Manage Account
+            <button onClick={handleManageAccount} className="font-medium p-4 transition-all duration-200 hover:text-primary hover:bg-accent rounded-lg w-full text-left flex items-center text-foreground touch-target">
+              <CreditCard className="mr-3 h-5 w-5" /> Manage Account
             </button>
-            <button onClick={handleSignOut} className="font-medium p-2 transition-colors hover:text-hvcg-blue hover:bg-gray-100 rounded-md w-full text-left flex items-center text-gray-600">
-              <LogOut className="mr-2 h-4 w-4" /> Sign Out
+            <button onClick={handleSignOut} className="font-medium p-4 transition-all duration-200 hover:text-primary hover:bg-accent rounded-lg w-full text-left flex items-center text-foreground touch-target">
+              <LogOut className="mr-3 h-5 w-5" /> Sign Out
             </button>
           </>
         ) : (
           <>
-            <div className="border-t border-gray-200 my-2"></div>
-            <Link to="/auth" className="font-medium p-2 transition-colors hover:text-hvcg-blue hover:bg-gray-100 rounded-md flex items-center text-gray-600">
-              <User className="mr-2 h-4 w-4" /> Sign In
+            <div className="border-t border-border my-4"></div>
+            <Link to="/auth" className="font-medium p-4 transition-all duration-200 hover:text-primary hover:bg-accent rounded-lg flex items-center text-foreground touch-target">
+              <User className="mr-3 h-5 w-5" /> Sign In
             </Link>
           </>
         )}
         
         {/* Launch AI Dashboard Button */}
-        <div className="pt-2">
-          <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue transition-colors text-white">
-            <Link to="/ai/dashboard" className="flex items-center justify-center">
-              <Calendar className="mr-2 h-4 w-4" /> Launch AI Dashboard
+        <div className="pt-4">
+          <Button asChild className="w-full h-12 bg-primary hover:bg-primary/90 transition-all duration-200 text-primary-foreground touch-target active:scale-98">
+            <Link to="/ai/dashboard" className="flex items-center justify-center gap-3">
+              <Calendar className="h-5 w-5" /> Launch AI Dashboard
             </Link>
           </Button>
         </div>
