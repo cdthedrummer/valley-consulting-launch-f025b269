@@ -71,8 +71,7 @@ const setCachedData = async (supabase: any, cacheKey: string, data: any, ttlHour
       cache_key: cacheKey,
       data: data,
       expires_at: expiresAt.toISOString()
-    })
-    .catch(console.error);
+    });
     
   console.log(`[CACHE] Stored data for: ${cacheKey} (TTL: ${ttlHours}h)`);
 };

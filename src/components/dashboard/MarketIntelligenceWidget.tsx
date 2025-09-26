@@ -107,16 +107,24 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
         }
 
       if (data) {
+        // Handle both direct data and fallback data structure
+        let processedData = data;
+        if (data.error && data.fallback) {
+          console.log('Using fallback data due to API error:', data.error);
+          processedData = data.fallback;
+          setDataSource('fallback');
+        }
+        
         setMarketData({
-          ...data,
+          ...processedData,
           dataSources: {
             primary: 'US Census Bureau (ACS 5-Year Estimates)',
             secondary: ['Bureau of Labor Statistics', 'County Business Patterns'],
             lastFetch: new Date().toISOString(),
-            reliability: 'high'
+            reliability: processedData.reliability || 'high'
           }
         });
-        setDataSource('live');
+        setDataSource(data.error ? 'fallback' : 'live');
         announce(`Market data loaded successfully for ${location}`);
       } else {
         throw new Error('No data received from API');
