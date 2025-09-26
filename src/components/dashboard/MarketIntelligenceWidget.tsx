@@ -74,7 +74,16 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
       });
 
       if (functionError) {
-        throw new Error(`API Error: ${functionError.message || 'Unknown error'}`);
+        console.error('Market intelligence function error:', functionError);
+        
+        // Handle different error types more gracefully
+        if (functionError.message?.includes('Rate limit') || functionError.message?.includes('Too many requests')) {
+          throw new Error('Rate limit exceeded. The dashboard is receiving high traffic. Please wait a few minutes and try refreshing.');
+        } else if (functionError.message?.includes('API Error')) {
+          throw new Error(`Service temporarily unavailable: ${functionError.message}`);
+        } else {
+          throw new Error(`API Error: ${functionError.message || 'Unknown error'}`);
+        }
       }
 
       if (data) {
@@ -95,7 +104,20 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
     } catch (err) {
       console.error('Error fetching market data:', err);
       const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
-      setError(`Failed to load live market data: ${errorMessage}`);
+      
+      // More user-friendly error messages
+      if (errorMessage.includes('Rate limit')) {
+        setError('Dashboard is experiencing high traffic. Data will refresh automatically in a few minutes.');
+        // Auto-retry after 5 minutes for rate limit errors
+        setTimeout(() => {
+          fetchMarketData();
+        }, 300000); // 5 minutes
+      } else if (errorMessage.includes('Service temporarily unavailable')) {
+        setError('Market data service is temporarily unavailable. Using sample data.');
+      } else {
+        setError(`Unable to load live market data: ${errorMessage}`);
+      }
+      
       setDataSource('fallback');
       announce(`Unable to load live data. Displaying sample data for ${location}`);
       

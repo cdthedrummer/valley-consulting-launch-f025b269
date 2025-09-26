@@ -51,18 +51,22 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
     
-    // Check rate limiting (10 requests per hour per IP for market intelligence)
+    // Check rate limiting (50 requests per hour per IP for market intelligence - more reasonable for dashboard usage)
     const { data: rateLimitCheck } = await supabase.rpc('check_rate_limit', {
       _ip_address: clientIP,
       _endpoint: 'market-intelligence',
-      _max_requests: 10,
+      _max_requests: 50,
       _window_minutes: 60
     });
 
     if (!rateLimitCheck) {
       console.warn(`Rate limit exceeded for market intelligence from IP: ${clientIP}`);
       return new Response(
-        JSON.stringify({ error: 'Too many requests. Please try again later.' }),
+        JSON.stringify({ 
+          error: 'Rate limit exceeded. Please wait a moment before requesting more data.',
+          retryAfter: 300, // 5 minutes
+          type: 'RATE_LIMIT_ERROR'
+        }),
         {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           status: 429,
