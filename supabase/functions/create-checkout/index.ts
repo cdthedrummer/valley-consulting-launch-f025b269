@@ -8,6 +8,13 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Security utilities
+const getClientIP = (req: Request): string => {
+  return req.headers.get('x-forwarded-for') || 
+         req.headers.get('x-real-ip') || 
+         'unknown';
+};
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -19,11 +26,50 @@ serve(async (req) => {
   );
 
   try {
-    const authHeader = req.headers.get("Authorization")!;
+    const clientIP = getClientIP(req);
+    
+    // Check rate limiting (3 checkout attempts per hour per IP)
+    const { data: rateLimitCheck } = await supabaseClient.rpc('check_rate_limit', {
+      _ip_address: clientIP,
+      _endpoint: 'create-checkout',
+      _max_requests: 3,
+      _window_minutes: 60
+    });
+
+    if (!rateLimitCheck) {
+      console.warn(`Rate limit exceeded for checkout from IP: ${clientIP}`);
+      return new Response(
+        JSON.stringify({ error: 'Too many checkout attempts. Please try again later.' }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 429,
+        },
+      );
+    }
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader) {
+      throw new Error("No authorization header provided");
+    }
+    
     const token = authHeader.replace("Bearer ", "");
-    const { data } = await supabaseClient.auth.getUser(token);
+    const { data, error: authError } = await supabaseClient.auth.getUser(token);
+    if (authError) {
+      throw new Error(`Authentication error: ${authError.message}`);
+    }
+    
     const user = data.user;
-    if (!user?.email) throw new Error("User not authenticated or email not available");
+    if (!user?.email) {
+      throw new Error("User not authenticated or email not available");
+    }
+
+    // Log audit trail
+    await supabaseClient.from('audit_logs').insert({
+      table_name: 'stripe_checkout',
+      operation: 'CREATE',
+      new_data: { user_id: user.id, user_email: user.email },
+      ip_address: clientIP,
+      user_agent: req.headers.get('user-agent')
+    }).catch(console.error);
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", { apiVersion: "2023-10-16" });
     

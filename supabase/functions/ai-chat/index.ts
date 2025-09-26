@@ -6,6 +6,38 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Security utilities
+const getClientIP = (req: Request): string => {
+  return req.headers.get('x-forwarded-for') || 
+         req.headers.get('x-real-ip') || 
+         'unknown';
+};
+
+const validateChatInput = (data: any): { isValid: boolean; error?: string } => {
+  if (!data || typeof data !== 'object') {
+    return { isValid: false, error: 'Invalid request data' };
+  }
+  
+  if (!Array.isArray(data.messages)) {
+    return { isValid: false, error: 'Messages must be an array' };
+  }
+  
+  if (data.messages.length === 0 || data.messages.length > 50) {
+    return { isValid: false, error: 'Invalid message count (1-50 allowed)' };
+  }
+  
+  for (const message of data.messages) {
+    if (!message.role || !message.content) {
+      return { isValid: false, error: 'Each message must have role and content' };
+    }
+    if (typeof message.content !== 'string' || message.content.length > 10000) {
+      return { isValid: false, error: 'Message content too long (max 10000 chars)' };
+    }
+  }
+  
+  return { isValid: true };
+};
+
 const generateSystemPrompt = (location?: string, locationType?: string, industry?: string, language: string = 'English') => {
   const basePrompt = `You are Contractor AI Copilot, serving small-to-mid size home-service businesses in Rockland & Westchester counties, NY.
 
@@ -60,6 +92,26 @@ serve(async (req) => {
   );
 
   try {
+    const clientIP = getClientIP(req);
+    
+    // Check rate limiting (20 requests per hour per IP for AI chat)
+    const { data: rateLimitCheck } = await supabaseClient.rpc('check_rate_limit', {
+      _ip_address: clientIP,
+      _endpoint: 'ai-chat',
+      _max_requests: 20,
+      _window_minutes: 60
+    });
+
+    if (!rateLimitCheck) {
+      console.warn(`Rate limit exceeded for AI chat from IP: ${clientIP}`);
+      return new Response(
+        JSON.stringify({ error: 'Too many requests. Please try again later.' }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 429,
+        },
+      );
+    }
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) throw new Error("No authorization header provided");
 
@@ -83,8 +135,30 @@ serve(async (req) => {
       });
     }
 
-    const { messages, userContext } = await req.json();
+    // Validate request body
+    const requestData = await req.json();
+    const validation = validateChatInput(requestData);
+    if (!validation.isValid) {
+      return new Response(
+        JSON.stringify({ error: validation.error }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 400,
+        }
+      );
+    }
+    
+    const { messages, userContext } = requestData;
     const { location, locationType, industry, language } = userContext || {};
+
+    // Log audit trail
+    await supabaseClient.from('audit_logs').insert({
+      table_name: 'ai_chat',
+      operation: 'REQUEST',
+      new_data: { user_id: user.id, message_count: messages.length, location, industry },
+      ip_address: clientIP,
+      user_agent: req.headers.get('user-agent')
+    }).catch(console.error);
 
     // Add dynamic system prompt if not present
     const systemPrompt = generateSystemPrompt(location, locationType, industry, language);

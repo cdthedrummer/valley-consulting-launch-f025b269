@@ -7,20 +7,96 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Security utilities
+const getClientIP = (req: Request): string => {
+  return req.headers.get('x-forwarded-for') || 
+         req.headers.get('x-real-ip') || 
+         'unknown';
+};
+
+const sanitizeInput = (input: string): string => {
+  return input?.toString()
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // Remove script tags
+    .replace(/[<>]/g, '') // Remove angle brackets
+    .trim()
+    .substring(0, 100) // Limit length for location/industry
+};
+
+const validateMarketRequest = (data: any): { isValid: boolean; error?: string } => {
+  if (!data || typeof data !== 'object') {
+    return { isValid: false, error: 'Invalid request data' };
+  }
+  
+  if (!data.location || typeof data.location !== 'string' || data.location.length < 2) {
+    return { isValid: false, error: 'Valid location is required (min 2 chars)' };
+  }
+  
+  if (!data.industry || typeof data.industry !== 'string' || data.industry.length < 2) {
+    return { isValid: false, error: 'Valid industry is required (min 2 chars)' };
+  }
+  
+  return { isValid: true };
+};
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { location, industry } = await req.json();
+    const clientIP = getClientIP(req);
     
-    console.log(`[MARKET-INTELLIGENCE] Fetching data for location: ${location}, industry: ${industry}`);
-
-    // Initialize Supabase client
+    // Initialize Supabase client first for rate limiting
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
+    
+    // Check rate limiting (10 requests per hour per IP for market intelligence)
+    const { data: rateLimitCheck } = await supabase.rpc('check_rate_limit', {
+      _ip_address: clientIP,
+      _endpoint: 'market-intelligence',
+      _max_requests: 10,
+      _window_minutes: 60
+    });
+
+    if (!rateLimitCheck) {
+      console.warn(`Rate limit exceeded for market intelligence from IP: ${clientIP}`);
+      return new Response(
+        JSON.stringify({ error: 'Too many requests. Please try again later.' }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 429,
+        },
+      );
+    }
+
+    // Validate and sanitize input
+    const requestData = await req.json();
+    const validation = validateMarketRequest(requestData);
+    if (!validation.isValid) {
+      return new Response(
+        JSON.stringify({ error: validation.error }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 400,
+        }
+      );
+    }
+    
+    const location = sanitizeInput(requestData.location);
+    const industry = sanitizeInput(requestData.industry);
+
+    // Log audit trail
+    await supabase.from('audit_logs').insert({
+      table_name: 'market_intelligence',
+      operation: 'REQUEST',
+      new_data: { location, industry },
+      ip_address: clientIP,
+      user_agent: req.headers.get('user-agent')
+    }).catch(console.error);
+    
+    console.log(`[MARKET-INTELLIGENCE] Fetching data for location: ${location}, industry: ${industry}`);
+
 
     // Determine location type and format for APIs
     const isZipCode = /^\d{5}$/.test(location);
