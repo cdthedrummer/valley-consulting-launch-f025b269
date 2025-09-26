@@ -101,7 +101,9 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ content, isUser }) =>
               Copy for Excel/Sheets
             </Button>
           </div>
-          <div className="overflow-x-auto">
+          
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <Table className="w-full border border-border/70 rounded-xl shadow-xs">
               <TableHeader className="sticky top-0 z-10">
                 <TableRow>
@@ -135,6 +137,35 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ content, isUser }) =>
                 ))}
               </TableBody>
             </Table>
+          </div>
+
+          {/* Mobile Card View */}
+          <div className="md:hidden space-y-3 p-4">
+            {rows.map((row, rowIndex) => (
+              <div key={rowIndex} className="bg-background border border-border/40 rounded-lg p-4 space-y-2">
+                {row.map((cell, cellIndex) => {
+                  if (cellIndex === 0) return null; // Skip index column on mobile
+                  
+                  return (
+                    <div key={cellIndex} className="flex flex-col space-y-1">
+                      <span className="text-table-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                        {headers[cellIndex]}
+                      </span>
+                      <div className="text-table leading-6 text-foreground/90 [&_strong]:font-semibold [&_strong]:text-foreground">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {cell}
+                        </ReactMarkdown>
+                      </div>
+                    </div>
+                  );
+                })}
+                <div className="pt-2 border-t border-border/20">
+                  <span className="text-table-xs text-muted-foreground">
+                    #{row[0]}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
         
