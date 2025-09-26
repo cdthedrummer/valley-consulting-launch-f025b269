@@ -125,6 +125,9 @@ export default {
 				sans: ['Inter', 'sans-serif'],
 				display: ['Montserrat', 'sans-serif'],
 			},
+			fontSize: {
+				table: ["0.9375rem", { lineHeight: "1.5rem", letterSpacing: "0.01em" }]
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

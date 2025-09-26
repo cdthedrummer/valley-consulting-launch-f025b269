@@ -165,7 +165,7 @@
   }
 
   p {
-    @apply leading-relaxed text-muted-foreground;
+    @apply text-base leading-[1.7] text-muted-foreground;
   }
   
   .text-balance {
@@ -294,5 +294,18 @@
   /* Improved touch targets for mobile */
   .touch-optimized {
     @apply min-h-[48px] min-w-[48px] flex items-center justify-center;
+  }
+  
+  /* Prose styling improvements */
+  .prose ul { 
+    @apply mt-3 space-y-2; 
+  }
+  
+  .prose li { 
+    @apply leading-relaxed text-sm text-foreground/90; 
+  }
+  
+  .prose strong { 
+    @apply text-foreground font-semibold; 
   }
 }

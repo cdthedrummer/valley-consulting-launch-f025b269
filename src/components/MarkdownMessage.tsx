@@ -106,7 +106,7 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ content, isUser }) =>
                 <TableHeader>
                   <TableRow>
                     {headers.map((header, index) => (
-                      <TableHead key={index} className="text-xs font-medium whitespace-nowrap min-w-[120px] px-3 py-2 border-r last:border-r-0">
+                      <TableHead key={index} className="text-table font-semibold uppercase tracking-wide px-4 py-2 bg-muted/70 text-foreground/80 first:rounded-tl-lg last:rounded-tr-lg">
                         {header}
                       </TableHead>
                     ))}
@@ -116,10 +116,8 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ content, isUser }) =>
                   {rows.map((row, rowIndex) => (
                     <TableRow key={rowIndex}>
                       {row.map((cell, cellIndex) => (
-                        <TableCell key={cellIndex} className="text-xs p-3 whitespace-nowrap min-w-[120px] border-r last:border-r-0 max-w-[200px] overflow-hidden text-ellipsis">
-                          <span title={cell} className="block truncate">
-                            {cell}
-                          </span>
+                        <TableCell key={cellIndex} className="text-table leading-6 px-4 py-3 align-top border-r last:border-r-0 whitespace-normal">
+                          {cell}
                         </TableCell>
                       ))}
                     </TableRow>
@@ -133,7 +131,7 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ content, isUser }) =>
         {/* Show any remaining content that wasn't part of the table */}
         {originalText.replace(/^\|[^\n\r]*\|[\s]*[\n\r]+\|[-\s:|]+\|[\s]*[\n\r]+((?:\|[^\n\r]*\|[\s]*[\n\r]*)+)/gm, '').trim() && (
           <div className={cn(
-            "prose prose-sm max-w-none",
+            "prose prose-base md:prose-lg max-w-none",
             isUser ? "prose-invert" : "prose-gray",
             "[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
           )}>
@@ -147,7 +145,7 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ content, isUser }) =>
   }
   return (
     <div className={cn(
-      "prose prose-sm max-w-none",
+      "prose prose-base md:prose-lg max-w-none",
       isUser ? "prose-invert" : "prose-gray",
       // Custom prose styling for chat messages
       "[&>*:first-child]:mt-0 [&>*:last-child]:mb-0",
