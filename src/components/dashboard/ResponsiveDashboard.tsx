@@ -125,12 +125,12 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
     >
       {/* View Controls - Desktop */}
       <div className="mb-6 flex items-center justify-between">
-        <div className="hidden md:flex items-center gap-1 bg-background/50 rounded-lg p-1">
+        <div className="hidden md:flex items-center gap-1 bg-background/50 backdrop-blur-sm rounded-lg p-1 border border-border/50">
           <Button
             variant={viewMode === 'grid' ? 'default' : 'ghost'}
             size="sm"
             onClick={() => setViewMode('grid')}
-            className="h-8 w-8 p-0"
+            className="h-8 w-8 p-0 touch-optimized focus-enhanced"
           >
             <Grid3X3 className="h-4 w-4" />
           </Button>
@@ -138,7 +138,7 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
             variant={viewMode === 'list' ? 'default' : 'ghost'}
             size="sm"
             onClick={() => setViewMode('list')}
-            className="h-8 w-8 p-0"
+            className="h-8 w-8 p-0 touch-optimized focus-enhanced"
           >
             <List className="h-4 w-4" />
           </Button>
@@ -146,15 +146,15 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
             variant={viewMode === 'focus' ? 'default' : 'ghost'}
             size="sm"
             onClick={() => setViewMode('focus')}
-            className="h-8 w-8 p-0"
+            className="h-8 w-8 p-0 touch-optimized focus-enhanced"
           >
             <Eye className="h-4 w-4" />
           </Button>
         </div>
         
         <div className="text-right hidden xl:block">
-          <div className="text-xs text-muted-foreground">Data Sources</div>
-          <div className="text-xs text-muted-foreground opacity-75">
+          <div className="text-xs font-medium text-muted-foreground/80">Data Sources</div>
+          <div className="text-xs text-muted-foreground/60">
             US Census • Local Data • Market Analysis
           </div>
         </div>
@@ -197,30 +197,30 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       </AnimatePresence>
 
       {/* Action Items - Always visible at bottom */}
-      <Card className="border-0 bg-gradient-to-r from-green-500/5 to-blue-500/5">
+      <Card className="border-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 backdrop-blur-sm">
         <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-base md:text-lg">
-            <TrendingUp className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
+          <CardTitle className="flex items-center gap-2 text-base md:text-lg text-balance">
+            <TrendingUp className="h-4 w-4 md:h-5 md:w-5 text-accent" />
             Recommended Actions
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            <div className="p-3 bg-widget-bg rounded-lg border border-widget-border">
-              <h4 className="font-medium text-xs md:text-sm mb-1 text-stat-text">High Priority</h4>
-              <p className="text-xs text-muted-foreground">
+          <div className="mobile-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <div className="widget-card p-3 bg-background/60 backdrop-blur-sm">
+              <h4 className="font-semibold text-xs md:text-sm mb-1 text-foreground">High Priority</h4>
+              <p className="text-xs text-pretty text-muted-foreground">
                 Target {displayLocation} homeowners aged 35-54 for {industry} services. Market demand is 12% above average.
               </p>
             </div>
-            <div className="p-3 bg-widget-bg rounded-lg border border-widget-border">
-              <h4 className="font-medium text-xs md:text-sm mb-1 text-stat-text">Pricing Opportunity</h4>
-              <p className="text-xs text-muted-foreground">
+            <div className="widget-card p-3 bg-background/60 backdrop-blur-sm">
+              <h4 className="font-semibold text-xs md:text-sm mb-1 text-foreground">Pricing Opportunity</h4>
+              <p className="text-xs text-pretty text-muted-foreground">
                 Current pricing is 5% below optimal. Consider $50-80 increase for new projects.
               </p>
             </div>
-            <div className="p-3 bg-widget-bg rounded-lg border border-widget-border">
-              <h4 className="font-medium text-xs md:text-sm mb-1 text-stat-text">Seasonal Planning</h4>
-              <p className="text-xs text-muted-foreground">
+            <div className="widget-card p-3 bg-background/60 backdrop-blur-sm">
+              <h4 className="font-semibold text-xs md:text-sm mb-1 text-foreground">Seasonal Planning</h4>
+              <p className="text-xs text-pretty text-muted-foreground">
                 Schedule maintenance campaigns for next quarter when demand typically increases 25%.
               </p>
             </div>
