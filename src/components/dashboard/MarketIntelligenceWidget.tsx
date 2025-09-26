@@ -17,23 +17,31 @@ interface MarketData {
     medianIncome: number;
     avgHomeValue: number;
     homeOwnershipRate: number;
+    educationRate?: number;
+    commuterPopulation?: number;
+    unemploymentRate?: number;
+    laborForce?: number;
     ageGroups: Record<string, number>;
   };
   businessData: {
     totalEstablishments: number;
+    totalEmployees?: number;
     recentSales: number;
     averagePrice: number;
     marketTrend: string;
     competitorCount: number;
+    growthRate?: number;
   };
   chartData: Array<{ name: string; value: number }>;
   location: string;
   lastUpdated: string;
+  dataSource?: string;
+  reliability?: 'High' | 'Medium' | 'Low' | 'Sample Data';
+  isSampleData?: boolean;
   dataSources?: {
-    primary: string;
-    secondary?: string[];
-    lastFetch: string;
-    reliability: 'high' | 'medium' | 'low';
+    census: boolean;
+    bls: boolean;
+    total: number;
   };
 }
 
@@ -164,10 +172,9 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
         location,
         lastUpdated: new Date().toLocaleDateString(),
         dataSources: {
-          primary: 'Sample Data (Demo)',
-          secondary: ['Estimated values for demonstration'],
-          lastFetch: new Date().toISOString(),
-          reliability: 'low'
+          census: false,
+          bls: false,
+          total: 0
         }
       });
     } finally {
@@ -431,14 +438,14 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
                   variant="outline" 
                   className={cn(
                     "text-xs transition-all duration-200 hover:scale-105",
-                    marketData?.dataSources?.reliability === 'high' ? 'border-green-300 text-green-700 bg-green-50' :
-                    marketData?.dataSources?.reliability === 'medium' ? 'border-yellow-300 text-yellow-700 bg-yellow-50' :
+                    marketData?.reliability === 'High' ? 'border-green-300 text-green-700 bg-green-50' :
+                    marketData?.reliability === 'Medium' ? 'border-yellow-300 text-yellow-700 bg-yellow-50' :
                     'border-orange-300 text-orange-700 bg-orange-50'
                   )}
                 >
-                  {marketData?.dataSources?.reliability === 'high' ? '🟢' : 
-                   marketData?.dataSources?.reliability === 'medium' ? '🟡' : '🟠'} 
-                  {marketData?.dataSources?.reliability?.toUpperCase()}
+                  {marketData?.reliability === 'High' ? '🟢' : 
+                   marketData?.reliability === 'Medium' ? '🟡' : '🟠'} 
+                  {marketData?.reliability?.toUpperCase()}
                 </Badge>
               </div>
               
@@ -449,16 +456,16 @@ const MarketIntelligenceWidget: React.FC<MarketIntelligenceWidgetProps> = ({
                     Data Sources & Attribution
                   </summary>
                   <div className="mt-2 pl-4 space-y-1">
-                    <div><strong>Primary:</strong> {marketData.dataSources.primary}</div>
-                    {marketData.dataSources.secondary && (
+                    <div><strong>Primary:</strong> {marketData.dataSource || 'Multiple APIs'}</div>
+                    {marketData.dataSources && (
                       <div>
-                        <strong>Additional:</strong> {marketData.dataSources.secondary.join(', ')}
+                        <strong>Sources:</strong> Census: {marketData.dataSources.census ? '✓' : '✗'}, BLS: {marketData.dataSources.bls ? '✓' : '✗'}
                       </div>
                     )}
                     <div className="text-xs opacity-75">
-                      Data fetched: {new Date(marketData.dataSources.lastFetch).toLocaleString()}
+                      Data updated: {marketData.lastUpdated}
                     </div>
-                    {dataSource === 'fallback' && (
+                    {marketData.isSampleData && (
                       <div className="text-amber-600 font-medium">
                         ⚠️ This is sample data for demonstration purposes only
                       </div>
