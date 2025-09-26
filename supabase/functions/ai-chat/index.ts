@@ -152,17 +152,18 @@ serve(async (req) => {
     const { location, locationType, industry, language } = userContext || {};
 
     // Log audit trail
-    await supabaseClient.from('audit_logs').insert({
+    const { error: auditError } = await supabaseClient.from('audit_logs').insert({
       table_name: 'ai_chat',
       operation: 'REQUEST',
       new_data: { user_id: user.id, message_count: messages.length, location, industry },
       ip_address: clientIP,
       user_agent: req.headers.get('user-agent')
-    }).catch(console.error);
+    });
+    if (auditError) console.error('[AUDIT] Error logging ai_chat request:', auditError);
 
     // Add dynamic system prompt if not present
     const systemPrompt = generateSystemPrompt(location, locationType, industry, language);
-    const messagesWithSystem = messages.find(m => m.role === 'system') 
+    const messagesWithSystem = messages.find((m: any) => m.role === 'system') 
       ? messages 
       : [{ role: 'system', content: systemPrompt }, ...messages];
 
@@ -198,7 +199,7 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: (error as Error).message }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });

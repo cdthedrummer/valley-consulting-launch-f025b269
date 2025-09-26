@@ -1,6 +1,7 @@
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
+import { Resend } from 'https://esm.sh/resend@2.0.0'
 
 // Initialize Resend with the API key  
 const resendApiKey = Deno.env.get("RESEND_API_KEY");
@@ -8,7 +9,6 @@ if (!resendApiKey) {
   console.error("Missing RESEND_API_KEY environment variable");
 }
 const resend = new Resend(resendApiKey);
-
 // Set up CORS headers for cross-origin requests
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -277,14 +277,14 @@ const handler = async (req: Request): Promise<Response> => {
     console.error("Error in send-testimonial-email function:", error);
     
     // Log security incident
-    await supabase.from('audit_logs').insert({
+    const { error: auditError } = await supabase.from('audit_logs').insert({
       table_name: 'testimonials',
       operation: 'INSERT',
       new_data: { error: 'Processing failed', ip_address: getClientIP(req) },
       ip_address: getClientIP(req),
       user_agent: req.headers.get('user-agent')
-    }).catch(console.error)
-
+    });
+    if (auditError) console.error(auditError)
     return new Response(
       JSON.stringify({ 
         success: false, 

@@ -9,9 +9,17 @@ const corsHeaders = {
 
 // Security utilities
 const getClientIP = (req: Request): string => {
-  return req.headers.get('x-forwarded-for') || 
-         req.headers.get('x-real-ip') || 
-         'unknown';
+  const xff = req.headers.get('x-forwarded-for');
+  // x-forwarded-for can be a comma-separated list - take the first IP
+  if (xff && xff.length > 0) {
+    const first = xff.split(',')[0]?.trim();
+    if (first) return first;
+  }
+  const cf = req.headers.get('cf-connecting-ip');
+  if (cf) return cf;
+  const realIp = req.headers.get('x-real-ip');
+  if (realIp) return realIp;
+  return req.headers.get('x-client-ip') || 'unknown';
 };
 
 const sanitizeInput = (input: string): string => {
@@ -197,31 +205,8 @@ serve(async (req) => {
         console.error('[CACHE-CLEANUP] Error:', error);
       }
     }
-    
-    // Relaxed rate limiting (500 requests per hour - dashboard-friendly)
-    const { data: rateLimitCheck } = await supabase.rpc('check_rate_limit', {
-      _ip_address: clientIP,
-      _endpoint: 'market-intelligence',
-      _max_requests: 500,
-      _window_minutes: 60
-    });
 
-    if (!rateLimitCheck) {
-      console.warn(`Rate limit exceeded for market intelligence from IP: ${clientIP}`);
-      return new Response(
-        JSON.stringify({ 
-          error: 'Service temporarily busy. Please wait a moment and try again.',
-          retryAfter: 60, // 1 minute
-          type: 'RATE_LIMIT_ERROR'
-        }),
-        {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          status: 429,
-        },
-      );
-    }
-
-    // Validate and sanitize input
+    // Parse request early so cache can be used before any rate limiting
     const requestData = await req.json();
     const validation = validateMarketRequest(requestData);
     if (!validation.isValid) {
@@ -238,13 +223,36 @@ serve(async (req) => {
     const industry = sanitizeInput(requestData.industry);
     const cacheKey = `${location}-${industry}`.toLowerCase();
 
-    // Check cache first
+    // Serve cached responses without consuming rate limit budget
     const cachedData = await getCachedData(supabase, cacheKey);
     if (cachedData) {
       console.log(`[CACHE-HIT] Returning cached data for ${location}`);
       return new Response(JSON.stringify(cachedData), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
+    }
+
+    // Relaxed rate limiting (dashboard-friendly)
+    const { data: rateLimitCheck } = await supabase.rpc('check_rate_limit', {
+      _ip_address: clientIP,
+      _endpoint: 'market-intelligence',
+      _max_requests: 1000,
+      _window_minutes: 60
+    });
+
+    if (rateLimitCheck === false) {
+      console.warn(`Rate limit exceeded for market intelligence from IP: ${clientIP}`);
+      return new Response(
+        JSON.stringify({ 
+          error: 'Service temporarily busy. Please wait a moment and try again.',
+          retryAfter: 60, // 1 minute
+          type: 'RATE_LIMIT_ERROR'
+        }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 429,
+        },
+      );
     }
 
     console.log(`[MARKET-INTELLIGENCE] Fetching fresh data for location: ${location}, industry: ${industry}`);

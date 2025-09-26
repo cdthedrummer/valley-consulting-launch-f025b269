@@ -63,13 +63,14 @@ serve(async (req) => {
     }
 
     // Log audit trail
-    await supabaseClient.from('audit_logs').insert({
+    const { error: auditError } = await supabaseClient.from('audit_logs').insert({
       table_name: 'stripe_checkout',
       operation: 'CREATE',
       new_data: { user_id: user.id, user_email: user.email },
       ip_address: clientIP,
       user_agent: req.headers.get('user-agent')
-    }).catch(console.error);
+    });
+    if (auditError) console.error('[AUDIT] Error logging checkout creation:', auditError);
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", { apiVersion: "2023-10-16" });
     
@@ -113,7 +114,7 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: (error as Error).message }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });

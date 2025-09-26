@@ -44,8 +44,8 @@ serve(async (req) => {
     if (customers.data.length === 0) {
       // Try searching without case sensitivity
       const allCustomers = await stripe.customers.list({ limit: 100 });
-      const matchingCustomers = allCustomers.data.filter(c => 
-        c.email?.toLowerCase() === user.email.toLowerCase()
+      const matchingCustomers = allCustomers.data.filter((c: any) => 
+        c.email?.toLowerCase() === (user.email || '').toLowerCase()
       );
       logStep("Case-insensitive search", { foundCount: matchingCustomers.length });
       customers.data = matchingCustomers;
@@ -124,7 +124,7 @@ serve(async (req) => {
     
     logStep("Found checkout sessions", { 
       count: checkoutSessions.data.length,
-      sessions: checkoutSessions.data.map(s => ({ 
+      sessions: checkoutSessions.data.map((s: any) => ({ 
         id: s.id, 
         status: s.status, 
         payment_status: s.payment_status,
@@ -135,7 +135,7 @@ serve(async (req) => {
     
     logStep("Found subscriptions", { 
       count: subscriptions.data.length, 
-      statuses: subscriptions.data.map(s => ({ id: s.id, status: s.status, created: s.created }))
+      statuses: subscriptions.data.map((s: any) => ({ id: s.id, status: s.status, created: s.created }))
     });
     
     // Check for subscriptions that give access (active, trialing, incomplete, past_due, or canceled but still valid)
@@ -148,7 +148,7 @@ serve(async (req) => {
     let isTrialActive = false;
 
     // Sort subscriptions by creation date (newest first) to prioritize recent subscriptions
-    const sortedSubscriptions = subscriptions.data.sort((a, b) => b.created - a.created);
+    const sortedSubscriptions = subscriptions.data.sort((a: any, b: any) => b.created - a.created);
 
     for (const subscription of sortedSubscriptions) {
       const now = new Date();
@@ -232,7 +232,7 @@ serve(async (req) => {
 
     // If no subscription found but there are recent completed checkout sessions, grant temporary access
     if (!hasValidAccess && checkoutSessions.data.length > 0) {
-      const recentCompletedSession = checkoutSessions.data.find(session => {
+      const recentCompletedSession = checkoutSessions.data.find((session: any) => {
         const sessionAge = Date.now() - (session.created * 1000);
         const isRecent = sessionAge < (60 * 60 * 1000); // Within last hour
         const isCompleted = session.status === 'complete' && session.payment_status === 'paid';
@@ -298,7 +298,7 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: (error as Error).message }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
