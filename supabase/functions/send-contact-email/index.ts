@@ -209,9 +209,7 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(
       JSON.stringify({ 
         success: true, 
-        message: "Emails sent successfully",
-        ownerEmailId: ownerEmailResponse.id,
-        customerEmailId: customerEmailResponse.id
+        message: "Emails sent successfully"
       }),
       {
         status: 200,
