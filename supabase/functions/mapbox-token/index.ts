@@ -11,7 +11,7 @@ serve(async (req) => {
   }
 
   try {
-    const mapboxToken = Deno.env.get('MAPBOXHVCG_KEY')
+    const mapboxToken = Deno.env.get('MAPBOX_PUBLIC_API')
     
     if (!mapboxToken) {
       throw new Error('Mapbox API key not configured')
