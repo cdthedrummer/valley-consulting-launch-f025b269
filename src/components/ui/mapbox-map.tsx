@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { supabase } from '@/integrations/supabase/client';
 
 interface MapboxMapProps {
   center?: [number, number];
@@ -34,12 +35,11 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
   useEffect(() => {
     const fetchMapboxToken = async () => {
       try {
-        const response = await fetch('/api/mapbox-token');
-        if (!response.ok) {
+        const { data, error } = await supabase.functions.invoke('mapbox-token');
+        if (error) {
           throw new Error('Failed to fetch Mapbox token');
         }
-        const { token } = await response.json();
-        setMapboxToken(token);
+        setMapboxToken(data.token);
       } catch (err) {
         console.error('Error fetching Mapbox token:', err);
         setError('Unable to load map. Please try again later.');
