@@ -82,7 +82,43 @@ const OpportunityMapWidget: React.FC<OpportunityMapWidgetProps> = ({
       setOpportunities(mockOpportunities);
       setSelectedOpportunity(mockOpportunities[0]);
       setIsLoading(false);
-    }, 1000);
+    }, 500); // Reduced delay for faster loading
+  };
+
+  // Generate individual property markers for each opportunity area
+  const generatePropertyMarkers = () => {
+    const allMarkers: any[] = [];
+    
+    opportunities.forEach((opp, oppIndex) => {
+      // Generate multiple markers around each opportunity center
+      const baseRadius = 0.005; // Smaller radius for tighter clustering
+      const markerCount = Math.min(opp.properties, 15); // Cap at 15 markers per area for performance
+      
+      for (let i = 0; i < markerCount; i++) {
+        // Create random offset within a circle around the center
+        const angle = (Math.PI * 2 * i) / markerCount + Math.random() * 0.5;
+        const radius = baseRadius * (0.3 + Math.random() * 0.7); // Vary the distance
+        
+        const latOffset = Math.cos(angle) * radius;
+        const lngOffset = Math.sin(angle) * radius;
+        
+        allMarkers.push({
+          id: `property-${oppIndex}-${i}`,
+          coordinates: [
+            opp.coordinates[1] + lngOffset, // lng
+            opp.coordinates[0] + latOffset   // lat
+          ] as [number, number],
+          data: {
+            ...opp,
+            propertyId: i + 1,
+            estimatedValue: opp.avgValue + (Math.random() - 0.5) * 100000
+          },
+          color: getMarkerColor(opp.score)
+        });
+      }
+    });
+    
+    return allMarkers;
   };
 
   const getScoreColor = (score: number) => {
@@ -107,22 +143,22 @@ const OpportunityMapWidget: React.FC<OpportunityMapWidgetProps> = ({
   };
 
   const handleMarkerClick = (markerData: any) => {
-    const opportunity = opportunities.find(opp => 
-      opp.coordinates[0] === markerData.coordinates[0] && 
-      opp.coordinates[1] === markerData.coordinates[1]
-    );
+    // Find the opportunity area this property belongs to
+    const opportunity = opportunities.find(opp => {
+      const distance = Math.sqrt(
+        Math.pow(opp.coordinates[0] - markerData.coordinates[1], 2) +
+        Math.pow(opp.coordinates[1] - markerData.coordinates[0], 2)
+      );
+      return distance < 0.02; // Within reasonable proximity
+    });
+    
     if (opportunity) {
       setSelectedOpportunity(opportunity);
     }
   };
 
-  // Convert opportunities to map markers
-  const mapMarkers = opportunities.map((opp, index) => ({
-    id: `opp-${index}`,
-    coordinates: [opp.coordinates[1], opp.coordinates[0]] as [number, number], // lng, lat
-    data: opp,
-    color: getMarkerColor(opp.score)
-  }));
+  // Use generated property markers instead of simple opportunity markers
+  const mapMarkers = opportunities.length > 0 ? generatePropertyMarkers() : [];
 
   if (isLoading) {
     return (

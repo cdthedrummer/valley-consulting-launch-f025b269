@@ -90,22 +90,26 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       const markerElement = document.createElement('div');
       markerElement.className = 'opportunity-marker';
       markerElement.style.cssText = `
-        width: 20px;
-        height: 20px;
+        width: 12px;
+        height: 12px;
         border-radius: 50%;
         background-color: ${markerData.color || '#3b82f6'};
         border: 2px solid white;
         box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         cursor: pointer;
         transition: transform 0.2s ease;
+        position: relative;
+        z-index: 1;
       `;
 
-      // Add hover effect
+      // Add hover effect with proper positioning
       markerElement.addEventListener('mouseenter', () => {
         markerElement.style.transform = 'scale(1.2)';
+        markerElement.style.zIndex = '1000';
       });
       markerElement.addEventListener('mouseleave', () => {
         markerElement.style.transform = 'scale(1)';
+        markerElement.style.zIndex = '1';
       });
 
       // Add click handler
