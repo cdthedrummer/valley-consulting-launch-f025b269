@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MapPin, Home, TrendingUp, AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ScrollableWidget from '@/components/ScrollableWidget';
+import MapboxMap from '@/components/ui/mapbox-map';
 import { cn } from '@/lib/utils';
 
 interface OpportunityData {
@@ -99,6 +100,30 @@ const OpportunityMapWidget: React.FC<OpportunityMapWidgetProps> = ({
     return colors[potential as keyof typeof colors] || colors.medium;
   };
 
+  const getMarkerColor = (score: number) => {
+    if (score >= 85) return '#22c55e'; // green-500
+    if (score >= 70) return '#eab308'; // yellow-500
+    return '#ef4444'; // red-500
+  };
+
+  const handleMarkerClick = (markerData: any) => {
+    const opportunity = opportunities.find(opp => 
+      opp.coordinates[0] === markerData.coordinates[0] && 
+      opp.coordinates[1] === markerData.coordinates[1]
+    );
+    if (opportunity) {
+      setSelectedOpportunity(opportunity);
+    }
+  };
+
+  // Convert opportunities to map markers
+  const mapMarkers = opportunities.map((opp, index) => ({
+    id: `opp-${index}`,
+    coordinates: [opp.coordinates[1], opp.coordinates[0]] as [number, number], // lng, lat
+    data: opp,
+    color: getMarkerColor(opp.score)
+  }));
+
   if (isLoading) {
     return (
       <Card className={cn("border-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5", className)}>
@@ -134,21 +159,15 @@ const OpportunityMapWidget: React.FC<OpportunityMapWidgetProps> = ({
         </CardHeader>
         
         <CardContent className="space-y-4">
-          {/* Map Placeholder - Would integrate with real mapping library */}
-          <div className="relative h-48 bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg overflow-hidden">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground">Interactive map coming soon</p>
-                <p className="text-xs text-muted-foreground">Showing {opportunities.length} opportunities</p>
-              </div>
-            </div>
-            
-            {/* Mock pin indicators */}
-            <div className="absolute top-4 left-6 w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-            <div className="absolute top-8 right-8 w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
-            <div className="absolute bottom-6 left-1/3 w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-            <div className="absolute bottom-4 right-1/4 w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
+          {/* Interactive Mapbox Map */}
+          <div className="h-48 rounded-lg overflow-hidden">
+            <MapboxMap
+              center={[-74.0, 41.1]} // Hudson Valley coordinates
+              zoom={10}
+              markers={mapMarkers}
+              onMarkerClick={handleMarkerClick}
+              className="w-full h-full"
+            />
           </div>
 
           {/* Opportunity List */}
