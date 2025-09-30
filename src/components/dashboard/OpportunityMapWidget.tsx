@@ -91,16 +91,30 @@ const OpportunityMapWidget: React.FC<OpportunityMapWidgetProps> = ({
     
     opportunities.forEach((opp, oppIndex) => {
       // Generate multiple markers around each opportunity center
-      const baseRadius = 0.005; // Smaller radius for tighter clustering
-      const markerCount = Math.min(opp.properties, 15); // Cap at 15 markers per area for performance
+      const baseRadius = 0.01; // Slightly larger spread for visibility
+      const markerCount = opp.properties; // Show all properties for the area
+      const goldenAngle = Math.PI * (3 - Math.sqrt(5));
       
       for (let i = 0; i < markerCount; i++) {
-        // Create random offset within a circle around the center
-        const angle = (Math.PI * 2 * i) / markerCount + Math.random() * 0.5;
-        const radius = baseRadius * (0.3 + Math.random() * 0.7); // Vary the distance
+        // Use sunflower (golden-angle) distribution for natural clustering
+        const r = baseRadius * Math.sqrt((i + 1) / markerCount);
+        const angle = i * goldenAngle;
         
-        const latOffset = Math.cos(angle) * radius;
-        const lngOffset = Math.sin(angle) * radius;
+        // Adjust longitude offset by latitude to keep roughly circular distribution
+        const latRad = (opp.coordinates[0] * Math.PI) / 180;
+        const latOffset = Math.cos(angle) * r;
+        const lngOffset = (Math.sin(angle) * r) / Math.max(Math.cos(latRad), 0.1);
+        
+        // Mock property details for popup
+        const yearBuilt = 1950 + Math.floor(Math.random() * 70);
+        const lastSoldDate = new Date(Date.now() - Math.random() * 10 * 365 * 24 * 60 * 60 * 1000);
+        const lastSoldPrice = Math.round(
+          opp.avgValue + (Math.random() - 0.5) * 150000
+        );
+        const streetNum = 100 + ((i * 7 + oppIndex * 13) % 800);
+        const streetNames = ['Maple', 'Oak', 'Cedar', 'Pine', 'Elm', 'Birch', 'Walnut'];
+        const streetTypes = ['St', 'Ave', 'Rd', 'Ln', 'Ct'];
+        const address = `${streetNum} ${streetNames[i % streetNames.length]} ${streetTypes[i % streetTypes.length]}, ${opp.location}`;
         
         allMarkers.push({
           id: `property-${oppIndex}-${i}`,
@@ -111,7 +125,11 @@ const OpportunityMapWidget: React.FC<OpportunityMapWidgetProps> = ({
           data: {
             ...opp,
             propertyId: i + 1,
-            estimatedValue: opp.avgValue + (Math.random() - 0.5) * 100000
+            address,
+            yearBuilt,
+            lastSoldDate: lastSoldDate.toISOString().split('T')[0],
+            lastSoldPrice,
+            estimatedValue: opp.avgValue
           },
           color: getMarkerColor(opp.score)
         });

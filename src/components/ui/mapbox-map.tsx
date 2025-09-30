@@ -82,42 +82,70 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     if (!map.current || !markers.length) return;
 
     // Remove existing markers
-    const existingMarkers = document.querySelectorAll('.opportunity-marker');
+    const existingMarkers = document.querySelectorAll('.mapboxgl-marker');
     existingMarkers.forEach(marker => marker.remove());
 
     // Add new markers
     markers.forEach((markerData) => {
+      // Marker wrapper (Mapbox positions this element). Do NOT set transform here.
       const markerElement = document.createElement('div');
       markerElement.className = 'opportunity-marker';
       markerElement.style.cssText = `
+        width: 16px;
+        height: 16px;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        position: relative;
+        z-index: 1;
+      `;
+
+      // Inner dot that we can safely scale without breaking Mapbox positioning
+      const dot = document.createElement('div');
+      dot.style.cssText = `
         width: 12px;
         height: 12px;
         border-radius: 50%;
         background-color: ${markerData.color || '#3b82f6'};
         border: 2px solid white;
         box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        cursor: pointer;
-        transition: transform 0.2s ease;
-        position: relative;
-        z-index: 1;
+        transition: transform 120ms ease;
+        will-change: transform;
       `;
+      markerElement.appendChild(dot);
 
-      // Add hover effect with proper positioning
-      markerElement.addEventListener('mouseenter', () => {
-        markerElement.style.transform = 'scale(1.2)';
-        markerElement.style.zIndex = '1000';
-      });
-      markerElement.addEventListener('mouseleave', () => {
-        markerElement.style.transform = 'scale(1)';
-        markerElement.style.zIndex = '1';
-      });
+      // Popup with property info (address, year, last sold, price)
+      const fmtPrice = (n: number | undefined) =>
+        (n ?? 0).toLocaleString(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+      const popupHtml = `
+        <div style="font-family: ui-sans-serif, system-ui; font-size:12px; min-width: 220px;">
+          <div style="font-weight:600; margin-bottom:4px;">${markerData?.data?.address || 'Property'}</div>
+          <div style="color:#6b7280;">${markerData?.data?.location || ''}</div>
+          <div style="margin-top:6px; display:grid; grid-template-columns: 1fr 1fr; gap:6px;">
+            <div><span style="color:#6b7280;">Year built:</span> ${markerData?.data?.yearBuilt || '—'}</div>
+            <div><span style="color:#6b7280;">Last sold:</span> ${markerData?.data?.lastSoldDate || '—'}</div>
+            <div><span style="color:#6b7280;">Sold price:</span> ${fmtPrice(markerData?.data?.lastSoldPrice)}</div>
+            <div><span style="color:#6b7280;">Est. value:</span> ${fmtPrice(markerData?.data?.estimatedValue)}</div>
+          </div>
+        </div>`;
+      const popup = new mapboxgl.Popup({ offset: 12, closeButton: true, closeOnClick: false }).setHTML(popupHtml);
 
-      // Add click handler
-      if (onMarkerClick) {
-        markerElement.addEventListener('click', () => {
-          onMarkerClick(markerData);
-        });
-      }
+      // Interactions
+      const showPopup = () => {
+        popup.setLngLat(markerData.coordinates).addTo(map.current!);
+        dot.style.transform = 'scale(1.2)';
+      };
+      const hidePopup = () => {
+        popup.remove();
+        dot.style.transform = 'scale(1)';
+      };
+
+      markerElement.addEventListener('mouseenter', showPopup);
+      markerElement.addEventListener('mouseleave', hidePopup);
+      markerElement.addEventListener('click', () => {
+        showPopup();
+        onMarkerClick?.(markerData);
+      });
 
       new mapboxgl.Marker(markerElement)
         .setLngLat(markerData.coordinates)
