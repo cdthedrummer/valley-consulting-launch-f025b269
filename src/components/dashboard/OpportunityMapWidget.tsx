@@ -1,19 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { MapPin, Home, TrendingUp, AlertCircle, RefreshCw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import ScrollableWidget from '@/components/ScrollableWidget';
+import { MapPin, TrendingUp, Home, DollarSign, Activity, Target } from 'lucide-react';
 import MapboxMap from '@/components/ui/mapbox-map';
+import ScrollableWidget from '@/components/ScrollableWidget';
 import { cn } from '@/lib/utils';
 
+interface PropertyDetail {
+  address: string;
+  location: [number, number]; // [lng, lat]
+  yearBuilt: number;
+  lastSoldDate: string;
+  lastSoldPrice: number;
+  estimatedValue: number;
+  renovationPotential: 'high' | 'medium' | 'low';
+}
+
 interface OpportunityData {
-  location: string;
-  coordinates: [number, number];
+  name: string;
+  location: [number, number]; // [lng, lat]
   score: number;
-  properties: number;
+  propertyCount: number;
   avgValue: number;
   renovationPotential: 'high' | 'medium' | 'low';
-  recentActivity: number;
+  recentActivity: string;
+  properties: PropertyDetail[];
 }
 
 interface OpportunityMapWidgetProps {
@@ -23,9 +33,9 @@ interface OpportunityMapWidgetProps {
 }
 
 const OpportunityMapWidget: React.FC<OpportunityMapWidgetProps> = ({
-  location = 'Hudson Valley',
-  industry = 'Construction',
-  className
+  location,
+  industry,
+  className,
 }) => {
   const [opportunities, setOpportunities] = useState<OpportunityData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,108 +45,94 @@ const OpportunityMapWidget: React.FC<OpportunityMapWidgetProps> = ({
     fetchOpportunities();
   }, [location, industry]);
 
-  const fetchOpportunities = async () => {
-    setIsLoading(true);
-    
-    // Simulate API call - replace with real data
-    setTimeout(() => {
-      const mockOpportunities: OpportunityData[] = [
-        {
-          location: 'Nanuet, NY',
-          coordinates: [41.0876, -74.0132],
-          score: 92,
-          properties: 23,
-          avgValue: 485000,
-          renovationPotential: 'high',
-          recentActivity: 8
-        },
-        {
-          location: 'Pearl River, NY',
-          coordinates: [41.0587, -74.0210],
-          score: 87,
-          properties: 31,
-          avgValue: 520000,
-          renovationPotential: 'medium',
-          recentActivity: 12
-        },
-        {
-          location: 'Spring Valley, NY',
-          coordinates: [41.1126, -74.0437],
-          score: 78,
-          properties: 18,
-          avgValue: 435000,
-          renovationPotential: 'high',
-          recentActivity: 5
-        },
-        {
-          location: 'Suffern, NY',
-          coordinates: [41.1148, -74.1496],
-          score: 84,
-          properties: 27,
-          avgValue: 465000,
-          renovationPotential: 'medium',
-          recentActivity: 9
-        }
-      ];
-      
-      setOpportunities(mockOpportunities);
-      setSelectedOpportunity(mockOpportunities[0]);
-      setIsLoading(false);
-    }, 500); // Reduced delay for faster loading
+  // Seeded random generator for consistent property locations
+  const seededRandom = (seed: number) => {
+    let x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
   };
 
-  // Generate individual property markers for each opportunity area
-  const generatePropertyMarkers = () => {
-    const allMarkers: any[] = [];
+  const generatePropertyMarkers = (
+    centerLng: number,
+    centerLat: number,
+    count: number,
+    areaName: string,
+    baseScore: number
+  ): PropertyDetail[] => {
+    const properties: PropertyDetail[] = [];
+    const seed = areaName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     
-    opportunities.forEach((opp, oppIndex) => {
-      // Generate multiple markers around each opportunity center
-      const baseRadius = 0.01; // Slightly larger spread for visibility
-      const markerCount = opp.properties; // Show all properties for the area
-      const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+    // Distribute in a golden-angle spiral pattern with realistic distances
+    const goldenAngle = Math.PI * (3 - Math.sqrt(5)); // ~137.5 degrees
+    const maxRadius = 0.02; // ~2km spread in degrees
+    
+    for (let i = 0; i < count; i++) {
+      const angle = i * goldenAngle;
+      const radius = Math.sqrt(i / count) * maxRadius * (0.5 + seededRandom(seed + i) * 0.5);
       
-      for (let i = 0; i < markerCount; i++) {
-        // Use sunflower (golden-angle) distribution for natural clustering
-        const r = baseRadius * Math.sqrt((i + 1) / markerCount);
-        const angle = i * goldenAngle;
-        
-        // Adjust longitude offset by latitude to keep roughly circular distribution
-        const latRad = (opp.coordinates[0] * Math.PI) / 180;
-        const latOffset = Math.cos(angle) * r;
-        const lngOffset = (Math.sin(angle) * r) / Math.max(Math.cos(latRad), 0.1);
-        
-        // Mock property details for popup
-        const yearBuilt = 1950 + Math.floor(Math.random() * 70);
-        const lastSoldDate = new Date(Date.now() - Math.random() * 10 * 365 * 24 * 60 * 60 * 1000);
-        const lastSoldPrice = Math.round(
-          opp.avgValue + (Math.random() - 0.5) * 150000
-        );
-        const streetNum = 100 + ((i * 7 + oppIndex * 13) % 800);
-        const streetNames = ['Maple', 'Oak', 'Cedar', 'Pine', 'Elm', 'Birch', 'Walnut'];
-        const streetTypes = ['St', 'Ave', 'Rd', 'Ln', 'Ct'];
-        const address = `${streetNum} ${streetNames[i % streetNames.length]} ${streetTypes[i % streetTypes.length]}, ${opp.location}`;
-        
-        allMarkers.push({
-          id: `property-${oppIndex}-${i}`,
-          coordinates: [
-            opp.coordinates[1] + lngOffset, // lng
-            opp.coordinates[0] + latOffset   // lat
-          ] as [number, number],
-          data: {
-            ...opp,
-            propertyId: i + 1,
-            address,
-            yearBuilt,
-            lastSoldDate: lastSoldDate.toISOString().split('T')[0],
-            lastSoldPrice,
-            estimatedValue: opp.avgValue
-          },
-          color: getMarkerColor(opp.score)
-        });
-      }
+      const lng = centerLng + radius * Math.cos(angle);
+      const lat = centerLat + radius * Math.sin(angle);
+      
+      const yearBuilt = Math.floor(1950 + seededRandom(seed + i * 2) * 60);
+      const monthsAgo = Math.floor(seededRandom(seed + i * 3) * 12);
+      const lastSoldPrice = Math.floor(350000 + seededRandom(seed + i * 4) * 300000);
+      const appreciationRate = 1 + (seededRandom(seed + i * 5) * 0.15);
+      
+      const lastSoldDate = new Date();
+      lastSoldDate.setMonth(lastSoldDate.getMonth() - monthsAgo);
+      
+      const streetNum = Math.floor(100 + seededRandom(seed + i * 6) * 900);
+      const streets = ['Main St', 'Oak Ave', 'Maple Dr', 'Pine Rd', 'Cedar Ln', 'Elm St', 'Park Ave'];
+      const streetName = streets[Math.floor(seededRandom(seed + i * 7) * streets.length)];
+      
+      let potential: 'high' | 'medium' | 'low' = 'low';
+      if (yearBuilt < 1970 && lastSoldPrice < 400000) potential = 'high';
+      else if (yearBuilt < 1985 && lastSoldPrice < 500000) potential = 'medium';
+      
+      properties.push({
+        address: `${streetNum} ${streetName}, ${areaName}`,
+        location: [lng, lat],
+        yearBuilt,
+        lastSoldDate: lastSoldDate.toLocaleDateString(),
+        lastSoldPrice,
+        estimatedValue: Math.floor(lastSoldPrice * appreciationRate),
+        renovationPotential: potential
+      });
+    }
+    
+    return properties;
+  };
+
+  const fetchOpportunities = async () => {
+    setIsLoading(true);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    const baseAreas = [
+      { name: "Nanuet, NY", location: [-74.0135, 41.0887] as [number, number], score: 87, avgValue: 475000, potential: 'high' as const },
+      { name: "New City, NY", location: [-73.9893, 41.1476] as [number, number], score: 82, avgValue: 520000, potential: 'high' as const },
+      { name: "Pearl River, NY", location: [-74.0218, 41.0587] as [number, number], score: 79, avgValue: 490000, potential: 'medium' as const },
+      { name: "Spring Valley, NY", location: [-74.0438, 41.1132] as [number, number], score: 75, avgValue: 425000, potential: 'high' as const },
+      { name: "Suffern, NY", location: [-74.1496, 41.1148] as [number, number], score: 71, avgValue: 465000, potential: 'medium' as const }
+    ];
+    
+    const mockData: OpportunityData[] = baseAreas.map(area => {
+      const propertyCount = Math.floor(15 + Math.random() * 45); // 15-60 properties per area
+      return {
+        ...area,
+        renovationPotential: area.potential,
+        propertyCount,
+        recentActivity: `${Math.floor(propertyCount * 0.3)} sales last quarter`,
+        properties: generatePropertyMarkers(
+          area.location[0],
+          area.location[1],
+          propertyCount,
+          area.name,
+          area.score
+        )
+      };
     });
     
-    return allMarkers;
+    setOpportunities(mockData);
+    setIsLoading(false);
   };
 
   const getScoreColor = (score: number) => {
@@ -154,91 +150,114 @@ const OpportunityMapWidget: React.FC<OpportunityMapWidgetProps> = ({
     return colors[potential as keyof typeof colors] || colors.medium;
   };
 
-  const getMarkerColor = (score: number) => {
-    if (score >= 85) return '#22c55e'; // green-500
-    if (score >= 70) return '#eab308'; // yellow-500
+  const getMarkerColor = (potential: 'high' | 'medium' | 'low') => {
+    if (potential === 'high') return '#22c55e'; // green-500
+    if (potential === 'medium') return '#eab308'; // yellow-500
     return '#ef4444'; // red-500
   };
 
-  const handleMarkerClick = (markerData: any) => {
-    // Find the opportunity area this property belongs to
-    const opportunity = opportunities.find(opp => {
-      const distance = Math.sqrt(
-        Math.pow(opp.coordinates[0] - markerData.coordinates[1], 2) +
-        Math.pow(opp.coordinates[1] - markerData.coordinates[0], 2)
-      );
-      return distance < 0.02; // Within reasonable proximity
-    });
-    
-    if (opportunity) {
-      setSelectedOpportunity(opportunity);
+  const allPropertyMarkers = useMemo(() => {
+    return opportunities.flatMap(opp => 
+      opp.properties.map(prop => ({
+        location: prop.location,
+        color: getMarkerColor(prop.renovationPotential),
+        property: prop
+      }))
+    );
+  }, [opportunities]);
+
+  const handleMarkerClick = (property: PropertyDetail) => {
+    const parentOpp = opportunities.find(opp => 
+      opp.properties.some(p => p.address === property.address)
+    );
+    if (parentOpp) {
+      setSelectedOpportunity(parentOpp);
     }
   };
 
-  // Use generated property markers instead of simple opportunity markers
-  const mapMarkers = opportunities.length > 0 ? generatePropertyMarkers() : [];
-
   if (isLoading) {
     return (
-      <Card className={cn("border-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5", className)}>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <MapPin className="h-5 w-5" />
-            Opportunity Map
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="h-48 bg-muted animate-pulse rounded-lg" />
-            <div className="h-20 bg-muted animate-pulse rounded-lg" />
-          </div>
-        </CardContent>
-      </Card>
+      <ScrollableWidget delay={400}>
+        <Card className={cn("border-0 shadow-lg", className)}>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <MapPin className="h-5 w-5" />
+              Opportunity Map
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="h-96 bg-muted animate-pulse rounded-lg" />
+              <div className="h-32 bg-muted animate-pulse rounded-lg" />
+            </div>
+          </CardContent>
+        </Card>
+      </ScrollableWidget>
     );
   }
 
   return (
     <ScrollableWidget delay={400}>
-      <Card className={cn("border-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 overflow-hidden", className)}>
-        <CardHeader className="pb-2">
-          <CardTitle className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <MapPin className="h-5 w-5 text-blue-600" />
-              Opportunity Map
-            </div>
-            <Button variant="outline" size="sm" onClick={fetchOpportunities}>
-              <RefreshCw className="h-3 w-3" />
-            </Button>
+      <Card className={cn("border-0 shadow-lg overflow-hidden", className)}>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Target className="h-5 w-5 text-primary" />
+            Property Opportunity Map
           </CardTitle>
+          <p className="text-sm text-muted-foreground">
+            {allPropertyMarkers.length} properties across {opportunities.length} target areas
+          </p>
         </CardHeader>
-        
+
         <CardContent className="space-y-4">
-          {/* Interactive Mapbox Map */}
-          <div className="h-48 rounded-lg overflow-hidden">
+          {/* Map */}
+          <div className="h-96 rounded-lg overflow-hidden border">
             <MapboxMap
-              center={[-74.0, 41.1]} // Hudson Valley coordinates
+              center={[-74.0135, 41.0887]}
               zoom={10}
-              markers={mapMarkers}
-              onMarkerClick={handleMarkerClick}
+              markers={allPropertyMarkers.map(marker => ({
+                location: marker.location,
+                color: marker.color,
+                popup: `
+                  <div class="p-3 min-w-[200px]">
+                    <h3 class="font-bold text-sm mb-2">${marker.property.address}</h3>
+                    <div class="space-y-1 text-xs">
+                      <p><strong>Year Built:</strong> ${marker.property.yearBuilt}</p>
+                      <p><strong>Last Sold:</strong> ${marker.property.lastSoldDate}</p>
+                      <p><strong>Last Price:</strong> $${marker.property.lastSoldPrice.toLocaleString()}</p>
+                      <p><strong>Est. Value:</strong> $${marker.property.estimatedValue.toLocaleString()}</p>
+                      <p><strong>Potential:</strong> <span class="capitalize">${marker.property.renovationPotential}</span></p>
+                    </div>
+                  </div>
+                `
+              }))}
+              onMarkerClick={(location) => {
+                const clicked = allPropertyMarkers.find(
+                  m => m.location[0] === location[0] && m.location[1] === location[1]
+                );
+                if (clicked) handleMarkerClick(clicked.property);
+              }}
               className="w-full h-full"
+              autoFit={true}
             />
           </div>
 
-          {/* Opportunity List */}
+          {/* Opportunity Areas List */}
           <div className="space-y-2 max-h-64 overflow-y-auto">
+            <h3 className="font-semibold text-sm">Target Areas</h3>
             {opportunities.map((opportunity, index) => (
               <div
                 key={index}
                 className={cn(
                   "p-3 rounded-lg border cursor-pointer transition-all hover:shadow-md",
-                  selectedOpportunity?.location === opportunity.location
-                    ? "bg-primary/10 border-primary/30"
-                    : "bg-background/50 border-border/50 hover:bg-background/70"
+                  selectedOpportunity?.name === opportunity.name
+                    ? "bg-primary/10 border-primary"
+                    : "bg-card hover:bg-muted/50"
                 )}
                 onClick={() => setSelectedOpportunity(opportunity)}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium text-sm">{opportunity.location}</h4>
+                  <h4 className="font-medium text-sm">{opportunity.name}</h4>
                   <div className={cn(
                     "px-2 py-1 rounded-full text-xs font-medium",
                     getScoreColor(opportunity.score)
@@ -250,11 +269,11 @@ const OpportunityMapWidget: React.FC<OpportunityMapWidgetProps> = ({
                 <div className="grid grid-cols-3 gap-2 text-xs text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <Home className="h-3 w-3" />
-                    {opportunity.properties} homes
+                    {opportunity.propertyCount} homes
                   </div>
                   <div className="flex items-center gap-1">
                     <TrendingUp className={cn("h-3 w-3", getPotentialIcon(opportunity.renovationPotential))} />
-                    {opportunity.renovationPotential} potential
+                    {opportunity.renovationPotential}
                   </div>
                   <div className="text-right">
                     ${(opportunity.avgValue / 1000).toFixed(0)}K avg
@@ -264,26 +283,26 @@ const OpportunityMapWidget: React.FC<OpportunityMapWidgetProps> = ({
             ))}
           </div>
 
-          {/* Selected Opportunity Details */}
+          {/* Selected Area Details */}
           {selectedOpportunity && (
-            <div className="bg-background/50 backdrop-blur-sm rounded-lg p-4 border">
-              <h4 className="font-medium mb-2">{selectedOpportunity.location}</h4>
+            <div className="bg-muted/50 rounded-lg p-4 border">
+              <h4 className="font-semibold mb-3">{selectedOpportunity.name}</h4>
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div>
-                  <span className="text-muted-foreground">Opportunity Score:</span>
+                  <span className="text-muted-foreground">Score:</span>
                   <span className="ml-2 font-medium">{selectedOpportunity.score}/100</span>
                 </div>
                 <div>
-                  <span className="text-muted-foreground">Recent Activity:</span>
-                  <span className="ml-2 font-medium">{selectedOpportunity.recentActivity} sales</span>
-                </div>
-                <div>
                   <span className="text-muted-foreground">Properties:</span>
-                  <span className="ml-2 font-medium">{selectedOpportunity.properties}</span>
+                  <span className="ml-2 font-medium">{selectedOpportunity.propertyCount}</span>
                 </div>
                 <div>
                   <span className="text-muted-foreground">Avg Value:</span>
                   <span className="ml-2 font-medium">${(selectedOpportunity.avgValue / 1000).toFixed(0)}K</span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">Activity:</span>
+                  <span className="ml-2 font-medium">{selectedOpportunity.recentActivity}</span>
                 </div>
               </div>
             </div>

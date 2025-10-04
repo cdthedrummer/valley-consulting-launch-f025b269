@@ -6,3 +6,9 @@ verify_jwt = false
 
 [functions.send-testimonial-email]
 verify_jwt = false
+
+[functions.marketing-plan]
+verify_jwt = true
+
+[functions.send-outreach]
+verify_jwt = true

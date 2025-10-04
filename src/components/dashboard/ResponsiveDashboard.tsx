@@ -12,7 +12,8 @@ import {
   Eye as Focus,
   Maximize2,
   Minimize2,
-  ChevronLeft
+  ChevronLeft,
+  Lightbulb
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ErrorBoundary } from '@/components/ui/error-boundary';
@@ -20,6 +21,7 @@ import { DashboardLoading } from '@/components/ui/enhanced-loading';
 import MarketIntelligenceWidget from './MarketIntelligenceWidget';
 import OpportunityMapWidget from './OpportunityMapWidget';
 import IndustryInsightsWidget from './IndustryInsightsWidget';
+import MarketingActionCenter from './MarketingActionCenter';
 
 interface ResponsiveDashboardProps {
   location?: string;
@@ -60,6 +62,13 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       icon: MapPin,
       component: OpportunityMapWidget,
       priority: 3
+    },
+    {
+      id: 'marketing-action-center',
+      title: 'Marketing Action Center',
+      icon: Lightbulb,
+      component: MarketingActionCenter,
+      priority: 4
     }
   ];
 
@@ -108,6 +117,7 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
           
           <Component
             location={location}
+            {...(widget.id === 'marketing-action-center' ? { locationType } : {})}
             industry={industry}
             className={cn(
               "h-full transition-all duration-300",
