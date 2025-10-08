@@ -646,8 +646,10 @@ What would you like to know about ${location}? For example:
     setViewMode('chat');
     // Set the input with the marketing plan
     setInput(planContent);
-    // Optional: you can also automatically send it
-    // setTimeout(() => sendMessage(), 100);
+    // Auto-send after input is set
+    setTimeout(() => {
+      sendMessage();
+    }, 100);
   };
 
   // Show setup if it's a new session or no location is set
