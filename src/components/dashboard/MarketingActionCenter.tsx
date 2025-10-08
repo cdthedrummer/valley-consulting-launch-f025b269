@@ -11,7 +11,8 @@ import {
   Download,
   Loader2,
   CheckCircle,
-  Send
+  Send,
+  MessageSquare
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -24,6 +25,7 @@ interface MarketingActionCenterProps {
   locationType?: 'zipcode' | 'county' | null;
   industry?: string;
   className?: string;
+  onChatWithPlan?: (plan: MarketingPlan) => void;
 }
 
 interface MarketingPlan {
@@ -46,6 +48,7 @@ const MarketingActionCenter: React.FC<MarketingActionCenterProps> = ({
   locationType,
   industry,
   className,
+  onChatWithPlan,
 }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [plan, setPlan] = useState<MarketingPlan | null>(null);
@@ -141,32 +144,45 @@ const MarketingActionCenter: React.FC<MarketingActionCenterProps> = ({
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          <div className="flex items-center gap-2">
-            <Button 
-              onClick={generatePlan} 
-              disabled={isGenerating}
-              className="w-full"
-            >
-              {isGenerating ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Generating Plan...
-                </>
-              ) : (
-                <>
-                  <Lightbulb className="mr-2 h-4 w-4" />
-                  Generate Marketing Plan
-                </>
-              )}
-            </Button>
-            {plan && (
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
               <Button 
-                variant="outline" 
-                size="icon"
-                onClick={exportCSV}
-                title="Export as CSV"
+                onClick={generatePlan} 
+                disabled={isGenerating}
+                className="flex-1"
               >
-                <Download className="h-4 w-4" />
+                {isGenerating ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Generating Plan...
+                  </>
+                ) : (
+                  <>
+                    <Lightbulb className="mr-2 h-4 w-4" />
+                    Generate Marketing Plan
+                  </>
+                )}
+              </Button>
+              {plan && (
+                <Button 
+                  variant="outline" 
+                  size="icon"
+                  onClick={exportCSV}
+                  title="Export as CSV"
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
+              )}
+            </div>
+            
+            {plan && onChatWithPlan && (
+              <Button 
+                variant="secondary" 
+                className="w-full"
+                onClick={() => onChatWithPlan(plan)}
+              >
+                <MessageSquare className="mr-2 h-4 w-4" />
+                Chat about this plan
               </Button>
             )}
           </div>

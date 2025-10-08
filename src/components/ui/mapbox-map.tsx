@@ -37,12 +37,21 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
 
     const initializeMap = async () => {
       try {
+        console.log('Initializing Mapbox map...');
         const { data, error } = await supabase.functions.invoke('mapbox-token');
         
-        if (error) throw error;
-        if (!data?.token) throw new Error('No token received');
+        console.log('Mapbox token response:', { data, error });
+        
+        if (error) {
+          console.error('Mapbox token error:', error);
+          throw new Error(`Failed to get Mapbox token: ${error.message}. Please add MAPBOX_PUBLIC_API to Supabase secrets.`);
+        }
+        if (!data?.token) {
+          throw new Error('No Mapbox token received. Please add MAPBOX_PUBLIC_API to Supabase secrets.');
+        }
 
         mapboxgl.accessToken = data.token;
+        console.log('Mapbox token set successfully');
         
         map.current = new mapboxgl.Map({
           container: mapContainer.current!,
@@ -54,6 +63,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
         map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
         
         map.current.on('load', () => {
+          console.log('Mapbox map loaded successfully');
           setIsLoading(false);
         });
 
@@ -69,7 +79,8 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
 
       } catch (err) {
         console.error('Error initializing map:', err);
-        setError('Failed to load map');
+        const errorMessage = err instanceof Error ? err.message : 'Failed to load map. Please check Mapbox configuration.';
+        setError(errorMessage);
         setIsLoading(false);
       }
     };

@@ -28,13 +28,15 @@ interface ResponsiveDashboardProps {
   locationType?: 'zipcode' | 'county' | null;
   industry?: string;
   className?: string;
+  onChatWithPlan?: (planContent: string) => void;
 }
 
 const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
   location = 'Hudson Valley',
   locationType,
   industry = 'Construction',
-  className
+  className,
+  onChatWithPlan
 }) => {
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'focus'>('grid');
   const [focusedWidget, setFocusedWidget] = useState<string | null>(null);
@@ -117,7 +119,40 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
           
           <Component
             location={location}
-            {...(widget.id === 'marketing-action-center' ? { locationType } : {})}
+            {...(widget.id === 'marketing-action-center' ? { 
+              locationType,
+              onChatWithPlan: (plan: any) => {
+                if (onChatWithPlan) {
+                  // Format the plan into a readable prompt
+                  const planContent = `I have a marketing plan I'd like to discuss and implement. Here are the details:
+
+**Priority Tasks:**
+${plan.tasks.map((t: any, i: number) => `${i + 1}. ${t.task} (${t.priority} priority, ${t.timeline})`).join('\n')}
+
+**Budget Allocation:**
+${plan.budgetAllocations.map((b: any) => `- ${b.channel}: ${b.percentage}% ($${b.amount})`).join('\n')}
+
+**Target Keywords:**
+${plan.keywords.join(', ')}
+
+**Email Creatives:**
+${plan.creatives.email.map((e: string, i: number) => `Email ${i + 1}:\n${e}`).join('\n\n')}
+
+**Search Ads:**
+${plan.creatives.search.join('\n')}
+
+**Timeline:**
+${plan.timeline.join('\n')}
+
+**Success Metrics:**
+${plan.metrics.join('\n')}
+
+Can you help me understand how to implement each of these components step by step? What should I prioritize first, and what specific actions should I take?`;
+                  
+                  onChatWithPlan(planContent);
+                }
+              }
+            } : {})}
             industry={industry}
             className={cn(
               "h-full transition-all duration-300",

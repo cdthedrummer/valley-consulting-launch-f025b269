@@ -641,6 +641,15 @@ What would you like to know about ${location}? For example:
     loadChatMessages(sessionId);
   };
 
+  const handleChatWithPlan = (planContent: string) => {
+    // Switch to chat mode
+    setViewMode('chat');
+    // Set the input with the marketing plan
+    setInput(planContent);
+    // Optional: you can also automatically send it
+    // setTimeout(() => sendMessage(), 100);
+  };
+
   // Show setup if it's a new session or no location is set
   const shouldShowSetup = showSetup && (!activeSessionId || messages.length === 0);
 
@@ -833,6 +842,7 @@ What would you like to know about ${location}? For example:
                     userLocationType={userLocationType}
                     userIndustry={userIndustry || 'Construction'}
                     className="max-w-7xl mx-auto"
+                    onChatWithPlan={handleChatWithPlan}
                   />
                 ) : (
                   <div className="max-w-4xl mx-auto">
