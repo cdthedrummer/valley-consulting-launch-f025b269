@@ -85,8 +85,15 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       }
     };
 
-    initializeMap();
+    const waitForContainer = () => {
+      if (mapContainer.current && !map.current) {
+        initializeMap();
+      } else if (!map.current) {
+        requestAnimationFrame(waitForContainer);
+      }
+    };
 
+    waitForContainer();
     return () => {
       if (resizeObserverRef.current) {
         resizeObserverRef.current.disconnect();
