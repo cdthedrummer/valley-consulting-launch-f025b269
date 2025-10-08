@@ -129,8 +129,11 @@ export type Database = {
           created_at: string | null
           enrichment_status: string | null
           id: string
+          ideal_customers: string | null
           keywords: string[] | null
           last_enriched_at: string | null
+          marketing_goal: string | null
+          monthly_budget: string | null
           service_radius: number | null
           services_offered: string[] | null
           target_audience: string | null
@@ -145,8 +148,11 @@ export type Database = {
           created_at?: string | null
           enrichment_status?: string | null
           id?: string
+          ideal_customers?: string | null
           keywords?: string[] | null
           last_enriched_at?: string | null
+          marketing_goal?: string | null
+          monthly_budget?: string | null
           service_radius?: number | null
           services_offered?: string[] | null
           target_audience?: string | null
@@ -161,8 +167,11 @@ export type Database = {
           created_at?: string | null
           enrichment_status?: string | null
           id?: string
+          ideal_customers?: string | null
           keywords?: string[] | null
           last_enriched_at?: string | null
+          marketing_goal?: string | null
+          monthly_budget?: string | null
           service_radius?: number | null
           services_offered?: string[] | null
           target_audience?: string | null

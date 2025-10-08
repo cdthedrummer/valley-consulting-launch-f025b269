@@ -61,6 +61,9 @@ const AIDashboard: React.FC = () => {
   const [userLocationType, setUserLocationType] = useState<'zipcode' | 'county' | null>(null);
   const [userIndustry, setUserIndustry] = useState<string>('');
   const [userLanguage, setUserLanguage] = useState<string>('English');
+  const [userMarketingGoal, setUserMarketingGoal] = useState<string>('');
+  const [userMonthlyBudget, setUserMonthlyBudget] = useState<string>('');
+  const [userIdealCustomers, setUserIdealCustomers] = useState<string>('');
   const [showSetup, setShowSetup] = useState(true);
   const [showQuestionnaire, setShowQuestionnaire] = useState(() => {
     // Show questionnaire by default for first-time users
@@ -339,12 +342,23 @@ const AIDashboard: React.FC = () => {
       website_url?: string;
       years_in_business?: number;
       service_radius?: number;
+      marketing_goal?: string;
+      monthly_budget?: string;
+      ideal_customers?: string;
     };
   }) => {
     setUserLocation(config.location || '');
     setUserLocationType(config.locationType || null);
     setUserIndustry(config.industry || '');
     setUserLanguage(config.language);
+    
+    // Store advanced marketing context
+    if (config.businessProfile) {
+      setUserMarketingGoal(config.businessProfile.marketing_goal || '');
+      setUserMonthlyBudget(config.businessProfile.monthly_budget || '');
+      setUserIdealCustomers(config.businessProfile.ideal_customers || '');
+    }
+    
     setShowQuestionnaire(false);
     setShowSetup(false);
     
@@ -616,7 +630,10 @@ What would you like to know about ${location}? For example:
         location: userLocation || undefined,
         locationType: userLocationType || undefined,
         industry: userIndustry || undefined,
-        language: userLanguage
+        language: userLanguage,
+        marketingGoal: userMarketingGoal || undefined,
+        monthlyBudget: userMonthlyBudget || undefined,
+        idealCustomers: userIdealCustomers || undefined
       };
 
       const { data, error } = await supabase.functions.invoke('ai-chat', {

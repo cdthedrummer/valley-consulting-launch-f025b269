@@ -33,7 +33,7 @@ serve(async (req) => {
       throw new Error('User not authenticated');
     }
 
-    const { business_name, website_url, years_in_business, service_radius } = await req.json();
+    const { business_name, website_url, years_in_business, service_radius, marketing_goal, monthly_budget, ideal_customers } = await req.json();
 
     console.log('Starting business enrichment for:', business_name);
 
@@ -46,6 +46,9 @@ serve(async (req) => {
         website_url,
         years_in_business,
         service_radius,
+        marketing_goal,
+        monthly_budget,
+        ideal_customers,
         enrichment_status: 'enriching',
       });
 

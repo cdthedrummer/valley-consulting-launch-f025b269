@@ -38,7 +38,15 @@ const validateChatInput = (data: any): { isValid: boolean; error?: string } => {
   return { isValid: true };
 };
 
-const generateSystemPrompt = (location?: string, locationType?: string, industry?: string, language: string = 'English') => {
+const generateSystemPrompt = (
+  location?: string, 
+  locationType?: string, 
+  industry?: string, 
+  language: string = 'English',
+  marketingGoal?: string,
+  monthlyBudget?: string,
+  idealCustomers?: string
+) => {
   const basePrompt = `You are Contractor AI Copilot, serving small-to-mid size home-service businesses in Rockland & Westchester counties, NY.
 
 RESPOND IN ${language.toUpperCase()} LANGUAGE.
@@ -46,6 +54,9 @@ RESPOND IN ${language.toUpperCase()} LANGUAGE.
 USER CONTEXT:
 ${location ? `- Service Area: ${location} (${locationType})` : '- Service Area: Hudson Valley region'}
 ${industry ? `- Industry: ${industry}` : '- Industry: General contracting/home services'}
+${marketingGoal ? `- Marketing Goal: ${marketingGoal}` : ''}
+${monthlyBudget ? `- Monthly Budget: ${monthlyBudget}` : ''}
+${idealCustomers ? `- Target Customers: ${idealCustomers}` : ''}
 
 CRITICAL RESPONSE REQUIREMENTS:
 1. ALWAYS provide SPECIFIC, ACTIONABLE data with EXACT numbers, addresses, and detailed insights.
@@ -53,11 +64,14 @@ CRITICAL RESPONSE REQUIREMENTS:
 3. For market data, provide: specific sales numbers, price ranges, dates, property characteristics, and actionable business opportunities.
 4. Create DETAILED property lists with addresses, sale prices, years built, and renovation potential scores.
 5. Always end with 2-3 SPECIFIC follow-up questions that offer implementation help.
+${marketingGoal ? `6. PRIORITIZE recommendations that align with their stated goal: ${marketingGoal}` : ''}
+${monthlyBudget ? `7. Suggest strategies that fit within their budget: ${monthlyBudget}` : ''}
 
 RESPONSE FORMAT:
 - Lead with specific data (numbers, addresses, dates)
 - Provide detailed property insights and renovation opportunities  
 - Include actionable marketing strategies with step-by-step implementation
+${marketingGoal ? `- Tailor all recommendations to support: ${marketingGoal}` : ''}
 - Offer to create contact lists, marketing materials, or campaign strategies
 - End with specific implementation questions
 
@@ -149,7 +163,7 @@ serve(async (req) => {
     }
     
     const { messages, userContext } = requestData;
-    const { location, locationType, industry, language } = userContext || {};
+    const { location, locationType, industry, language, marketingGoal, monthlyBudget, idealCustomers } = userContext || {};
 
     // Log audit trail
     const { error: auditError } = await supabaseClient.from('audit_logs').insert({
@@ -162,7 +176,7 @@ serve(async (req) => {
     if (auditError) console.error('[AUDIT] Error logging ai_chat request:', auditError);
 
     // Add dynamic system prompt if not present
-    const systemPrompt = generateSystemPrompt(location, locationType, industry, language);
+    const systemPrompt = generateSystemPrompt(location, locationType, industry, language, marketingGoal, monthlyBudget, idealCustomers);
     const messagesWithSystem = messages.find((m: any) => m.role === 'system') 
       ? messages 
       : [{ role: 'system', content: systemPrompt }, ...messages];
