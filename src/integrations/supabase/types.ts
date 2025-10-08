@@ -122,6 +122,57 @@ export type Database = {
         }
         Relationships: []
       }
+      business_profiles: {
+        Row: {
+          business_description: string | null
+          business_name: string | null
+          created_at: string | null
+          enrichment_status: string | null
+          id: string
+          keywords: string[] | null
+          last_enriched_at: string | null
+          service_radius: number | null
+          services_offered: string[] | null
+          target_audience: string | null
+          updated_at: string | null
+          user_id: string
+          website_url: string | null
+          years_in_business: number | null
+        }
+        Insert: {
+          business_description?: string | null
+          business_name?: string | null
+          created_at?: string | null
+          enrichment_status?: string | null
+          id?: string
+          keywords?: string[] | null
+          last_enriched_at?: string | null
+          service_radius?: number | null
+          services_offered?: string[] | null
+          target_audience?: string | null
+          updated_at?: string | null
+          user_id: string
+          website_url?: string | null
+          years_in_business?: number | null
+        }
+        Update: {
+          business_description?: string | null
+          business_name?: string | null
+          created_at?: string | null
+          enrichment_status?: string | null
+          id?: string
+          keywords?: string[] | null
+          last_enriched_at?: string | null
+          service_radius?: number | null
+          services_offered?: string[] | null
+          target_audience?: string | null
+          updated_at?: string | null
+          user_id?: string
+          website_url?: string | null
+          years_in_business?: number | null
+        }
+        Relationships: []
+      }
       chat_messages: {
         Row: {
           content: string

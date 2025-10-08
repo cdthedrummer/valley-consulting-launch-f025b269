@@ -328,12 +328,18 @@ const AIDashboard: React.FC = () => {
     createNewChatSessionWithLocation(location, locationType);
   };
 
-  const handleQuestionnaireComplete = (config: {
+  const handleQuestionnaireComplete = async (config: {
     location?: string;
     locationType?: 'zipcode' | 'county';
     industry?: string;
     language: string;
     initialQuestion?: string;
+    businessProfile?: {
+      business_name?: string;
+      website_url?: string;
+      years_in_business?: number;
+      service_radius?: number;
+    };
   }) => {
     setUserLocation(config.location || '');
     setUserLocationType(config.locationType || null);
@@ -344,6 +350,34 @@ const AIDashboard: React.FC = () => {
     
     // Mark setup as completed
     localStorage.setItem('hasCompletedInitialSetup', 'true');
+    
+    // If business profile data is provided, enrich it
+    if (config.businessProfile && (
+      config.businessProfile.business_name || 
+      config.businessProfile.website_url
+    )) {
+      try {
+        const { error } = await supabase.functions.invoke('enrich-business', {
+          body: config.businessProfile
+        });
+
+        if (error) {
+          console.error('Error enriching business profile:', error);
+          toast({
+            title: "Profile saved",
+            description: "Your business details were saved, but automatic enrichment had an issue.",
+            variant: "default",
+          });
+        } else {
+          toast({
+            title: "Profile enriched!",
+            description: "Your business profile has been saved and enriched with additional insights.",
+          });
+        }
+      } catch (error) {
+        console.error('Error calling enrich-business:', error);
+      }
+    }
     
     // Create new chat session with full context
     createNewChatSessionWithContext(config);

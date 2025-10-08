@@ -7,6 +7,11 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { 
   Plus, 
   ChevronDown, 
@@ -15,7 +20,8 @@ import {
   MessageSquare,
   MapPin,
   Briefcase,
-  Globe
+  Globe,
+  ClipboardList
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import LocationInput from './LocationInput';
@@ -23,6 +29,7 @@ import IndustrySelector from './IndustrySelector';
 import LanguageSelector from './LanguageSelector';
 import PrefilledQuestions from './PrefilledQuestions';
 import ChatSession from './ChatSession';
+import NewChatQuestionnaire from './NewChatQuestionnaire';
 
 interface ChatSessionData {
   id: string;
@@ -65,6 +72,7 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
 }) => {
   const [settingsOpen, setSettingsOpen] = React.useState(false);
   const [questionsOpen, setQuestionsOpen] = React.useState(false);
+  const [quizOpen, setQuizOpen] = React.useState(false);
 
   return (
     <div className={cn("flex flex-col h-full bg-muted/30 border-r", className)}>
@@ -120,6 +128,31 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({
             </Button>
           </CollapsibleTrigger>
           <CollapsibleContent className="px-3 pb-3 space-y-3 bg-accent/50">
+            <Dialog open={quizOpen} onOpenChange={setQuizOpen}>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start gap-2 text-xs"
+                  size="sm"
+                >
+                  <ClipboardList className="h-3 w-3" />
+                  Take Full Setup Quiz
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+                <NewChatQuestionnaire 
+                  onSetupComplete={(config) => {
+                    if (config.location) onLocationChange(config.location, config.locationType!);
+                    if (config.industry) onIndustryChange(config.industry);
+                    onLanguageChange(config.language);
+                    if (config.initialQuestion) onQuestionSelect(config.initialQuestion);
+                    setQuizOpen(false);
+                  }}
+                  onSkipSetup={() => setQuizOpen(false)}
+                />
+              </DialogContent>
+            </Dialog>
+
             <div className="space-y-1.5">
               <label className="text-xs font-medium">Location</label>
               <LocationInput

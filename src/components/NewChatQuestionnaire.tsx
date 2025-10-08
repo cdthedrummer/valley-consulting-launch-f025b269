@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { Bot, MessageSquare, Zap } from 'lucide-react';
+import { Bot, MessageSquare, Zap, Building2 } from 'lucide-react';
 import LocationInput from './LocationInput';
 import IndustrySelector from './IndustrySelector';
 import LanguageSelector from './LanguageSelector';
@@ -15,6 +16,12 @@ interface NewChatQuestionnaireProps {
     industry?: string;
     language: string;
     initialQuestion?: string;
+    businessProfile?: {
+      business_name?: string;
+      website_url?: string;
+      years_in_business?: number;
+      service_radius?: number;
+    };
   }) => void;
   onSkipSetup: () => void;
 }
@@ -28,6 +35,12 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
   const [industry, setIndustry] = useState<string>('');
   const [language, setLanguage] = useState<string>('English');
   const [selectedQuestion, setSelectedQuestion] = useState<string>('');
+  
+  // Company profile fields
+  const [businessName, setBusinessName] = useState<string>('');
+  const [websiteUrl, setWebsiteUrl] = useState<string>('');
+  const [yearsInBusiness, setYearsInBusiness] = useState<string>('');
+  const [serviceRadius, setServiceRadius] = useState<string>('');
 
   const handleLocationSelect = (loc: string, type: 'zipcode' | 'county') => {
     setLocation(loc);
@@ -39,12 +52,20 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
   };
 
   const handleStartChat = () => {
+    const businessProfile = (businessName || websiteUrl || yearsInBusiness || serviceRadius) ? {
+      business_name: businessName || undefined,
+      website_url: websiteUrl || undefined,
+      years_in_business: yearsInBusiness ? parseInt(yearsInBusiness) : undefined,
+      service_radius: serviceRadius ? parseInt(serviceRadius) : undefined,
+    } : undefined;
+
     onSetupComplete({
       location: location || undefined,
       locationType: locationType || undefined,
       industry: industry || undefined,
       language,
-      initialQuestion: selectedQuestion || undefined
+      initialQuestion: selectedQuestion || undefined,
+      businessProfile,
     });
   };
 
@@ -112,6 +133,75 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
                     onValueChange={setIndustry}
                     className="w-full"
                   />
+                </div>
+              </div>
+
+              {/* Company Profile Section */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2">
+                  <Building2 className="h-5 w-5 text-primary" />
+                  <span>Company Details</span>
+                  <span className="ml-2 text-xs font-normal text-muted-foreground">(Optional - helps personalize results)</span>
+                </h3>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label htmlFor="business-name" className="text-sm font-medium block mb-1.5">
+                      Business Name
+                    </label>
+                    <Input
+                      id="business-name"
+                      type="text"
+                      placeholder="e.g., Smith's HVAC Services"
+                      value={businessName}
+                      onChange={(e) => setBusinessName(e.target.value)}
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="website" className="text-sm font-medium block mb-1.5">
+                      Website URL
+                    </label>
+                    <Input
+                      id="website"
+                      type="url"
+                      placeholder="e.g., https://www.yourbusiness.com"
+                      value={websiteUrl}
+                      onChange={(e) => setWebsiteUrl(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="years" className="text-sm font-medium block mb-1.5">
+                        Years in Business
+                      </label>
+                      <Input
+                        id="years"
+                        type="number"
+                        placeholder="e.g., 15"
+                        value={yearsInBusiness}
+                        onChange={(e) => setYearsInBusiness(e.target.value)}
+                        min="0"
+                        max="100"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="radius" className="text-sm font-medium block mb-1.5">
+                        Service Radius (miles)
+                      </label>
+                      <Input
+                        id="radius"
+                        type="number"
+                        placeholder="e.g., 50"
+                        value={serviceRadius}
+                        onChange={(e) => setServiceRadius(e.target.value)}
+                        min="0"
+                        max="500"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
 
