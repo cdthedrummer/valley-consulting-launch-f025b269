@@ -4,8 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Bot, MessageSquare, Zap, Building2, Target, DollarSign, Users, ChevronDown, Sparkles } from 'lucide-react';
+import { Bot, MessageSquare, Zap, Building2, Target, DollarSign, Users, Sparkles } from 'lucide-react';
 import LocationInput from './LocationInput';
 import IndustrySelector from './IndustrySelector';
 import LanguageSelector from './LanguageSelector';
@@ -51,7 +50,6 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
   const [marketingGoal, setMarketingGoal] = useState<string>('');
   const [monthlyBudget, setMonthlyBudget] = useState<string>('');
   const [idealCustomers, setIdealCustomers] = useState<string>('');
-  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const handleLocationSelect = (loc: string, type: 'zipcode' | 'county') => {
     setLocation(loc);
@@ -219,81 +217,70 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
                 </div>
               </div>
 
-              {/* Advanced Context Section */}
-              <Collapsible open={showAdvanced} onOpenChange={setShowAdvanced}>
-                <CollapsibleTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    className="w-full justify-between group hover:bg-primary/5 border-dashed"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <Sparkles className="h-4 w-4 text-primary" />
-                      <span className="font-medium">
-                        {showAdvanced ? 'Hide' : 'Add More Context'} for Better Results
-                      </span>
-                    </div>
-                    <ChevronDown className={`h-4 w-4 transition-transform ${showAdvanced ? 'rotate-180' : ''}`} />
-                  </Button>
-                </CollapsibleTrigger>
+              {/* Optional Context Section */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2">
+                  <Sparkles className="h-5 w-5 text-primary" />
+                  <span>Additional Context</span>
+                  <span className="ml-2 text-xs font-normal text-muted-foreground">(Optional - helps provide better insights)</span>
+                </h3>
                 
-                <CollapsibleContent className="space-y-4 mt-4">
-                  <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
-                    <p className="text-sm text-muted-foreground mb-4">
-                      💡 These details help us provide more targeted, actionable insights
-                    </p>
-                    
-                    <div className="space-y-4">
-                      <div>
-                        <div className="flex items-center space-x-2 mb-1.5">
-                          <Target className="h-4 w-4 text-primary" />
-                          <label htmlFor="marketing-goal" className="text-sm font-medium">
-                            What's your #1 marketing goal?
-                          </label>
-                        </div>
-                        <Input
-                          id="marketing-goal"
-                          type="text"
-                          placeholder="e.g., Get more qualified leads, Build brand awareness, etc."
-                          value={marketingGoal}
-                          onChange={(e) => setMarketingGoal(e.target.value)}
-                        />
+                <div className="p-4 bg-primary/5 rounded-lg border border-primary/20 space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    💡 These details help us provide more targeted, actionable insights
+                  </p>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex items-center space-x-2 mb-1.5">
+                        <Target className="h-4 w-4 text-primary" />
+                        <label htmlFor="marketing-goal" className="text-sm font-medium">
+                          What's your #1 marketing goal?
+                        </label>
                       </div>
+                      <Input
+                        id="marketing-goal"
+                        type="text"
+                        placeholder="e.g., Get more qualified leads, Build brand awareness, etc."
+                        value={marketingGoal}
+                        onChange={(e) => setMarketingGoal(e.target.value)}
+                      />
+                    </div>
 
-                      <div>
-                        <div className="flex items-center space-x-2 mb-1.5">
-                          <DollarSign className="h-4 w-4 text-primary" />
-                          <label htmlFor="monthly-budget" className="text-sm font-medium">
-                            Monthly Marketing Budget
-                          </label>
-                        </div>
-                        <Input
-                          id="monthly-budget"
-                          type="text"
-                          placeholder="e.g., $500-1000, $2000+, or 'Not sure yet'"
-                          value={monthlyBudget}
-                          onChange={(e) => setMonthlyBudget(e.target.value)}
-                        />
+                    <div>
+                      <div className="flex items-center space-x-2 mb-1.5">
+                        <DollarSign className="h-4 w-4 text-primary" />
+                        <label htmlFor="monthly-budget" className="text-sm font-medium">
+                          Monthly Marketing Budget
+                        </label>
                       </div>
+                      <Input
+                        id="monthly-budget"
+                        type="text"
+                        placeholder="e.g., $500-1000, $2000+, or 'Not sure yet'"
+                        value={monthlyBudget}
+                        onChange={(e) => setMonthlyBudget(e.target.value)}
+                      />
+                    </div>
 
-                      <div>
-                        <div className="flex items-center space-x-2 mb-1.5">
-                          <Users className="h-4 w-4 text-primary" />
-                          <label htmlFor="ideal-customers" className="text-sm font-medium">
-                            Who are your ideal customers?
-                          </label>
-                        </div>
-                        <Textarea
-                          id="ideal-customers"
-                          placeholder="e.g., Homeowners aged 35-55 in suburban areas who value quality over price..."
-                          value={idealCustomers}
-                          onChange={(e) => setIdealCustomers(e.target.value)}
-                          rows={3}
-                        />
+                    <div>
+                      <div className="flex items-center space-x-2 mb-1.5">
+                        <Users className="h-4 w-4 text-primary" />
+                        <label htmlFor="ideal-customers" className="text-sm font-medium">
+                          Who are your ideal customers?
+                        </label>
                       </div>
+                      <Textarea
+                        id="ideal-customers"
+                        placeholder="e.g., Homeowners aged 35-55 in suburban areas who value quality over price..."
+                        value={idealCustomers}
+                        onChange={(e) => setIdealCustomers(e.target.value)}
+                        rows={3}
+                      />
                     </div>
                   </div>
-                </CollapsibleContent>
-              </Collapsible>
+                </div>
+              </div>
 
               {/* Preview */}
               {(location || industry) && (
