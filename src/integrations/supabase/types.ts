@@ -130,8 +130,10 @@ export type Database = {
           enrichment_status: string | null
           id: string
           ideal_customers: string | null
+          industry: string | null
           keywords: string[] | null
           last_enriched_at: string | null
+          location: string | null
           marketing_goal: string | null
           monthly_budget: string | null
           service_radius: number | null
@@ -149,8 +151,10 @@ export type Database = {
           enrichment_status?: string | null
           id?: string
           ideal_customers?: string | null
+          industry?: string | null
           keywords?: string[] | null
           last_enriched_at?: string | null
+          location?: string | null
           marketing_goal?: string | null
           monthly_budget?: string | null
           service_radius?: number | null
@@ -168,8 +172,10 @@ export type Database = {
           enrichment_status?: string | null
           id?: string
           ideal_customers?: string | null
+          industry?: string | null
           keywords?: string[] | null
           last_enriched_at?: string | null
+          location?: string | null
           marketing_goal?: string | null
           monthly_budget?: string | null
           service_radius?: number | null

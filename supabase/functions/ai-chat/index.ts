@@ -48,18 +48,26 @@ const generateSystemPrompt = (
   language: string = 'English',
   marketingGoal?: string,
   monthlyBudget?: string,
-  idealCustomers?: string
+  idealCustomers?: string,
+  businessName?: string,
+  yearsInBusiness?: number,
+  serviceRadius?: number
 ) => {
   const basePrompt = `You are Contractor AI Copilot, serving small-to-mid size home-service businesses in Rockland & Westchester counties, NY.
 
 RESPOND IN ${language.toUpperCase()} LANGUAGE.
 
-USER CONTEXT:
-${location ? `- Service Area: ${location} (${locationType})` : '- Service Area: Hudson Valley region'}
-${industry ? `- Industry: ${industry}` : '- Industry: General contracting/home services'}
-${marketingGoal ? `- Marketing Goal: ${marketingGoal}` : ''}
-${monthlyBudget ? `- Monthly Budget: ${monthlyBudget}` : ''}
-${idealCustomers ? `- Target Customers: ${idealCustomers}` : ''}
+=== REMEMBER: USER'S BUSINESS PROFILE ===
+${businessName ? `Business Name: ${businessName}` : ''}
+${location ? `Service Area: ${location} (${locationType})` : 'Service Area: Hudson Valley region'}
+${industry ? `Industry: ${industry}` : 'Industry: General contracting/home services'}
+${yearsInBusiness ? `Years in Business: ${yearsInBusiness}` : ''}
+${serviceRadius ? `Service Radius: ${serviceRadius} miles` : ''}
+${marketingGoal ? `Marketing Goal: ${marketingGoal}` : ''}
+${monthlyBudget ? `Monthly Budget: ${monthlyBudget}` : ''}
+${idealCustomers ? `Target Customers: ${idealCustomers}` : ''}
+
+IMPORTANT: Use this profile information to personalize all responses. Reference their business name when appropriate, acknowledge their goals, and tailor strategies to their budget and service area.
 
 CRITICAL RESPONSE REQUIREMENTS:
 1. ALWAYS provide SPECIFIC, ACTIONABLE data with EXACT numbers, addresses, and detailed insights.
@@ -179,7 +187,18 @@ serve(async (req) => {
     }
     
     const { messages, userContext } = requestData;
-    const { location, locationType, industry, language, marketingGoal, monthlyBudget, idealCustomers } = userContext || {};
+    const { 
+      location, 
+      locationType, 
+      industry, 
+      language, 
+      marketingGoal, 
+      monthlyBudget, 
+      idealCustomers,
+      businessName,
+      yearsInBusiness,
+      serviceRadius
+    } = userContext || {};
 
     // Log audit trail
     const { error: auditError } = await supabaseClient.from('audit_logs').insert({
@@ -192,7 +211,18 @@ serve(async (req) => {
     if (auditError) console.error('[AUDIT] Error logging ai_chat request:', auditError);
 
     // Add dynamic system prompt if not present
-    const systemPrompt = generateSystemPrompt(location, locationType, industry, language, marketingGoal, monthlyBudget, idealCustomers);
+    const systemPrompt = generateSystemPrompt(
+      location, 
+      locationType, 
+      industry, 
+      language, 
+      marketingGoal, 
+      monthlyBudget, 
+      idealCustomers,
+      businessName,
+      yearsInBusiness,
+      serviceRadius
+    );
     const messagesWithSystem = messages.find((m: any) => m.role === 'system') 
       ? messages 
       : [{ role: 'system', content: systemPrompt }, ...messages];

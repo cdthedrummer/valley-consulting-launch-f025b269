@@ -28,28 +28,30 @@ interface NewChatQuestionnaireProps {
     };
   }) => void;
   onSkipSetup: () => void;
+  savedProfile?: any;
 }
 
 const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({ 
   onSetupComplete, 
-  onSkipSetup 
+  onSkipSetup,
+  savedProfile 
 }) => {
-  const [location, setLocation] = useState<string>('');
+  const [location, setLocation] = useState<string>(savedProfile?.location || '');
   const [locationType, setLocationType] = useState<'zipcode' | 'county' | null>(null);
-  const [industry, setIndustry] = useState<string>('');
+  const [industry, setIndustry] = useState<string>(savedProfile?.industry || '');
   const [language, setLanguage] = useState<string>('English');
   const [selectedQuestion, setSelectedQuestion] = useState<string>('');
   
-  // Company profile fields
-  const [businessName, setBusinessName] = useState<string>('');
-  const [websiteUrl, setWebsiteUrl] = useState<string>('');
-  const [yearsInBusiness, setYearsInBusiness] = useState<string>('');
-  const [serviceRadius, setServiceRadius] = useState<string>('');
+  // Company profile fields - pre-populate from saved profile
+  const [businessName, setBusinessName] = useState<string>(savedProfile?.business_name || '');
+  const [websiteUrl, setWebsiteUrl] = useState<string>(savedProfile?.website_url || '');
+  const [yearsInBusiness, setYearsInBusiness] = useState<string>(savedProfile?.years_in_business?.toString() || '');
+  const [serviceRadius, setServiceRadius] = useState<string>(savedProfile?.service_radius?.toString() || '');
   
-  // Advanced profile fields
-  const [marketingGoal, setMarketingGoal] = useState<string>('');
-  const [monthlyBudget, setMonthlyBudget] = useState<string>('');
-  const [idealCustomers, setIdealCustomers] = useState<string>('');
+  // Advanced profile fields - pre-populate from saved profile
+  const [marketingGoal, setMarketingGoal] = useState<string>(savedProfile?.marketing_goal || '');
+  const [monthlyBudget, setMonthlyBudget] = useState<string>(savedProfile?.monthly_budget || '');
+  const [idealCustomers, setIdealCustomers] = useState<string>(savedProfile?.ideal_customers || '');
 
   const handleLocationSelect = (loc: string, type: 'zipcode' | 'county') => {
     setLocation(loc);
@@ -89,11 +91,14 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
             <Bot className="h-10 w-10 text-primary" />
           </div>
           <CardTitle className="text-3xl md:text-4xl font-bold gradient-text">
-            Welcome to AI Copilot! 👋
+            {savedProfile ? 'Update Your Profile' : 'Welcome to AI Copilot!'} 👋
           </CardTitle>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Get personalized marketing insights tailored to your location and industry. 
-            <span className="block mt-1 text-sm">Takes less than 60 seconds to set up!</span>
+            {savedProfile 
+              ? 'Update your business information to keep your AI insights accurate and personalized.'
+              : 'Get personalized marketing insights tailored to your location and industry.'
+            }
+            <span className="block mt-1 text-sm">Takes less than 60 seconds to {savedProfile ? 'update' : 'set up'}!</span>
           </p>
         </CardHeader>
         

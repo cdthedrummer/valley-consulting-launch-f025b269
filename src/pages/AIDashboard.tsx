@@ -79,6 +79,7 @@ const AIDashboard: React.FC = () => {
   });
   const [requestCount, setRequestCount] = useState<number>(0);
   const [maxRequests, setMaxRequests] = useState<number>(200);
+  const [savedBusinessProfile, setSavedBusinessProfile] = useState<any>(null);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -88,8 +89,41 @@ const AIDashboard: React.FC = () => {
   useEffect(() => {
     if (hasAccess && user) {
       loadChatSessions();
+      loadBusinessProfile();
     }
   }, [hasAccess, user]);
+
+  const loadBusinessProfile = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('business_profiles')
+        .select('*')
+        .eq('user_id', user?.id)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error loading business profile:', error);
+        return;
+      }
+
+      if (data) {
+        setSavedBusinessProfile(data);
+        // Auto-populate context from saved profile
+        setUserLocation(data.location || '');
+        setUserIndustry(data.industry || '');
+        setUserMarketingGoal(data.marketing_goal || '');
+        setUserMonthlyBudget(data.monthly_budget || '');
+        setUserIdealCustomers(data.ideal_customers || '');
+        
+        // Skip questionnaire if we have saved data
+        setShowQuestionnaire(false);
+        setShowSetup(false);
+        localStorage.setItem('hasCompletedInitialSetup', 'true');
+      }
+    } catch (error) {
+      console.error('Error in loadBusinessProfile:', error);
+    }
+  };
 
   const checkSubscriptionAccess = async (showToast = false) => {
     setCheckingAccess(true);
@@ -367,6 +401,44 @@ const AIDashboard: React.FC = () => {
     // Mark setup as completed
     localStorage.setItem('hasCompletedInitialSetup', 'true');
     
+    // Save or update business profile with all data
+    const profileData = {
+      location: config.location,
+      industry: config.industry,
+      ...config.businessProfile,
+    };
+
+    try {
+      const { data: existingProfile } = await supabase
+        .from('business_profiles')
+        .select('id')
+        .eq('user_id', user?.id)
+        .maybeSingle();
+
+      if (existingProfile) {
+        // Update existing profile
+        await supabase
+          .from('business_profiles')
+          .update(profileData)
+          .eq('user_id', user?.id);
+      } else {
+        // Insert new profile
+        await supabase
+          .from('business_profiles')
+          .insert([{ user_id: user?.id, ...profileData }]);
+      }
+
+      // Reload the saved profile
+      await loadBusinessProfile();
+      
+      toast({
+        title: "Profile saved!",
+        description: "Your business profile has been saved successfully.",
+      });
+    } catch (error) {
+      console.error('Error saving business profile:', error);
+    }
+    
     // If business profile data is provided, enrich it
     if (config.businessProfile && (
       config.businessProfile.business_name || 
@@ -379,16 +451,6 @@ const AIDashboard: React.FC = () => {
 
         if (error) {
           console.error('Error enriching business profile:', error);
-          toast({
-            title: "Profile saved",
-            description: "Your business details were saved, but automatic enrichment had an issue.",
-            variant: "default",
-          });
-        } else {
-          toast({
-            title: "Profile enriched!",
-            description: "Your business profile has been saved and enriched with additional insights.",
-          });
         }
       } catch (error) {
         console.error('Error calling enrich-business:', error);
@@ -629,13 +691,16 @@ What would you like to know about ${location}? For example:
 
     try {
       const userContext = {
-        location: userLocation || undefined,
+        location: userLocation || savedBusinessProfile?.location || undefined,
         locationType: userLocationType || undefined,
-        industry: userIndustry || undefined,
+        industry: userIndustry || savedBusinessProfile?.industry || undefined,
         language: userLanguage,
-        marketingGoal: userMarketingGoal || undefined,
-        monthlyBudget: userMonthlyBudget || undefined,
-        idealCustomers: userIdealCustomers || undefined
+        marketingGoal: userMarketingGoal || savedBusinessProfile?.marketing_goal || undefined,
+        monthlyBudget: userMonthlyBudget || savedBusinessProfile?.monthly_budget || undefined,
+        idealCustomers: userIdealCustomers || savedBusinessProfile?.ideal_customers || undefined,
+        businessName: savedBusinessProfile?.business_name || undefined,
+        yearsInBusiness: savedBusinessProfile?.years_in_business || undefined,
+        serviceRadius: savedBusinessProfile?.service_radius || undefined,
       };
 
       const { data, error } = await supabase.functions.invoke('ai-chat', {
