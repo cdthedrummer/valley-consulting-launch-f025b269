@@ -77,6 +77,8 @@ const AIDashboard: React.FC = () => {
     const dismissedReminder = localStorage.getItem('dismissedOnboardingReminder');
     return skippedSetup === 'true' && dismissedReminder !== 'true';
   });
+  const [requestCount, setRequestCount] = useState<number>(0);
+  const [maxRequests, setMaxRequests] = useState<number>(200);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -645,6 +647,12 @@ What would you like to know about ${location}? For example:
 
       if (error) throw error;
 
+      // Update rate limit info if available
+      if (data.rateLimit) {
+        setRequestCount(data.rateLimit.requestCount);
+        setMaxRequests(data.rateLimit.maxRequests);
+      }
+
       if (data.choices && data.choices[0]) {
         const assistantMessage: Message = {
           role: 'assistant',
@@ -666,11 +674,33 @@ What would you like to know about ${location}? For example:
           console.error('Error saving assistant message:', error);
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error sending message:', error);
+      
+      // Extract specific error message
+      let errorMessage = "Failed to send message. Please try again.";
+      let errorTitle = "Error";
+      
+      if (error?.message) {
+        // Check for rate limit error
+        if (error.message.includes('Too many requests') || error.message.includes('429')) {
+          errorTitle = "Rate Limit Reached";
+          errorMessage = "You've reached the hourly message limit. Please wait a bit before sending more messages.";
+        } 
+        // Check for subscription errors
+        else if (error.message.includes('subscription') || error.message.includes('402')) {
+          errorTitle = "Subscription Required";
+          errorMessage = "Your subscription has expired. Please renew to continue using AI Copilot.";
+        }
+        // Use the actual error message if available
+        else if (typeof error.message === 'string') {
+          errorMessage = error.message;
+        }
+      }
+      
       toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
+        title: errorTitle,
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -999,6 +1029,8 @@ What would you like to know about ${location}? For example:
                           userIndustry={userIndustry}
                           userLanguage={userLanguage}
                           sidebarOpen={false}
+                          requestCount={requestCount}
+                          maxRequests={maxRequests}
                           onInputChange={setInput}
                           onSendMessage={sendMessage}
                           onKeyPress={handleKeyPress}

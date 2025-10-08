@@ -108,18 +108,31 @@ serve(async (req) => {
   try {
     const clientIP = getClientIP(req);
     
-    // Check rate limiting (20 requests per hour per IP for AI chat)
-    const { data: rateLimitCheck } = await supabaseClient.rpc('check_rate_limit', {
+    // Check rate limiting (200 requests per hour per IP for AI chat)
+    const { data: rateLimitCheck, error: rateLimitError } = await supabaseClient.rpc('check_rate_limit', {
       _ip_address: clientIP,
       _endpoint: 'ai-chat',
-      _max_requests: 20,
+      _max_requests: 200,
       _window_minutes: 60
     });
+
+    // Get current request count
+    const { count: requestCount } = await supabaseClient
+      .from('rate_limits')
+      .select('*', { count: 'exact', head: true })
+      .eq('ip_address', clientIP)
+      .eq('endpoint', 'ai-chat')
+      .gte('created_at', new Date(Date.now() - 60 * 60 * 1000).toISOString());
 
     if (!rateLimitCheck) {
       console.warn(`Rate limit exceeded for AI chat from IP: ${clientIP}`);
       return new Response(
-        JSON.stringify({ error: 'Too many requests. Please try again later.' }),
+        JSON.stringify({ 
+          error: 'Too many requests. Please try again later.',
+          requestCount: requestCount || 200,
+          maxRequests: 200,
+          retryAfter: 3600
+        }),
         {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           status: 429,
@@ -208,7 +221,13 @@ serve(async (req) => {
       });
     }
 
-    return new Response(JSON.stringify(result), {
+    return new Response(JSON.stringify({
+      ...result,
+      rateLimit: {
+        requestCount: (requestCount || 0) + 1,
+        maxRequests: 200
+      }
+    }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });

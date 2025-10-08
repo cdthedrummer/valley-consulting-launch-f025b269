@@ -24,6 +24,8 @@ interface ChatWithControlsProps {
   userLanguage: string;
   sidebarOpen: boolean;
   isMobile: boolean;
+  requestCount?: number;
+  maxRequests?: number;
   onInputChange: (value: string) => void;
   onSendMessage: () => void;
   onKeyPress: (e: React.KeyboardEvent) => void;
@@ -47,6 +49,8 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
   userLanguage,
   sidebarOpen,
   isMobile,
+  requestCount = 0,
+  maxRequests = 200,
   onInputChange,
   onSendMessage,
   onKeyPress,
@@ -58,6 +62,7 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
   onExportTranscript,
   onCopyMessage,
 }) => {
+  const shouldShowRateLimit = requestCount >= 100;
   return (
     <Card className="flex-1 flex flex-col shadow-sm min-h-0">
       <CardHeader className="border-b bg-background rounded-t-lg flex-shrink-0">
@@ -158,6 +163,13 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
           
           {/* Chat Input Form */}
           <div className="border-t p-4 bg-background rounded-b-lg flex-shrink-0">
+            {shouldShowRateLimit && (
+              <div className="mb-3 px-3 py-2 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-md">
+                <p className="text-xs text-amber-800 dark:text-amber-200">
+                  <span className="font-medium">Rate Limit Notice:</span> You've used {requestCount} of {maxRequests} messages this hour.
+                </p>
+              </div>
+            )}
             <form 
               onSubmit={(e) => {
                 e.preventDefault();
