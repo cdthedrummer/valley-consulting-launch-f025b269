@@ -62,15 +62,27 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
     <Card className="flex-1 flex flex-col shadow-sm min-h-0">
       <CardHeader className="border-b bg-background rounded-t-lg flex-shrink-0">
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center">
-            <Bot className="h-6 w-6 mr-2 text-primary" />
-            AI Assistant
-            {userLocation && (
-              <span className="ml-3 text-sm text-muted-foreground bg-accent px-2 py-1 rounded">
-                {userLocation}
-              </span>
+          <div className="flex items-center gap-3">
+            {isMobile && (
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={onToggleSidebar}
+                className="h-8 w-8 p-0"
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
             )}
-          </CardTitle>
+            <CardTitle className="flex items-center text-base md:text-lg">
+              <Bot className="h-5 w-5 md:h-6 md:w-6 mr-2 text-primary" />
+              AI Assistant
+              {userLocation && (
+                <span className="ml-2 text-xs md:text-sm text-muted-foreground bg-accent px-2 py-0.5 rounded">
+                  {userLocation}
+                </span>
+              )}
+            </CardTitle>
+          </div>
           <div className="flex items-center gap-2">
             {!isMobile && (
               <LanguageSelector 
@@ -79,7 +91,8 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
               />
             )}
             <Button variant="outline" size="sm" onClick={onExportTranscript} disabled={messages.length === 0}>
-              <Download className="h-4 w-4 mr-1" /> Export
+              <Download className="h-4 w-4 mr-1" /> 
+              {!isMobile && "Export"}
             </Button>
           </div>
         </div>

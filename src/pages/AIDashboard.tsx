@@ -24,6 +24,7 @@ import LocationInput from "@/components/LocationInput";
 import ChatWithControls from "@/components/ChatWithControls";
 import DashboardWithControls from "@/components/DashboardWithControls";
 import DashboardHamburgerMenu from "@/components/DashboardHamburgerMenu";
+import ChatSidebar from "@/components/ChatSidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { BarChart3, MessageSquare } from "lucide-react";
@@ -60,7 +61,11 @@ const AIDashboard: React.FC = () => {
   const [userIndustry, setUserIndustry] = useState<string>('');
   const [userLanguage, setUserLanguage] = useState<string>('English');
   const [showSetup, setShowSetup] = useState(true);
-  const [showQuestionnaire, setShowQuestionnaire] = useState(false);
+  const [showQuestionnaire, setShowQuestionnaire] = useState(() => {
+    // Show questionnaire by default for first-time users
+    const hasCompletedSetup = localStorage.getItem('hasCompletedInitialSetup');
+    return !hasCompletedSetup;
+  });
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
   const [viewMode, setViewMode] = useState<'chat' | 'dashboard'>('dashboard');
   const isMobile = useIsMobile();
@@ -331,6 +336,9 @@ const AIDashboard: React.FC = () => {
     setShowQuestionnaire(false);
     setShowSetup(false);
     
+    // Mark setup as completed
+    localStorage.setItem('hasCompletedInitialSetup', 'true');
+    
     // Create new chat session with full context
     createNewChatSessionWithContext(config);
   };
@@ -338,6 +346,8 @@ const AIDashboard: React.FC = () => {
   const handleSkipSetup = () => {
     setShowQuestionnaire(false);
     setShowSetup(false);
+    // Mark setup as completed even when skipped
+    localStorage.setItem('hasCompletedInitialSetup', 'true');
     createNewChatSession();
   };
 
@@ -722,43 +732,46 @@ What would you like to know about ${location}? For example:
           <div className="container mx-auto px-4 h-16 flex items-center justify-between">
             {/* Left side - Menu and Title */}
             <div className="flex items-center gap-4">
-              <DashboardHamburgerMenu
-                user={user}
-                userLocation={userLocation}
-                userLocationType={userLocationType}
-                userIndustry={userIndustry}
-                userLanguage={userLanguage}
-                settingsOpen={settingsOpen}
-                questionsOpen={questionsOpen}
-                historyOpen={historyOpen}
-                chatSessions={chatSessions}
-                activeSessionId={activeSessionId}
-                isMobile={isMobile}
-                onSettingsOpenChange={setSettingsOpen}
-                onQuestionsOpenChange={setQuestionsOpen}
-                onHistoryOpenChange={setHistoryOpen}
-                onLocationChange={(location, type) => {
-                  setUserLocation(location);
-                  setUserLocationType(type);
-                }}
-                onIndustryChange={setUserIndustry}
-                onLanguageChange={setUserLanguage}
-                onQuestionSelect={(question) => {
-                  setInput(question);
-                  setViewMode('chat');
-                }}
-                onNewChat={() => {
-                  setShowQuestionnaire(true);
-                  setActiveSessionId(null);
-                  setMessages([]);
-                }}
-                onChatSessionSelect={(sessionId) => {
-                  switchChatSession(sessionId);
-                  setShowQuestionnaire(false);
-                  setShowSetup(false);
-                }}
-                onDeleteChatSession={deleteChatSession}
-              />
+              {/* Hamburger menu - only on mobile */}
+              {isMobile && (
+                <DashboardHamburgerMenu
+                  user={user}
+                  userLocation={userLocation}
+                  userLocationType={userLocationType}
+                  userIndustry={userIndustry}
+                  userLanguage={userLanguage}
+                  settingsOpen={settingsOpen}
+                  questionsOpen={questionsOpen}
+                  historyOpen={historyOpen}
+                  chatSessions={chatSessions}
+                  activeSessionId={activeSessionId}
+                  isMobile={isMobile}
+                  onSettingsOpenChange={setSettingsOpen}
+                  onQuestionsOpenChange={setQuestionsOpen}
+                  onHistoryOpenChange={setHistoryOpen}
+                  onLocationChange={(location, type) => {
+                    setUserLocation(location);
+                    setUserLocationType(type);
+                  }}
+                  onIndustryChange={setUserIndustry}
+                  onLanguageChange={setUserLanguage}
+                  onQuestionSelect={(question) => {
+                    setInput(question);
+                    setViewMode('chat');
+                  }}
+                  onNewChat={() => {
+                    setShowQuestionnaire(true);
+                    setActiveSessionId(null);
+                    setMessages([]);
+                  }}
+                  onChatSessionSelect={(sessionId) => {
+                    switchChatSession(sessionId);
+                    setShowQuestionnaire(false);
+                    setShowSetup(false);
+                  }}
+                  onDeleteChatSession={deleteChatSession}
+                />
+              )}
               
               <div className="hidden md:block">
                 <h1 className="text-lg font-semibold">Hudson Valley Consulting</h1>
@@ -795,100 +808,144 @@ What would you like to know about ${location}? For example:
           </div>
         </header>
 
-        {/* Main Content */}
-        <main className="flex-1" role="main">
-          {showQuestionnaire ? (
-            <NewChatQuestionnaire 
-              onSetupComplete={handleQuestionnaireComplete}
-              onSkipSetup={handleSkipSetup}
+        {/* Main Content with Sidebar */}
+        <main className="flex-1 flex overflow-hidden" role="main">
+          {/* Desktop Sidebar - Always visible on larger screens */}
+          {!isMobile && !showQuestionnaire && !shouldShowSetup && (
+            <ChatSidebar
+              userLocation={userLocation}
+              userLocationType={userLocationType}
+              userIndustry={userIndustry}
+              userLanguage={userLanguage}
+              chatSessions={chatSessions}
+              activeSessionId={activeSessionId}
+              onLocationChange={(location, type) => {
+                setUserLocation(location);
+                setUserLocationType(type);
+              }}
+              onIndustryChange={setUserIndustry}
+              onLanguageChange={setUserLanguage}
+              onQuestionSelect={(question) => {
+                setInput(question);
+                setViewMode('chat');
+              }}
+              onNewChat={() => {
+                setShowQuestionnaire(true);
+                setActiveSessionId(null);
+                setMessages([]);
+              }}
+              onChatSessionSelect={(sessionId) => {
+                switchChatSession(sessionId);
+                setShowQuestionnaire(false);
+                setShowSetup(false);
+                setViewMode('chat');
+              }}
+              onDeleteChatSession={deleteChatSession}
+              className="w-64 flex-shrink-0 hidden lg:flex"
             />
-          ) : shouldShowSetup ? (
-            <ChatSetup onSetupComplete={handleSetupComplete} />
-          ) : (
-            <>
-              {subscriptionInfo && (
-                <div className="space-y-3">
-                  <SubscriptionBanner subscriptionStatus={subscriptionInfo} />
-                  {(!subscriptionInfo.subscribed && !subscriptionInfo.is_trial_active) && (
-                    <div className="mx-6 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                      <div className="flex items-center justify-between">
-                        <div className="text-sm text-blue-800">
-                          <strong>Just completed payment?</strong> Your subscription may still be processing.
-                        </div>
-                        <Button
-                          onClick={() => checkSubscriptionAccess(true)}
-                          disabled={checkingAccess}
-                          size="sm"
-                          variant="outline"
-                          className="border-blue-300 text-blue-700 hover:bg-blue-100"
-                        >
-                          {checkingAccess ? (
-                            <>
-                              <Loader2 className="h-3 w-3 animate-spin mr-1" />
-                              Checking...
-                            </>
-                          ) : (
-                            'Refresh Status'
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-              
-              {/* Dashboard Title */}
-              <div className="container mx-auto px-4 pt-6 pb-2">
-                <h1 className="text-2xl md:text-3xl font-bold mb-2">Market Intelligence Dashboard</h1>
-                <p className="text-muted-foreground">
-                  Real-time insights for {userIndustry} businesses in {userLocation || 'Hudson Valley'}
-                </p>
-              </div>
+          )}
 
-              {/* Content Area */}
-              <div className="container mx-auto px-4 pb-6">
-                {viewMode === 'dashboard' ? (
-                  <DashboardWithControls
-                    userLocation={userLocation || 'Hudson Valley'}
-                    userLocationType={userLocationType}
-                    userIndustry={userIndustry || 'Construction'}
-                    className="max-w-7xl mx-auto"
-                    onChatWithPlan={handleChatWithPlan}
-                  />
-                ) : (
-                  <div className="max-w-4xl mx-auto">
-                    <ChatWithControls
-                      messages={messages}
-                      input={input}
-                      isLoading={isLoading}
-                      activeSessionId={activeSessionId}
-                      userLocation={userLocation}
-                      userLocationType={userLocationType}
-                      userIndustry={userIndustry}
-                      userLanguage={userLanguage}
-                      sidebarOpen={false}
-                      onInputChange={setInput}
-                      onSendMessage={sendMessage}
-                      onKeyPress={handleKeyPress}
-                      onToggleSidebar={() => setViewMode('dashboard')}
-                      isMobile={isMobile}
-                      onLocationChange={(location, type) => {
-                        setUserLocation(location);
-                        setUserLocationType(type);
-                      }}
-                      onIndustryChange={setUserIndustry}
-                      onLanguageChange={setUserLanguage}
-                      onQuestionSelect={(question) => {
-                        setInput(question);
-                      }}
-                      onExportTranscript={exportTranscript}
-                      onCopyMessage={copyMessage}
-                    />
+          {/* Main Content Area */}
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {showQuestionnaire ? (
+              <div className="flex-1 overflow-y-auto">
+                <NewChatQuestionnaire 
+                  onSetupComplete={handleQuestionnaireComplete}
+                  onSkipSetup={handleSkipSetup}
+                />
+              </div>
+            ) : shouldShowSetup ? (
+              <div className="flex-1 overflow-y-auto">
+                <ChatSetup onSetupComplete={handleSetupComplete} />
+              </div>
+            ) : (
+              <>
+                {subscriptionInfo && (
+                  <div className="space-y-3 flex-shrink-0">
+                    <SubscriptionBanner subscriptionStatus={subscriptionInfo} />
+                    {(!subscriptionInfo.subscribed && !subscriptionInfo.is_trial_active) && (
+                      <div className="mx-6 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                        <div className="flex items-center justify-between">
+                          <div className="text-sm text-blue-800">
+                            <strong>Just completed payment?</strong> Your subscription may still be processing.
+                          </div>
+                          <Button
+                            onClick={() => checkSubscriptionAccess(true)}
+                            disabled={checkingAccess}
+                            size="sm"
+                            variant="outline"
+                            className="border-blue-300 text-blue-700 hover:bg-blue-100"
+                          >
+                            {checkingAccess ? (
+                              <>
+                                <Loader2 className="h-3 w-3 animate-spin mr-1" />
+                                Checking...
+                              </>
+                            ) : (
+                              'Refresh Status'
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
-              </div>
-            </>
-          )}
+                
+                {/* Content Area */}
+                <div className="flex-1 overflow-y-auto">
+                  <div className="container mx-auto px-4 py-6">
+                    {/* Dashboard Title */}
+                    <div className="mb-6">
+                      <h1 className="text-2xl md:text-3xl font-bold mb-2">Market Intelligence Dashboard</h1>
+                      <p className="text-muted-foreground">
+                        Real-time insights for {userIndustry || 'contractor'} businesses in {userLocation || 'Hudson Valley'}
+                      </p>
+                    </div>
+
+                    {viewMode === 'dashboard' ? (
+                      <DashboardWithControls
+                        userLocation={userLocation || 'Hudson Valley'}
+                        userLocationType={userLocationType}
+                        userIndustry={userIndustry || 'Construction'}
+                        className="max-w-7xl mx-auto"
+                        onChatWithPlan={handleChatWithPlan}
+                      />
+                    ) : (
+                      <div className="max-w-5xl mx-auto h-[calc(100vh-16rem)] flex">
+                        <ChatWithControls
+                          messages={messages}
+                          input={input}
+                          isLoading={isLoading}
+                          activeSessionId={activeSessionId}
+                          userLocation={userLocation}
+                          userLocationType={userLocationType}
+                          userIndustry={userIndustry}
+                          userLanguage={userLanguage}
+                          sidebarOpen={false}
+                          onInputChange={setInput}
+                          onSendMessage={sendMessage}
+                          onKeyPress={handleKeyPress}
+                          onToggleSidebar={() => {}}
+                          isMobile={isMobile}
+                          onLocationChange={(location, type) => {
+                            setUserLocation(location);
+                            setUserLocationType(type);
+                          }}
+                          onIndustryChange={setUserIndustry}
+                          onLanguageChange={setUserLanguage}
+                          onQuestionSelect={(question) => {
+                            setInput(question);
+                          }}
+                          onExportTranscript={exportTranscript}
+                          onCopyMessage={copyMessage}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
         </main>
       </div>
     </div>
