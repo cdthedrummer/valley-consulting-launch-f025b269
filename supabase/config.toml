@@ -15,3 +15,6 @@ verify_jwt = true
 
 [functions.mapbox-token]
 verify_jwt = false
+
+[functions.ai-chat]
+verify_jwt = true

@@ -498,10 +498,18 @@ What would you like to know about ${location}? For example:
     }
   };
 
-  const sendMessage = async () => {
-    if (!input.trim() || isLoading || !activeSessionId) return;
+  const sendMessage = async (overrideText?: string) => {
+    const text = (overrideText ?? input).trim();
+    if (!text || isLoading) return;
+    if (!activeSessionId) {
+      // Create a session automatically if missing
+      await createNewChatSession();
+      // Wait a tick for state to update
+      await new Promise(r => setTimeout(r, 50));
+    }
+    if (!activeSessionId) return; // safety
 
-    const userMessage: Message = { role: 'user', content: input };
+    const userMessage: Message = { role: 'user', content: text };
     
     // Create enhanced messages with location context
     const locationContext = userLocation && userLocationType 
@@ -527,7 +535,7 @@ What would you like to know about ${location}? For example:
         .insert([{ 
           session_id: activeSessionId, 
           role: 'user', 
-          content: input 
+          content: text 
         }]);
     } catch (error) {
       console.error('Error saving user message:', error);
@@ -535,7 +543,7 @@ What would you like to know about ${location}? For example:
 
     // Update session title if it's the first message
     if (messages.length <= 1) {
-      updateSessionTitle(activeSessionId, input);
+      updateSessionTitle(activeSessionId, text);
     }
 
     setInput("");
@@ -641,15 +649,16 @@ What would you like to know about ${location}? For example:
     loadChatMessages(sessionId);
   };
 
-  const handleChatWithPlan = (planContent: string) => {
-    // Switch to chat mode
+  const handleChatWithPlan = async (planContent: string) => {
+    // Ensure there's an active session
+    if (!activeSessionId) {
+      await createNewChatSession();
+      await new Promise(r => setTimeout(r, 50));
+    }
+    // Switch to chat mode and send immediately using override
     setViewMode('chat');
-    // Set the input with the marketing plan
-    setInput(planContent);
-    // Auto-send after input is set
-    setTimeout(() => {
-      sendMessage();
-    }, 100);
+    setInput('');
+    await sendMessage(planContent);
   };
 
   // Show setup if it's a new session or no location is set

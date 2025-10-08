@@ -93,7 +93,7 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
                 <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`flex max-w-3xl ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                     <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                      message.role === 'user' ? 'bg-primary ml-2' : 'bg-primary mr-2'
+                      message.role === 'user' ? 'bg-primary/80 ml-2' : 'bg-primary/80 mr-2'
                     }`}>
                       {message.role === 'user' ? (
                         <User className="h-4 w-4 text-primary-foreground" />
@@ -103,8 +103,8 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
                     </div>
                     <div className={`rounded-lg px-4 py-2 ${
                       message.role === 'user' 
-                        ? 'bg-primary text-primary-foreground' 
-                        : 'bg-accent text-accent-foreground'
+                        ? 'bg-primary/15 text-foreground' 
+                        : 'bg-accent/30 text-foreground'
                     }`}>
                       <MarkdownMessage 
                         content={message.content} 
@@ -127,14 +127,14 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="flex">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary mr-2 flex items-center justify-center">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/80 mr-2 flex items-center justify-center">
                       <Bot className="h-4 w-4 text-primary-foreground" />
                     </div>
-                    <div className="bg-accent rounded-lg px-4 py-2">
+                    <div className="bg-accent/30 rounded-lg px-4 py-2">
                       <div className="flex items-center space-x-1">
-                        <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
-                        <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                        <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                        <div className="w-2 h-2 bg-foreground/70 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-foreground/70 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                        <div className="w-2 h-2 bg-foreground/70 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                       </div>
                     </div>
                   </div>

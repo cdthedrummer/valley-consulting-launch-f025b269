@@ -11,10 +11,13 @@ serve(async (req) => {
   }
 
   try {
-    const mapboxToken = Deno.env.get('MAPBOX_PUBLIC_API')
+    // Prefer secure key if available, fall back to public token
+    const secureToken = Deno.env.get('MAPBOXHVCG_KEY');
+    const publicToken = Deno.env.get('MAPBOX_PUBLIC_API');
+    const mapboxToken = secureToken || publicToken;
     
     if (!mapboxToken) {
-      throw new Error('Mapbox API key not configured')
+      throw new Error('Mapbox API key not configured (MAPBOXHVCG_KEY | MAPBOX_PUBLIC_API)')
     }
 
     return new Response(

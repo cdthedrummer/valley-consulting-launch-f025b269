@@ -38,19 +38,47 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     const initializeMap = async () => {
       try {
         console.log('Initializing Mapbox map...');
-        const { data, error } = await supabase.functions.invoke('mapbox-token');
-        
-        console.log('Mapbox token response:', { data, error });
-        
-        if (error) {
-          console.error('Mapbox token error:', error);
-          throw new Error(`Failed to get Mapbox token: ${error.message}. Please add MAPBOX_PUBLIC_API to Supabase secrets.`);
-        }
-        if (!data?.token) {
-          throw new Error('No Mapbox token received. Please add MAPBOX_PUBLIC_API to Supabase secrets.');
+        // Try Supabase invoke first
+        let token: string | undefined;
+        try {
+          const { data, error } = await supabase.functions.invoke('mapbox-token');
+          console.log('Mapbox token response (invoke):', { data, error });
+          if (!error && data?.token) token = data.token as string;
+        } catch (e) {
+          console.warn('Invoke failed, will try direct fetch fallback:', e);
         }
 
-        mapboxgl.accessToken = data.token;
+        // Fallback: direct fetch with timeout (in case invoke is blocked)
+        if (!token) {
+          try {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 3000);
+            const resp = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mapbox-token`, {
+              method: 'GET',
+              headers: {
+                apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+                'Content-Type': 'application/json',
+              },
+              signal: controller.signal,
+            });
+            clearTimeout(timeout);
+            if (resp.ok) {
+              const json = await resp.json();
+              token = json.token;
+              console.log('Mapbox token response (direct):', json);
+            }
+          } catch (e) {
+            console.warn('Direct fetch fallback failed:', e);
+          }
+        }
+
+        // Final fallback: use embedded public token (safe to expose)
+        if (!token) {
+          token = 'pk.eyJ1IjoiY2hhcmxpZW1hZ2ljIiwiYSI6ImNtZzQzMzdvMzBxc2QyanBrOGFncmczejEifQ.cZj8V-eqVpbu9X0NxG_RwQ';
+          console.warn('Using public Mapbox token fallback. Consider setting MAPBOXHVCG_KEY in Supabase secrets.');
+        }
+
+        mapboxgl.accessToken = token;
         console.log('Mapbox token set successfully');
         
         map.current = new mapboxgl.Map({
