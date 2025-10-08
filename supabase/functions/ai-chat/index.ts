@@ -8,9 +8,12 @@ const corsHeaders = {
 
 // Security utilities
 const getClientIP = (req: Request): string => {
-  return req.headers.get('x-forwarded-for') || 
-         req.headers.get('x-real-ip') || 
-         'unknown';
+  const forwardedFor = req.headers.get('x-forwarded-for');
+  if (forwardedFor) {
+    // Extract first IP from comma-separated list
+    return forwardedFor.split(',')[0].trim();
+  }
+  return req.headers.get('x-real-ip') || 'unknown';
 };
 
 const validateChatInput = (data: any): { isValid: boolean; error?: string } => {
@@ -194,20 +197,38 @@ serve(async (req) => {
       ? messages 
       : [{ role: 'system', content: systemPrompt }, ...messages];
 
-    const openRouterResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    const lovableAIResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${Deno.env.get("OPENROUTER_API_KEY")}`,
+        'Authorization': `Bearer ${Deno.env.get("LOVABLE_API_KEY")}`,
       },
       body: JSON.stringify({
-        model: 'openai/gpt-oss-120b',
+        model: 'google/gemini-2.5-flash',
         messages: messagesWithSystem,
-        usage: { include: true },
       }),
     });
 
-    const result = await openRouterResponse.json();
+    if (!lovableAIResponse.ok) {
+      const errorText = await lovableAIResponse.text();
+      console.error('[AI-CHAT] Lovable AI error:', lovableAIResponse.status, errorText);
+      
+      if (lovableAIResponse.status === 429) {
+        return new Response(JSON.stringify({ error: 'AI service rate limit exceeded. Please try again later.' }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 429,
+        });
+      }
+      if (lovableAIResponse.status === 402) {
+        return new Response(JSON.stringify({ error: 'AI service requires additional credits. Please contact support.' }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 402,
+        });
+      }
+      throw new Error(`AI gateway error: ${lovableAIResponse.status}`);
+    }
+
+    const result = await lovableAIResponse.json();
 
     // Log usage to database
     if (result.usage) {
@@ -216,8 +237,8 @@ serve(async (req) => {
         prompt_tokens: result.usage.prompt_tokens || 0,
         completion_tokens: result.usage.completion_tokens || 0,
         total_tokens: result.usage.total_tokens || 0,
-        cost_usd: (result.usage.prompt_tokens || 0) * 0.072 / 1000000 + (result.usage.completion_tokens || 0) * 0.28 / 1000000, // OSS-120b pricing
-        model: 'openai/gpt-oss-120b',
+        cost_usd: 0, // Gemini is currently free during promotional period
+        model: 'google/gemini-2.5-flash',
       });
     }
 
