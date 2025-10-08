@@ -25,6 +25,7 @@ import ChatWithControls from "@/components/ChatWithControls";
 import DashboardWithControls from "@/components/DashboardWithControls";
 import DashboardHamburgerMenu from "@/components/DashboardHamburgerMenu";
 import ChatSidebar from "@/components/ChatSidebar";
+import OnboardingReminderBanner from "@/components/OnboardingReminderBanner";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { BarChart3, MessageSquare } from "lucide-react";
@@ -68,6 +69,11 @@ const AIDashboard: React.FC = () => {
   });
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
   const [viewMode, setViewMode] = useState<'chat' | 'dashboard'>('dashboard');
+  const [showOnboardingReminder, setShowOnboardingReminder] = useState(() => {
+    const skippedSetup = localStorage.getItem('skippedInitialSetup');
+    const dismissedReminder = localStorage.getItem('dismissedOnboardingReminder');
+    return skippedSetup === 'true' && dismissedReminder !== 'true';
+  });
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -346,9 +352,21 @@ const AIDashboard: React.FC = () => {
   const handleSkipSetup = () => {
     setShowQuestionnaire(false);
     setShowSetup(false);
-    // Mark setup as completed even when skipped
+    // Mark setup as skipped and show reminder banner
     localStorage.setItem('hasCompletedInitialSetup', 'true');
+    localStorage.setItem('skippedInitialSetup', 'true');
+    setShowOnboardingReminder(true);
     createNewChatSession();
+  };
+
+  const handleDismissOnboardingReminder = () => {
+    setShowOnboardingReminder(false);
+    localStorage.setItem('dismissedOnboardingReminder', 'true');
+  };
+
+  const handleOpenSettingsFromBanner = () => {
+    setShowOnboardingReminder(false);
+    setShowQuestionnaire(true);
   };
 
   const createNewChatSessionWithLocation = async (location: string, locationType: 'zipcode' | 'county') => {
@@ -860,6 +878,14 @@ What would you like to know about ${location}? For example:
               </div>
             ) : (
               <>
+                {/* Onboarding Reminder Banner */}
+                {showOnboardingReminder && !userLocation && !userIndustry && (
+                  <OnboardingReminderBanner
+                    onOpenSettings={handleOpenSettingsFromBanner}
+                    onDismiss={handleDismissOnboardingReminder}
+                  />
+                )}
+
                 {subscriptionInfo && (
                   <div className="space-y-3 flex-shrink-0">
                     <SubscriptionBanner subscriptionStatus={subscriptionInfo} />

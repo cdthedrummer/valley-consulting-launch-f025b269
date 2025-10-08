@@ -50,33 +50,42 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
 
   return (
     <div className="flex items-center justify-center min-h-[80vh] p-4">
-      <Card className="w-full max-w-6xl mx-auto">
-        <CardHeader className="text-center">
-          <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full w-fit">
-            <Bot className="h-8 w-8 text-primary" />
+      <Card className="w-full max-w-6xl mx-auto shadow-lg">
+        <CardHeader className="text-center space-y-4">
+          <div className="mx-auto mb-2 p-4 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full w-fit">
+            <Bot className="h-10 w-10 text-primary" />
           </div>
-          <CardTitle className="text-3xl font-bold gradient-text">AI Copilot Setup</CardTitle>
-          <p className="text-muted-foreground mt-2">
-            Customize your AI experience for personalized marketing insights
+          <CardTitle className="text-3xl md:text-4xl font-bold gradient-text">
+            Welcome to AI Copilot! 👋
+          </CardTitle>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Get personalized marketing insights tailored to your location and industry. 
+            <span className="block mt-1 text-sm">Takes less than 60 seconds to set up!</span>
           </p>
         </CardHeader>
         
         <CardContent className="space-y-8">
-          {/* Quick Options */}
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-2">
+          {/* Language and Skip Option */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-accent/50 p-4 rounded-lg">
+            <div className="space-y-1">
+              <label className="text-sm font-medium">Preferred Language</label>
               <LanguageSelector 
                 value={language} 
                 onValueChange={setLanguage}
               />
             </div>
-            <Button 
-              variant="outline" 
-              onClick={onSkipSetup}
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Skip Setup & Chat Directly
-            </Button>
+            <div className="flex flex-col items-end gap-2">
+              <Button 
+                variant="ghost" 
+                onClick={onSkipSetup}
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
+                Skip for now
+              </Button>
+              <p className="text-xs text-muted-foreground">
+                (You'll see a reminder to complete setup later)
+              </p>
+            </div>
           </div>
 
           <Separator />
@@ -89,6 +98,7 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
                 <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2">
                   <Zap className="h-5 w-5 text-primary" />
                   <span>Tell Us About Your Business</span>
+                  <span className="ml-2 text-xs font-normal text-muted-foreground">(Optional but recommended)</span>
                 </h3>
                 
                 <div className="space-y-4">
@@ -147,15 +157,19 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
           <Separator />
 
           {/* Action Buttons */}
-          <div className="flex justify-center space-x-4">
+          <div className="flex flex-col items-center space-y-3">
             <Button 
               onClick={handleStartChat}
               size="lg"
-              className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 px-8"
+              className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 px-12 text-lg h-12"
             >
-              Start AI Chat
-              {selectedQuestion ? ' with Question' : ''}
+              {selectedQuestion ? '🚀 Start Chat with Question' : '💬 Start AI Chat'}
             </Button>
+            {!location && !industry && (
+              <p className="text-sm text-muted-foreground text-center">
+                💡 Tip: Adding your location and industry helps us provide more accurate insights
+              </p>
+            )}
           </div>
         </CardContent>
       </Card>
