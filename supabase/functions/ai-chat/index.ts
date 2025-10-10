@@ -273,7 +273,7 @@ serve(async (req) => {
     }
 
     // Trigger background signal extraction (fire and forget)
-    const sessionId = data.sessionId;
+    const sessionId = requestData.sessionId;
     if (sessionId && messages.length >= 2) {
       try {
         // Don't await - let it run in background
