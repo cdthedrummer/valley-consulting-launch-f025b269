@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   BarChart3, 
   TrendingUp, 
   MapPin, 
-  Grid3X3 as LayoutGrid, 
-  List,
-  Eye as Focus,
   Maximize2,
   Minimize2,
-  ChevronLeft,
   Lightbulb
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -23,6 +18,8 @@ import OpportunityMapWidget from './OpportunityMapWidget';
 import IndustryInsightsWidget from './IndustryInsightsWidget';
 import MarketingActionCenter from './MarketingActionCenter';
 import { UserIntelligenceWidget } from './UserIntelligenceWidget';
+import { ChatInsightsWidget } from './ChatInsightsWidget';
+import { CampaignTrackingWidget } from './CampaignTrackingWidget';
 
 interface ResponsiveDashboardProps {
   location?: string;
@@ -39,7 +36,6 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
   className,
   onChatWithPlan
 }) => {
-  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'focus'>('grid');
   const [focusedWidget, setFocusedWidget] = useState<string | null>(null);
 
   const displayLocation = locationType === 'zipcode' ? `ZIP ${location}` : location;
@@ -53,47 +49,49 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       priority: 0
     },
     {
+      id: 'chat-insights',
+      title: 'Chat Insights',
+      icon: TrendingUp,
+      component: ChatInsightsWidget,
+      priority: 1
+    },
+    {
+      id: 'campaign-tracking',
+      title: 'Campaign Performance',
+      icon: TrendingUp,
+      component: CampaignTrackingWidget,
+      priority: 2
+    },
+    {
       id: 'market-intelligence',
       title: 'Market Intelligence',
       icon: TrendingUp,
       component: MarketIntelligenceWidget,
-      priority: 1
+      priority: 3
     },
     {
       id: 'industry-insights',
       title: 'Industry Insights',
       icon: BarChart3,
       component: IndustryInsightsWidget,
-      priority: 2
+      priority: 4
     },
     {
       id: 'opportunity-map',
       title: 'Opportunity Map',
       icon: MapPin,
       component: OpportunityMapWidget,
-      priority: 3
+      priority: 5
     },
     {
       id: 'marketing-action-center',
       title: 'Marketing Action Center',
       icon: Lightbulb,
       component: MarketingActionCenter,
-      priority: 4
+      priority: 6
     }
   ];
 
-  const getGridLayout = () => {
-    switch (viewMode) {
-      case 'grid':
-        return 'grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4';
-      case 'list':
-        return 'flex flex-col gap-4';
-      case 'focus':
-        return 'grid grid-cols-1 gap-4';
-      default:
-        return 'grid grid-cols-1 lg:grid-cols-2 gap-4';
-    }
-  };
 
   const renderWidget = (widget: typeof widgets[0], index: number) => {
     const Component = widget.component as any;
@@ -108,25 +106,32 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
         transition={{ duration: 0.3, delay: index * 0.1 }}
         className={cn(
           "relative",
-          viewMode === 'focus' && !isExpanded && focusedWidget ? "lg:col-span-1" : "",
-          viewMode === 'grid' && widget.id === 'opportunity-map' ? "lg:col-span-2 xl:col-span-3" : "",
+          !isExpanded && focusedWidget ? "lg:col-span-1" : "",
           isExpanded ? "lg:col-span-2 xl:col-span-3" : ""
         )}
       >
         <div className="relative group">
-          {viewMode === 'focus' && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-              onClick={() => setFocusedWidget(isExpanded ? null : widget.id)}
-            >
-              {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
-            </Button>
-          )}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={() => setFocusedWidget(isExpanded ? null : widget.id)}
+          >
+            {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+          </Button>
           
           {widget.id === 'user-intelligence' ? (
             <UserIntelligenceWidget className={cn(
+              "h-full transition-all duration-300",
+              isExpanded ? "ring-2 ring-primary/20" : ""
+            )} />
+          ) : widget.id === 'chat-insights' ? (
+            <ChatInsightsWidget className={cn(
+              "h-full transition-all duration-300",
+              isExpanded ? "ring-2 ring-primary/20" : ""
+            )} />
+          ) : widget.id === 'campaign-tracking' ? (
+            <CampaignTrackingWidget className={cn(
               "h-full transition-all duration-300",
               isExpanded ? "ring-2 ring-primary/20" : ""
             )} />
@@ -186,35 +191,8 @@ Can you help me understand how to implement each of these components step by ste
       transition={{ duration: 0.5 }}
       className={cn("space-y-3 md:space-y-4", className)}
     >
-      {/* View Controls - Desktop */}
-      <div className="mb-6 flex items-center justify-between">
-        <div className="hidden md:flex items-center gap-1 bg-background/50 backdrop-blur-sm rounded-lg p-1 border border-border/50">
-          <Button
-            variant={viewMode === 'grid' ? 'default' : 'ghost'}
-            size="sm"
-            onClick={() => setViewMode('grid')}
-            className="h-8 w-8 p-0 touch-optimized focus-enhanced"
-          >
-            <LayoutGrid className="h-4 w-4" />
-          </Button>
-          <Button
-            variant={viewMode === 'list' ? 'default' : 'ghost'}
-            size="sm"
-            onClick={() => setViewMode('list')}
-            className="h-8 w-8 p-0 touch-target focus-enhanced"
-          >
-            <List className="h-4 w-4" />
-          </Button>
-          <Button
-            variant={viewMode === 'focus' ? 'default' : 'ghost'}
-            size="sm"
-            onClick={() => setViewMode('focus')}
-            className="h-8 w-8 p-0 touch-target focus-enhanced"
-          >
-            <Focus className="h-4 w-4" />
-          </Button>
-        </div>
-        
+      {/* Data Sources Header */}
+      <div className="mb-6 flex items-center justify-end">
         <div className="text-right hidden xl:block">
           <div className="text-xs font-medium text-muted-foreground/80">Data Sources</div>
           <div className="text-xs text-muted-foreground/60">
@@ -223,35 +201,13 @@ Can you help me understand how to implement each of these components step by ste
         </div>
       </div>
 
-        {/* Mobile View Toggle */}
-        <div className="md:hidden">
-          <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as any)}>
-            <TabsList className="grid w-full grid-cols-3 bg-background/50 backdrop-blur-sm">
-              <TabsTrigger value="grid" className="flex items-center gap-2 touch-target">
-                <LayoutGrid className="h-4 w-4" />
-                <span className="hidden sm:inline">Grid</span>
-              </TabsTrigger>
-              <TabsTrigger value="list" className="flex items-center gap-2 touch-target">
-                <List className="h-4 w-4" />
-                <span className="hidden sm:inline">List</span>
-              </TabsTrigger>
-              <TabsTrigger value="focus" className="flex items-center gap-2 touch-target">
-                <Focus className="h-4 w-4" />
-                <span className="hidden sm:inline">Focus</span>
-              </TabsTrigger>
-          </TabsList>
-        </Tabs>
-      </div>
-
       {/* Widgets Container */}
       <AnimatePresence mode="wait">
         <motion.div
-          key={viewMode}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
-          className={getGridLayout()}
+          className="grid grid-cols-1 gap-4"
         >
           {widgets
             .sort((a, b) => a.priority - b.priority)
