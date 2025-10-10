@@ -188,6 +188,118 @@ export type Database = {
         }
         Relationships: []
       }
+      campaign_metrics: {
+        Row: {
+          calls_received: number | null
+          campaign_id: string
+          clicks: number | null
+          conversions: number | null
+          created_at: string | null
+          forms_submitted: number | null
+          id: string
+          impressions: number | null
+          metric_date: string
+          metric_source: string | null
+          revenue: number | null
+          spend: number | null
+        }
+        Insert: {
+          calls_received?: number | null
+          campaign_id: string
+          clicks?: number | null
+          conversions?: number | null
+          created_at?: string | null
+          forms_submitted?: number | null
+          id?: string
+          impressions?: number | null
+          metric_date: string
+          metric_source?: string | null
+          revenue?: number | null
+          spend?: number | null
+        }
+        Update: {
+          calls_received?: number | null
+          campaign_id?: string
+          clicks?: number | null
+          conversions?: number | null
+          created_at?: string | null
+          forms_submitted?: number | null
+          id?: string
+          impressions?: number | null
+          metric_date?: string
+          metric_source?: string | null
+          revenue?: number | null
+          spend?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_metrics_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaigns: {
+        Row: {
+          budget_allocated: number | null
+          campaign_name: string
+          campaign_type: string
+          created_at: string | null
+          end_date: string | null
+          id: string
+          plan_content: Json | null
+          source_chat_session_id: string | null
+          start_date: string | null
+          status: string | null
+          target_location: string | null
+          target_service: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          budget_allocated?: number | null
+          campaign_name: string
+          campaign_type: string
+          created_at?: string | null
+          end_date?: string | null
+          id?: string
+          plan_content?: Json | null
+          source_chat_session_id?: string | null
+          start_date?: string | null
+          status?: string | null
+          target_location?: string | null
+          target_service?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          budget_allocated?: number | null
+          campaign_name?: string
+          campaign_type?: string
+          created_at?: string | null
+          end_date?: string | null
+          id?: string
+          plan_content?: Json | null
+          source_chat_session_id?: string | null
+          start_date?: string | null
+          status?: string | null
+          target_location?: string | null
+          target_service?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaigns_source_chat_session_id_fkey"
+            columns: ["source_chat_session_id"]
+            isOneToOne: false
+            referencedRelation: "chat_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       chat_messages: {
         Row: {
           content: string
@@ -243,6 +355,50 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      chat_signals: {
+        Row: {
+          confidence_score: number | null
+          context: string | null
+          created_at: string | null
+          extracted_at: string | null
+          id: string
+          session_id: string | null
+          signal_type: string
+          signal_value: string
+          user_id: string
+        }
+        Insert: {
+          confidence_score?: number | null
+          context?: string | null
+          created_at?: string | null
+          extracted_at?: string | null
+          id?: string
+          session_id?: string | null
+          signal_type: string
+          signal_value: string
+          user_id: string
+        }
+        Update: {
+          confidence_score?: number | null
+          context?: string | null
+          created_at?: string | null
+          extracted_at?: string | null
+          id?: string
+          session_id?: string | null
+          signal_type?: string
+          signal_value?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_signals_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "chat_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       contact_submissions: {
         Row: {
@@ -316,6 +472,45 @@ export type Database = {
           timestamp?: string
           user_agent?: string | null
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      local_market_intelligence: {
+        Row: {
+          collected_at: string | null
+          created_at: string | null
+          data_payload: Json
+          data_type: string
+          expires_at: string | null
+          id: string
+          industry: string
+          location: string
+          relevance_score: number | null
+          source: string | null
+        }
+        Insert: {
+          collected_at?: string | null
+          created_at?: string | null
+          data_payload: Json
+          data_type: string
+          expires_at?: string | null
+          id?: string
+          industry: string
+          location: string
+          relevance_score?: number | null
+          source?: string | null
+        }
+        Update: {
+          collected_at?: string | null
+          created_at?: string | null
+          data_payload?: Json
+          data_type?: string
+          expires_at?: string | null
+          id?: string
+          industry?: string
+          location?: string
+          relevance_score?: number | null
+          source?: string | null
         }
         Relationships: []
       }
@@ -523,6 +718,60 @@ export type Database = {
           rating?: number
           service?: string
           testimonial?: string
+        }
+        Relationships: []
+      }
+      user_intelligence_profile: {
+        Row: {
+          conversation_count: number | null
+          created_at: string | null
+          experience_level: string | null
+          id: string
+          insights: Json | null
+          last_active_at: string | null
+          preferred_channels: string[] | null
+          primary_pain_points: string[] | null
+          recommendations: Json | null
+          service_focus: string[] | null
+          target_locations: string[] | null
+          typical_budget_range: string | null
+          updated_at: string | null
+          urgency_level: string | null
+          user_id: string
+        }
+        Insert: {
+          conversation_count?: number | null
+          created_at?: string | null
+          experience_level?: string | null
+          id?: string
+          insights?: Json | null
+          last_active_at?: string | null
+          preferred_channels?: string[] | null
+          primary_pain_points?: string[] | null
+          recommendations?: Json | null
+          service_focus?: string[] | null
+          target_locations?: string[] | null
+          typical_budget_range?: string | null
+          updated_at?: string | null
+          urgency_level?: string | null
+          user_id: string
+        }
+        Update: {
+          conversation_count?: number | null
+          created_at?: string | null
+          experience_level?: string | null
+          id?: string
+          insights?: Json | null
+          last_active_at?: string | null
+          preferred_channels?: string[] | null
+          primary_pain_points?: string[] | null
+          recommendations?: Json | null
+          service_focus?: string[] | null
+          target_locations?: string[] | null
+          typical_budget_range?: string | null
+          updated_at?: string | null
+          urgency_level?: string | null
+          user_id?: string
         }
         Relationships: []
       }

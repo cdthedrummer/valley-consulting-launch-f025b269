@@ -22,6 +22,7 @@ import MarketIntelligenceWidget from './MarketIntelligenceWidget';
 import OpportunityMapWidget from './OpportunityMapWidget';
 import IndustryInsightsWidget from './IndustryInsightsWidget';
 import MarketingActionCenter from './MarketingActionCenter';
+import { UserIntelligenceWidget } from './UserIntelligenceWidget';
 
 interface ResponsiveDashboardProps {
   location?: string;
@@ -44,6 +45,13 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
   const displayLocation = locationType === 'zipcode' ? `ZIP ${location}` : location;
 
   const widgets = [
+    {
+      id: 'user-intelligence',
+      title: 'Your Marketing Intelligence',
+      icon: TrendingUp,
+      component: UserIntelligenceWidget,
+      priority: 0
+    },
     {
       id: 'market-intelligence',
       title: 'Market Intelligence',
@@ -88,7 +96,7 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
   };
 
   const renderWidget = (widget: typeof widgets[0], index: number) => {
-    const Component = widget.component;
+    const Component = widget.component as any;
     const isExpanded = focusedWidget === widget.id;
     
     return (
@@ -117,14 +125,21 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
             </Button>
           )}
           
-          <Component
-            location={location}
-            {...(widget.id === 'marketing-action-center' ? { 
-              locationType,
-              onChatWithPlan: (plan: any) => {
-                if (onChatWithPlan) {
-                  // Format the plan into a readable prompt
-                  const planContent = `I have a marketing plan I'd like to discuss and implement. Here are the details:
+          {widget.id === 'user-intelligence' ? (
+            <UserIntelligenceWidget className={cn(
+              "h-full transition-all duration-300",
+              isExpanded ? "ring-2 ring-primary/20" : ""
+            )} />
+          ) : (
+            <Component
+              location={location}
+              industry={industry}
+              {...(widget.id === 'marketing-action-center' ? { 
+                locationType,
+                onChatWithPlan: (plan: any) => {
+                  if (onChatWithPlan) {
+                    // Format the plan into a readable prompt
+                    const planContent = `I have a marketing plan I'd like to discuss and implement. Here are the details:
 
 **Priority Tasks:**
 ${plan.tasks.map((t: any, i: number) => `${i + 1}. ${t.task} (${t.priority} priority, ${t.timeline})`).join('\n')}
@@ -148,17 +163,17 @@ ${plan.timeline.join('\n')}
 ${plan.metrics.join('\n')}
 
 Can you help me understand how to implement each of these components step by step? What should I prioritize first, and what specific actions should I take?`;
-                  
-                  onChatWithPlan(planContent);
+                    
+                    onChatWithPlan(planContent);
+                  }
                 }
-              }
-            } : {})}
-            industry={industry}
-            className={cn(
-              "h-full transition-all duration-300",
-              isExpanded ? "ring-2 ring-primary/20" : ""
-            )}
-          />
+              } : {})}
+              className={cn(
+                "h-full transition-all duration-300",
+                isExpanded ? "ring-2 ring-primary/20" : ""
+              )}
+            />
+          )}
         </div>
       </motion.div>
     );

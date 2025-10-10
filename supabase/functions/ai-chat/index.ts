@@ -272,6 +272,25 @@ serve(async (req) => {
       });
     }
 
+    // Trigger background signal extraction (fire and forget)
+    const sessionId = data.sessionId;
+    if (sessionId && messages.length >= 2) {
+      try {
+        // Don't await - let it run in background
+        supabaseClient.functions.invoke('analyze-chat-signals', {
+          body: {
+            sessionId,
+            userId: user.id,
+            messages: messages.slice(-5) // Only analyze last 5 messages for efficiency
+          }
+        }).catch((err: any) => {
+          console.error('Background signal extraction failed:', err);
+        });
+      } catch (bgError) {
+        console.error('Failed to trigger signal extraction:', bgError);
+      }
+    }
+
     return new Response(JSON.stringify({
       ...result,
       rateLimit: {
