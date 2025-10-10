@@ -27,3 +27,6 @@ verify_jwt = false
 
 [functions.analyze-user-patterns]
 verify_jwt = false
+
+[functions.scrape-property-data]
+verify_jwt = false

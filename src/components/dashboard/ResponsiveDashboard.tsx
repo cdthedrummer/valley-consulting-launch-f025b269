@@ -21,6 +21,8 @@ import { UserIntelligenceWidget } from './UserIntelligenceWidget';
 import { ChatInsightsWidget } from './ChatInsightsWidget';
 import { CampaignTrackingWidget } from './CampaignTrackingWidget';
 import { InsightsSummaryWidget } from './InsightsSummaryWidget';
+import { PropertyOpportunitiesWidget } from './PropertyOpportunitiesWidget';
+import { CompetitiveIntelWidget } from './CompetitiveIntelWidget';
 import { useIntelligenceAnalysis } from '@/hooks/useIntelligenceAnalysis';
 
 interface ResponsiveDashboardProps {
@@ -89,18 +91,32 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       priority: 5
     },
     {
+      id: 'competitive-intel',
+      title: 'Competitive Intelligence',
+      icon: TrendingUp,
+      component: CompetitiveIntelWidget,
+      priority: 5
+    },
+    {
+      id: 'property-opportunities',
+      title: 'Property Opportunities',
+      icon: MapPin,
+      component: PropertyOpportunitiesWidget,
+      priority: 6
+    },
+    {
       id: 'opportunity-map',
       title: 'Opportunity Map',
       icon: MapPin,
       component: OpportunityMapWidget,
-      priority: 6
+      priority: 7
     },
     {
       id: 'marketing-action-center',
       title: 'Marketing Action Center',
       icon: Lightbulb,
       component: MarketingActionCenter,
-      priority: 7
+      priority: 8
     }
   ];
 
@@ -159,6 +175,24 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
               "h-full transition-all duration-300",
               isExpanded ? "ring-2 ring-primary/20" : ""
             )} />
+          ) : widget.id === 'property-opportunities' ? (
+            <PropertyOpportunitiesWidget 
+              location={location}
+              industry={industry}
+              className={cn(
+                "h-full transition-all duration-300",
+                isExpanded ? "ring-2 ring-primary/20" : ""
+              )}
+            />
+          ) : widget.id === 'competitive-intel' ? (
+            <CompetitiveIntelWidget 
+              location={location}
+              industry={industry}
+              className={cn(
+                "h-full transition-all duration-300",
+                isExpanded ? "ring-2 ring-primary/20" : ""
+              )}
+            />
           ) : (
             <Component
               location={location}
