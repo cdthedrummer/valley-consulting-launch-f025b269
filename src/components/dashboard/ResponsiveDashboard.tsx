@@ -20,6 +20,8 @@ import MarketingActionCenter from './MarketingActionCenter';
 import { UserIntelligenceWidget } from './UserIntelligenceWidget';
 import { ChatInsightsWidget } from './ChatInsightsWidget';
 import { CampaignTrackingWidget } from './CampaignTrackingWidget';
+import { InsightsSummaryWidget } from './InsightsSummaryWidget';
+import { useIntelligenceAnalysis } from '@/hooks/useIntelligenceAnalysis';
 
 interface ResponsiveDashboardProps {
   location?: string;
@@ -37,58 +39,68 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
   onChatWithPlan
 }) => {
   const [focusedWidget, setFocusedWidget] = useState<string | null>(null);
+  
+  // Trigger background intelligence analysis
+  useIntelligenceAnalysis();
 
   const displayLocation = locationType === 'zipcode' ? `ZIP ${location}` : location;
 
   const widgets = [
     {
+      id: 'insights-summary',
+      title: 'AI Insights',
+      icon: TrendingUp,
+      component: InsightsSummaryWidget,
+      priority: 0
+    },
+    {
       id: 'user-intelligence',
       title: 'Your Marketing Intelligence',
       icon: TrendingUp,
       component: UserIntelligenceWidget,
-      priority: 0
+      priority: 1
     },
     {
       id: 'chat-insights',
       title: 'Chat Insights',
       icon: TrendingUp,
       component: ChatInsightsWidget,
-      priority: 1
+      priority: 2
     },
     {
       id: 'campaign-tracking',
       title: 'Campaign Performance',
       icon: TrendingUp,
       component: CampaignTrackingWidget,
-      priority: 2
+      priority: 3
     },
     {
       id: 'market-intelligence',
       title: 'Market Intelligence',
       icon: TrendingUp,
       component: MarketIntelligenceWidget,
-      priority: 3
+      priority: 4
     },
     {
       id: 'industry-insights',
       title: 'Industry Insights',
       icon: BarChart3,
       component: IndustryInsightsWidget,
-      priority: 4
+      priority: 5
     },
     {
       id: 'opportunity-map',
       title: 'Opportunity Map',
       icon: MapPin,
       component: OpportunityMapWidget,
-      priority: 5
+      priority: 6
     },
     {
       id: 'marketing-action-center',
       title: 'Marketing Action Center',
       icon: Lightbulb,
       component: MarketingActionCenter,
-      priority: 6
+      priority: 7
     }
   ];
 
@@ -120,7 +132,19 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
             {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </Button>
           
-          {widget.id === 'user-intelligence' ? (
+          {widget.id === 'insights-summary' ? (
+            <InsightsSummaryWidget 
+              className={cn(
+                "h-full transition-all duration-300",
+                isExpanded ? "ring-2 ring-primary/20" : ""
+              )}
+              onActionClick={(insight) => {
+                if (onChatWithPlan) {
+                  onChatWithPlan(`I'd like to take action on this insight: ${insight.title}. ${insight.description}`);
+                }
+              }}
+            />
+          ) : widget.id === 'user-intelligence' ? (
             <UserIntelligenceWidget className={cn(
               "h-full transition-all duration-300",
               isExpanded ? "ring-2 ring-primary/20" : ""
