@@ -46,6 +46,11 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
   useIntelligenceAnalysis();
 
   const displayLocation = locationType === 'zipcode' ? `ZIP ${location}` : location;
+  
+  // Check if we have sufficient data for property/competitive widgets
+  const hasLocationData = location && location !== 'Hudson Valley';
+  const hasIndustryData = industry && industry !== 'Construction';
+  const hasCompleteProfile = hasLocationData && hasIndustryData;
 
   const widgets = [
     {
@@ -95,21 +100,24 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       title: 'Competitive Intelligence',
       icon: TrendingUp,
       component: CompetitiveIntelWidget,
-      priority: 5
+      priority: 5,
+      requiresProfile: true
     },
     {
       id: 'property-opportunities',
       title: 'Property Opportunities',
       icon: MapPin,
       component: PropertyOpportunitiesWidget,
-      priority: 6
+      priority: 6,
+      requiresProfile: true
     },
     {
       id: 'opportunity-map',
       title: 'Opportunity Map',
       icon: MapPin,
       component: OpportunityMapWidget,
-      priority: 7
+      priority: 7,
+      requiresProfile: true
     },
     {
       id: 'marketing-action-center',
@@ -259,6 +267,39 @@ Can you help me understand how to implement each of these components step by ste
         </div>
       </div>
 
+      {/* Profile Completion Notice */}
+      {!hasCompleteProfile && (
+        <Card className="border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5">
+          <CardContent className="pt-6">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-full bg-primary/10">
+                <Lightbulb className="h-6 w-6 text-primary" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold mb-2">Complete Your Profile for Better Insights</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  To unlock property opportunities, competitive intelligence, and location-specific insights, please provide your business location and industry.
+                </p>
+                <div className="space-y-2 text-sm">
+                  {!hasLocationData && (
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <div className="h-2 w-2 rounded-full bg-amber-500" />
+                      <span>Missing: Business Location</span>
+                    </div>
+                  )}
+                  {!hasIndustryData && (
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <div className="h-2 w-2 rounded-full bg-amber-500" />
+                      <span>Missing: Industry Type</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Widgets Container */}
       <AnimatePresence mode="wait">
         <motion.div
@@ -268,6 +309,7 @@ Can you help me understand how to implement each of these components step by ste
           className="grid grid-cols-1 gap-4"
         >
           {widgets
+            .filter((widget: any) => !widget.requiresProfile || hasCompleteProfile)
             .sort((a, b) => a.priority - b.priority)
             .map((widget, index) => renderWidget(widget, index))}
         </motion.div>
