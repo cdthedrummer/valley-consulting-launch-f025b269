@@ -1025,9 +1025,49 @@ What would you like to know about ${location}? For example:
             ) : (
               <>
                 {/* Onboarding Reminder Banner */}
-                {showOnboardingReminder && !userLocation && !userIndustry && (
+                {showOnboardingReminder && (!userLocation || !userIndustry) && (
                   <OnboardingReminderBanner
-                    onOpenSettings={handleOpenSettingsFromBanner}
+                    currentLocation={userLocation}
+                    currentIndustry={userIndustry}
+                    hasLocationData={!!userLocation}
+                    hasIndustryData={!!userIndustry}
+                    onLocationChange={(location, type) => {
+                      setUserLocation(location);
+                      setUserLocationType(type);
+                      // Save to business profile
+                      if (user) {
+                        supabase
+                          .from('business_profiles')
+                          .upsert({
+                            user_id: user.id,
+                            location: location,
+                          })
+                          .then(() => {
+                            toast({
+                              title: "Location saved",
+                              description: "Your business location has been updated.",
+                            });
+                          });
+                      }
+                    }}
+                    onIndustryChange={(industry) => {
+                      setUserIndustry(industry);
+                      // Save to business profile
+                      if (user) {
+                        supabase
+                          .from('business_profiles')
+                          .upsert({
+                            user_id: user.id,
+                            industry: industry,
+                          })
+                          .then(() => {
+                            toast({
+                              title: "Industry saved",
+                              description: "Your industry has been updated.",
+                            });
+                          });
+                      }
+                    }}
                     onDismiss={handleDismissOnboardingReminder}
                   />
                 )}
