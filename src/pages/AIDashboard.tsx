@@ -73,9 +73,8 @@ const AIDashboard: React.FC = () => {
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
   const [viewMode, setViewMode] = useState<'chat' | 'dashboard'>('dashboard');
   const [showOnboardingReminder, setShowOnboardingReminder] = useState(() => {
-    const skippedSetup = localStorage.getItem('skippedInitialSetup');
     const dismissedReminder = localStorage.getItem('dismissedOnboardingReminder');
-    return skippedSetup === 'true' && dismissedReminder !== 'true';
+    return dismissedReminder !== 'true';
   });
   const [requestCount, setRequestCount] = useState<number>(0);
   const [maxRequests, setMaxRequests] = useState<number>(200);
@@ -1025,7 +1024,7 @@ What would you like to know about ${location}? For example:
             ) : (
               <>
                 {/* Onboarding Reminder Banner */}
-                {showOnboardingReminder && (!userLocation || !userIndustry) && (
+                {showOnboardingReminder && viewMode === 'dashboard' && (!userLocation || !userIndustry || userLocation === 'Hudson Valley' || userIndustry === 'Construction') && (
                   <OnboardingReminderBanner
                     currentLocation={userLocation}
                     currentIndustry={userIndustry}
