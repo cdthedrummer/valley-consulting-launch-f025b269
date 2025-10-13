@@ -8,6 +8,7 @@ interface DashboardWithControlsProps {
   userLocation?: string;
   userLocationType?: 'zipcode' | 'county' | null;
   userIndustry?: string;
+  businessName?: string;
   className?: string;
   onChatWithPlan?: (planContent: string) => void;
 }
@@ -16,17 +17,17 @@ const DashboardWithControls: React.FC<DashboardWithControlsProps> = ({
   userLocation,
   userLocationType,
   userIndustry,
+  businessName,
   className,
   onChatWithPlan,
 }) => {
-  const displayLocation = userLocationType === 'zipcode' ? `ZIP ${userLocation}` : userLocation;
-
   return (
     <div className={className}>
       <ResponsiveDashboard
         location={userLocation}
         locationType={userLocationType}
         industry={userIndustry}
+        businessName={businessName}
         onChatWithPlan={onChatWithPlan}
       />
     </div>

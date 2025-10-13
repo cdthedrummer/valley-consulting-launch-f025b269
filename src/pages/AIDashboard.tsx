@@ -1118,6 +1118,7 @@ What would you like to know about ${location}? For example:
                         userLocation={userLocation || 'Hudson Valley'}
                         userLocationType={userLocationType}
                         userIndustry={userIndustry || 'Construction'}
+                        businessName={savedBusinessProfile?.business_name}
                         className="max-w-7xl mx-auto"
                         onChatWithPlan={handleChatWithPlan}
                       />
