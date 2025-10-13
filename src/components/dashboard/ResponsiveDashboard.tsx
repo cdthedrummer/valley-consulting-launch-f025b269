@@ -1,24 +1,6 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  BarChart3, 
-  TrendingUp, 
-  MapPin, 
-  Maximize2,
-  Minimize2,
-  Lightbulb
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { ErrorBoundary } from '@/components/ui/error-boundary';
-import { DashboardLoading } from '@/components/ui/enhanced-loading';
-import { UserIntelligenceWidget } from './UserIntelligenceWidget';
-import { PropertyOpportunitiesWidget } from './PropertyOpportunitiesWidget';
-import { AIActionCenterWidget } from './AIActionCenterWidget';
-import { SimplifiedMarketWidget } from './SimplifiedMarketWidget';
-import { StreamlinedCompetitiveWidget } from './StreamlinedCompetitiveWidget';
-import { useIntelligenceAnalysis } from '@/hooks/useIntelligenceAnalysis';
 import { 
   Sparkles, 
   TrendingUp, 
@@ -26,6 +8,13 @@ import {
   Building,
   Users
 } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { UserIntelligenceWidget } from './UserIntelligenceWidget';
+import { PropertyOpportunitiesWidget } from './PropertyOpportunitiesWidget';
+import { AIActionCenterWidget } from './AIActionCenterWidget';
+import { SimplifiedMarketWidget } from './SimplifiedMarketWidget';
+import { StreamlinedCompetitiveWidget } from './StreamlinedCompetitiveWidget';
+import { useIntelligenceAnalysis } from '@/hooks/useIntelligenceAnalysis';
 
 interface ResponsiveDashboardProps {
   location?: string;
@@ -94,125 +83,66 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
     },
   ];
 
+  const renderWidget = (widget: typeof widgets[0]) => {
+    const widgetClassName = cn("h-full transition-all duration-300");
 
-  const renderWidget = (widget: typeof widgets[0], index: number) => {
-    const Component = widget.component as any;
-    const isExpanded = focusedWidget === widget.id;
+    if (widget.id === 'ai-action-center') {
+      return (
+        <AIActionCenterWidget
+          location={location}
+          industry={industry}
+          className={widgetClassName}
+          onChatWithPlan={onChatWithPlan}
+        />
+      );
+    }
     
+    if (widget.id === 'user-intelligence') {
+      return (
+        <UserIntelligenceWidget
+          className={widgetClassName}
+        />
+      );
+    }
+    
+    if (widget.id === 'property-opportunities') {
+      return (
+        <PropertyOpportunitiesWidget
+          location={location}
+          industry={industry}
+          className={widgetClassName}
+        />
+      );
+    }
+    
+    if (widget.id === 'competitive-edge') {
+      return (
+        <StreamlinedCompetitiveWidget
+          location={location}
+          industry={industry}
+          className={widgetClassName}
+          onChatWithPlan={onChatWithPlan}
+        />
+      );
+    }
+    
+    if (widget.id === 'market-snapshot') {
+      return (
+        <SimplifiedMarketWidget
+          location={location}
+          industry={industry}
+          className={widgetClassName}
+        />
+      );
+    }
+    
+    const WidgetComponent = widget.component as React.ComponentType<any>;
     return (
-      <motion.div
-        key={widget.id}
-        layout
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: index * 0.1 }}
-        className={cn(
-          "relative",
-          !isExpanded && focusedWidget ? "lg:col-span-1" : "",
-          isExpanded ? "lg:col-span-2 xl:col-span-3" : ""
-        )}
-      >
-        <div className="relative group">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-            onClick={() => setFocusedWidget(isExpanded ? null : widget.id)}
-          >
-            {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
-          </Button>
-          
-          {widget.id === 'insights-summary' ? (
-            <InsightsSummaryWidget 
-              className={cn(
-                "h-full transition-all duration-300",
-                isExpanded ? "ring-2 ring-primary/20" : ""
-              )}
-              onActionClick={(insight) => {
-                if (onChatWithPlan) {
-                  onChatWithPlan(`I'd like to take action on this insight: ${insight.title}. ${insight.description}`);
-                }
-              }}
-            />
-          ) : widget.id === 'user-intelligence' ? (
-            <UserIntelligenceWidget className={cn(
-              "h-full transition-all duration-300",
-              isExpanded ? "ring-2 ring-primary/20" : ""
-            )} />
-          ) : widget.id === 'chat-insights' ? (
-            <ChatInsightsWidget className={cn(
-              "h-full transition-all duration-300",
-              isExpanded ? "ring-2 ring-primary/20" : ""
-            )} />
-          ) : widget.id === 'campaign-tracking' ? (
-            <CampaignTrackingWidget className={cn(
-              "h-full transition-all duration-300",
-              isExpanded ? "ring-2 ring-primary/20" : ""
-            )} />
-          ) : widget.id === 'property-opportunities' ? (
-            <PropertyOpportunitiesWidget 
-              location={location}
-              industry={industry}
-              className={cn(
-                "h-full transition-all duration-300",
-                isExpanded ? "ring-2 ring-primary/20" : ""
-              )}
-            />
-          ) : widget.id === 'competitive-intel' ? (
-            <CompetitiveIntelWidget 
-              location={location}
-              industry={industry}
-              className={cn(
-                "h-full transition-all duration-300",
-                isExpanded ? "ring-2 ring-primary/20" : ""
-              )}
-            />
-          ) : (
-            <Component
-              location={location}
-              industry={industry}
-              {...(widget.id === 'marketing-action-center' ? { 
-                locationType,
-                onChatWithPlan: (plan: any) => {
-                  if (onChatWithPlan) {
-                    // Format the plan into a readable prompt
-                    const planContent = `I have a marketing plan I'd like to discuss and implement. Here are the details:
-
-**Priority Tasks:**
-${plan.tasks.map((t: any, i: number) => `${i + 1}. ${t.task} (${t.priority} priority, ${t.timeline})`).join('\n')}
-
-**Budget Allocation:**
-${plan.budgetAllocations.map((b: any) => `- ${b.channel}: ${b.percentage}% ($${b.amount})`).join('\n')}
-
-**Target Keywords:**
-${plan.keywords.join(', ')}
-
-**Email Creatives:**
-${plan.creatives.email.map((e: string, i: number) => `Email ${i + 1}:\n${e}`).join('\n\n')}
-
-**Search Ads:**
-${plan.creatives.search.join('\n')}
-
-**Timeline:**
-${plan.timeline.join('\n')}
-
-**Success Metrics:**
-${plan.metrics.join('\n')}
-
-Can you help me understand how to implement each of these components step by step? What should I prioritize first, and what specific actions should I take?`;
-                    
-                    onChatWithPlan(planContent);
-                  }
-                }
-              } : {})}
-              className={cn(
-                "h-full transition-all duration-300",
-                isExpanded ? "ring-2 ring-primary/20" : ""
-              )}
-            />
-          )}
-        </div>
-      </motion.div>
+      <WidgetComponent
+        location={location}
+        industry={industry}
+        className={widgetClassName}
+      />
     );
   };
 
@@ -233,8 +163,6 @@ Can you help me understand how to implement each of these components step by ste
         </div>
       </div>
 
-      {/* Profile Completion Notice - Now handled by parent component */}
-
       {/* Widgets Container */}
       <AnimatePresence mode="wait">
         {/* Hero Widget - AI Action Center */}
@@ -246,7 +174,7 @@ Can you help me understand how to implement each of these components step by ste
             transition={{ duration: 0.3 }}
             className="mb-6"
           >
-            {renderWidget(widget, false)}
+            {renderWidget(widget)}
           </motion.div>
         ))}
 
@@ -263,7 +191,7 @@ Can you help me understand how to implement each of these components step by ste
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                {renderWidget(widget, false)}
+                {renderWidget(widget)}
               </motion.div>
             ))}
         </div>
