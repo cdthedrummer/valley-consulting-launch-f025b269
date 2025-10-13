@@ -79,6 +79,7 @@ const AIDashboard: React.FC = () => {
   const [requestCount, setRequestCount] = useState<number>(0);
   const [maxRequests, setMaxRequests] = useState<number>(200);
   const [savedBusinessProfile, setSavedBusinessProfile] = useState<any>(null);
+  const [isLoadingProfile, setIsLoadingProfile] = useState<boolean>(true);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -93,6 +94,7 @@ const AIDashboard: React.FC = () => {
   }, [hasAccess, user]);
 
   const loadBusinessProfile = async () => {
+    setIsLoadingProfile(true);
     try {
       const { data, error } = await supabase
         .from('business_profiles')
@@ -102,6 +104,7 @@ const AIDashboard: React.FC = () => {
 
       if (error) {
         console.error('Error loading business profile:', error);
+        setIsLoadingProfile(false);
         return;
       }
 
@@ -121,6 +124,8 @@ const AIDashboard: React.FC = () => {
       }
     } catch (error) {
       console.error('Error in loadBusinessProfile:', error);
+    } finally {
+      setIsLoadingProfile(false);
     }
   };
 
@@ -1115,10 +1120,11 @@ What would you like to know about ${location}? For example:
 
                     {viewMode === 'dashboard' ? (
                       <DashboardWithControls
-                        userLocation={userLocation || 'Hudson Valley'}
+                        userLocation={userLocation}
                         userLocationType={userLocationType}
-                        userIndustry={userIndustry || 'Construction'}
+                        userIndustry={userIndustry}
                         businessName={savedBusinessProfile?.business_name}
+                        isLoadingProfile={isLoadingProfile}
                         className="max-w-7xl mx-auto"
                         onChatWithPlan={handleChatWithPlan}
                       />

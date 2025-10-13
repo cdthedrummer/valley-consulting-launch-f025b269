@@ -9,6 +9,7 @@ interface DashboardWithControlsProps {
   userLocationType?: 'zipcode' | 'county' | null;
   userIndustry?: string;
   businessName?: string;
+  isLoadingProfile?: boolean;
   className?: string;
   onChatWithPlan?: (planContent: string) => void;
 }
@@ -18,6 +19,7 @@ const DashboardWithControls: React.FC<DashboardWithControlsProps> = ({
   userLocationType,
   userIndustry,
   businessName,
+  isLoadingProfile,
   className,
   onChatWithPlan,
 }) => {
@@ -28,6 +30,7 @@ const DashboardWithControls: React.FC<DashboardWithControlsProps> = ({
         locationType={userLocationType}
         industry={userIndustry}
         businessName={businessName}
+        isLoadingProfile={isLoadingProfile}
         onChatWithPlan={onChatWithPlan}
       />
     </div>

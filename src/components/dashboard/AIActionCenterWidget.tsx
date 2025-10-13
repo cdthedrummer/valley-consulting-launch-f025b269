@@ -12,6 +12,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { CALENDLY_URL } from '@/config/calendly';
 
 interface AIActionCenterProps {
   location?: string;
@@ -87,7 +88,7 @@ export const AIActionCenterWidget: React.FC<AIActionCenterProps> = ({
     {
       label: 'Schedule Consultation',
       icon: <Calendar className="h-4 w-4" />,
-      action: () => window.open('https://calendly.com', '_blank')
+      action: () => window.open(CALENDLY_URL, '_blank')
     },
     {
       label: 'Draft Email',
