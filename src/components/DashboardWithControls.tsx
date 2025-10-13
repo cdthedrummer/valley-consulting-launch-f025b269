@@ -12,6 +12,8 @@ interface DashboardWithControlsProps {
   isLoadingProfile?: boolean;
   className?: string;
   onChatWithPlan?: (planContent: string) => void;
+  onLocationChange?: (location: string, locationType: 'zipcode' | 'county') => void;
+  onIndustryChange?: (industry: string) => void;
 }
 
 const DashboardWithControls: React.FC<DashboardWithControlsProps> = ({
@@ -22,6 +24,8 @@ const DashboardWithControls: React.FC<DashboardWithControlsProps> = ({
   isLoadingProfile,
   className,
   onChatWithPlan,
+  onLocationChange,
+  onIndustryChange,
 }) => {
   return (
     <div className={className}>
@@ -32,6 +36,8 @@ const DashboardWithControls: React.FC<DashboardWithControlsProps> = ({
         businessName={businessName}
         isLoadingProfile={isLoadingProfile}
         onChatWithPlan={onChatWithPlan}
+        onLocationChange={onLocationChange}
+        onIndustryChange={onIndustryChange}
       />
     </div>
   );

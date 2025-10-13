@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Sparkles, 
@@ -11,7 +12,9 @@ import {
   MapPin,
   Briefcase,
   AlertCircle,
-  Loader2
+  Loader2,
+  CheckCircle2,
+  Target
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { UserIntelligenceWidget } from './UserIntelligenceWidget';
@@ -20,6 +23,8 @@ import { AIActionCenterWidget } from './AIActionCenterWidget';
 import { SimplifiedMarketWidget } from './SimplifiedMarketWidget';
 import { StreamlinedCompetitiveWidget } from './StreamlinedCompetitiveWidget';
 import { useIntelligenceAnalysis } from '@/hooks/useIntelligenceAnalysis';
+import LocationInput from '@/components/LocationInput';
+import IndustrySelector from '@/components/IndustrySelector';
 
 interface ResponsiveDashboardProps {
   location?: string;
@@ -29,6 +34,8 @@ interface ResponsiveDashboardProps {
   isLoadingProfile?: boolean;
   className?: string;
   onChatWithPlan?: (planContent: string) => void;
+  onLocationChange?: (location: string, locationType: 'zipcode' | 'county') => void;
+  onIndustryChange?: (industry: string) => void;
 }
 
 const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
@@ -38,9 +45,13 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
   businessName,
   isLoadingProfile = false,
   className,
-  onChatWithPlan
+  onChatWithPlan,
+  onLocationChange,
+  onIndustryChange,
 }) => {
   const [focusedWidget, setFocusedWidget] = useState<string | null>(null);
+  const [tempLocation, setTempLocation] = useState(location || '');
+  const [tempIndustry, setTempIndustry] = useState(industry || '');
   
   // Trigger background intelligence analysis
   useIntelligenceAnalysis();
@@ -51,6 +62,16 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
   const hasLocationData = location && location.trim() !== '';
   const hasIndustryData = industry && industry.trim() !== '';
   const hasCompleteProfile = hasLocationData && hasIndustryData;
+
+  const handleLocationSelect = (loc: string, type: 'zipcode' | 'county') => {
+    setTempLocation(loc);
+    onLocationChange?.(loc, type);
+  };
+
+  const handleIndustrySelect = (ind: string) => {
+    setTempIndustry(ind);
+    onIndustryChange?.(ind);
+  };
 
   const widgets = [
     {
@@ -241,45 +262,55 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
         </CardContent>
       </Card>
 
-      {/* Profile Completion Gate */}
+      {/* Profile Completion Gate with Inline Forms */}
       {!hasCompleteProfile ? (
-        <Card className="border-2 border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50">
-          <CardContent className="pt-6">
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-full bg-amber-100">
-                <AlertCircle className="h-8 w-8 text-amber-600" />
-              </div>
-              <div className="flex-1 space-y-3">
-                <div>
-                  <h3 className="text-xl font-bold text-amber-900 mb-2">
-                    Complete Your Profile to Unlock Insights
-                  </h3>
-                  <p className="text-amber-800 mb-4">
-                    We need a few details to generate hyper-relevant intelligence for your business.
-                  </p>
-                </div>
-                
-                <div className="space-y-2 bg-white/60 rounded-lg p-4">
-                  <div className="flex items-center gap-3">
-                    <div className={`h-3 w-3 rounded-full ${hasLocationData ? 'bg-green-500' : 'bg-amber-500 animate-pulse'}`} />
-                    <MapPin className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm font-medium">
-                      {hasLocationData ? `✓ Location: ${displayLocation}` : 'Business Location Required'}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className={`h-3 w-3 rounded-full ${hasIndustryData ? 'bg-green-500' : 'bg-amber-500 animate-pulse'}`} />
-                    <Briefcase className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm font-medium">
-                      {hasIndustryData ? `✓ Industry: ${industry}` : 'Industry Type Required'}
-                    </span>
-                  </div>
-                </div>
-                
-                <p className="text-sm text-amber-700 pt-2">
-                  💡 Use the form above to set your location and industry, then watch your personalized dashboard come to life!
-                </p>
-              </div>
+        <Card className="border-2 border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50 max-w-3xl mx-auto">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-amber-900">
+              <AlertCircle className="h-5 w-5" />
+              Complete Your Profile to Unlock Insights
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <p className="text-amber-800">
+              We need a few details to generate hyper-relevant intelligence for your business. Fill in the fields below to get started:
+            </p>
+
+            {/* Location Input */}
+            <div className="space-y-2">
+              <Label htmlFor="location" className="flex items-center gap-2 text-sm font-semibold">
+                <MapPin className="h-4 w-4" />
+                Service Area / Location
+                {tempLocation && <CheckCircle2 className="h-4 w-4 text-green-600" />}
+              </Label>
+              <LocationInput
+                onLocationSelect={handleLocationSelect}
+              />
+              <p className="text-xs text-muted-foreground">
+                This helps us provide local market insights and competitor analysis.
+              </p>
+            </div>
+
+            {/* Industry Input */}
+            <div className="space-y-2">
+              <Label htmlFor="industry" className="flex items-center gap-2 text-sm font-semibold">
+                <Target className="h-4 w-4" />
+                Industry / Business Type
+                {tempIndustry && <CheckCircle2 className="h-4 w-4 text-green-600" />}
+              </Label>
+              <IndustrySelector
+                value={tempIndustry}
+                onValueChange={handleIndustrySelect}
+              />
+              <p className="text-xs text-muted-foreground">
+                Tell us what services you provide to get industry-specific recommendations.
+              </p>
+            </div>
+
+            <div className="pt-4 border-t border-amber-200">
+              <p className="text-sm text-amber-700">
+                💡 Your dashboard will automatically update as you fill in these details. No need to click save!
+              </p>
             </div>
           </CardContent>
         </Card>

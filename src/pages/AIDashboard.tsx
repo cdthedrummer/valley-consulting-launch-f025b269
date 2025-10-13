@@ -1029,7 +1029,7 @@ What would you like to know about ${location}? For example:
             ) : (
               <>
                 {/* Onboarding Reminder Banner */}
-                {showOnboardingReminder && viewMode === 'dashboard' && (!userLocation || !userIndustry || userLocation === 'Hudson Valley' || userIndustry === 'Construction') && (
+                {showOnboardingReminder && viewMode === 'dashboard' && (!userLocation || !userIndustry || userLocation.trim() === '' || userIndustry.trim() === '') && (
                   <OnboardingReminderBanner
                     currentLocation={userLocation}
                     currentIndustry={userIndustry}
@@ -1127,6 +1127,29 @@ What would you like to know about ${location}? For example:
                         isLoadingProfile={isLoadingProfile}
                         className="max-w-7xl mx-auto"
                         onChatWithPlan={handleChatWithPlan}
+                        onLocationChange={(location, type) => {
+                          setUserLocation(location);
+                          setUserLocationType(type);
+                          if (user) {
+                            supabase.from('business_profiles').upsert({
+                              user_id: user.id,
+                              location: location,
+                            }).then(() => {
+                              toast({ title: "Location saved", description: "Your business location has been updated." });
+                            });
+                          }
+                        }}
+                        onIndustryChange={(industry) => {
+                          setUserIndustry(industry);
+                          if (user) {
+                            supabase.from('business_profiles').upsert({
+                              user_id: user.id,
+                              industry: industry,
+                            }).then(() => {
+                              toast({ title: "Industry saved", description: "Your industry has been updated." });
+                            });
+                          }
+                        }}
                       />
                     ) : (
                       <div className="max-w-5xl mx-auto h-[calc(100vh-16rem)] flex">

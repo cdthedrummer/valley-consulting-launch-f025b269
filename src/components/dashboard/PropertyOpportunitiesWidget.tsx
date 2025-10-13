@@ -170,8 +170,9 @@ export const PropertyOpportunitiesWidget: React.FC<{
       }
     };
 
-    const query = encodeURIComponent(buildQueryAddress(address));
-    safeOpen(`https://www.zillow.com/homes/${query}`);
+    const fullAddress = buildQueryAddress(address);
+    const zillowUrl = `https://www.zillow.com/homes/${encodeURIComponent(fullAddress)}_rb/`;
+    safeOpen(zillowUrl);
   };
 
   const handleGoogleSearch = (address: string) => {
