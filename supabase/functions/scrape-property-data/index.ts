@@ -63,6 +63,44 @@ async function fetchRepliersData(location: string, industry: string) {
   }
 }
 
+// Helper function to calculate distance between two coordinates (Haversine formula)
+const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+  const R = 3959; // Earth's radius in miles
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = 
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
+
+// Helper function to geocode ZIP code to coordinates
+const geocodeZipCode = async (zipCode: string): Promise<{ lat: number; lng: number } | null> => {
+  try {
+    // Using a free geocoding service (nominatim)
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&country=US&format=json&limit=1`,
+      {
+        headers: {
+          'User-Agent': 'PropertyLeadsFinder/1.0'
+        }
+      }
+    );
+    const data = await response.json();
+    if (data && data.length > 0) {
+      return {
+        lat: parseFloat(data[0].lat),
+        lng: parseFloat(data[0].lon)
+      };
+    }
+  } catch (error) {
+    console.error('Geocoding error:', error);
+  }
+  return null;
+};
+
 function calculateOpportunityScore(property: any, industry: string): number {
   let score = 50;
   
@@ -207,6 +245,15 @@ serve(async (req) => {
       );
     }
 
+    // Get coordinates for the location (if it's a ZIP code)
+    let centerCoords: { lat: number; lng: number } | null = null;
+    const isZipCode = /^\d{5}$/.test(location);
+    
+    if (isZipCode) {
+      centerCoords = await geocodeZipCode(location);
+      console.log(`[PROPERTY-DATA] Geocoded ZIP ${location} to:`, centerCoords);
+    }
+
     // Try to fetch from Repliers API
     const repliersListings = await fetchRepliersData(location, industry);
     let propertyData;
@@ -214,26 +261,56 @@ serve(async (req) => {
     if (repliersListings && repliersListings.length > 0) {
       console.log('[PROPERTY-DATA] Using Repliers API data');
       
-      // Transform Repliers data to our format
-      const properties = repliersListings.slice(0, 10).map((listing: any) => ({
-        address: listing.address?.full || listing.location?.address || 'Address unavailable',
-        estimatedValue: listing.price || listing.list_price || 0,
-        yearBuilt: listing.year_built || listing.yearBuilt || null,
-        lastRenovated: null,
-        opportunityScore: calculateOpportunityScore(listing, industry),
-        reason: determineOpportunityReason(listing, industry),
-        homeownerProfile: {
-          estimatedAge: Math.floor(Math.random() * 30) + 35,
-          estimatedIncome: Math.floor(Math.random() * 100000) + 60000,
-          likelyNeeds: ['Maintenance', 'Upgrades', 'Repairs'][Math.floor(Math.random() * 3)]
+      // Transform and filter Repliers data with distance calculation
+      let transformedListings = repliersListings.slice(0, 50).map((listing: any) => {
+        const transformed = {
+          address: listing.address?.full || listing.location?.address || 'Address unavailable',
+          estimatedValue: listing.price || listing.list_price || 0,
+          yearBuilt: listing.year_built || listing.yearBuilt || null,
+          lastRenovated: null,
+          opportunityScore: calculateOpportunityScore(listing, industry),
+          reason: determineOpportunityReason(listing, industry),
+          latitude: listing.latitude || listing.location?.latitude,
+          longitude: listing.longitude || listing.location?.longitude,
+          homeownerProfile: {
+            estimatedAge: Math.floor(Math.random() * 30) + 35,
+            estimatedIncome: Math.floor(Math.random() * 100000) + 60000,
+            likelyNeeds: ['Maintenance', 'Upgrades', 'Repairs'][Math.floor(Math.random() * 3)]
+          }
+        };
+
+        // Calculate distance if we have coordinates
+        if (centerCoords && transformed.latitude && transformed.longitude) {
+          transformed.distance = calculateDistance(
+            centerCoords.lat,
+            centerCoords.lng,
+            transformed.latitude,
+            transformed.longitude
+          );
         }
-      }));
+
+        return transformed;
+      });
+
+      // Filter by distance if we have center coordinates
+      if (centerCoords && isZipCode) {
+        transformedListings = transformedListings
+          .filter((listing: any) => !listing.distance || listing.distance <= 15) // 15 mile radius
+          .sort((a: any, b: any) => {
+            if (!a.distance) return 1;
+            if (!b.distance) return -1;
+            return a.distance - b.distance;
+          });
+        console.log(`[PROPERTY-DATA] Filtered to ${transformedListings.length} properties within 15 miles`);
+      }
+
+      const properties = transformedListings.slice(0, 10);
 
       // Calculate market insights from real data
       const ages = properties
-        .filter(p => p.yearBuilt)
-        .map(p => new Date().getFullYear() - p.yearBuilt!);
-      const avgAge = ages.length > 0 ? Math.floor(ages.reduce((a, b) => a + b, 0) / ages.length) : 40;
+        .filter((p: any) => p.yearBuilt)
+        .map((p: any) => new Date().getFullYear() - p.yearBuilt!);
+      const avgAge = ages.length > 0 ? Math.floor(ages.reduce((a: number, b: number) => a + b, 0) / ages.length) : 40;
 
       propertyData = {
         location,
@@ -241,7 +318,7 @@ serve(async (req) => {
         properties,
         marketInsights: {
           averageHomeAge: avgAge,
-          percentNeedingWork: properties.filter(p => p.opportunityScore > 60).length * 10,
+          percentNeedingWork: properties.filter((p: any) => p.opportunityScore > 60).length * 10,
           topNeeds: ['HVAC replacement', 'Kitchen remodel', 'Bathroom update', 'Roof repair'],
           seasonalTrends: {
             peakSeason: 'Spring',

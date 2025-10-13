@@ -11,7 +11,8 @@ import {
   Users,
   Calendar,
   RefreshCw,
-  ExternalLink
+  ExternalLink,
+  Search
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { motion } from 'framer-motion';
@@ -24,6 +25,7 @@ interface Property {
   lastRenovated: number | null;
   opportunityScore: number;
   reason: string;
+  distance?: number;
   homeownerProfile: {
     estimatedAge: number;
     estimatedIncome: number;
@@ -103,6 +105,21 @@ export const PropertyOpportunitiesWidget: React.FC<{
     if (score >= 75) return 'bg-green-500/10 text-green-500 border-green-500/20';
     if (score >= 50) return 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20';
     return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
+  };
+
+  const handleGoogleMaps = (address: string) => {
+    const encodedAddress = encodeURIComponent(address);
+    window.open(`https://www.google.com/maps/search/?api=1&query=${encodedAddress}`, '_blank');
+  };
+
+  const handleZillowSearch = (address: string) => {
+    const encodedAddress = encodeURIComponent(address);
+    window.open(`https://www.zillow.com/homes/${encodedAddress}`, '_blank');
+  };
+
+  const handleGoogleSearch = (address: string) => {
+    const encodedQuery = encodeURIComponent(`${address} ${industry}`);
+    window.open(`https://www.google.com/search?q=${encodedQuery}`, '_blank');
   };
 
   if (loading) {
@@ -205,12 +222,19 @@ export const PropertyOpportunitiesWidget: React.FC<{
                             <MapPin className="h-3 w-3 text-muted-foreground" />
                             <p className="text-sm font-medium line-clamp-1">{property.address}</p>
                           </div>
-                          <Badge 
-                            variant="outline" 
-                            className={`text-xs ${getOpportunityColor(property.opportunityScore)}`}
-                          >
-                            {Math.round(property.opportunityScore)}% opportunity
-                          </Badge>
+                          <div className="flex gap-2 flex-wrap">
+                            <Badge 
+                              variant="outline" 
+                              className={`text-xs ${getOpportunityColor(property.opportunityScore)}`}
+                            >
+                              {Math.round(property.opportunityScore)}% opportunity
+                            </Badge>
+                            {property.distance && (
+                              <Badge variant="outline" className="text-xs">
+                                📍 {property.distance.toFixed(1)} mi
+                              </Badge>
+                            )}
+                          </div>
                         </div>
                       </div>
 
@@ -229,9 +253,40 @@ export const PropertyOpportunitiesWidget: React.FC<{
                         </div>
                       </div>
 
-                      <div className="p-2 rounded bg-muted/30 mb-2">
+                      <div className="p-2 rounded bg-muted/30 mb-3">
                         <p className="text-xs text-muted-foreground mb-1">Why this property?</p>
                         <p className="text-xs font-medium">{property.reason}</p>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="grid grid-cols-3 gap-2 mb-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleGoogleMaps(property.address)}
+                          className="text-xs h-8"
+                        >
+                          <MapPin className="h-3 w-3 mr-1" />
+                          Maps
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleZillowSearch(property.address)}
+                          className="text-xs h-8"
+                        >
+                          <Home className="h-3 w-3 mr-1" />
+                          Zillow
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleGoogleSearch(property.address)}
+                          className="text-xs h-8"
+                        >
+                          <Search className="h-3 w-3 mr-1" />
+                          Search
+                        </Button>
                       </div>
 
                       <div className="flex items-center justify-between text-xs">

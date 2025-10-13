@@ -13,17 +13,19 @@ import {
 import { cn } from '@/lib/utils';
 import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { DashboardLoading } from '@/components/ui/enhanced-loading';
-import MarketIntelligenceWidget from './MarketIntelligenceWidget';
-import OpportunityMapWidget from './OpportunityMapWidget';
-import IndustryInsightsWidget from './IndustryInsightsWidget';
-import MarketingActionCenter from './MarketingActionCenter';
 import { UserIntelligenceWidget } from './UserIntelligenceWidget';
-import { ChatInsightsWidget } from './ChatInsightsWidget';
-import { CampaignTrackingWidget } from './CampaignTrackingWidget';
-import { InsightsSummaryWidget } from './InsightsSummaryWidget';
 import { PropertyOpportunitiesWidget } from './PropertyOpportunitiesWidget';
-import { CompetitiveIntelWidget } from './CompetitiveIntelWidget';
+import { AIActionCenterWidget } from './AIActionCenterWidget';
+import { SimplifiedMarketWidget } from './SimplifiedMarketWidget';
+import { StreamlinedCompetitiveWidget } from './StreamlinedCompetitiveWidget';
 import { useIntelligenceAnalysis } from '@/hooks/useIntelligenceAnalysis';
+import { 
+  Sparkles, 
+  TrendingUp, 
+  User,
+  Building,
+  Users
+} from 'lucide-react';
 
 interface ResponsiveDashboardProps {
   location?: string;
@@ -54,78 +56,42 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
 
   const widgets = [
     {
-      id: 'insights-summary',
-      title: 'AI Insights',
-      icon: TrendingUp,
-      component: InsightsSummaryWidget,
-      priority: 0
-    },
-    {
-      id: 'user-intelligence',
-      title: 'Your Marketing Intelligence',
-      icon: TrendingUp,
-      component: UserIntelligenceWidget,
-      priority: 1
-    },
-    {
-      id: 'chat-insights',
-      title: 'Chat Insights',
-      icon: TrendingUp,
-      component: ChatInsightsWidget,
-      priority: 2
-    },
-    {
-      id: 'campaign-tracking',
-      title: 'Campaign Performance',
-      icon: TrendingUp,
-      component: CampaignTrackingWidget,
-      priority: 3
-    },
-    {
-      id: 'market-intelligence',
-      title: 'Market Intelligence',
-      icon: TrendingUp,
-      component: MarketIntelligenceWidget,
-      priority: 4
-    },
-    {
-      id: 'industry-insights',
-      title: 'Industry Insights',
-      icon: BarChart3,
-      component: IndustryInsightsWidget,
-      priority: 5
-    },
-    {
-      id: 'competitive-intel',
-      title: 'Competitive Intelligence',
-      icon: TrendingUp,
-      component: CompetitiveIntelWidget,
-      priority: 5,
-      requiresProfile: true
+      id: 'ai-action-center',
+      title: 'AI Action Center',
+      icon: Sparkles,
+      component: AIActionCenterWidget,
+      priority: 1,
+      isHero: true,
     },
     {
       id: 'property-opportunities',
-      title: 'Property Opportunities',
-      icon: MapPin,
+      title: 'Property Leads',
+      icon: Building,
       component: PropertyOpportunitiesWidget,
-      priority: 6,
-      requiresProfile: true
+      priority: 2,
     },
     {
-      id: 'opportunity-map',
-      title: 'Opportunity Map',
-      icon: MapPin,
-      component: OpportunityMapWidget,
-      priority: 7,
-      requiresProfile: true
+      id: 'market-snapshot',
+      title: 'Market Snapshot',
+      icon: TrendingUp,
+      component: SimplifiedMarketWidget,
+      priority: 3,
     },
     {
-      id: 'marketing-action-center',
-      title: 'Marketing Action Center',
-      icon: Lightbulb,
-      component: MarketingActionCenter,
-      priority: 8
-    }
+      id: 'competitive-edge',
+      title: 'Competitive Edge',
+      icon: Users,
+      component: StreamlinedCompetitiveWidget,
+      priority: 4,
+    },
+    {
+      id: 'user-intelligence',
+      title: 'Your Intelligence',
+      icon: User,
+      component: UserIntelligenceWidget,
+      priority: 5,
+      requiresProfile: true,
+    },
   ];
 
 
@@ -271,17 +237,36 @@ Can you help me understand how to implement each of these components step by ste
 
       {/* Widgets Container */}
       <AnimatePresence mode="wait">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="grid grid-cols-1 gap-4"
-        >
+        {/* Hero Widget - AI Action Center */}
+        {widgets.filter(w => w.isHero).map((widget) => (
+          <motion.div
+            key={widget.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="mb-6"
+          >
+            {renderWidget(widget, false)}
+          </motion.div>
+        ))}
+
+        {/* Main Grid - Other Widgets */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
           {widgets
-            .filter((widget: any) => !widget.requiresProfile || hasCompleteProfile)
+            .filter((widget: any) => !widget.isHero && (!widget.requiresProfile || hasCompleteProfile))
             .sort((a, b) => a.priority - b.priority)
-            .map((widget, index) => renderWidget(widget, index))}
-        </motion.div>
+            .map((widget) => (
+              <motion.div
+                key={widget.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                {renderWidget(widget, false)}
+              </motion.div>
+            ))}
+        </div>
       </AnimatePresence>
 
       {/* Action Items - Always visible at bottom */}
