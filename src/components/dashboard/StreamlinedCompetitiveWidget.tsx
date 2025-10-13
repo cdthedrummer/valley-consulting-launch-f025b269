@@ -80,10 +80,15 @@ export const StreamlinedCompetitiveWidget: React.FC<StreamlinedCompetitiveWidget
   };
 
   const handleSearchCompetitors = (competitorNames: string[]) => {
-    const query = encodeURIComponent(`${competitorNames.join(' ')} reviews`);
-    window.open(`https://www.google.com/search?q=${query}`, '_blank');
+    const base = competitorNames.length ? `${competitorNames.join(' ')} reviews` : `${industry} competitors`;
+    const query = encodeURIComponent(`${base} near ${location}`);
+    const url = `https://www.google.com/search?q=${query}`;
+    const win = window.open(url, '_blank', 'noopener,noreferrer');
+    if (!win) {
+      navigator.clipboard?.writeText(url);
+      console.info('Pop-up blocked. URL copied to clipboard:', url);
+    }
   };
-
   const handleImplementStrategy = (gap: any) => {
     if (onChatWithPlan) {
       onChatWithPlan(`Help me implement a strategy for: ${gap.opportunity}`);

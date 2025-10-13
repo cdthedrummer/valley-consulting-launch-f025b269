@@ -66,9 +66,36 @@ export const PropertyOpportunitiesWidget: React.FC<{
   const [refreshing, setRefreshing] = useState(false);
   const { toast } = useToast();
 
+  const homeServices = [
+    'General Contracting',
+    'HVAC Services',
+    'Plumbing',
+    'Electrical Services',
+    'Roofing',
+    'Flooring',
+    'Kitchen & Bath Remodeling',
+    'Deck & Patio Construction',
+    'Fencing',
+    'Landscaping',
+    'Painting',
+    'Windows & Doors',
+    'Siding',
+    'Concrete & Masonry',
+    'Pool Services',
+    'Solar Installation',
+    'Home Security',
+    'Cleaning Services'
+  ];
+  const isHomeServices = homeServices.some(s => s.toLowerCase() === (industry || '').toLowerCase());
+
   useEffect(() => {
-    loadPropertyData();
-  }, [location, industry]);
+    if (isHomeServices) {
+      loadPropertyData();
+    } else {
+      setLoading(false);
+      setData(null);
+    }
+  }, [location, industry, isHomeServices]);
 
   const loadPropertyData = async () => {
     try {
@@ -108,18 +135,63 @@ export const PropertyOpportunitiesWidget: React.FC<{
   };
 
   const handleGoogleMaps = (address: string) => {
-    const encodedAddress = encodeURIComponent(address);
-    window.open(`https://www.google.com/maps/search/?api=1&query=${encodedAddress}`, '_blank');
+    const buildQueryAddress = (addr: string) => {
+      const hasComma = addr.includes(',');
+      const hasZip = /\d{5}/.test(addr);
+      const hasState = /\b[A-Z]{2}\b/.test(addr);
+      return hasComma || hasZip || hasState ? addr : `${addr}, ${location}`;
+    };
+
+    const safeOpen = (url: string) => {
+      const win = window.open(url, '_blank', 'noopener,noreferrer');
+      if (!win) {
+        navigator.clipboard?.writeText(url);
+        toast({ title: 'Link copied', description: 'Open it in a new tab if popup was blocked.' });
+      }
+    };
+
+    const query = encodeURIComponent(buildQueryAddress(address));
+    safeOpen(`https://www.google.com/maps/search/?api=1&query=${query}`);
   };
 
   const handleZillowSearch = (address: string) => {
-    const encodedAddress = encodeURIComponent(address);
-    window.open(`https://www.zillow.com/homes/${encodedAddress}`, '_blank');
+    const buildQueryAddress = (addr: string) => {
+      const hasComma = addr.includes(',');
+      const hasZip = /\d{5}/.test(addr);
+      const hasState = /\b[A-Z]{2}\b/.test(addr);
+      return hasComma || hasZip || hasState ? addr : `${addr}, ${location}`;
+    };
+
+    const safeOpen = (url: string) => {
+      const win = window.open(url, '_blank', 'noopener,noreferrer');
+      if (!win) {
+        navigator.clipboard?.writeText(url);
+        toast({ title: 'Link copied', description: 'Open it in a new tab if popup was blocked.' });
+      }
+    };
+
+    const query = encodeURIComponent(buildQueryAddress(address));
+    safeOpen(`https://www.zillow.com/homes/${query}`);
   };
 
   const handleGoogleSearch = (address: string) => {
-    const encodedQuery = encodeURIComponent(`${address} ${industry}`);
-    window.open(`https://www.google.com/search?q=${encodedQuery}`, '_blank');
+    const buildQueryAddress = (addr: string) => {
+      const hasComma = addr.includes(',');
+      const hasZip = /\d{5}/.test(addr);
+      const hasState = /\b[A-Z]{2}\b/.test(addr);
+      return hasComma || hasZip || hasState ? addr : `${addr}, ${location}`;
+    };
+
+    const safeOpen = (url: string) => {
+      const win = window.open(url, '_blank', 'noopener,noreferrer');
+      if (!win) {
+        navigator.clipboard?.writeText(url);
+        toast({ title: 'Link copied', description: 'Open it in a new tab if popup was blocked.' });
+      }
+    };
+
+    const encodedQuery = encodeURIComponent(`${buildQueryAddress(address)} ${industry}`.trim());
+    safeOpen(`https://www.google.com/search?q=${encodedQuery}`);
   };
 
   if (loading) {

@@ -20,6 +20,7 @@ interface ResponsiveDashboardProps {
   location?: string;
   locationType?: 'zipcode' | 'county' | null;
   industry?: string;
+  businessName?: string;
   className?: string;
   onChatWithPlan?: (planContent: string) => void;
 }

@@ -61,9 +61,14 @@ export const SimplifiedMarketWidget: React.FC<SimplifiedMarketWidgetProps> = ({
 
   const handleSearchCompetitors = () => {
     const query = encodeURIComponent(`${industry} near ${location}`);
-    window.open(`https://www.google.com/search?q=${query}`, '_blank');
+    const url = `https://www.google.com/search?q=${query}`;
+    const win = window.open(url, '_blank', 'noopener,noreferrer');
+    if (!win) {
+      navigator.clipboard?.writeText(url);
+      // Minimal toast-free fallback to avoid extra deps here
+      console.info('Pop-up blocked. URL copied to clipboard:', url);
+    }
   };
-
   if (isLoading) {
     return (
       <Card className={className}>
