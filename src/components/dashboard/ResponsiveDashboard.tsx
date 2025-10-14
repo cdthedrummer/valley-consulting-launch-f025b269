@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Label } from '@/components/ui/label';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Sparkles, 
@@ -13,8 +12,7 @@ import {
   Briefcase,
   AlertCircle,
   Loader2,
-  CheckCircle2,
-  Target
+  ArrowUp
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { UserIntelligenceWidget } from './UserIntelligenceWidget';
@@ -23,8 +21,6 @@ import { AIActionCenterWidget } from './AIActionCenterWidget';
 import { SimplifiedMarketWidget } from './SimplifiedMarketWidget';
 import { StreamlinedCompetitiveWidget } from './StreamlinedCompetitiveWidget';
 import { useIntelligenceAnalysis } from '@/hooks/useIntelligenceAnalysis';
-import LocationInput from '@/components/LocationInput';
-import IndustrySelector from '@/components/IndustrySelector';
 
 interface ResponsiveDashboardProps {
   location?: string;
@@ -46,12 +42,7 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
   isLoadingProfile = false,
   className,
   onChatWithPlan,
-  onLocationChange,
-  onIndustryChange,
 }) => {
-  const [focusedWidget, setFocusedWidget] = useState<string | null>(null);
-  const [tempLocation, setTempLocation] = useState(location || '');
-  const [tempIndustry, setTempIndustry] = useState(industry || '');
   
   // Trigger background intelligence analysis
   useIntelligenceAnalysis();
@@ -59,19 +50,7 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
   const displayLocation = locationType === 'zipcode' ? `ZIP ${location}` : location;
   
   // Simplified gating checks - just check if data exists
-  const hasLocationData = location && location.trim() !== '';
-  const hasIndustryData = industry && industry.trim() !== '';
-  const hasCompleteProfile = hasLocationData && hasIndustryData;
-
-  const handleLocationSelect = (loc: string, type: 'zipcode' | 'county') => {
-    setTempLocation(loc);
-    onLocationChange?.(loc, type);
-  };
-
-  const handleIndustrySelect = (ind: string) => {
-    setTempIndustry(ind);
-    onIndustryChange?.(ind);
-  };
+  const hasCompleteProfile = location && location.trim() !== '' && industry && industry.trim() !== '';
 
   const widgets = [
     {
@@ -262,54 +241,21 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
         </CardContent>
       </Card>
 
-      {/* Profile Completion Gate with Inline Forms */}
+      {/* Profile Completion Gate - Simple Message */}
       {!hasCompleteProfile ? (
-        <Card className="border-2 border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50 max-w-3xl mx-auto">
+        <Card className="border-amber-200 bg-amber-50/50">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-amber-900">
               <AlertCircle className="h-5 w-5" />
-              Complete Your Profile to Unlock Insights
+              Complete Your Profile Above
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <p className="text-amber-800">
-              We need a few details to generate hyper-relevant intelligence for your business. Fill in the fields below to get started:
-            </p>
-
-            {/* Location Input */}
-            <div className="space-y-2">
-              <Label htmlFor="location" className="flex items-center gap-2 text-sm font-semibold">
-                <MapPin className="h-4 w-4" />
-                Service Area / Location
-                {tempLocation && <CheckCircle2 className="h-4 w-4 text-green-600" />}
-              </Label>
-              <LocationInput
-                onLocationSelect={handleLocationSelect}
-              />
-              <p className="text-xs text-muted-foreground">
-                This helps us provide local market insights and competitor analysis.
-              </p>
-            </div>
-
-            {/* Industry Input */}
-            <div className="space-y-2">
-              <Label htmlFor="industry" className="flex items-center gap-2 text-sm font-semibold">
-                <Target className="h-4 w-4" />
-                Industry / Business Type
-                {tempIndustry && <CheckCircle2 className="h-4 w-4 text-green-600" />}
-              </Label>
-              <IndustrySelector
-                value={tempIndustry}
-                onValueChange={handleIndustrySelect}
-              />
-              <p className="text-xs text-muted-foreground">
-                Tell us what services you provide to get industry-specific recommendations.
-              </p>
-            </div>
-
-            <div className="pt-4 border-t border-amber-200">
-              <p className="text-sm text-amber-700">
-                💡 Your dashboard will automatically update as you fill in these details. No need to click save!
+          <CardContent className="space-y-4 text-center py-8">
+            <div className="flex flex-col items-center gap-3">
+              <ArrowUp className="h-8 w-8 text-amber-600 animate-bounce" />
+              <p className="text-sm text-amber-800 max-w-md">
+                Click the banner above to enter your business location and industry. 
+                This unlocks personalized market insights, competitive intelligence, and AI-powered recommendations.
               </p>
             </div>
           </CardContent>
@@ -331,10 +277,10 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
           </motion.div>
         ))}
 
-        {/* Main Grid - Other Widgets */}
+        {/* Main Grid - Other Widgets (excluding property) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
           {widgets
-            .filter((widget: any) => !widget.isHero && (!widget.requiresProfile || hasCompleteProfile))
+            .filter((widget: any) => !widget.isHero && widget.id !== 'property-opportunities' && (!widget.requiresProfile || hasCompleteProfile))
             .sort((a, b) => a.priority - b.priority)
             .map((widget) => (
               <motion.div

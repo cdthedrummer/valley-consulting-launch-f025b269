@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Lightbulb, X, CheckCircle2 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Lightbulb, X, CheckCircle2, Building2, Edit, MapPin, Briefcase } from 'lucide-react';
 import LocationInput from './LocationInput';
 import IndustrySelector from './IndustrySelector';
 
 interface OnboardingReminderBannerProps {
   currentLocation?: string;
   currentIndustry?: string;
+  businessName?: string;
   hasLocationData: boolean;
   hasIndustryData: boolean;
   onLocationChange: (location: string, type: 'zipcode' | 'county') => void;
@@ -18,6 +20,7 @@ interface OnboardingReminderBannerProps {
 const OnboardingReminderBanner: React.FC<OnboardingReminderBannerProps> = ({
   currentLocation,
   currentIndustry,
+  businessName,
   hasLocationData,
   hasIndustryData,
   onLocationChange,
@@ -27,6 +30,7 @@ const OnboardingReminderBanner: React.FC<OnboardingReminderBannerProps> = ({
   const [localLocation, setLocalLocation] = useState(currentLocation);
   const [localIndustry, setLocalIndustry] = useState(currentIndustry);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(!hasLocationData || !hasIndustryData);
 
   const handleLocationSelect = (location: string, type: 'zipcode' | 'county') => {
     setLocalLocation(location);
@@ -56,7 +60,7 @@ const OnboardingReminderBanner: React.FC<OnboardingReminderBannerProps> = ({
 
   if (showSuccess) {
     return (
-      <Card className="mx-4 my-3 border-2 border-green-200 bg-gradient-to-r from-green-50 to-emerald-50">
+      <Card className="mx-4 my-3 sticky top-0 z-10 border-2 border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 backdrop-blur-sm">
         <CardContent className="pt-6">
           <div className="flex items-center gap-4">
             <div className="p-3 rounded-full bg-green-100">
@@ -74,8 +78,42 @@ const OnboardingReminderBanner: React.FC<OnboardingReminderBannerProps> = ({
     );
   }
 
+  // Collapsed view when profile is complete
+  if (!isExpanded && hasLocationData && hasIndustryData) {
+    return (
+      <Card className="mx-4 my-3 sticky top-0 z-10 backdrop-blur-sm border-primary/20">
+        <CardContent className="py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Building2 className="h-5 w-5 text-primary" />
+              <span className="font-medium">{businessName || 'Your Business'}</span>
+              <Badge variant="secondary" className="gap-1">
+                <MapPin className="h-3 w-3" />
+                {currentLocation}
+              </Badge>
+              <Badge variant="secondary" className="gap-1">
+                <Briefcase className="h-3 w-3" />
+                {currentIndustry}
+              </Badge>
+            </div>
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={() => setIsExpanded(true)}
+              className="gap-2"
+            >
+              <Edit className="h-4 w-4" />
+              Edit Profile
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Expanded view for setup/editing
   return (
-    <Card className="mx-4 my-3 border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5">
+    <Card className="mx-4 my-3 sticky top-0 z-10 border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5 backdrop-blur-sm">
       <CardContent className="pt-6">
         <div className="space-y-4">
           {/* Header */}
@@ -85,18 +123,34 @@ const OnboardingReminderBanner: React.FC<OnboardingReminderBannerProps> = ({
             </div>
             <div className="flex-1">
               <div className="flex items-center justify-between mb-2">
-                <h3 className="font-semibold text-lg">Complete Your Profile for Better Insights</h3>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={onDismiss}
-                  className="h-8 w-8 p-0 hover:bg-primary/10"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
+                <h3 className="font-semibold text-lg">
+                  {hasLocationData && hasIndustryData ? 'Edit Your Profile' : 'Complete Your Profile for Better Insights'}
+                </h3>
+                <div className="flex gap-2">
+                  {hasLocationData && hasIndustryData && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsExpanded(false)}
+                      className="h-8"
+                    >
+                      Done
+                    </Button>
+                  )}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={onDismiss}
+                    className="h-8 w-8 p-0 hover:bg-primary/10"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
               <p className="text-sm text-muted-foreground">
-                To unlock property opportunities, competitive intelligence, and location-specific insights, complete the fields below.
+                {hasLocationData && hasIndustryData 
+                  ? 'Update your business information to refine your dashboard insights.'
+                  : 'To unlock competitive intelligence and location-specific insights, complete the fields below.'}
               </p>
             </div>
           </div>

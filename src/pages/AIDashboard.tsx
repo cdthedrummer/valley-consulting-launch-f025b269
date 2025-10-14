@@ -80,7 +80,19 @@ const AIDashboard: React.FC = () => {
   const [maxRequests, setMaxRequests] = useState<number>(200);
   const [savedBusinessProfile, setSavedBusinessProfile] = useState<any>(null);
   const [isLoadingProfile, setIsLoadingProfile] = useState<boolean>(true);
+  const [userBusinessName, setUserBusinessName] = useState<string>('');
   const isMobile = useIsMobile();
+
+  // Save state to sessionStorage to persist across external link clicks
+  useEffect(() => {
+    if (userLocation || userIndustry || userBusinessName) {
+      sessionStorage.setItem('dashboardState', JSON.stringify({
+        location: userLocation,
+        industry: userIndustry,
+        businessName: userBusinessName
+      }));
+    }
+  }, [userLocation, userIndustry, userBusinessName]);
 
   useEffect(() => {
     checkSubscriptionAccess();
@@ -96,6 +108,15 @@ const AIDashboard: React.FC = () => {
   const loadBusinessProfile = async () => {
     setIsLoadingProfile(true);
     try {
+      // Try to restore from sessionStorage first
+      const savedState = sessionStorage.getItem('dashboardState');
+      if (savedState) {
+        const state = JSON.parse(savedState);
+        if (state.location) setUserLocation(state.location);
+        if (state.industry) setUserIndustry(state.industry);
+        if (state.businessName) setUserBusinessName(state.businessName);
+      }
+
       const { data, error } = await supabase
         .from('business_profiles')
         .select('*')
@@ -112,7 +133,9 @@ const AIDashboard: React.FC = () => {
         setSavedBusinessProfile(data);
         // Auto-populate context from saved profile
         setUserLocation(data.location || '');
+        setUserLocationType(data.location?.match(/^\d{5}$/) ? 'zipcode' : 'county');
         setUserIndustry(data.industry || '');
+        setUserBusinessName(data.business_name || '');
         setUserMarketingGoal(data.marketing_goal || '');
         setUserMonthlyBudget(data.monthly_budget || '');
         setUserIdealCustomers(data.ideal_customers || '');
@@ -1028,53 +1051,73 @@ What would you like to know about ${location}? For example:
               </div>
             ) : (
               <>
-                {/* Onboarding Reminder Banner */}
-                {showOnboardingReminder && viewMode === 'dashboard' && (!userLocation || !userIndustry || userLocation.trim() === '' || userIndustry.trim() === '') && (
-                  <OnboardingReminderBanner
-                    currentLocation={userLocation}
-                    currentIndustry={userIndustry}
-                    hasLocationData={!!userLocation}
-                    hasIndustryData={!!userIndustry}
-                    onLocationChange={(location, type) => {
-                      setUserLocation(location);
-                      setUserLocationType(type);
-                      // Save to business profile
-                      if (user) {
-                        supabase
-                          .from('business_profiles')
-                          .upsert({
-                            user_id: user.id,
-                            location: location,
-                          })
-                          .then(() => {
-                            toast({
-                              title: "Location saved",
-                              description: "Your business location has been updated.",
-                            });
-                          });
-                      }
-                    }}
-                    onIndustryChange={(industry) => {
-                      setUserIndustry(industry);
-                      // Save to business profile
-                      if (user) {
-                        supabase
-                          .from('business_profiles')
-                          .upsert({
-                            user_id: user.id,
-                            industry: industry,
-                          })
-                          .then(() => {
-                            toast({
-                              title: "Industry saved",
-                              description: "Your industry has been updated.",
-                            });
-                          });
-                      }
-                    }}
-                    onDismiss={handleDismissOnboardingReminder}
-                  />
-                )}
+            {/* Onboarding Reminder Banner - Always Show for Editing */}
+            {showOnboardingReminder && viewMode === 'dashboard' && (
+              <OnboardingReminderBanner
+                currentLocation={userLocation}
+                currentIndustry={userIndustry}
+                businessName={userBusinessName}
+                hasLocationData={!!userLocation && userLocation.trim() !== ''}
+                hasIndustryData={!!userIndustry && userIndustry.trim() !== ''}
+                onLocationChange={async (location, type) => {
+                  setUserLocation(location);
+                  setUserLocationType(type);
+                  
+                  if (user) {
+                    try {
+                      const { error } = await supabase
+                        .from('business_profiles')
+                        .upsert({
+                          user_id: user.id,
+                          location,
+                          updated_at: new Date().toISOString()
+                        }, {
+                          onConflict: 'user_id'
+                        });
+
+                      if (error) throw error;
+                      
+                      toast({
+                        title: "Location saved",
+                        description: "Your business location has been updated",
+                      });
+                    } catch (error) {
+                      console.error('Error saving location:', error);
+                    }
+                  }
+                }}
+                onIndustryChange={async (industry) => {
+                  setUserIndustry(industry);
+                  
+                  if (user) {
+                    try {
+                      const { error } = await supabase
+                        .from('business_profiles')
+                        .upsert({
+                          user_id: user.id,
+                          industry,
+                          updated_at: new Date().toISOString()
+                        }, {
+                          onConflict: 'user_id'
+                        });
+
+                      if (error) throw error;
+                      
+                      toast({
+                        title: "Industry saved",
+                        description: "Your industry has been updated",
+                      });
+                    } catch (error) {
+                      console.error('Error saving industry:', error);
+                    }
+                  }
+                }}
+                onDismiss={() => {
+                  setShowOnboardingReminder(false);
+                  localStorage.setItem('dismissedOnboardingReminder', 'true');
+                }}
+              />
+            )}
 
                 {subscriptionInfo && (
                   <div className="space-y-3 flex-shrink-0">
