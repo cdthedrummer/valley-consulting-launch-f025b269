@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Lightbulb, X, CheckCircle2, Building2, Edit, MapPin, Briefcase } from 'lucide-react';
+import { Lightbulb, X, CheckCircle2, Building2, Edit, MapPin, Briefcase, AlertCircle } from 'lucide-react';
 import LocationInput from './LocationInput';
 import IndustrySelector from './IndustrySelector';
 
@@ -78,24 +78,37 @@ const OnboardingReminderBanner: React.FC<OnboardingReminderBannerProps> = ({
     );
   }
 
-  // Collapsed view when profile is complete
+  // Collapsed view when profile is complete - shows business info with edit capability
   if (!isExpanded && hasLocationData && hasIndustryData) {
     return (
-      <Card className="mx-4 my-3 sticky top-0 z-10 backdrop-blur-sm border-primary/20">
-        <CardContent className="py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Building2 className="h-5 w-5 text-primary" />
-              <span className="font-medium">{businessName || 'Your Business'}</span>
-              <Badge variant="secondary" className="gap-1">
-                <MapPin className="h-3 w-3" />
-                {currentLocation}
-              </Badge>
-              <Badge variant="secondary" className="gap-1">
-                <Briefcase className="h-3 w-3" />
-                {currentIndustry}
-              </Badge>
+      <Card className="mx-4 my-3 sticky top-0 z-10 backdrop-blur-sm border-2 border-primary/20 bg-gradient-to-r from-primary/5 via-background to-accent/5">
+        <CardContent className="py-4">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex items-center gap-2">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Building2 className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <div className="text-xs text-muted-foreground">Intelligence Dashboard For</div>
+                  <div className="font-bold text-lg text-foreground">
+                    {businessName || 'Your Business'}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <Badge variant="secondary" className="gap-1.5">
+                  <Briefcase className="h-3 w-3" />
+                  {currentIndustry}
+                </Badge>
+                <Badge variant="outline" className="gap-1.5">
+                  <MapPin className="h-3 w-3" />
+                  {currentLocation}
+                </Badge>
+              </div>
             </div>
+            
             <Button 
               variant="ghost" 
               size="sm"
@@ -105,6 +118,42 @@ const OnboardingReminderBanner: React.FC<OnboardingReminderBannerProps> = ({
               <Edit className="h-4 w-4" />
               Edit Profile
             </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Collapsed view when profile is INCOMPLETE - shows setup required with click to expand
+  if (!isExpanded && (!hasLocationData || !hasIndustryData)) {
+    return (
+      <Card 
+        className="mx-4 my-3 sticky top-0 z-10 backdrop-blur-sm border-2 border-amber-200 bg-gradient-to-r from-amber-50 via-background to-orange-50 cursor-pointer hover:border-amber-300 transition-colors"
+        onClick={() => setIsExpanded(true)}
+      >
+        <CardContent className="py-4">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex items-center gap-2">
+                <div className="p-2 rounded-lg bg-amber-100">
+                  <Building2 className="h-5 w-5 text-amber-600" />
+                </div>
+                <div>
+                  <div className="text-xs text-muted-foreground">Intelligence Dashboard For</div>
+                  <div className="font-bold text-lg text-foreground">
+                    {businessName || 'Your Business'}
+                  </div>
+                </div>
+              </div>
+              
+              <Badge 
+                variant="destructive" 
+                className="gap-1.5 cursor-pointer"
+              >
+                <AlertCircle className="h-3 w-3" />
+                Setup Required - Click to Complete
+              </Badge>
+            </div>
           </div>
         </CardContent>
       </Card>

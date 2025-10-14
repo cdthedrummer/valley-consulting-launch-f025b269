@@ -1051,8 +1051,8 @@ What would you like to know about ${location}? For example:
               </div>
             ) : (
               <>
-            {/* Onboarding Reminder Banner - Always Show for Editing */}
-            {showOnboardingReminder && viewMode === 'dashboard' && (
+            {/* Onboarding Reminder Banner - Always Show at Top (above dashboard title) */}
+            {viewMode === 'dashboard' && (
               <OnboardingReminderBanner
                 currentLocation={userLocation}
                 currentIndustry={userIndustry}
@@ -1153,14 +1153,6 @@ What would you like to know about ${location}? For example:
                 {/* Content Area */}
                 <div className="flex-1 overflow-y-auto">
                   <div className="container mx-auto px-4 py-6">
-                    {/* Dashboard Title */}
-                    <div className="mb-6">
-                      <h1 className="text-2xl md:text-3xl font-bold mb-2">Market Intelligence Dashboard</h1>
-                      <p className="text-muted-foreground">
-                        Real-time insights for {userIndustry || 'contractor'} businesses in {userLocation || 'Hudson Valley'}
-                      </p>
-                    </div>
-
                     {viewMode === 'dashboard' ? (
                       <DashboardWithControls
                         userLocation={userLocation}

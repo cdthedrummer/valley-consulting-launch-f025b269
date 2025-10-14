@@ -182,35 +182,24 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       transition={{ duration: 0.5 }}
       className={cn("space-y-3 md:space-y-4", className)}
     >
-      {/* Business Context Header - Always Visible */}
-      <Card className={cn(
-        "border-2 sticky top-0 z-10 backdrop-blur-sm",
-        hasCompleteProfile 
-          ? "border-primary/20 bg-gradient-to-r from-primary/5 via-background to-accent/5"
-          : "border-amber-200 bg-gradient-to-r from-amber-50 via-background to-orange-50"
-      )}>
-        <CardContent className="py-4">
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <div className="flex items-center gap-4 flex-wrap">
-              <div className="flex items-center gap-2">
-                <div className={cn(
-                  "p-2 rounded-lg",
-                  hasCompleteProfile ? "bg-primary/10" : "bg-amber-100"
-                )}>
-                  <Building className={cn(
-                    "h-5 w-5",
-                    hasCompleteProfile ? "text-primary" : "text-amber-600"
-                  )} />
-                </div>
-                <div>
-                  <div className="text-xs text-muted-foreground">Intelligence Dashboard For</div>
-                  <div className="font-bold text-lg text-foreground">
-                    {businessName || 'Your Business'}
+      {/* Business Context Header - Only show when profile is complete */}
+      {hasCompleteProfile && (
+        <Card className="border-2 border-primary/20 bg-gradient-to-r from-primary/5 via-background to-accent/5 sticky top-0 z-10 backdrop-blur-sm">
+          <CardContent className="py-4">
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <div className="flex items-center gap-4 flex-wrap">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 rounded-lg bg-primary/10">
+                    <Building className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-muted-foreground">Intelligence Dashboard For</div>
+                    <div className="font-bold text-lg text-foreground">
+                      {businessName || 'Your Business'}
+                    </div>
                   </div>
                 </div>
-              </div>
-              
-              {hasCompleteProfile ? (
+                
                 <div className="flex items-center gap-2">
                   <Badge variant="secondary" className="gap-1.5">
                     <Briefcase className="h-3 w-3" />
@@ -221,46 +210,21 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
                     {displayLocation}
                   </Badge>
                 </div>
-              ) : (
-                <Badge variant="destructive" className="gap-1.5">
-                  <AlertCircle className="h-3 w-3" />
-                  Setup Required
-                </Badge>
-              )}
-            </div>
-            
-            {hasCompleteProfile && (
+              </div>
+              
               <div className="text-right hidden lg:block">
                 <div className="text-xs font-medium text-muted-foreground/80">Data Sources</div>
                 <div className="text-xs text-muted-foreground/60">
                   US Census • Local Data • Market Analysis
                 </div>
               </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Profile Completion Gate - Simple Message */}
-      {!hasCompleteProfile ? (
-        <Card className="border-amber-200 bg-amber-50/50">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-amber-900">
-              <AlertCircle className="h-5 w-5" />
-              Complete Your Profile Above
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4 text-center py-8">
-            <div className="flex flex-col items-center gap-3">
-              <ArrowUp className="h-8 w-8 text-amber-600 animate-bounce" />
-              <p className="text-sm text-amber-800 max-w-md">
-                Click the banner above to enter your business location and industry. 
-                This unlocks personalized market insights, competitive intelligence, and AI-powered recommendations.
-              </p>
             </div>
           </CardContent>
         </Card>
-      ) : (
+      )}
+
+      {/* Widgets - Only show when profile is complete */}
+      {hasCompleteProfile ? (
         <>
           {/* Widgets Container */}
           <AnimatePresence mode="wait">
@@ -328,12 +292,12 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
         </CardContent>
       </Card>
 
-          {/* Data Attribution */}
-          <div className="text-xs text-muted-foreground text-center py-2">
-            Data powered by US Census Bureau, American Community Survey, and County Business Patterns
-          </div>
+      {/* Data Attribution */}
+      <div className="text-xs text-muted-foreground text-center py-2">
+        Data powered by US Census Bureau, American Community Survey, and County Business Patterns
+      </div>
         </>
-      )}
+      ) : null}
     </motion.div>
   );
 };
