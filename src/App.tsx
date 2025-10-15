@@ -36,6 +36,7 @@ import Consulting from "./pages/services/Consulting";
 import Testimonials from "./pages/Testimonials";
 import Terms from "./pages/Terms";
 import Refunds from "./pages/Refunds";
+import Sitemap from "./pages/Sitemap";
 import ScrollToTop from "./components/ScrollToTop";
 import BackToTopButton from "./components/BackToTopButton";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -96,6 +97,7 @@ function App() {
                   <Route path="/testimonials" element={<Testimonials />} />
                   <Route path="/terms" element={<Terms />} />
                   <Route path="/refunds" element={<Refunds />} />
+                  <Route path="/sitemap" element={<Sitemap />} />
                   <Route path="/industries" element={<IndustriesIndex />} />
                   <Route path="/industries/hvac" element={<HVAC />} />
                   <Route path="/industries/plumbing" element={<Plumbing />} />
