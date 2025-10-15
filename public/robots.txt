@@ -1,27 +1,48 @@
-
-# Allow all search engine bots to access the entire site
+# Allow all search engine bots to access public pages
 User-agent: *
 Allow: /
+Disallow: /ai-dashboard
+Disallow: /ai-copilot
+Disallow: /auth
+Disallow: /payment-success
+Disallow: /trial-expired
+Disallow: /ai-dashboard-sell-in
 
 # Specific rules for major search engines
 User-agent: Googlebot
 Allow: /
+Disallow: /ai-dashboard
+Disallow: /ai-copilot
+Disallow: /auth
+Disallow: /payment-success
+Disallow: /trial-expired
+Disallow: /ai-dashboard-sell-in
 
 User-agent: Bingbot
 Allow: /
+Disallow: /ai-dashboard
+Disallow: /ai-copilot
+Disallow: /auth
+Disallow: /payment-success
+Disallow: /trial-expired
+Disallow: /ai-dashboard-sell-in
 
-User-agent: Yandexbot
-Allow: /
-
-User-agent: DuckDuckBot
-Allow: /
-
-# Social media crawlers
+# Social media crawlers (keep public pages only)
 User-agent: Twitterbot
 Allow: /
+Disallow: /ai-dashboard
+Disallow: /ai-copilot
+Disallow: /auth
+Disallow: /payment-success
+Disallow: /trial-expired
 
 User-agent: facebookexternalhit
 Allow: /
+Disallow: /ai-dashboard
+Disallow: /ai-copilot
+Disallow: /auth
+Disallow: /payment-success
+Disallow: /trial-expired
 
 # Sitemap location
 Sitemap: https://hudsonvalleycg.com/sitemap.xml
