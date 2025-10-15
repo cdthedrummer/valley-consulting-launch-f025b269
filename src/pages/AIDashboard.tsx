@@ -1063,6 +1063,9 @@ What would you like to know about ${location}? For example:
                   setUserLocation(location);
                   setUserLocationType(type);
                   
+                  // Update sessionStorage for persistence
+                  sessionStorage.setItem('userLocation', location);
+                  
                   if (user) {
                     try {
                       const { error } = await supabase
@@ -1077,17 +1080,28 @@ What would you like to know about ${location}? For example:
 
                       if (error) throw error;
                       
+                      // Reload profile to refresh all state including business name
+                      await loadBusinessProfile();
+                      
                       toast({
                         title: "Location saved",
-                        description: "Your business location has been updated",
+                        description: "Your business location has been updated. Chat will now use this location.",
                       });
                     } catch (error) {
                       console.error('Error saving location:', error);
+                      toast({
+                        title: "Error",
+                        description: "Failed to save location. Please try again.",
+                        variant: "destructive",
+                      });
                     }
                   }
                 }}
                 onIndustryChange={async (industry) => {
                   setUserIndustry(industry);
+                  
+                  // Update sessionStorage for persistence
+                  sessionStorage.setItem('userIndustry', industry);
                   
                   if (user) {
                     try {
@@ -1103,12 +1117,20 @@ What would you like to know about ${location}? For example:
 
                       if (error) throw error;
                       
+                      // Reload profile to refresh all state including business name
+                      await loadBusinessProfile();
+                      
                       toast({
                         title: "Industry saved",
-                        description: "Your industry has been updated",
+                        description: "Your industry has been updated. Chat will now use this industry context.",
                       });
                     } catch (error) {
                       console.error('Error saving industry:', error);
+                      toast({
+                        title: "Error",
+                        description: "Failed to save industry. Please try again.",
+                        variant: "destructive",
+                      });
                     }
                   }
                 }}
