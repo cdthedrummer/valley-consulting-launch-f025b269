@@ -1134,6 +1134,43 @@ What would you like to know about ${location}? For example:
                     }
                   }
                 }}
+                onBusinessNameChange={async (name) => {
+                  setUserBusinessName(name);
+                  
+                  // Update sessionStorage for persistence
+                  sessionStorage.setItem('userBusinessName', name);
+                  
+                  if (user) {
+                    try {
+                      const { error } = await supabase
+                        .from('business_profiles')
+                        .upsert({
+                          user_id: user.id,
+                          business_name: name,
+                          updated_at: new Date().toISOString()
+                        }, {
+                          onConflict: 'user_id'
+                        });
+
+                      if (error) throw error;
+                      
+                      // Reload profile to refresh all state
+                      await loadBusinessProfile();
+                      
+                      toast({
+                        title: "Business name saved",
+                        description: "Your business name has been updated. Chat will now use this name.",
+                      });
+                    } catch (error) {
+                      console.error('Error saving business name:', error);
+                      toast({
+                        title: "Error",
+                        description: "Failed to save business name. Please try again.",
+                        variant: "destructive",
+                      });
+                    }
+                  }
+                }}
                 onDismiss={() => {
                   setShowOnboardingReminder(false);
                   localStorage.setItem('dismissedOnboardingReminder', 'true');

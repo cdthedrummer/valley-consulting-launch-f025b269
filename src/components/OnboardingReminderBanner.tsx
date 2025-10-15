@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
 import { Lightbulb, X, CheckCircle2, Building2, Edit, MapPin, Briefcase, AlertCircle } from 'lucide-react';
 import LocationInput from './LocationInput';
 import IndustrySelector from './IndustrySelector';
@@ -14,6 +15,7 @@ interface OnboardingReminderBannerProps {
   hasIndustryData: boolean;
   onLocationChange: (location: string, type: 'zipcode' | 'county') => void;
   onIndustryChange: (industry: string) => void;
+  onBusinessNameChange: (name: string) => void;
   onDismiss: () => void;
 }
 
@@ -25,10 +27,12 @@ const OnboardingReminderBanner: React.FC<OnboardingReminderBannerProps> = ({
   hasIndustryData,
   onLocationChange,
   onIndustryChange,
+  onBusinessNameChange,
   onDismiss,
 }) => {
   const [localLocation, setLocalLocation] = useState(currentLocation);
   const [localIndustry, setLocalIndustry] = useState(currentIndustry);
+  const [localBusinessName, setLocalBusinessName] = useState(businessName);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isExpanded, setIsExpanded] = useState(!hasLocationData || !hasIndustryData);
 
@@ -55,6 +59,17 @@ const OnboardingReminderBanner: React.FC<OnboardingReminderBannerProps> = ({
       setTimeout(() => {
         onDismiss();
       }, 2000);
+    }
+  };
+
+  const handleBusinessNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.value;
+    setLocalBusinessName(name);
+  };
+
+  const handleBusinessNameBlur = () => {
+    if (localBusinessName && localBusinessName !== businessName) {
+      onBusinessNameChange(localBusinessName);
     }
   };
 
@@ -205,8 +220,30 @@ const OnboardingReminderBanner: React.FC<OnboardingReminderBannerProps> = ({
           </div>
 
           {/* Form Fields */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-[68px]">
-            {/* Location Field */}
+          <div className="space-y-4 pl-[68px]">
+            {/* Business Name Field */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className={`h-2 w-2 rounded-full ${localBusinessName ? 'bg-green-500' : 'bg-gray-300'}`} />
+                <label className="text-sm font-medium">
+                  {localBusinessName ? '✓ Business Name' : 'Business Name (Optional)'}
+                </label>
+              </div>
+              <Input
+                type="text"
+                placeholder="Enter your business name"
+                value={localBusinessName || ''}
+                onChange={handleBusinessNameChange}
+                onBlur={handleBusinessNameBlur}
+                className="w-full"
+              />
+              <p className="text-xs text-muted-foreground">
+                This helps personalize your AI insights
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Location Field */}
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className={`h-2 w-2 rounded-full ${hasLocationData ? 'bg-green-500' : 'bg-amber-500'}`} />
@@ -225,24 +262,25 @@ const OnboardingReminderBanner: React.FC<OnboardingReminderBannerProps> = ({
               )}
             </div>
 
-            {/* Industry Field */}
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <div className={`h-2 w-2 rounded-full ${hasIndustryData ? 'bg-green-500' : 'bg-amber-500'}`} />
-                <label className="text-sm font-medium">
-                  {hasIndustryData ? '✓ Industry Type' : 'Industry Type'}
-                </label>
+              {/* Industry Field */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <div className={`h-2 w-2 rounded-full ${hasIndustryData ? 'bg-green-500' : 'bg-amber-500'}`} />
+                  <label className="text-sm font-medium">
+                    {hasIndustryData ? '✓ Industry Type' : 'Industry Type'}
+                  </label>
+                </div>
+                <IndustrySelector
+                  value={localIndustry}
+                  onValueChange={handleIndustryChange}
+                  className="w-full"
+                />
+                {!hasIndustryData && (
+                  <p className="text-xs text-muted-foreground">
+                    Select your primary industry
+                  </p>
+                )}
               </div>
-              <IndustrySelector
-                value={localIndustry}
-                onValueChange={handleIndustryChange}
-                className="w-full"
-              />
-              {!hasIndustryData && (
-                <p className="text-xs text-muted-foreground">
-                  Select your primary industry
-                </p>
-              )}
             </div>
           </div>
         </div>
