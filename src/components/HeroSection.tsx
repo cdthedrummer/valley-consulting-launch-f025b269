@@ -39,17 +39,17 @@ const HeroSection: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 md:mb-8 drop-shadow-lg leading-tight"
+                className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 md:mb-8 drop-shadow-lg leading-tight tracking-hero uppercase"
               >
                 Marketing experts
-                <span className="text-hvcg-green block mt-1 sm:mt-2">powered by big-brand experience</span>
+                <span className="text-hvcg-green block mt-1 sm:mt-2 tracking-heading">powered by big-brand experience</span>
               </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
-                className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl mb-6 sm:mb-8 md:mb-10 drop-shadow-lg mx-auto max-w-3xl leading-relaxed"
+                className="text-white/90 text-lg sm:text-xl md:text-2xl lg:text-3xl mb-6 sm:mb-8 md:mb-10 drop-shadow-lg mx-auto max-w-3xl leading-relaxed tracking-subheading"
               >
                 Smart SEO, targeted ads, and AI-powered market insights for contractors—designed to turn local searches into profitable leads.
               </motion.p>
@@ -63,12 +63,12 @@ const HeroSection: React.FC = () => {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg sm:text-xl md:text-2xl py-4 sm:py-5 md:py-6 px-6 sm:px-8 md:px-10 shadow-lg group"
+                  className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg sm:text-xl md:text-2xl py-4 sm:py-5 md:py-6 px-6 sm:px-8 md:px-10 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group tracking-wide uppercase font-semibold"
                 >
                   <Link to="/ai/dashboard" className="flex items-center">
-                    <Calendar className="mr-2 h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 group-hover:scale-110 transition-transform" />
+                    <Calendar className="mr-2 h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 group-hover:scale-110 transition-transform duration-300" />
                     Launch AI Dashboard
-                    <ArrowRight className="ml-2 h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                    <ArrowRight className="ml-2 h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300" />
                   </Link>
                 </Button>
               </motion.div>
