@@ -9,6 +9,13 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
+    
+    /* Typography enhancements */
+    --letter-spacing-tight: -0.025em;
+    --letter-spacing-normal: 0em;
+    --letter-spacing-wide: 0.025em;
+    --letter-spacing-wider: 0.05em;
+    --letter-spacing-widest: 0.1em;
 
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -140,16 +147,20 @@
     @apply font-display font-semibold;
   }
   
+  /* Enhanced heading styles with letter-spacing */
   h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl leading-tight tracking-tight;
+    @apply text-4xl md:text-5xl lg:text-6xl leading-tight;
+    letter-spacing: var(--letter-spacing-tight);
   }
   
   h2 {
-    @apply text-3xl md:text-4xl leading-tight tracking-tight;
+    @apply text-3xl md:text-4xl leading-tight;
+    letter-spacing: var(--letter-spacing-wide);
   }
   
   h3 {
-    @apply text-2xl md:text-3xl leading-snug tracking-tight;
+    @apply text-2xl md:text-3xl leading-snug;
+    letter-spacing: var(--letter-spacing-wide);
   }
   
   h4 {
@@ -228,127 +239,135 @@
     @apply grid gap-3 sm:gap-4;
   }
   
-  .fade-item {
-    @apply opacity-0;
-    animation: fadeIn 0.5s ease forwards;
+  /* Animation utilities */
+  .story-link {
+    @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
   }
   
-  .fade-item:nth-child(2) {
-    animation-delay: 0.1s;
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
   }
   
-  .fade-item:nth-child(3) {
-    animation-delay: 0.2s;
+  /* Modern letter-spacing utilities */
+  .tracking-hero {
+    letter-spacing: var(--letter-spacing-widest);
   }
   
-  .fade-item:nth-child(4) {
-    animation-delay: 0.3s;
+  .tracking-heading {
+    letter-spacing: var(--letter-spacing-wider);
   }
   
-  @keyframes fadeIn {
+  .tracking-subheading {
+    letter-spacing: var(--letter-spacing-wide);
+  }
+  
+  /* Scroll-triggered fade animations */
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .fade-in-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .fade-in {
+    opacity: 0;
+    transition: opacity 0.6s ease-out;
+  }
+  
+  .fade-in.visible {
+    opacity: 1;
+  }
+  
+  /* Staggered animation delays */
+  .fade-delay-1 { transition-delay: 0.1s; }
+  .fade-delay-2 { transition-delay: 0.2s; }
+  .fade-delay-3 { transition-delay: 0.3s; }
+  .fade-delay-4 { transition-delay: 0.4s; }
+
+  /* Loading states */
+  @keyframes shimmer {
     0% {
-      opacity: 0;
-      transform: translateY(10px);
+      background-position: -1000px 0;
     }
     100% {
-      opacity: 1;
+      background-position: 1000px 0;
+    }
+  }
+
+  .loading-shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  /* Focus states */
+  .focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  .focus-enhanced {
+    @apply focus-visible:ring-4 focus-visible:ring-primary/20;
+  }
+
+  /* Error states */
+  @keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: translateX(-2px);
+    }
+    20%, 40%, 60%, 80% {
+      transform: translateX(2px);
+    }
+  }
+
+  .error-shake {
+    animation: shake 0.4s ease-in-out;
+  }
+
+  /* Gentle bounce for CTA elements */
+  @keyframes gentle-bounce {
+    0%, 100% {
       transform: translateY(0);
     }
-/* Animation utilities */
-.story-link {
-  @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
-}
-
-.hover-scale {
-  @apply transition-transform duration-200 hover:scale-105;
-}
-
-/* Touch-friendly interactive elements */
-.touch-target {
-  @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
-}
-
-.touch-target:active {
-  @apply scale-95;
-}
-
-/* Mobile-optimized layouts */
-.mobile-section {
-  @apply px-4 sm:px-6;
-}
-
-.mobile-grid {
-  @apply grid gap-4 sm:gap-6;
-}
-
-/* Enhanced loading states */
-.loading-shimmer {
-  @apply animate-pulse bg-gradient-to-r from-muted via-muted/50 to-muted;
-}
-
-/* Improved focus states for accessibility */
-.focus-visible:focus-visible {
-  @apply outline-2 outline-offset-2 outline-primary;
-}
-
-/* Enhanced error states */
-.error-shake {
-  animation: shake 0.5s ease-in-out;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
-}
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
+    50% {
+      transform: translateY(-4px);
+    }
   }
-  
-  @keyframes pulse-glow {
-    0%, 100% { box-shadow: var(--shadow-subtle); }
-    50% { box-shadow: var(--shadow-glow); }
-  }
-  
+
   .animate-gentle-bounce {
-    animation: gentle-bounce 0.6s ease-in-out;
+    animation: gentle-bounce 2s ease-in-out infinite;
   }
-  
+
+  /* Pulse glow effect for premium buttons */
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+    }
+  }
+
   .animate-pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
   }
-  
-  /* Loading states */
-  .loading-shimmer {
-    background: linear-gradient(90deg, transparent, hsl(var(--muted)) 50%, transparent);
-    animation: shimmer 1.5s infinite;
+
+  /* Prose improvements for better readability */
+  .prose ul {
+    @apply space-y-2;
   }
   
-  @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+  .prose li {
+    @apply leading-relaxed;
   }
   
-  /* Enhanced focus states for accessibility */
-  .focus-enhanced:focus-visible {
-    @apply ring-2 ring-primary ring-offset-2 ring-offset-background outline-none;
-  }
-  
-  /* Improved touch targets for mobile */
-  .touch-optimized {
-    @apply min-h-[48px] min-w-[48px] flex items-center justify-center;
-  }
-  
-  /* Prose styling improvements */
-  .prose ul { 
-    @apply mt-3 space-y-2; 
-  }
-  
-  .prose li { 
-    @apply leading-relaxed text-sm text-foreground/90; 
-  }
-  
-  .prose strong { 
-    @apply text-foreground font-semibold; 
+  .prose strong {
+    @apply font-semibold text-foreground;
   }
 }
