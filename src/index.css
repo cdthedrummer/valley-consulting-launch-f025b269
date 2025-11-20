@@ -7,75 +7,67 @@
 
 @layer base {
   :root {
-    /* CONSULTING NOIR DESIGN SYSTEM */
-    /* Canvas - Deep charcoal for cinematic feel */
-    --background: 0 0% 4%;
-    --foreground: 0 0% 90%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
     
-    /* Typography enhancements - Golfzon inspired wide tracking */
+    /* Typography enhancements */
     --letter-spacing-tight: -0.025em;
     --letter-spacing-normal: 0em;
     --letter-spacing-wide: 0.025em;
     --letter-spacing-wider: 0.05em;
-    --letter-spacing-widest: 0.2em;
+    --letter-spacing-widest: 0.1em;
 
-    /* Glassmorphism surfaces */
-    --card: 0 0% 100% / 0.05;
-    --card-foreground: 0 0% 90%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
-    --popover: 0 0% 8%;
-    --popover-foreground: 0 0% 90%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    /* Gold accent system - HVC brand gold */
-    --primary: 42 45% 56%;
-    --primary-foreground: 0 0% 10%;
+    --primary: 210 100% 24%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 42 35% 45%;
-    --secondary-foreground: 0 0% 95%;
+    --secondary: 210 80% 48%;
+    --secondary-foreground: 210 40% 98%;
 
-    /* Muted surfaces for dark mode */
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 210 25% 92%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    /* Green accent preserved from HVC */
     --accent: 142 53% 44%;
-    --accent-foreground: 0 0% 10%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 210 40% 98%;
 
-    /* Borders and inputs for dark mode */
-    --border: 0 0% 20%;
-    --input: 0 0% 15%;
-    --ring: 42 45% 56%;
+    --border: 210 18% 85%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 210 100% 24%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Dashboard specific tokens - Dark mode aligned */
-    --dashboard-bg: 0 0% 6%;
-    --widget-bg: 0 0% 100% / 0.05;
-    --widget-border: 0 0% 20%;
-    --stat-text: 0 0% 90%;
-    --chart-primary: 42 45% 56%;
+    /* Dashboard specific tokens */
+    --dashboard-bg: 0 0% 98%;
+    --widget-bg: 0 0% 100%;
+    --widget-border: 214.3 31.8% 91.4%;
+    --stat-text: 222.2 84% 4.9%;
+    --chart-primary: 210 100% 50%;
     --chart-secondary: 142 53% 44%;
     --chart-accent: 45 93% 47%;
-    --gradient-from: 0 0% 4%;
-    --gradient-to: 0 0% 8%;
+    --gradient-from: 210 100% 97%;
+    --gradient-to: 210 40% 95%;
     
-    /* Enhanced shadows and glow effects */
-    --shadow-subtle: 0 1px 3px 0 rgb(0 0 0 / 0.5);
-    --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.5);
-    --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.5);
-    --shadow-gold-glow: 0 0 0 1px rgb(184 157 99 / 0.2), 0 0 20px rgb(184 157 99 / 0.15);
-    --shadow-gold-intense: 0 0 30px rgb(184 157 99 / 0.3), 0 0 60px rgb(184 157 99 / 0.15);
+    /* Enhanced shadows and effects */
+    --shadow-subtle: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-glow: 0 0 0 1px rgb(59 130 246 / 0.15), 0 0 20px rgb(59 130 246 / 0.2);
     
     /* Interactive states */
     --hover-lift: translateY(-2px);
     --active-scale: scale(0.98);
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-    --sidebar-background: 0 0% 8%;
+    --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
     --sidebar-primary-foreground: 0 0% 98%;
@@ -152,38 +144,35 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-bold uppercase;
+    @apply font-display font-semibold;
   }
   
-  /* Enhanced heading styles - Golfzon inspired architectural text */
+  /* Enhanced heading styles with letter-spacing */
   h1 {
-    @apply text-4xl md:text-5xl lg:text-7xl leading-tight;
-    letter-spacing: var(--letter-spacing-widest);
+    @apply text-4xl md:text-5xl lg:text-6xl leading-tight;
+    letter-spacing: var(--letter-spacing-tight);
   }
   
   h2 {
-    @apply text-3xl md:text-4xl lg:text-5xl leading-tight;
-    letter-spacing: var(--letter-spacing-widest);
+    @apply text-3xl md:text-4xl leading-tight;
+    letter-spacing: var(--letter-spacing-wide);
   }
   
   h3 {
-    @apply text-2xl md:text-3xl lg:text-4xl leading-snug;
-    letter-spacing: var(--letter-spacing-wider);
+    @apply text-2xl md:text-3xl leading-snug;
+    letter-spacing: var(--letter-spacing-wide);
   }
   
   h4 {
     @apply text-xl md:text-2xl leading-snug;
-    letter-spacing: var(--letter-spacing-wider);
   }
   
   h5 {
-    @apply text-lg md:text-xl leading-snug uppercase font-semibold;
-    letter-spacing: var(--letter-spacing-wide);
+    @apply text-lg md:text-xl leading-snug;
   }
   
   h6 {
-    @apply text-base md:text-lg font-semibold uppercase;
-    letter-spacing: var(--letter-spacing-wide);
+    @apply text-base md:text-lg font-medium;
   }
 
   p {
@@ -205,20 +194,10 @@
   }
   
   .section {
-    @apply py-24 md:py-28 lg:py-32;
+    @apply py-12 md:py-16 lg:py-20;
   }
   
-  /* Glassmorphism card components - Consulting Noir style */
-  .glass-card {
-    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-xl;
-    @apply transition-all duration-300;
-  }
-  
-  .glass-card:hover {
-    @apply border-primary -translate-y-1;
-    box-shadow: 0 20px 40px rgba(184, 157, 99, 0.1);
-  }
-  
+  /* Enhanced card components */
   .widget-card {
     @apply bg-widget-bg border border-widget-border rounded-lg transition-all duration-200;
     box-shadow: var(--shadow-subtle);
@@ -248,7 +227,7 @@
   }
   
   .stats-card:hover {
-    box-shadow: var(--shadow-gold-glow);
+    box-shadow: var(--shadow-glow);
   }
   
   /* Mobile-first spacing */

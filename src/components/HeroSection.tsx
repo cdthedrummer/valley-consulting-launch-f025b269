@@ -1,98 +1,94 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap } from 'lucide-react';
+import { Calendar, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const HeroSection: React.FC = () => {
+  const isMobile = useIsMobile();
+
   return (
-    <section className="relative min-h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-background via-background to-muted animate-gradient-shift bg-[length:200%_200%]">
-      {/* Animated mesh background */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/30 rounded-full blur-3xl animate-pulse-glow"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/30 rounded-full blur-3xl animate-pulse-glow delay-1000"></div>
+    <section className="relative overflow-hidden">
+      {/* Background Video/Image */}
+      <div className="w-full h-screen relative">
+        <video
+          className="w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/lovable-uploads/1c9721c3-7053-4d03-ad41-97ed9a163d6f.png"
+          aria-label="Local business owners and contractors collaborating on site and in-office"
+        >
+          <source src="/videos/contractors-hero.mp4" type="video/mp4" />
+        </video>
+        {/* Overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 to-hvcg-blue-dark/95"></div>
       </div>
 
-      {/* Main Content */}
-      <div className="container-custom relative z-10">
-        <div className="flex flex-col items-center justify-center text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-5xl"
-          >
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-none">
-              Marketing Experts
-              <span className="block text-primary mt-4 animate-pulse-glow">
-                Powered By Big-Brand Experience
-              </span>
-            </h1>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-              className="text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed normal-case font-normal tracking-normal"
-            >
-              Smart SEO, targeted ads, and AI-powered market insights for contractors—designed to turn local searches into profitable leads.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
-              className="flex flex-col sm:flex-row gap-6 justify-center items-center"
-            >
-              <Button
-                asChild
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-10 py-7 text-lg font-bold uppercase tracking-widest shadow-lg hover:shadow-primary/50 hover:-translate-y-1 transition-all duration-300 group"
+      {/* Interactive Overlay Content */}
+      <div className="absolute top-0 left-0 w-full h-full">
+        {/* Main Content Container with flexbox layout */}
+        <div className="container-custom h-full flex flex-col justify-between relative px-4 pt-0 pb-8">
+          {/* Main content container */}
+          <div className="flex-1 flex flex-col justify-center items-center min-h-0 md:py-20 lg:py-24 py-16">
+            <div className="max-w-4xl text-center z-10 px-4 mb-8 lg:mb-12 xl:mb-16">
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 md:mb-8 drop-shadow-lg leading-tight tracking-hero uppercase"
               >
-                <Link to="/ai/dashboard" className="flex items-center gap-3">
-                  <Zap className="h-6 w-6 group-hover:scale-110 transition-transform" />
-                  Launch AI Dashboard
-                  <ArrowRight className="h-5 w-5 opacity-0 -ml-2 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300" />
-                </Link>
-              </Button>
+                Marketing experts
+                <span className="text-hvcg-green block mt-1 sm:mt-2 tracking-heading">powered by big-brand experience</span>
+              </motion.h1>
 
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="rounded-full px-10 py-7 text-lg font-semibold uppercase tracking-wider border-2 border-primary/30 hover:border-primary hover:bg-primary/10 transition-all duration-300"
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+                className="text-white/90 text-lg sm:text-xl md:text-2xl lg:text-3xl mb-6 sm:mb-8 md:mb-10 drop-shadow-lg mx-auto max-w-3xl leading-relaxed tracking-subheading"
               >
-                <Link to="/booking">Book Consultation</Link>
-              </Button>
-            </motion.div>
+                Smart SEO, targeted ads, and AI-powered market insights for contractors—designed to turn local searches into profitable leads.
+              </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.9, duration: 0.5 }}
-              className="mt-12 text-muted-foreground text-sm uppercase tracking-widest"
-            >
-              Start exploring market insights in 30 seconds
-            </motion.div>
-          </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+                className="mb-6 sm:mb-8 md:mb-10 lg:mb-12"
+              >
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg sm:text-xl md:text-2xl py-4 sm:py-5 md:py-6 px-6 sm:px-8 md:px-10 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group tracking-wide uppercase font-semibold"
+                >
+                  <Link to="/ai/dashboard" className="flex items-center">
+                    <Calendar className="mr-2 h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 group-hover:scale-110 transition-transform duration-300" />
+                    Launch AI Dashboard
+                    <ArrowRight className="ml-2 h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300" />
+                  </Link>
+                </Button>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.0, duration: 0.5 }}
+                className="text-white/80 text-base sm:text-lg md:text-xl mb-12 lg:mb-16 xl:mb-20"
+              >
+                Start exploring market insights in 30 seconds
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Bottom spacing preserved without unverifiable stats */}
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <div className="w-6 h-10 border-2 border-primary/50 rounded-full flex justify-center">
-          <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-1.5 h-1.5 bg-primary rounded-full mt-2"
-          />
-        </div>
-      </motion.div>
+      {/* Note: Mobile CTA bar is provided globally via <MobileCallButton /> on the page. Removed from Hero to avoid duplication. */}
     </section>
   );
 };

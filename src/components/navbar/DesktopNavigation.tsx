@@ -45,11 +45,11 @@ const DesktopNavigation: React.FC = () => {
   };
 
   return (
-    <div className="hidden lg:flex items-center space-x-8">
+    <div className="hidden lg:flex items-center space-x-6">
       <Link
         to="/"
-        className={`text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 ${
-          isActive("/") ? "text-primary" : "text-foreground/80 hover:text-primary"
+        className={`font-medium transition-colors hover:text-hvcg-blue ${
+          isActive("/") ? "text-hvcg-blue" : "text-gray-600"
         }`}
       >
         Home
@@ -59,7 +59,7 @@ const DesktopNavigation: React.FC = () => {
       <IndustriesMenu location={location} />
       <Link
         to="/approach"
-        className={`text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 ${isActive("/approach") ? "text-primary" : "text-foreground/80 hover:text-primary"}`}
+        className={`font-medium transition-colors hover:text-hvcg-blue ${isActive("/approach") ? "text-hvcg-blue" : "text-gray-600"}`}
       >
         Approach
       </Link>
@@ -69,19 +69,19 @@ const DesktopNavigation: React.FC = () => {
       
       {user ? (
         <div className="flex items-center space-x-4">
-          <Button asChild variant="premium" size="sm">
+          <Button asChild className="bg-hvcg-blue-dark hover:bg-hvcg-blue transition-colors text-white">
             <Link to="/ai/dashboard" className="flex items-center">
-              <Calendar className="mr-2 h-4 w-4" /> AI Dashboard
+              <Calendar className="mr-2 h-4 w-4" /> Launch AI Dashboard
             </Link>
           </Button>
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="glass" size="icon">
+              <Button variant="outline" size="icon">
                 <User className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-popover/95 backdrop-blur-lg border-primary/20">
+            <DropdownMenuContent align="end">
               <DropdownMenuItem asChild>
                 <Link to="/ai/dashboard" className="w-full">
                   AI Dashboard
@@ -99,14 +99,14 @@ const DesktopNavigation: React.FC = () => {
           </DropdownMenu>
         </div>
       ) : (
-        <div className="flex items-center space-x-3">
-          <Button asChild variant="premium" size="sm">
+        <div className="flex items-center space-x-2">
+          <Button asChild className="bg-hvcg-blue-dark hover:bg-hvcg-blue transition-colors text-white">
             <Link to="/ai/dashboard" className="flex items-center">
-              <Calendar className="mr-2 h-4 w-4" /> AI Dashboard
+              <Calendar className="mr-2 h-4 w-4" /> Launch AI Dashboard
             </Link>
           </Button>
           
-          <Button asChild variant="outline" size="sm">
+          <Button asChild variant="outline">
             <Link to="/auth">
               Sign In
             </Link>

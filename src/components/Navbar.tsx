@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
   }, [location]);
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? "bg-black/80 backdrop-blur-lg shadow-lg shadow-black/20" : "bg-black/50 backdrop-blur-md"} h-16 md:h-20 flex items-center border-b ${scrolled ? "border-primary/20" : "border-white/5"}`}>
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? "bg-white shadow-sm" : "bg-white/95 backdrop-blur"} h-16 md:h-20 flex items-center border-b border-gray-200`}>
       <div className="container-custom flex items-center justify-between">
         {/* Logo */}
         <NavbarLogo />

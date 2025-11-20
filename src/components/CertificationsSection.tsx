@@ -21,13 +21,13 @@ const platforms = [
 
 const CertificationsSection: React.FC = () => {
   return (
-    <section className="section bg-background">
+    <section className="py-16 bg-white">
       <div className="container-custom">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+        <div className="text-center max-w-3xl mx-auto mb-10">
+          <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-3">
             Certifications and standards
           </h2>
-          <p className="text-muted-foreground text-lg normal-case font-normal tracking-normal">
+          <p className="text-gray-700">
             Enterprise-grade rigor applied to local growth. No fluff—just operators with the right credentials.
           </p>
         </div>
@@ -36,25 +36,25 @@ const CertificationsSection: React.FC = () => {
           {certifications.map(({ label, Icon }) => (
             <div
               key={label}
-              className="glass-card flex items-center gap-2 p-4 hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1"
+              className="flex items-center gap-2 p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover-scale"
               aria-label={label}
             >
-              <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
-              <span className="text-sm font-bold text-foreground uppercase tracking-wider">{label}</span>
+              <Icon className="h-5 w-5 text-hvcg-blue" aria-hidden="true" />
+              <span className="text-sm font-medium text-hvcg-blue-dark">{label}</span>
             </div>
           ))}
         </div>
 
-        <div className="glass-card p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <Globe2 className="h-5 w-5 text-primary" />
-            <p className="text-sm font-bold uppercase tracking-wider">Platforms we run</p>
+        <div className="bg-hvcg-blue-dark/5 border border-gray-200 rounded-lg p-4">
+          <div className="flex items-center gap-2 mb-3">
+            <Globe2 className="h-4 w-4 text-hvcg-blue" />
+            <p className="text-sm font-semibold text-hvcg-blue-dark">Platforms we run</p>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2">
             {platforms.map((p) => (
               <span
                 key={p}
-                className="inline-flex items-center px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-primary/10 border border-primary/20 text-foreground hover:bg-primary/20 transition-colors duration-300"
+                className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white border border-gray-200 text-hvcg-blue-dark"
               >
                 {p}
               </span>

@@ -11,11 +11,11 @@ interface IndustryCardProps {
 const IndustryCard: React.FC<IndustryCardProps> = ({ title, icon, link }) => {
   return (
     <Link to={link} className="group">
-      <div className="glass-card p-8 transition-all duration-300 flex flex-col items-center hover:shadow-xl hover:shadow-primary/20">
-        <div className="bg-primary/10 border border-primary/20 w-16 h-16 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300">
+      <div className="bg-white border border-gray-200 rounded-lg p-6 transition-all hover:shadow-lg hover:border-hvcg-blue flex flex-col items-center">
+        <div className="bg-hvcg-blue/10 w-16 h-16 rounded-full flex items-center justify-center mb-3 group-hover:bg-hvcg-blue/20">
           {icon}
         </div>
-        <h3 className="font-bold text-foreground group-hover:text-primary transition-colors duration-300 text-lg uppercase tracking-wider">{title}</h3>
+        <h3 className="font-semibold text-hvcg-blue-dark group-hover:text-hvcg-blue">{title}</h3>
       </div>
     </Link>
   );
