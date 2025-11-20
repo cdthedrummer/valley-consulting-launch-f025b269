@@ -73,14 +73,21 @@ export default {
 				"chart-accent": "hsl(var(--chart-accent))",
 				"gradient-from": "hsl(var(--gradient-from))",
 				"gradient-to": "hsl(var(--gradient-to))",
-				// HVCG custom colors
+				// HVCG custom colors - enhanced for dark mode
 				hvcg: {
 					'blue-dark': '#0E3B65',
 					'blue': '#2C73C8',
 					'blue-light': '#5A9BE4',
 					'green': '#3AAA35',
 					'green-light': '#6DC968',
-					'gray': '#F3F4F6',
+					'gray': '#18181b',
+				},
+				// Consulting Noir gold palette
+				gold: {
+					DEFAULT: '#B89D63',
+					light: '#D4BC8F',
+					dark: '#9C7945',
+					glow: 'rgba(184, 157, 99, 0.2)',
 				}
 			},
 			borderRadius: {
@@ -115,11 +122,29 @@ export default {
 					  transform: 'translateY(0)'
 					}
 				},
+				'pulse-glow': {
+					'0%, 100%': {
+						boxShadow: '0 0 20px rgba(184, 157, 99, 0.3)'
+					},
+					'50%': {
+						boxShadow: '0 0 40px rgba(184, 157, 99, 0.6)'
+					}
+				},
+				'gradient-shift': {
+					'0%, 100%': {
+						backgroundPosition: '0% 50%'
+					},
+					'50%': {
+						backgroundPosition: '100% 50%'
+					}
+				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'fade-in': 'fade-in 0.5s ease-out forwards'
+				'fade-in': 'fade-in 0.5s ease-out forwards',
+				'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
+				'gradient-shift': 'gradient-shift 8s ease infinite'
 			},
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],
