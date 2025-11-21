@@ -14,11 +14,11 @@ const Approach: React.FC = () => {
         keywords="marketing approach, why choose us, local marketing process, measurement first"
       />
 
-      <header className="bg-hvcg-blue-dark text-white py-16 md:py-20">
+      <header className="bg-club-green text-warm-cream py-24 md:py-32">
         <div className="container-custom text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Our approach to local growth</h1>
-          <p className="text-white/90 max-w-3xl mx-auto">
-            We bring enterprise‑grade rigor to small business outcomes: measurement‑first, systems over hacks, and privacy by design.
+          <h1 className="font-archivo text-4xl md:text-6xl uppercase tracking-wide mb-6">OUR APPROACH</h1>
+          <p className="text-warm-cream/80 text-xl max-w-3xl mx-auto">
+            Simple marketing that works. No hacks, just results.
           </p>
         </div>
       </header>

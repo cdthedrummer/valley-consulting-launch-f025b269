@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 
-import Navbar from "./components/Navbar";
+import ClubhouseNavbar from "./components/ClubhouseNavbar";
 import Footer from "./components/Footer";
 import Index from "./pages/Index";
 import ClubhouseHome from "./pages/ClubhouseHome";
@@ -57,9 +57,9 @@ function App() {
         <AuthProvider>
           <BrowserRouter>
             <ScrollToTop />
-            <div className="flex flex-col min-h-screen">
-              <Navbar />
-              <div className="h-16 md:h-20" aria-hidden="true" />
+            <div className="flex flex-col min-h-screen bg-club-green">
+              <ClubhouseNavbar />
+              <div className="h-24" aria-hidden="true" />
               <main className="flex-grow">
       <Routes>
         <Route path="/" element={<ClubhouseHome />} />
