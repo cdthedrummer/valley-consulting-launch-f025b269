@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,8 +7,27 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Clubhouse Modern Design System */
+    --background: 42 25% 94%;
+    --foreground: 0 0% 10%;
+    --card: 42 25% 94%;
+    --card-foreground: 0 0% 10%;
+    --popover: 42 25% 94%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 160 95% 14%;
+    --primary-foreground: 42 25% 94%;
+    --secondary: 42 25% 94%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 42 25% 88%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 42 98% 60%;
+    --accent-foreground: 0 0% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 42 25% 85%;
+    --input: 42 25% 85%;
+    --ring: 160 95% 14%;
+    --radius: 1.5rem;
     
     /* Typography enhancements */
     --letter-spacing-tight: -0.025em;
@@ -16,44 +35,23 @@
     --letter-spacing-wide: 0.025em;
     --letter-spacing-wider: 0.05em;
     --letter-spacing-widest: 0.1em;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 210 100% 24%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 80% 48%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 210 25% 92%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 142 53% 44%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 210 18% 85%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 210 100% 24%;
-
-    --radius: 0.5rem;
-
-    /* Dashboard specific tokens */
-    --dashboard-bg: 0 0% 98%;
-    --widget-bg: 0 0% 100%;
-    --widget-border: 214.3 31.8% 91.4%;
-    --stat-text: 222.2 84% 4.9%;
-    --chart-primary: 210 100% 50%;
-    --chart-secondary: 142 53% 44%;
-    --chart-accent: 45 93% 47%;
-    --gradient-from: 210 100% 97%;
-    --gradient-to: 210 40% 95%;
+    
+    /* Clubhouse Colors */
+    --club-green: 160 95% 14%;
+    --warm-cream: 42 25% 94%;
+    --gold-accent: 42 98% 60%;
+    --deep-maroon: 0 52% 22%;
+    
+    /* Dashboard colors */
+    --dashboard-bg: 160 95% 14%;
+    --widget-bg: 42 25% 94%;
+    --widget-border: 42 25% 85%;
+    --stat-text: 0 0% 10%;
+    --chart-primary: 42 98% 60%;
+    --chart-secondary: 160 95% 14%;
+    --chart-accent: 0 52% 22%;
+    --gradient-from: 160 95% 14%;
+    --gradient-to: 42 98% 60%;
     
     /* Enhanced shadows and effects */
     --shadow-subtle: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
@@ -67,70 +65,53 @@
     --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar */
+    --sidebar-background: 160 95% 14%;
+    --sidebar-foreground: 42 25% 94%;
+    --sidebar-primary: 42 98% 60%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: 160 90% 18%;
+    --sidebar-accent-foreground: 42 25% 94%;
+    --sidebar-border: 160 90% 18%;
+    --sidebar-ring: 42 98% 60%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 160 95% 14%;
+    --foreground: 42 25% 94%;
+    --card: 160 90% 18%;
+    --card-foreground: 42 25% 94%;
+    --popover: 160 95% 14%;
+    --popover-foreground: 42 25% 94%;
+    --primary: 42 98% 60%;
+    --primary-foreground: 0 0% 10%;
+    --secondary: 160 90% 18%;
+    --secondary-foreground: 42 25% 94%;
+    --muted: 160 90% 18%;
+    --muted-foreground: 42 25% 80%;
+    --accent: 42 98% 60%;
+    --accent-foreground: 0 0% 10%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 42 25% 94%;
+    --border: 160 90% 18%;
+    --input: 160 90% 18%;
+    --ring: 42 98% 60%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 100% 56%;
-    --primary-foreground: 222.2 84% 4.9%;
-
-    --secondary: 210 80% 60%;
-    --secondary-foreground: 222.2 84% 4.9%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 142 53% 56%;
-    --accent-foreground: 222.2 84% 4.9%;
-
-    --destructive: 0 62.8% 50.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-
-    /* Dashboard specific tokens - dark mode */
-    --dashboard-bg: 222.2 84% 3%;
-    --widget-bg: 217.2 32.6% 17.5%;
-    --widget-border: 217.2 32.6% 25%;
-    --stat-text: 210 40% 98%;
-    --chart-primary: 210 100% 65%;
-    --chart-secondary: 142 53% 60%;
-    --chart-accent: 45 93% 58%;
-    --gradient-from: 217.2 32.6% 20%;
-    --gradient-to: 222.2 84% 8%;
-    
     /* Enhanced shadows and effects - dark mode */
     --shadow-subtle: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
     --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
     --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
     --shadow-glow: 0 0 0 1px rgb(96 165 250 / 0.2), 0 0 20px rgb(96 165 250 / 0.3);
 
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar */
+    --sidebar-background: 160 95% 14%;
+    --sidebar-foreground: 42 25% 94%;
+    --sidebar-primary: 42 98% 60%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: 160 90% 18%;
+    --sidebar-accent-foreground: 42 25% 94%;
+    --sidebar-border: 160 90% 18%;
+    --sidebar-ring: 42 98% 60%;
   }
 }
 
@@ -140,11 +121,12 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-club-green text-foreground;
+    font-family: 'DM Sans', sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-semibold;
+    font-family: 'Archivo Black', sans-serif;
   }
   
   /* Enhanced heading styles with letter-spacing */

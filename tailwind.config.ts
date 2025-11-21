@@ -73,7 +73,12 @@ export default {
 				"chart-accent": "hsl(var(--chart-accent))",
 				"gradient-from": "hsl(var(--gradient-from))",
 				"gradient-to": "hsl(var(--gradient-to))",
-				// HVCG custom colors
+				// Clubhouse Modern custom colors
+				'club-green': 'hsl(var(--club-green))',
+				'warm-cream': 'hsl(var(--warm-cream))',
+				'gold-accent': 'hsl(var(--gold-accent))',
+				'deep-maroon': 'hsl(var(--deep-maroon))',
+				// Legacy HVCG colors (for backwards compatibility)
 				hvcg: {
 					'blue-dark': '#0E3B65',
 					'blue': '#2C73C8',
@@ -122,8 +127,9 @@ export default {
 				'fade-in': 'fade-in 0.5s ease-out forwards'
 			},
 			fontFamily: {
-				sans: ['Inter', 'sans-serif'],
-				display: ['Montserrat', 'sans-serif'],
+				sans: ['DM Sans', 'sans-serif'],
+				display: ['Archivo Black', 'sans-serif'],
+				heading: ['Archivo Black', 'sans-serif'],
 			},
 			fontSize: {
 				table: ["0.95rem", { lineHeight: "1.5rem", letterSpacing: "0.01em" }],
