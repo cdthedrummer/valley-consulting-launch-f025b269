@@ -12,20 +12,20 @@ const ClubhouseHero: React.FC = () => {
           <div className="space-y-6 animate-fade-in-up">
             <div className="inline-block">
               <span className="font-dm text-action-yellow text-sm uppercase tracking-widest font-bold">
-                A NEW BLUEPRINT
+                SMART MARKETING FOR CONTRACTORS
               </span>
             </div>
             
             <h1 className="font-archivo text-warm-cream text-5xl md:text-6xl lg:text-7xl uppercase leading-none tracking-wide">
-              YOUR LEADS.{' '}
+              GET MORE{' '}
               <span className="text-action-yellow block mt-2">
-                YOUR ZONE.
+                LOCAL CUSTOMERS.
               </span>
             </h1>
 
             <p className="font-dm text-warm-cream/80 text-lg md:text-xl leading-relaxed max-w-xl">
-              Architecting local dominance with the precision of a simulator and the warmth of a club. 
-              Systems over hacks. Data over guesswork. Victory over mediocrity.
+              We build websites that show up on Google and help local customers find you. 
+              Simple, effective marketing that actually works for your business.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -45,14 +45,14 @@ const ClubhouseHero: React.FC = () => {
                 className="bg-transparent border-2 border-warm-cream text-warm-cream hover:bg-warm-cream hover:text-club-green rounded-pill px-8 py-6 font-dm font-bold uppercase tracking-wide text-lg transition-all hover:-translate-y-1 hover:shadow-lift active:scale-95"
               >
                 <Link to="/booking">
-                  BOOK TEE TIME
+                  BOOK A CALL
                 </Link>
               </Button>
             </div>
 
             <div className="pt-4">
               <p className="font-dm text-warm-cream/60 text-sm uppercase tracking-widest">
-                Start exploring market insights in 30 seconds
+                See your marketing results in real time
               </p>
             </div>
           </div>
@@ -76,7 +76,7 @@ const ClubhouseHero: React.FC = () => {
                 </div>
                 <div>
                   <p className="font-archivo text-club-green text-3xl uppercase">247%</p>
-                  <p className="font-dm text-club-green/60 text-sm uppercase tracking-wide">Lead Velocity</p>
+                  <p className="font-dm text-club-green/60 text-sm uppercase tracking-wide">More Leads</p>
                 </div>
               </div>
             </div>
