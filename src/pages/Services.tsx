@@ -1,7 +1,5 @@
-
 import React from "react";
 import { Building, Search, Users, Code, Share2, Bot } from "lucide-react";
-import ServicesHero from "@/components/ServicesHero";
 import SEOHead from "@/components/SEOHead";
 import ServiceContent from "@/components/ServiceContent";
 import ServicesCTA from "@/components/ServicesCTA";
@@ -17,10 +15,17 @@ const Services: React.FC = () => {
         canonicalUrl="/services"
       />
       {/* Hero Section */}
-      <ServicesHero />
+      <section className="bg-club-green text-warm-cream py-24 md:py-32">
+        <div className="container-custom text-center">
+          <h1 className="font-archivo text-4xl md:text-6xl uppercase tracking-wide mb-6">HOW WE HELP</h1>
+          <p className="text-xl text-warm-cream/80 max-w-3xl mx-auto">
+            Simple, effective services that help contractors get more local customers.
+          </p>
+        </div>
+      </section>
 
       {/* Services Sections */}
-      <div className="bg-hvcg-gray py-16">
+      <div className="bg-warm-cream py-16">
         <div className="container-custom">
           <div className="grid grid-cols-1 gap-16">
             {/* AI Solutions Section */}

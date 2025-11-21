@@ -9,10 +9,10 @@ const Terms: React.FC = () => {
         description="Review the terms of service for using Hudson Valley Consulting's website and services."
         canonicalUrl="/terms"
       />
-      <header className="bg-hvcg-blue-dark text-white py-16">
+      <header className="bg-club-green text-warm-cream py-24">
         <div className="container-custom">
-          <h1 className="text-4xl font-bold">Terms of Service</h1>
-          <p className="text-white/80 mt-2">Please read these terms carefully.</p>
+          <h1 className="font-archivo text-4xl md:text-5xl uppercase tracking-wide">TERMS OF SERVICE</h1>
+          <p className="text-warm-cream/80 mt-4">Please read these terms carefully.</p>
         </div>
       </header>
       <main className="py-12">
