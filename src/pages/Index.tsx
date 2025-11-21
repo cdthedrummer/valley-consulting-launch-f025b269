@@ -2,42 +2,78 @@
 import React from "react";
 import SEOHead from "@/components/SEOHead";
 import HeroSection from "@/components/HeroSection";
-import TrustedPartners from "@/components/TrustedPartners";
-import GrowthFramework from "@/components/GrowthFramework";
-import AIPlatformSection from "@/components/AIPlatformSection";
-import ComparisonGrid from "@/components/ComparisonGrid";
+import ServicesPreviewSection from "@/components/ServicesPreviewSection";
+import CaseSnapshotsSection from "@/components/CaseSnapshotsSection";
+import ServicePlansSection from "@/components/ServicePlansSection";
+import IndustriesSection from "@/components/IndustriesSection";
+import CertificationsSection from "@/components/CertificationsSection";
+import ApproachSection from "@/components/ApproachSection";
 import SchemaOrganization from "@/components/SchemaOrganization";
 import SchemaLocalBusiness from "@/components/SchemaLocalBusiness";
+import FooterCTASection from "@/components/FooterCTASection";
 import MobileCallButton from "@/components/MobileCallButton";
+import TrustSignalsSection from "@/components/TrustSignalsSection";
+import AICopilotBanner from "@/components/AICopilotBanner";
+import { motion } from "framer-motion";
+import ProblemsWeSolve from "@/components/ProblemsWeSolve";
+import IndustriesWeServe from "@/components/IndustriesWeServe";
+import AboutPreviewSection from "@/components/AboutPreviewSection";
+import ServiceAreaSection from "@/components/ServiceAreaSection";
 
 const Index: React.FC = () => {
   return (
     <div>
       <SEOHead 
-        title="Hudson Valley Consulting | Architecting Local Market Dominance"
-        description="Strategic marketing and AI-powered intelligence for contractors. Stop guessing, start dominating your local market with data-driven precision."
+        title="Hudson Valley Contractor Marketing | AI-Powered Market Intelligence"
+        description="AI-powered marketing dashboard for contractors: real-time market data, competitor analysis, and smart insights for HVAC, plumbing, and home services in Hudson Valley."
         canonicalUrl="/"
-        keywords="contractor marketing strategy, market intelligence, competitive analysis, local market dominance, Hudson Valley marketing"
+        keywords="Hudson Valley contractor marketing, AI marketing dashboard, market intelligence, Google Ads, local SEO, HVAC marketing, plumbing marketing"
       />
+
+      {/* Hero Section with interactive elements */}
+      <HeroSection />
+
+      {/* AI Copilot Banner - NEW */}
+      <AICopilotBanner />
 
       {/* Schema.org structured data */}
       <SchemaOrganization />
       <SchemaLocalBusiness />
+      {/* Problems We Solve */}
+      <ProblemsWeSolve />
 
-      {/* Hero Section */}
-      <HeroSection />
+      {/* Trust Signals Section */}
+      <TrustSignalsSection />
 
-      {/* Trusted Partners */}
-      <TrustedPartners />
+      {/* Certifications */}
+      <CertificationsSection />
 
-      {/* Growth Framework (Services) */}
-      <GrowthFramework />
+      {/* Our Approach */}
+      <ApproachSection />
 
-      {/* AI Platform Section */}
-      <AIPlatformSection />
+      {/* Case Snapshots (anonymized) */}
+      <CaseSnapshotsSection />
 
-      {/* Comparison Grid */}
-      <ComparisonGrid />
+      {/* Services Preview Section */}
+      <ServicesPreviewSection />
+
+      {/* About Preview */}
+      <AboutPreviewSection />
+
+      {/* Industries We Serve */}
+      <IndustriesWeServe />
+      
+      {/* Service Area */}
+      <ServiceAreaSection />
+      
+      {/* Service Packages Section */}
+      <ServicePlansSection />
+
+      {/* Industries Grid */}
+      <IndustriesSection />
+      
+      {/* Footer CTA */}
+      <FooterCTASection />
 
       {/* Mobile Call Now Button (visible on mobile only) */}
       <MobileCallButton />

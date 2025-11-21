@@ -30,12 +30,12 @@ const ServicePlansSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="text-center max-w-3xl mx-auto mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-hvcg-blue-dark mb-6 tracking-heading uppercase">Choose Your Plan</h2>
-          <p className="text-xl text-gray-700 leading-relaxed">
+          <h2 className="text-3xl md:text-4xl font-bold text-hvcg-blue-dark mb-4">Choose Your Plan</h2>
+          <p className="text-lg text-gray-700">
             Select the package that fits your needs and budget. Not sure which one is right for you?<br />
-            <span className="font-semibold text-hvcg-blue">Book a free 15-minute call</span> to get matched with the best option.
+            <span className="font-medium">Book a free 15-minute call</span> to get matched with the best option.
           </p>
         </motion.div>
         
@@ -102,16 +102,11 @@ const ServicePlansSection: React.FC = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.6, duration: 0.5 }}
-          className="text-center mt-16"
+          className="text-center mt-12"
         >
-          <div className="bg-gradient-to-r from-hvcg-blue-dark/10 to-hvcg-blue/10 p-8 rounded-2xl inline-block border border-hvcg-blue/20">
-            <p className="text-xl mb-6 font-semibold tracking-subheading">Not sure which plan is right for your business?</p>
-            <Button 
-              asChild 
-              variant="default" 
-              size="lg" 
-              className="bg-hvcg-blue hover:bg-hvcg-blue-dark text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 px-8 py-6 text-lg tracking-wide uppercase font-semibold"
-            >
+          <div className="bg-hvcg-gray/50 p-6 rounded-lg inline-block">
+            <p className="text-lg mb-4 font-medium">Not sure which plan is right for your business?</p>
+            <Button asChild variant="default" size="lg" className="bg-hvcg-blue hover:bg-hvcg-blue-dark text-white shadow-md">
               <Link to="/booking">Contact Us for Help</Link>
             </Button>
           </div>

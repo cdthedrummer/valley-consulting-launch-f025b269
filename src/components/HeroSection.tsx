@@ -1,100 +1,94 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, TrendingUp } from 'lucide-react';
+import { Calendar, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const HeroSection: React.FC = () => {
+  const isMobile = useIsMobile();
+
   return (
-    <section id="vision" className="relative min-h-screen bg-club-green flex items-center pt-32 pb-20">
-      <div className="container-custom">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left: Text Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-8"
-          >
-            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl text-warm-cream leading-none tracking-tight">
-              STOP GUESSING.
-              <br />
-              <span className="text-gold-accent">START DOMINATING.</span>
-            </h1>
-            
-            <p className="text-warm-cream/90 text-xl md:text-2xl leading-relaxed max-w-2xl">
-              We architect local market takeovers. Get the strategy, data, and tools to outpace your competition.
-            </p>
-            
-            {/* CTA Group */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button
-                asChild
-                size="lg"
-                className="bg-gold-accent hover:bg-gold-accent/90 text-foreground font-bold text-lg rounded-full px-8 py-6 transition-all duration-300 hover:-translate-y-1 shadow-2xl group"
+    <section className="relative overflow-hidden">
+      {/* Background Video/Image */}
+      <div className="w-full h-screen relative">
+        <video
+          className="w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/lovable-uploads/1c9721c3-7053-4d03-ad41-97ed9a163d6f.png"
+          aria-label="Local business owners and contractors collaborating on site and in-office"
+        >
+          <source src="/videos/contractors-hero.mp4" type="video/mp4" />
+        </video>
+        {/* Overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 to-hvcg-blue-dark/95"></div>
+      </div>
+
+      {/* Interactive Overlay Content */}
+      <div className="absolute top-0 left-0 w-full h-full">
+        {/* Main Content Container with flexbox layout */}
+        <div className="container-custom h-full flex flex-col justify-between relative px-4 pt-0 pb-8">
+          {/* Main content container */}
+          <div className="flex-1 flex flex-col justify-center items-center min-h-0 md:py-20 lg:py-24 py-16">
+            <div className="max-w-4xl text-center z-10 px-4 mb-8 lg:mb-12 xl:mb-16">
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 md:mb-8 drop-shadow-lg leading-tight"
               >
-                <Link to="/booking" className="flex items-center gap-2">
-                  Book Strategy Session
-                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </Button>
-              
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="border-2 border-warm-cream text-warm-cream hover:bg-warm-cream hover:text-club-green font-bold text-lg rounded-full px-8 py-6 transition-all duration-300 hover:-translate-y-1 group"
+                Marketing experts
+                <span className="text-hvcg-green block mt-1 sm:mt-2">powered by big-brand experience</span>
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+                className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl mb-6 sm:mb-8 md:mb-10 drop-shadow-lg mx-auto max-w-3xl leading-relaxed"
               >
-                <Link to="/ai/dashboard" className="flex items-center gap-2">
-                  Explore AI Insights
-                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </Button>
+                Smart SEO, targeted ads, and AI-powered market insights for contractors—designed to turn local searches into profitable leads.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+                className="mb-6 sm:mb-8 md:mb-10 lg:mb-12"
+              >
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg sm:text-xl md:text-2xl py-4 sm:py-5 md:py-6 px-6 sm:px-8 md:px-10 shadow-lg group"
+                >
+                  <Link to="/ai/dashboard" className="flex items-center">
+                    <Calendar className="mr-2 h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 group-hover:scale-110 transition-transform" />
+                    Launch AI Dashboard
+                    <ArrowRight className="ml-2 h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                  </Link>
+                </Button>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.0, duration: 0.5 }}
+                className="text-white/80 text-base sm:text-lg md:text-xl mb-12 lg:mb-16 xl:mb-20"
+              >
+                Start exploring market insights in 30 seconds
+              </motion.div>
             </div>
-          </motion.div>
-          
-          {/* Right: Visual Card */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
-          >
-            <div className="bg-warm-cream rounded-3xl shadow-2xl p-8 space-y-6">
-              <div className="flex items-center justify-between">
-                <h3 className="font-heading text-2xl text-foreground">Current Velocity</h3>
-                <TrendingUp className="h-8 w-8 text-gold-accent" />
-              </div>
-              
-              {/* Metric Card */}
-              <div className="bg-club-green rounded-2xl p-6 space-y-4">
-                <div className="text-warm-cream/70 text-sm font-medium uppercase tracking-wider">
-                  Growth Metric
-                </div>
-                <div className="text-gold-accent font-heading text-6xl">
-                  +142%
-                </div>
-                <div className="text-warm-cream/90 text-lg">
-                  Average client growth in 6 months
-                </div>
-              </div>
-              
-              {/* Simple Graph Visualization */}
-              <div className="space-y-3">
-                <div className="flex items-end gap-2 h-32">
-                  <div className="bg-club-green/20 rounded-t-lg flex-1 h-1/3"></div>
-                  <div className="bg-club-green/40 rounded-t-lg flex-1 h-1/2"></div>
-                  <div className="bg-club-green/60 rounded-t-lg flex-1 h-2/3"></div>
-                  <div className="bg-gold-accent rounded-t-lg flex-1 h-full"></div>
-                </div>
-                <div className="text-foreground/60 text-sm text-center">
-                  Q1 → Q2 → Q3 → Q4
-                </div>
-              </div>
-            </div>
-          </motion.div>
+          </div>
+
+          {/* Bottom spacing preserved without unverifiable stats */}
         </div>
       </div>
+
+      {/* Note: Mobile CTA bar is provided globally via <MobileCallButton /> on the page. Removed from Hero to avoid duplication. */}
     </section>
   );
 };

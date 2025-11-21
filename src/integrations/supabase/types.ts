@@ -90,7 +90,7 @@ export type Database = {
         Row: {
           created_at: string | null
           id: string
-          ip_address: unknown
+          ip_address: unknown | null
           new_data: Json | null
           old_data: Json | null
           operation: string
@@ -101,7 +101,7 @@ export type Database = {
         Insert: {
           created_at?: string | null
           id?: string
-          ip_address?: unknown
+          ip_address?: unknown | null
           new_data?: Json | null
           old_data?: Json | null
           operation: string
@@ -112,7 +112,7 @@ export type Database = {
         Update: {
           created_at?: string | null
           id?: string
-          ip_address?: unknown
+          ip_address?: unknown | null
           new_data?: Json | null
           old_data?: Json | null
           operation?: string
@@ -602,7 +602,7 @@ export type Database = {
           endpoint: string | null
           id: string
           incident_type: string
-          ip_address: unknown
+          ip_address: unknown | null
           resolved: boolean | null
           severity: string | null
           user_agent: string | null
@@ -613,7 +613,7 @@ export type Database = {
           endpoint?: string | null
           id?: string
           incident_type: string
-          ip_address?: unknown
+          ip_address?: unknown | null
           resolved?: boolean | null
           severity?: string | null
           user_agent?: string | null
@@ -624,7 +624,7 @@ export type Database = {
           endpoint?: string | null
           id?: string
           incident_type?: string
-          ip_address?: unknown
+          ip_address?: unknown | null
           resolved?: boolean | null
           severity?: string | null
           user_agent?: string | null
@@ -822,7 +822,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      anonymize_old_customer_data: { Args: never; Returns: undefined }
+      anonymize_old_customer_data: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       check_rate_limit: {
         Args: {
           _endpoint: string
@@ -841,7 +844,10 @@ export type Database = {
         }
         Returns: boolean
       }
-      cleanup_expired_cache: { Args: never; Returns: undefined }
+      cleanup_expired_cache: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -849,7 +855,10 @@ export type Database = {
         }
         Returns: boolean
       }
-      is_admin: { Args: never; Returns: boolean }
+      is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
       search_web_for_property_data: {
         Args: { location: string; query_type: string }
         Returns: Json

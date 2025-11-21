@@ -1,18 +1,16 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import IndustryCard from "@/components/IndustryCard";
-import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const IndustriesSection: React.FC = () => {
-  const { ref, isVisible } = useScrollAnimation();
-  
   return (
-    <section ref={ref} className="py-20 bg-gradient-to-b from-white to-gray-50">
+    <section className="py-16 bg-white">
       <div className="container-custom">
-        <div className={`text-center max-w-3xl mx-auto mb-16 fade-in-up ${isVisible ? 'visible' : ''}`}>
-          <h2 className="text-4xl font-bold text-hvcg-blue-dark mb-6 tracking-heading uppercase">We Help Contractors Like You</h2>
-          <p className="text-xl text-gray-700 leading-relaxed">
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-4">We Help Contractors Like You</h2>
+          <p className="text-lg text-gray-700">
             Specialized marketing strategies for different contracting trades in the Hudson Valley area.
           </p>
         </div>
@@ -76,12 +74,8 @@ const IndustriesSection: React.FC = () => {
           />
         </div>
         
-        <div className={`text-center mt-12 fade-in-up ${isVisible ? 'visible' : ''}`}>
-          <Button 
-            asChild 
-            size="lg"
-            className="bg-hvcg-blue hover:bg-hvcg-blue-dark text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 text-lg tracking-wide uppercase font-semibold"
-          >
+        <div className="text-center mt-10">
+          <Button asChild variant="outline" className="border-hvcg-blue text-hvcg-blue hover:bg-hvcg-blue hover:text-white">
             <Link to="/industries">View All Industries</Link>
           </Button>
         </div>
