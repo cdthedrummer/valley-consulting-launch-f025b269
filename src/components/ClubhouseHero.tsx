@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const ClubhouseHero: React.FC = () => {
   return (
-    <section id="overview" className="relative min-h-screen bg-club-green flex items-center overflow-hidden pt-24">
+    <section id="overview" className="relative min-h-screen bg-club-green flex items-center overflow-hidden pt-20 md:pt-24">
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Left Column - Copy */}
@@ -16,14 +16,14 @@ const ClubhouseHero: React.FC = () => {
               </span>
             </div>
             
-            <h1 className="font-archivo text-warm-cream text-5xl md:text-6xl lg:text-7xl uppercase leading-none tracking-wide">
+            <h1 className="font-archivo text-warm-cream text-4xl sm:text-5xl md:text-6xl lg:text-7xl uppercase leading-none tracking-wide">
               GET MORE{' '}
               <span className="text-action-yellow block mt-2">
                 LOCAL CUSTOMERS.
               </span>
             </h1>
 
-            <p className="font-dm text-warm-cream/80 text-lg md:text-xl leading-relaxed max-w-xl">
+            <p className="font-dm text-warm-cream/80 text-base md:text-lg lg:text-xl leading-relaxed max-w-xl">
               We build websites that show up on Google and help local customers find you. 
               Simple, effective marketing that actually works for your business.
             </p>
