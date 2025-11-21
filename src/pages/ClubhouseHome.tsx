@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import ClubhouseHero from '@/components/ClubhouseHero';
 import ProShopSection from '@/components/ProShopSection';
+import TechStackSection from '@/components/TechStackSection';
 import ScorecardSection from '@/components/ScorecardSection';
 
 const ClubhouseHome: React.FC = () => {
@@ -18,6 +19,7 @@ const ClubhouseHome: React.FC = () => {
       <div className="min-h-screen bg-club-green scroll-smooth">
         <ClubhouseHero />
         <ProShopSection />
+        <TechStackSection />
         <ScorecardSection />
       </div>
     </>
