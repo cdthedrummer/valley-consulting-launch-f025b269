@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Index from "./pages/Index";
+import ClubhouseHome from "./pages/ClubhouseHome";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Booking from "./pages/Booking";
@@ -60,8 +61,9 @@ function App() {
               <Navbar />
               <div className="h-16 md:h-20" aria-hidden="true" />
               <main className="flex-grow">
-                <Routes>
-                  <Route path="/" element={<Index />} />
+      <Routes>
+        <Route path="/" element={<ClubhouseHome />} />
+        <Route path="/classic" element={<Index />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/approach" element={<Approach />} />
                   <Route path="/services" element={<Services />} />
