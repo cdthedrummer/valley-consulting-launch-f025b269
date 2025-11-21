@@ -6,28 +6,28 @@ const ScorecardSection: React.FC = () => {
 
   const metrics = [
     {
-      category: 'LEAD VELOCITY',
-      par: '15-20 leads/mo',
-      hvcg: '45-60 leads/mo',
-      improvement: '+200%'
+      category: 'NEW LEADS PER MONTH',
+      par: '2-5 leads',
+      hvcg: '15-20 leads',
+      improvement: '3-4x More'
     },
     {
-      category: 'DATA TRANSPARENCY',
-      par: 'Monthly PDF',
-      hvcg: 'Real-Time Dashboard',
-      improvement: 'Live'
+      category: 'YOUR TIME SPENT',
+      par: '5-10 hours',
+      hvcg: '~0 hours',
+      improvement: 'We Handle It'
     },
     {
-      category: 'RESPONSE TIME',
-      par: '24-48 hours',
-      hvcg: '< 2 hours',
-      improvement: '12x Faster'
+      category: 'DATA ACCESS',
+      par: 'Monthly reports',
+      hvcg: 'Live dashboard',
+      improvement: 'Real-Time'
     },
     {
-      category: 'ROI CLARITY',
-      par: 'Opaque',
-      hvcg: 'Crystal Clear',
-      improvement: '100%'
+      category: 'MARKETING ROI',
+      par: '$1.80 returned',
+      hvcg: '$4.20 returned',
+      improvement: '2.3x Better'
     }
   ];
 
@@ -51,10 +51,10 @@ const ScorecardSection: React.FC = () => {
             </span>
           </div>
           <h2 className="font-archivo text-warm-cream text-4xl md:text-5xl lg:text-6xl uppercase tracking-wide leading-none">
-            HOW YOU <span className="text-action-yellow">WIN</span>
+            THE <span className="text-action-yellow">SCORECARD</span>
           </h2>
           <p className="font-dm text-warm-cream/70 text-lg md:text-xl max-w-3xl mx-auto">
-            Compare your current agency to the HVCG standard. The numbers don't lie.
+            See how working with us compares to doing it yourself or working with typical agencies.
           </p>
         </div>
 
@@ -69,7 +69,7 @@ const ScorecardSection: React.FC = () => {
                   : 'text-warm-cream/60 hover:text-warm-cream'
               }`}
             >
-              STANDARD AGENCY
+              DIY / TYPICAL AGENCY
             </button>
             <button
               onClick={() => setIsHVCG(true)}
@@ -79,7 +79,7 @@ const ScorecardSection: React.FC = () => {
                   : 'text-warm-cream/60 hover:text-warm-cream'
               }`}
             >
-              HVCG PARTNER
+              WORKING WITH HVCG
             </button>
           </div>
         </div>
@@ -93,10 +93,10 @@ const ScorecardSection: React.FC = () => {
                 METRIC
               </div>
               <div className="font-archivo text-club-green/60 text-sm uppercase tracking-widest text-center">
-                PAR (Industry Avg)
+                Typical Results
               </div>
               <div className="font-archivo text-action-yellow text-sm uppercase tracking-widest text-center">
-                HVCG PLAYER
+                With HVCG
               </div>
             </div>
 
@@ -141,7 +141,7 @@ const ScorecardSection: React.FC = () => {
             {/* Bottom Note */}
             <div className="mt-8 pt-6 border-t-2 border-dashed border-club-green/20 text-center">
               <p className="font-dm text-club-green/60 text-sm italic">
-                * Results based on 50+ contractor partnerships across the Hudson Valley
+                Real results from contractors we work with in the Hudson Valley
               </p>
             </div>
           </div>
@@ -150,13 +150,13 @@ const ScorecardSection: React.FC = () => {
         {/* CTA Section */}
         <div className="text-center mt-12">
           <p className="font-dm text-warm-cream/80 text-lg mb-6">
-            Ready to upgrade your game?
+            Ready to get more customers?
           </p>
           <a
             href="/booking"
             className="inline-block bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill px-8 py-4 font-dm font-bold uppercase tracking-wide text-lg transition-all hover:-translate-y-1 hover:shadow-lift active:scale-95"
           >
-            BOOK YOUR TEE TIME
+            BOOK A CALL
           </a>
         </div>
       </div>
