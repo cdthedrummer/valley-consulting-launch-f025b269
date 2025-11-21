@@ -105,7 +105,18 @@ export default {
 				'fade-in-up': 'fade-in-up 0.8s ease-out forwards'
 			},
 			keyframes: {
-...
+				'accordion-down': {
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
+				},
+				'accordion-up': {
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
+				},
+				'fade-in': {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' }
+				},
 				'fade-in-up': {
 					'0%': {
 						opacity: '0',
