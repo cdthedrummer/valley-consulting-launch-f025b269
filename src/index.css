@@ -1,5 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,6 +8,13 @@
 
 @layer base {
   :root {
+    /* Club Green Color Palette */
+    --club-green: 142 70% 15%; /* Deep forest green */
+    --varsity-maroon: 350 60% 30%; /* Deep maroon */
+    --warm-cream: 40 40% 95%; /* Off-white cream */
+    --action-yellow: 48 96% 53%; /* Bright yellow */
+    
+    /* UI Tokens */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -59,6 +67,12 @@
     --active-scale: scale(0.98);
     --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
+    /* Legacy HVCG Colors (for backward compatibility) */
+    --hvcg-blue-dark: 220 85% 22%;
+    --hvcg-blue: 220 82% 35%;
+    --hvcg-green: 150 60% 40%;
+    --hvcg-gray: 220 15% 92%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -132,6 +146,10 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground font-sans;
   }
@@ -180,6 +198,16 @@
 @layer components {
   .container-custom {
     @apply container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Rounded pill utility */
+  .rounded-pill {
+    @apply rounded-full;
+  }
+
+  /* Shadow utilities */
+  .shadow-lift {
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
   }
   
   .section {

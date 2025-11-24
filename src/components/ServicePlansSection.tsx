@@ -23,7 +23,7 @@ const ServicePlansSection: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-b from-hvcg-gray to-white">
+    <section className="py-20 bg-club-green">
       <div className="container-custom">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -32,10 +32,10 @@ const ServicePlansSection: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="text-center max-w-3xl mx-auto mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-hvcg-blue-dark mb-4">Choose Your Plan</h2>
-          <p className="text-lg text-gray-700">
+          <h2 className="font-archivo text-3xl md:text-5xl uppercase tracking-wide text-action-yellow mb-4">Choose Your Plan</h2>
+          <p className="font-dm text-lg text-warm-cream/80">
             Select the package that fits your needs and budget. Not sure which one is right for you?<br />
-            <span className="font-medium">Book a free 15-minute call</span> to get matched with the best option.
+            <span className="font-bold text-warm-cream">Book a free 15-minute call</span> to get matched with the best option.
           </p>
         </motion.div>
         
@@ -104,9 +104,9 @@ const ServicePlansSection: React.FC = () => {
           transition={{ delay: 0.6, duration: 0.5 }}
           className="text-center mt-12"
         >
-          <div className="bg-hvcg-gray/50 p-6 rounded-lg inline-block">
-            <p className="text-lg mb-4 font-medium">Not sure which plan is right for your business?</p>
-            <Button asChild variant="default" size="lg" className="bg-hvcg-blue hover:bg-hvcg-blue-dark text-white shadow-md">
+          <div className="bg-warm-cream/10 backdrop-blur-sm border border-warm-cream/20 p-8 rounded-3xl inline-block">
+            <p className="font-dm text-lg mb-4 text-warm-cream">Not sure which plan is right for your business?</p>
+            <Button asChild size="lg" className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill px-8 py-3 font-dm font-bold uppercase tracking-wide transition-all hover:-translate-y-1 hover:shadow-lift">
               <Link to="/booking">Contact Us for Help</Link>
             </Button>
           </div>

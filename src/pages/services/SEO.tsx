@@ -24,12 +24,13 @@ const SEO: React.FC = () => {
         description="Local SEO that helps Hudson Valley businesses rank, get calls, and grow."
         canonicalUrl="/services/seo"
       />
-      <ServiceDetailLayout
-        icon={<Search className="text-hvcg-blue-dark w-10 h-10" />}
-        title="SEO for Contractors"
-        description="Help local customers find your business when they search online for contractors in Hudson Valley."
-        approachTitle="Our SEO Approach"
-        approachDescription={approachDescription}
+      <div className="bg-club-green min-h-screen">
+        <ServiceDetailLayout
+          icon={<Search className="text-action-yellow w-10 h-10" />}
+          title="SEO for Contractors"
+          description="Help local customers find your business when they search online for contractors in Hudson Valley."
+          approachTitle="Our SEO Approach"
+          approachDescription={approachDescription}
         servicesList={[
           "Local SEO optimization to rank in the Google Map Pack",
           "Keyword research tailored to contractor services",
@@ -60,10 +61,10 @@ const SEO: React.FC = () => {
         ]}
       />
 
-      <div className="container mx-auto px-4">
-        <FAQSection
-          title="SEO services: frequently asked questions"
-          faqs={[
+        <div className="container mx-auto px-4 pb-16">
+          <FAQSection
+            title="SEO services: frequently asked questions"
+            faqs={[
             {
               question: "How long does SEO take to show results?",
               answer: "Most local businesses begin to see meaningful movement in 8–12 weeks, with compounding gains over 3–6 months. Timelines vary by competition and current site health."
@@ -85,7 +86,8 @@ const SEO: React.FC = () => {
               answer: "We track rankings, calls, form fills, and direction requests. Reporting is plain‑English and focused on leads, not vanity metrics."
             }
           ]}
-        />
+          />
+        </div>
       </div>
     </>
   );

@@ -87,7 +87,7 @@ const IndustriesIndex: React.FC = () => {
   };
 
   return (
-    <div className="pt-20">
+    <div className="pt-20 bg-club-green min-h-screen">
       <SEOHead
         title="Industries We Serve | Hudson Valley Consulting"
         description="Marketing and consulting for contractors across HVAC, plumbing, fencing, decking, and flooring in the Hudson Valley."
@@ -97,11 +97,11 @@ const IndustriesIndex: React.FC = () => {
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-hvcg-blue-dark to-hvcg-blue text-white py-16">
+      <section className="bg-club-green text-warm-cream py-16">
         <div className="container-custom">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl lg:text-5xl font-bold mb-4">Industry-Specific Marketing</h1>
-            <p className="text-xl text-white/90">
+            <h1 className="font-archivo text-4xl lg:text-6xl uppercase tracking-wide mb-4">Industry-Specific Marketing</h1>
+            <p className="font-dm text-xl text-warm-cream/80">
               Specialized marketing and consulting services tailored for different contracting trades in Hudson Valley.
             </p>
           </div>
@@ -109,11 +109,11 @@ const IndustriesIndex: React.FC = () => {
       </section>
       {/* Breadcrumbs */}
       <div className="container-custom mt-6">
-        <nav className="mb-6 text-sm" aria-label="Breadcrumb">
-          <ol className="flex items-center space-x-2 text-gray-600">
-            <li><Link to="/">Home</Link></li>
+        <nav className="mb-6 text-sm font-dm" aria-label="Breadcrumb">
+          <ol className="flex items-center space-x-2 text-warm-cream/60">
+            <li><Link to="/" className="hover:text-action-yellow transition-colors">Home</Link></li>
             <li aria-hidden="true">/</li>
-            <li className="text-gray-800" aria-current="page">Industries</li>
+            <li className="text-warm-cream" aria-current="page">Industries</li>
           </ol>
         </nav>
       </div>
@@ -122,7 +122,7 @@ const IndustriesIndex: React.FC = () => {
         <div className="container-custom">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {industries.map((industry) => (
-              <Card key={industry.name} className="overflow-hidden border-none shadow-lg">
+              <Card key={industry.name} className="overflow-hidden border-none shadow-lg bg-warm-cream rounded-3xl transition-all duration-300 hover:-translate-y-2 hover:shadow-lift">
                 <div className="h-48 overflow-hidden">
                   <img 
                     src={industry.image} 
@@ -133,15 +133,15 @@ const IndustriesIndex: React.FC = () => {
                 </div>
                 <CardContent className="p-6">
                   <div className="flex items-center mb-4">
-                    <div className="bg-hvcg-blue/10 p-3 rounded-full mr-4">
+                    <div className="bg-action-yellow/20 p-3 rounded-3xl mr-4">
                       {industry.icon}
                     </div>
-                    <h2 className="text-2xl font-bold text-hvcg-blue-dark">{industry.name}</h2>
+                    <h2 className="font-archivo text-2xl uppercase tracking-wide text-club-green">{industry.name}</h2>
                   </div>
                   
-                  <p className="text-gray-700 mb-6">{industry.description}</p>
+                  <p className="font-dm text-club-green/80 mb-6">{industry.description}</p>
                   
-                  <Button asChild className="w-full bg-hvcg-blue-dark hover:bg-hvcg-blue">
+                  <Button asChild className="w-full bg-club-green hover:bg-club-green/90 text-warm-cream rounded-pill font-dm font-bold uppercase tracking-wide transition-all hover:shadow-lift">
                     <Link to={industry.path} className="flex items-center justify-center">
                       Learn More <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
@@ -151,12 +151,12 @@ const IndustriesIndex: React.FC = () => {
             ))}
           </div>
           
-          <div className="mt-16 p-8 bg-hvcg-gray rounded-lg">
-            <h2 className="text-2xl font-bold text-hvcg-blue-dark mb-4">Don't See Your Industry?</h2>
-            <p className="text-gray-700 mb-4">
+          <div className="mt-16 p-8 bg-varsity-maroon rounded-3xl">
+            <h2 className="font-archivo text-2xl md:text-3xl uppercase tracking-wide text-action-yellow mb-4">Don't See Your Industry?</h2>
+            <p className="font-dm text-warm-cream/80 mb-4">
               We work with all types of contractors in the Hudson Valley area. Our marketing and consulting services can be tailored to your specific trade and business needs.
             </p>
-            <Button asChild className="bg-hvcg-blue-dark hover:bg-hvcg-blue">
+            <Button asChild className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill font-dm font-bold uppercase tracking-wide px-6 py-3 transition-all hover:shadow-lift">
               <Link to="/booking">Contact Us</Link>
             </Button>
           </div>
