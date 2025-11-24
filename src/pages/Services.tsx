@@ -31,7 +31,7 @@ const Services: React.FC = () => {
             {/* AI Solutions Section */}
             <ServiceContent
               id="ai-solutions"
-              icon={<Bot className="text-hvcg-blue-dark w-16 h-16" />}
+              icon={<Bot className="text-action-yellow w-16 h-16" />}
               title="AI Solutions"
               description="AI that turns searches into customers: chatbots that qualify leads, automate follow‑ups, and surface insights to lower cost per lead."
               features={[
@@ -47,7 +47,7 @@ const Services: React.FC = () => {
             {/* Google Ads Section */}
             <ServiceContent
               id="google-ads"
-              icon={<Building className="text-hvcg-blue-dark w-16 h-16" />}
+              icon={<Building className="text-action-yellow w-16 h-16" />}
               title="Google Ads"
               description="Targeted Google Ads campaigns that bring qualified leads directly to your business. We specialize in local service ads and search campaigns that reach homeowners when they're actively looking for your services."
               features={[
@@ -61,7 +61,7 @@ const Services: React.FC = () => {
             {/* SEO Section */}
             <ServiceContent
               id="seo"
-              icon={<Search className="text-hvcg-blue-dark w-16 h-16" />}
+              icon={<Search className="text-action-yellow w-16 h-16" />}
               title="Search Engine Optimization"
               description="Local SEO strategies that help your contracting business appear in search results when homeowners in your area are looking for your services, generating organic leads month after month."
               features={[
@@ -75,7 +75,7 @@ const Services: React.FC = () => {
             {/* Social Media Marketing Section */}
             <ServiceContent
               id="social-media"
-              icon={<Share2 className="text-hvcg-blue-dark w-16 h-16" />}
+              icon={<Share2 className="text-action-yellow w-16 h-16" />}
               title="Social Media Marketing"
               description="Strategic social media campaigns that showcase your work, build trust with potential customers, and create a strong online presence for your contracting business."
               features={[
@@ -89,7 +89,7 @@ const Services: React.FC = () => {
             {/* Website Development Section */}
             <ServiceContent
               id="website"
-              icon={<Code className="text-hvcg-blue-dark w-16 h-16" />}
+              icon={<Code className="text-action-yellow w-16 h-16" />}
               title="Website Development"
               description="High-converting websites designed specifically for contractors that showcase your work, generate leads, and build trust with potential customers."
               features={[
@@ -103,7 +103,7 @@ const Services: React.FC = () => {
             {/* Business Consulting Section */}
             <ServiceContent
               id="consulting"
-              icon={<Users className="text-hvcg-blue-dark w-16 h-16" />}
+              icon={<Users className="text-action-yellow w-16 h-16" />}
               title="Business Consulting"
               description="Strategic business consulting that helps contracting businesses improve operations, increase profitability, and scale effectively in the competitive Hudson Valley market."
               features={[

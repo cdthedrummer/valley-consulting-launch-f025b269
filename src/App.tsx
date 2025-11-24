@@ -17,7 +17,6 @@ import Resources from "./pages/Resources";
 import MarketingChecklist from "./pages/MarketingChecklist";
 import AICopilot from "./pages/AICopilot";
 import AIDashboard from "./pages/AIDashboard";
-import AIDashboardSellIn from "./pages/AIDashboardSellIn";
 import TrialExpired from "./pages/TrialExpired";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Privacy from "./pages/Privacy";
@@ -34,7 +33,6 @@ import Flooring from "./pages/industries/Flooring";
 import Advertising from "./pages/services/Advertising";
 import SEO from "./pages/services/SEO";
 import Consulting from "./pages/services/Consulting";
-import Testimonials from "./pages/Testimonials";
 import Terms from "./pages/Terms";
 import Refunds from "./pages/Refunds";
 import Sitemap from "./pages/Sitemap";
@@ -76,8 +74,7 @@ function App() {
                   <Route path="/resources" element={<Resources />} />
                   <Route path="/resources/marketing-checklist" element={<MarketingChecklist />} />
                   <Route path="/resources/ai-copilot" element={<AICopilot />} />
-                  <Route path="/resources/ai-dashboard-sell-in" element={<AIDashboardSellIn />} />
-                  <Route 
+                  <Route
                     path="/ai/dashboard" 
                     element={
                       <ProtectedRoute>
@@ -96,7 +93,6 @@ function App() {
                   />
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/privacy" element={<Privacy />} />
-                  <Route path="/testimonials" element={<Testimonials />} />
                   <Route path="/terms" element={<Terms />} />
                   <Route path="/refunds" element={<Refunds />} />
                   <Route path="/sitemap" element={<Sitemap />} />

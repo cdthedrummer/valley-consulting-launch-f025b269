@@ -24,12 +24,13 @@ const Advertising: React.FC = () => {
         description="Targeted local ads across Google and social to drive qualified leads for Hudson Valley businesses."
         canonicalUrl="/services/advertising"
       />
-      <ServiceDetailLayout
-        icon={<Building className="text-hvcg-blue-dark w-10 h-10" />}
-        title="Google Ads for Contractors"
-        description="Targeted local ads that reach homeowners in need of your services, right when they're searching."
-        approachTitle="Our Advertising Approach"
-        approachDescription={approachDescription}
+      <div className="bg-club-green min-h-screen">
+        <ServiceDetailLayout
+          icon={<Building className="text-action-yellow w-10 h-10" />}
+          title="Google Ads for Contractors"
+          description="Targeted local ads that reach homeowners in need of your services, right when they're searching."
+          approachTitle="Our Advertising Approach"
+          approachDescription={approachDescription}
         servicesList={[
           "Google Ads campaign creation and management",
           "Facebook and Instagram targeted advertising",
@@ -59,10 +60,10 @@ const Advertising: React.FC = () => {
         ]}
       />
 
-      <div className="container mx-auto px-4">
-        <FAQSection
-          title="Advertising services: frequently asked questions"
-          faqs={[
+        <div className="container mx-auto px-4 pb-16">
+          <FAQSection
+            title="Advertising services: frequently asked questions"
+            faqs={[
             {
               question: "Which platforms do you manage?",
               answer: "Google Search and Performance Max, Local Services Ads (LSAs), Facebook/Instagram, and occasionally YouTube and TikTok depending on fit."
@@ -84,7 +85,8 @@ const Advertising: React.FC = () => {
               answer: "Clear monthly reports with spend, CPL, calls, form fills, and recommended next steps—plus ongoing optimization notes."
             }
           ]}
-        />
+          />
+        </div>
       </div>
     </>
   );

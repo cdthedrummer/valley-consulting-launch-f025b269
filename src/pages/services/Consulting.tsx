@@ -24,12 +24,13 @@ const Consulting: React.FC = () => {
         description="Practical marketing consulting for Hudson Valley businesses—audits, strategy, and roadmaps that drive growth."
         canonicalUrl="/services/consulting"
       />
-      <ServiceDetailLayout
-        icon={<Users className="text-hvcg-blue-dark w-10 h-10" />}
-        title="Consulting for Contractors"
-        description="Expert advice tailored to your contracting business, helping you make smart marketing decisions."
-        approachTitle="Our Consulting Approach"
-        approachDescription={approachDescription}
+      <div className="bg-club-green min-h-screen">
+        <ServiceDetailLayout
+          icon={<Users className="text-action-yellow w-10 h-10" />}
+          title="Consulting for Contractors"
+          description="Expert advice tailored to your contracting business, helping you make smart marketing decisions."
+          approachTitle="Our Consulting Approach"
+          approachDescription={approachDescription}
         servicesList={[
           "Comprehensive marketing audits",
           "Competitor analysis and market positioning",
@@ -60,10 +61,10 @@ const Consulting: React.FC = () => {
         ]}
       />
 
-      <div className="container mx-auto px-4">
-        <FAQSection
-          title="Consulting services: frequently asked questions"
-          faqs={[
+        <div className="container mx-auto px-4 pb-16">
+          <FAQSection
+            title="Consulting services: frequently asked questions"
+            faqs={[
             {
               question: "What topics can we cover in consulting?",
               answer: "Marketing audits, positioning, lead funnels, pricing, analytics, hiring vendors, and prioritizing a 90‑day roadmap tailored to your goals."
@@ -85,7 +86,8 @@ const Consulting: React.FC = () => {
               answer: "Clarity on priorities, a practical plan, and measurable improvements in lead flow, conversion rate, or retention within weeks."
             }
           ]}
-        />
+          />
+        </div>
       </div>
     </>
   );
