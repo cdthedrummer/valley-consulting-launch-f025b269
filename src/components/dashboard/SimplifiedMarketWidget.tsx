@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, DollarSign, Users, Building2, RefreshCcw, Search, AlertTriangle } from 'lucide-react';
+import { TrendingUp, DollarSign, Users, Building2, RefreshCcw, Search, AlertTriangle, Clock } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import StatsCard from '../StatsCard';
+import { formatDistanceToNow } from 'date-fns';
 
 interface SimplifiedMarketWidgetProps {
   location?: string;
@@ -17,6 +18,7 @@ export const SimplifiedMarketWidget: React.FC<SimplifiedMarketWidgetProps> = ({
   industry = 'Construction',
   className
 }) => {
+  const [lastUpdated] = useState(new Date());
   const [marketData, setMarketData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -97,12 +99,18 @@ export const SimplifiedMarketWidget: React.FC<SimplifiedMarketWidgetProps> = ({
             <TrendingUp className="h-5 w-5 text-action-yellow" />
             Market Snapshot
           </CardTitle>
-          {error && (
-            <Badge className="text-xs bg-action-yellow/20 text-club-green border border-action-yellow/30 font-dm">
-              <AlertTriangle className="h-3 w-3 mr-1" />
-              Sample Data
-            </Badge>
-          )}
+          <div className="flex items-center gap-2">
+            {error && (
+              <Badge className="text-xs bg-action-yellow/20 text-club-green border border-action-yellow/30 font-dm">
+                <AlertTriangle className="h-3 w-3 mr-1" />
+                Sample Data
+              </Badge>
+            )}
+            <div className="flex items-center gap-1 text-xs text-club-green/50 font-dm">
+              <Clock className="h-3 w-3" />
+              {formatDistanceToNow(lastUpdated, { addSuffix: true })}
+            </div>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">

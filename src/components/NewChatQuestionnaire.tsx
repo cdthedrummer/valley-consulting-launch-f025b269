@@ -96,9 +96,9 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             {savedProfile 
               ? 'Update your business information to keep your AI insights accurate and personalized.'
-              : 'Get personalized marketing insights tailored to your location and industry.'
+              : 'Just 3 quick questions to unlock personalized marketing insights.'
             }
-            <span className="block mt-1 text-sm">Takes less than 60 seconds to {savedProfile ? 'update' : 'set up'}!</span>
+            <span className="block mt-1 text-sm">Takes less than 30 seconds!</span>
           </p>
         </CardHeader>
         
@@ -128,199 +128,112 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
 
           <Separator />
 
-          {/* Setup Form */}
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-            {/* Left Column - Basic Info */}
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2">
-                  <Zap className="h-5 w-5 text-primary" />
-                  <span>Tell Us About Your Business</span>
-                  <span className="ml-2 text-xs font-normal text-muted-foreground">(Optional but recommended)</span>
-                </h3>
-                
-                <div className="space-y-4">
+          {/* Simplified Setup Form - 3 Essential Questions */}
+          <div className="max-w-2xl mx-auto space-y-6">
+            <div>
+              <h3 className="text-xl font-semibold mb-6 flex items-center space-x-2">
+                <Zap className="h-6 w-6 text-primary" />
+                <span>3 Quick Questions</span>
+              </h3>
+              
+              <div className="space-y-6">
+                {/* Question 1: Location */}
+                <div className="p-6 bg-accent/30 rounded-lg border-2 border-primary/20">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold">
+                      1
+                    </div>
+                    <label className="text-base font-semibold">Where do you serve customers?</label>
+                  </div>
                   <LocationInput 
                     onLocationSelect={handleLocationSelect}
                     className="w-full"
                   />
-                  
+                  <p className="text-xs text-muted-foreground mt-2">
+                    💡 We'll find local opportunities and competitors in your area
+                  </p>
+                </div>
+
+                {/* Question 2: Industry */}
+                <div className="p-6 bg-accent/30 rounded-lg border-2 border-primary/20">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold">
+                      2
+                    </div>
+                    <label className="text-base font-semibold">What industry are you in?</label>
+                  </div>
                   <IndustrySelector 
                     value={industry}
                     onValueChange={setIndustry}
                     className="w-full"
                   />
-                </div>
-              </div>
-
-              {/* Company Profile Section */}
-              <div>
-                <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2">
-                  <Building2 className="h-5 w-5 text-primary" />
-                  <span>Company Details</span>
-                  <span className="ml-2 text-xs font-normal text-muted-foreground">(Optional - helps personalize results)</span>
-                </h3>
-                
-                <div className="space-y-4">
-                  <div>
-                    <label htmlFor="business-name" className="text-sm font-medium block mb-1.5">
-                      Business Name
-                    </label>
-                    <Input
-                      id="business-name"
-                      type="text"
-                      placeholder="e.g., Smith's HVAC Services"
-                      value={businessName}
-                      onChange={(e) => setBusinessName(e.target.value)}
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="website" className="text-sm font-medium block mb-1.5">
-                      Website URL
-                    </label>
-                    <Input
-                      id="website"
-                      type="url"
-                      placeholder="e.g., https://www.yourbusiness.com"
-                      value={websiteUrl}
-                      onChange={(e) => setWebsiteUrl(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="years" className="text-sm font-medium block mb-1.5">
-                        Years in Business
-                      </label>
-                      <Input
-                        id="years"
-                        type="number"
-                        placeholder="e.g., 15"
-                        value={yearsInBusiness}
-                        onChange={(e) => setYearsInBusiness(e.target.value)}
-                        min="0"
-                        max="100"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="radius" className="text-sm font-medium block mb-1.5">
-                        Service Radius (miles)
-                      </label>
-                      <Input
-                        id="radius"
-                        type="number"
-                        placeholder="e.g., 50"
-                        value={serviceRadius}
-                        onChange={(e) => setServiceRadius(e.target.value)}
-                        min="0"
-                        max="500"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Optional Context Section */}
-              <div>
-                <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2">
-                  <Sparkles className="h-5 w-5 text-primary" />
-                  <span>Additional Context</span>
-                  <span className="ml-2 text-xs font-normal text-muted-foreground">(Optional - helps provide better insights)</span>
-                </h3>
-                
-                <div className="p-4 bg-primary/5 rounded-lg border border-primary/20 space-y-4">
-                  <p className="text-sm text-muted-foreground">
-                    💡 These details help us provide more targeted, actionable insights
+                  <p className="text-xs text-muted-foreground mt-2">
+                    💡 We'll provide industry-specific insights and strategies
                   </p>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex items-center space-x-2 mb-1.5">
-                        <Target className="h-4 w-4 text-primary" />
-                        <label htmlFor="marketing-goal" className="text-sm font-medium">
-                          What's your #1 marketing goal?
-                        </label>
-                      </div>
-                      <Input
-                        id="marketing-goal"
-                        type="text"
-                        placeholder="e.g., Get more qualified leads, Build brand awareness, etc."
-                        value={marketingGoal}
-                        onChange={(e) => setMarketingGoal(e.target.value)}
-                      />
-                    </div>
+                </div>
 
-                    <div>
-                      <div className="flex items-center space-x-2 mb-1.5">
-                        <DollarSign className="h-4 w-4 text-primary" />
-                        <label htmlFor="monthly-budget" className="text-sm font-medium">
-                          Monthly Marketing Budget
-                        </label>
-                      </div>
-                      <Input
-                        id="monthly-budget"
-                        type="text"
-                        placeholder="e.g., $500-1000, $2000+, or 'Not sure yet'"
-                        value={monthlyBudget}
-                        onChange={(e) => setMonthlyBudget(e.target.value)}
-                      />
+                {/* Question 3: Business Name */}
+                <div className="p-6 bg-accent/30 rounded-lg border-2 border-primary/20">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold">
+                      3
                     </div>
-
-                    <div>
-                      <div className="flex items-center space-x-2 mb-1.5">
-                        <Users className="h-4 w-4 text-primary" />
-                        <label htmlFor="ideal-customers" className="text-sm font-medium">
-                          Who are your ideal customers?
-                        </label>
-                      </div>
-                      <Textarea
-                        id="ideal-customers"
-                        placeholder="e.g., Homeowners aged 35-55 in suburban areas who value quality over price..."
-                        value={idealCustomers}
-                        onChange={(e) => setIdealCustomers(e.target.value)}
-                        rows={3}
-                      />
-                    </div>
+                    <label htmlFor="business-name" className="text-base font-semibold">
+                      What's your business name?
+                    </label>
                   </div>
+                  <Input
+                    id="business-name"
+                    type="text"
+                    placeholder="e.g., Smith's HVAC Services"
+                    value={businessName}
+                    onChange={(e) => setBusinessName(e.target.value)}
+                    className="text-base h-12"
+                  />
+                  <p className="text-xs text-muted-foreground mt-2">
+                    💡 We'll personalize your dashboard and insights
+                  </p>
                 </div>
               </div>
 
               {/* Preview */}
-              {(location || industry) && (
-                <div className="p-4 bg-accent rounded-lg">
-                  <h4 className="font-medium mb-2">Your AI will be optimized for:</h4>
-                  <ul className="text-sm text-muted-foreground space-y-1">
+              {(location || industry || businessName) && (
+                <div className="mt-6 p-4 bg-primary/10 rounded-lg border-l-4 border-primary">
+                  <h4 className="font-medium mb-2 flex items-center gap-2">
+                    <Sparkles className="h-4 w-4" />
+                    Ready to unlock:
+                  </h4>
+                  <ul className="text-sm text-muted-foreground space-y-1.5">
+                    {businessName && (
+                      <li>✨ Personalized dashboard for {businessName}</li>
+                    )}
                     {location && (
-                      <li>• Service area: {location} ({locationType})</li>
+                      <li>📍 Local market intelligence for {location}</li>
                     )}
                     {industry && (
-                      <li>• Industry: {industry}</li>
+                      <li>🎯 {industry}-specific strategies and insights</li>
                     )}
-                    <li>• Language: {language}</li>
+                    <li>🤖 AI marketing copilot in {language}</li>
                   </ul>
                 </div>
               )}
             </div>
 
-            {/* Right Column - Quick Questions */}
-            <div>
-              <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2">
-                <MessageSquare className="h-5 w-5 text-primary" />
-                <span>Get Started Quickly</span>
-              </h3>
-              
+            {/* Quick Start Questions */}
+            <div className="pt-4">
+              <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
+                <MessageSquare className="h-4 w-4 text-primary" />
+                Or start with a question:
+              </h4>
               <PrefilledQuestions 
                 onQuestionSelect={handleQuestionSelect}
                 location={location}
                 industry={industry}
               />
-
               {selectedQuestion && (
-                <div className="mt-4 p-3 bg-primary/10 rounded-lg border-l-4 border-primary">
-                  <p className="text-sm font-medium">Selected question:</p>
-                  <p className="text-sm text-muted-foreground mt-1">"{selectedQuestion}"</p>
+                <div className="mt-3 p-3 bg-primary/10 rounded-lg border-l-4 border-primary">
+                  <p className="text-xs font-medium">Starting question:</p>
+                  <p className="text-xs text-muted-foreground mt-1">"{selectedQuestion}"</p>
                 </div>
               )}
             </div>
@@ -337,9 +250,9 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
             >
               {selectedQuestion ? '🚀 Start Chat with Question' : '💬 Start AI Chat'}
             </Button>
-            {!location && !industry && (
+            {(!location || !industry || !businessName) && (
               <p className="text-sm text-muted-foreground text-center">
-                💡 Tip: Adding your location and industry helps us provide more accurate insights
+                💡 Complete all 3 questions for the best experience (you can update these later)
               </p>
             )}
           </div>

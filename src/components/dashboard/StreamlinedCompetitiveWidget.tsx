@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Users, TrendingUp, Search, MessageSquare } from 'lucide-react';
+import { Users, TrendingUp, Search, MessageSquare, Clock } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { formatDistanceToNow } from 'date-fns';
 
 interface StreamlinedCompetitiveWidgetProps {
   location?: string;
@@ -20,6 +21,7 @@ export const StreamlinedCompetitiveWidget: React.FC<StreamlinedCompetitiveWidget
 }) => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
   useEffect(() => {
     loadCompetitiveData();
@@ -38,6 +40,7 @@ export const StreamlinedCompetitiveWidget: React.FC<StreamlinedCompetitiveWidget
 
       if (cached) {
         setData(cached.data_payload);
+        setLastUpdated(new Date(cached.collected_at || cached.created_at));
       } else {
         // Mock data
         setData({
@@ -118,10 +121,16 @@ export const StreamlinedCompetitiveWidget: React.FC<StreamlinedCompetitiveWidget
   return (
     <Card className={`${className} border-2 border-action-yellow/30 bg-warm-cream shadow-lg`}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-archivo uppercase tracking-wide text-club-green">
-          <Users className="h-5 w-5 text-action-yellow" />
-          Competitive Edge
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2 font-archivo uppercase tracking-wide text-club-green">
+            <Users className="h-5 w-5 text-action-yellow" />
+            Competitive Edge
+          </CardTitle>
+          <div className="flex items-center gap-1 text-xs text-club-green/50 font-dm">
+            <Clock className="h-3 w-3" />
+            {formatDistanceToNow(lastUpdated, { addSuffix: true })}
+          </div>
+        </div>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Your Position */}
