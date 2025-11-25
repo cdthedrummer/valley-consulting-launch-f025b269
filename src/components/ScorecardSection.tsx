@@ -2,32 +2,54 @@ import React, { useState } from 'react';
 import { Trophy } from 'lucide-react';
 
 const ScorecardSection: React.FC = () => {
-  const [isHVCG, setIsHVCG] = useState(true);
-
   const metrics = [
     {
-      category: 'NEW LEADS PER MONTH',
-      par: '2-5 leads',
-      hvcg: '15-20 leads',
-      improvement: '3-4x More'
+      category: 'TIME TO LAUNCH',
+      diy: '2-4 months',
+      agency: '4-8 weeks',
+      hvcg: '1-2 weeks'
     },
     {
-      category: 'YOUR TIME SPENT',
-      par: '5-10 hours',
-      hvcg: '~0 hours',
-      improvement: 'We Handle It'
+      category: 'MONTHLY COST',
+      diy: '$0-200',
+      agency: '$2,000-5,000',
+      hvcg: '$750-1,500'
     },
     {
-      category: 'DATA ACCESS',
-      par: 'Monthly reports',
-      hvcg: 'Live dashboard',
-      improvement: 'Real-Time'
+      category: 'UPDATE SPEED',
+      diy: 'Days/weeks',
+      agency: '1-2 weeks',
+      hvcg: '24-48 hours'
     },
     {
-      category: 'MARKETING ROI',
-      par: '$1.80 returned',
-      hvcg: '$4.20 returned',
-      improvement: '2.3x Better'
+      category: 'LOCAL DATA INSIGHTS',
+      diy: 'None',
+      agency: 'Basic reports',
+      hvcg: 'Real-time AI'
+    },
+    {
+      category: 'YOUR TIME REQUIRED',
+      diy: '10-20 hrs/week',
+      agency: '2-3 hrs/week',
+      hvcg: '<1 hr/week'
+    },
+    {
+      category: 'AI-POWERED FEATURES',
+      diy: 'None',
+      agency: 'Rarely',
+      hvcg: 'Built-in'
+    },
+    {
+      category: 'TECH STACK',
+      diy: 'DIY tools',
+      agency: 'Varies',
+      hvcg: 'Enterprise-grade'
+    },
+    {
+      category: 'SUPPORT RESPONSE',
+      diy: 'Forums/tutorials',
+      agency: '24-48 hours',
+      hvcg: 'Same day'
     }
   ];
 
@@ -51,88 +73,55 @@ const ScorecardSection: React.FC = () => {
             </span>
           </div>
           <h2 className="font-archivo text-warm-cream text-4xl md:text-5xl lg:text-6xl uppercase tracking-wide leading-none">
-            THE <span className="text-action-yellow">SCORECARD</span>
+            THE <span className="text-action-yellow">COMPARISON</span>
           </h2>
           <p className="font-dm text-warm-cream/70 text-lg md:text-xl max-w-3xl mx-auto">
-            See how working with us compares to doing it yourself or working with typical agencies.
+            See how we stack up against doing it yourself or working with typical agencies.
           </p>
         </div>
 
-        {/* Toggle Switch */}
-        <div className="flex items-center justify-center mb-12">
-          <div className="bg-club-green/50 rounded-pill p-2 backdrop-blur-sm border border-warm-cream/10">
-            <button
-              onClick={() => setIsHVCG(false)}
-              className={`px-6 py-3 rounded-pill font-dm font-bold uppercase tracking-wide text-sm transition-all ${
-                !isHVCG
-                  ? 'bg-warm-cream text-club-green'
-                  : 'text-warm-cream/60 hover:text-warm-cream'
-              }`}
-            >
-              DIY / TYPICAL AGENCY
-            </button>
-            <button
-              onClick={() => setIsHVCG(true)}
-              className={`px-6 py-3 rounded-pill font-dm font-bold uppercase tracking-wide text-sm transition-all ${
-                isHVCG
-                  ? 'bg-action-yellow text-club-green'
-                  : 'text-warm-cream/60 hover:text-warm-cream'
-              }`}
-            >
-              WORKING WITH HVCG
-            </button>
-          </div>
-        </div>
-
         {/* Scorecard Table */}
-        <div className="max-w-4xl mx-auto bg-warm-cream rounded-3xl overflow-hidden shadow-2xl">
-          <div className="p-8 md:p-12">
+        <div className="max-w-6xl mx-auto bg-warm-cream rounded-3xl overflow-hidden shadow-2xl">
+          <div className="p-6 md:p-10 overflow-x-auto">
             {/* Table Header */}
-            <div className="grid grid-cols-3 gap-4 mb-6 pb-6 border-b-2 border-dashed border-club-green/20">
-              <div className="font-archivo text-club-green text-sm uppercase tracking-widest">
-                METRIC
+            <div className="grid grid-cols-4 gap-3 md:gap-4 mb-6 pb-6 border-b-2 border-dashed border-club-green/20 min-w-[600px]">
+              <div className="font-archivo text-club-green text-xs md:text-sm uppercase tracking-widest">
+                
               </div>
-              <div className="font-archivo text-club-green/60 text-sm uppercase tracking-widest text-center">
-                Typical Results
+              <div className="font-archivo text-club-green/50 text-xs md:text-sm uppercase tracking-widest text-center">
+                DIY
               </div>
-              <div className="font-archivo text-action-yellow text-sm uppercase tracking-widest text-center">
-                With HVCG
+              <div className="font-archivo text-club-green/60 text-xs md:text-sm uppercase tracking-widest text-center">
+                Typical Agency
+              </div>
+              <div className="font-archivo text-action-yellow text-xs md:text-sm uppercase tracking-widest text-center">
+                HVCG
               </div>
             </div>
 
             {/* Table Rows */}
-            <div className="space-y-6">
+            <div className="space-y-4 min-w-[600px]">
               {metrics.map((metric, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-3 gap-4 pb-6 border-b border-dashed border-club-green/10 last:border-0 transition-all duration-300"
+                  className="grid grid-cols-4 gap-3 md:gap-4 pb-4 border-b border-dashed border-club-green/10 last:border-0 items-center"
                 >
-                  <div className="font-dm text-club-green font-bold uppercase text-sm tracking-wide">
+                  <div className="font-dm text-club-green font-bold uppercase text-xs md:text-sm tracking-wide">
                     {metric.category}
                   </div>
-                  <div className="font-dm text-club-green/70 text-center">
-                    {metric.par}
+                  <div className="font-dm text-club-green/50 text-xs md:text-sm text-center">
+                    {metric.diy}
+                  </div>
+                  <div className="font-dm text-club-green/70 text-xs md:text-sm text-center">
+                    {metric.agency}
                   </div>
                   <div className="text-center relative">
-                    <div className={`inline-flex items-center justify-center transition-all duration-300 ${
-                      isHVCG ? 'scale-110' : 'scale-100'
-                    }`}>
-                      {isHVCG && (
-                        <div className="absolute inset-0 bg-action-yellow/20 rounded-full -m-3 animate-pulse"></div>
-                      )}
-                      <span className={`font-dm font-bold relative z-10 ${
-                        isHVCG ? 'text-club-green' : 'text-club-green/70'
-                      }`}>
+                    <div className="inline-flex items-center justify-center">
+                      <div className="absolute inset-0 bg-action-yellow/10 rounded-full -m-2"></div>
+                      <span className="font-dm font-bold text-xs md:text-sm text-club-green relative z-10">
                         {metric.hvcg}
                       </span>
                     </div>
-                    {isHVCG && (
-                      <div className="absolute -right-8 top-1/2 -translate-y-1/2">
-                        <span className="font-dm text-action-yellow text-xs font-bold uppercase tracking-wide">
-                          {metric.improvement}
-                        </span>
-                      </div>
-                    )}
                   </div>
                 </div>
               ))}
@@ -141,7 +130,7 @@ const ScorecardSection: React.FC = () => {
             {/* Bottom Note */}
             <div className="mt-8 pt-6 border-t-2 border-dashed border-club-green/20 text-center">
               <p className="font-dm text-club-green/60 text-sm italic">
-                Real results from contractors we work with in the Hudson Valley
+                Real comparisons based on our experience with contractors in the Hudson Valley
               </p>
             </div>
           </div>
