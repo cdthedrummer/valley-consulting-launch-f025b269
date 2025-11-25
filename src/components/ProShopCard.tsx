@@ -8,6 +8,7 @@ interface ProShopCardProps {
   subtitle: string;
   description: string;
   link: string;
+  cardBg?: string;
   iconBg?: string;
 }
 
@@ -17,18 +18,24 @@ const ProShopCard: React.FC<ProShopCardProps> = ({
   subtitle,
   description,
   link,
+  cardBg = 'bg-club-green',
   iconBg = 'bg-action-yellow'
 }) => {
-  // Determine icon color based on background
-  const iconColor = iconBg === 'bg-club-green' || iconBg === 'bg-[#2D5A3D]' || iconBg === 'bg-varsity-maroon' ? 'text-warm-cream' : 'text-club-green';
+  // Determine text colors based on card background
+  const isYellowCard = cardBg === 'bg-action-yellow';
+  const titleColor = isYellowCard ? 'text-club-green' : 'text-action-yellow';
+  const textColor = isYellowCard ? 'text-club-green/80' : 'text-warm-cream/80';
+  const subtitleColor = isYellowCard ? 'text-club-green/60' : 'text-warm-cream/60';
+  const exploreColor = isYellowCard ? 'text-club-green' : 'text-action-yellow';
+  const iconColor = iconBg === 'bg-action-yellow' ? 'text-club-green' : 'text-action-yellow';
   
   return (
     <Link
       to={link}
-      className="group relative bg-club-green rounded-3xl overflow-hidden border border-warm-cream/10 transition-all duration-300 hover:-translate-y-2 hover:shadow-lift active:scale-95"
+      className={`group relative ${cardBg} rounded-3xl overflow-hidden border border-warm-cream/10 transition-all duration-300 hover:-translate-y-2 hover:shadow-lift active:scale-95`}
     >
       {/* Top Half - Icon Section */}
-      <div className="relative h-48 bg-gradient-to-br from-club-green to-club-green/80 flex items-center justify-center overflow-hidden">
+      <div className={`relative h-48 bg-gradient-to-br ${cardBg === 'bg-club-green' ? 'from-club-green to-club-green/80' : cardBg === 'bg-varsity-maroon' ? 'from-varsity-maroon to-varsity-maroon/80' : cardBg === 'bg-action-yellow' ? 'from-action-yellow to-action-yellow/90' : 'from-[#5D4E37] to-[#5D4E37]/80'} flex items-center justify-center overflow-hidden`}>
         <div className={`${iconBg} rounded-full w-20 h-20 flex items-center justify-center transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
           <Icon className={`w-10 h-10 ${iconColor}`} />
         </div>
@@ -45,19 +52,19 @@ const ProShopCard: React.FC<ProShopCardProps> = ({
       {/* Bottom Half - Content */}
       <div className="p-6 space-y-3">
         <div>
-          <h3 className="font-archivo text-action-yellow text-2xl uppercase tracking-wide leading-none">
+          <h3 className={`font-archivo ${titleColor} text-2xl uppercase tracking-wide leading-none`}>
             {title}
           </h3>
-          <p className="font-dm text-warm-cream/60 text-sm uppercase tracking-widest mt-1">
+          <p className={`font-dm ${subtitleColor} text-sm uppercase tracking-widest mt-1`}>
             {subtitle}
           </p>
         </div>
 
-        <p className="font-dm text-warm-cream/80 text-base leading-relaxed">
+        <p className={`font-dm ${textColor} text-base leading-relaxed`}>
           {description}
         </p>
 
-        <div className="flex items-center text-action-yellow font-dm text-sm uppercase tracking-wide font-bold pt-2 group-hover:translate-x-1 transition-transform">
+        <div className={`flex items-center ${exploreColor} font-dm text-sm uppercase tracking-wide font-bold pt-2 group-hover:translate-x-1 transition-transform`}>
           EXPLORE
           <ArrowRight className="ml-2 h-4 w-4" />
         </div>

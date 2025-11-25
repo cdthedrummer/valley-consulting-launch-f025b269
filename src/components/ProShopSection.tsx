@@ -27,6 +27,7 @@ const ProShopSection: React.FC = () => {
             subtitle="Get Found on Google"
             description="Professional websites built for contractors. We handle everything—design, Google setup, and making sure you show up when customers search."
             link="/services"
+            cardBg="bg-club-green"
             iconBg="bg-action-yellow"
           />
 
@@ -36,7 +37,8 @@ const ProShopSection: React.FC = () => {
             subtitle="Get Leads Fast"
             description="Run targeted ads on Google, Facebook, and Instagram to reach customers actively searching for your services. Pay only for results."
             link="/services/advertising"
-            iconBg="bg-varsity-maroon"
+            cardBg="bg-varsity-maroon"
+            iconBg="bg-action-yellow"
           />
 
           <ProShopCard
@@ -45,6 +47,7 @@ const ProShopSection: React.FC = () => {
             subtitle="See Your Results"
             description="Track your website visitors, leads, and where they're coming from. Real data on what's working for your business."
             link="/ai/dashboard"
+            cardBg="bg-action-yellow"
             iconBg="bg-club-green"
           />
 
@@ -54,7 +57,8 @@ const ProShopSection: React.FC = () => {
             subtitle="Be Found by AI"
             description="Optimize your site for AI search engines like ChatGPT, Claude, and Gemini. Get recommended when AI tools answer questions."
             link="/services/geo"
-            iconBg="bg-[#2D5A3D]"
+            cardBg="bg-[#5D4E37]"
+            iconBg="bg-action-yellow"
           />
         </div>
 

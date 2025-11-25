@@ -123,15 +123,15 @@ const ClubhouseNavbar: React.FC = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="fixed inset-0 z-40 bg-club-green/98 backdrop-blur-md md:hidden">
-          <div className="flex flex-col items-center justify-center h-full space-y-8">
+        <div className="fixed inset-0 z-40 bg-club-green md:hidden">
+          <div className="flex flex-col items-center justify-center h-full space-y-8 px-6">
             {navSections.map((section) => (
               <button
                 key={section.id}
                 onClick={() => scrollToSection(section.id)}
                 className={`font-dm text-xl uppercase tracking-widest transition-colors ${
                   activeSection === section.id && location.pathname === '/'
-                    ? 'text-action-yellow'
+                    ? 'text-action-yellow font-bold'
                     : 'text-warm-cream hover:text-action-yellow'
                 }`}
               >
