@@ -7,8 +7,8 @@ const navSections = [
   { id: 'overview', label: 'OVERVIEW' },
   { id: 'pro-shop', label: 'PRO SHOP' },
   { id: 'vibe', label: 'THE VIBE' },
-  { id: 'tech-stack', label: 'TECH STACK' },
   { id: 'scorecard', label: 'SCORECARD' },
+  { id: 'tech-stack', label: 'TECH STACK' },
 ];
 
 const ClubhouseNavbar: React.FC = () => {
@@ -68,7 +68,7 @@ const ClubhouseNavbar: React.FC = () => {
       <nav className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[90%] max-w-5xl ${
         scrolled ? 'top-2' : 'top-6'
       }`}>
-        <div className="bg-club-green/98 backdrop-blur-md rounded-pill shadow-2xl border-2 border-warm-cream/20">
+        <div className="bg-club-green/80 backdrop-blur-sm rounded-pill shadow-2xl border-2 border-warm-cream/20">
           <div className="px-6 py-4 flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="flex items-center">
