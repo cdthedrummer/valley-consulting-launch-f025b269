@@ -161,79 +161,104 @@ const ScorecardSection: React.FC = () => {
         </div>
 
         {/* Tech Stack Section - Below Scorecard */}
-        <div className="mt-24 pt-12 border-t-2 border-dashed border-warm-cream/20">
-          <div className="text-center mb-12">
-            <h3 className="font-archivo text-warm-cream text-3xl md:text-4xl uppercase tracking-wide mb-4">
-              POWERED BY THE <span className="text-action-yellow">BEST</span>
+        <div id="tech-stack" className="mt-24 pt-12 border-t-2 border-dashed border-warm-cream/20">
+          <div className="text-center mb-16">
+            <h3 className="font-archivo text-warm-cream text-4xl md:text-5xl lg:text-6xl uppercase tracking-wide mb-6">
+              THE <span className="text-action-yellow">TECH BEHIND</span> YOUR SUCCESS
             </h3>
-            <p className="font-dm text-warm-cream/70 text-lg max-w-3xl mx-auto">
-              We leverage enterprise-grade data, cutting-edge AI, and battle-tested platforms to deliver results fast.
+            <p className="font-dm text-warm-cream/80 text-xl md:text-2xl max-w-3xl mx-auto">
+              Enterprise-grade data, cutting-edge AI, and battle-tested platforms delivering results fast.
             </p>
           </div>
 
-          {/* Data Sources */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div className="bg-club-green/30 backdrop-blur-sm rounded-3xl p-6 border border-warm-cream/10">
-              <h4 className="font-archivo text-action-yellow text-xl uppercase mb-3">Real Data</h4>
-              <p className="font-dm text-warm-cream/80 text-sm leading-relaxed">
-                10+ years enterprise experience + deep local contractor knowledge + US Census data = insights you can trust
+          {/* Data Sources with Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div className="bg-club-green/30 backdrop-blur-sm rounded-3xl p-8 border border-warm-cream/10 text-center">
+              <div className="text-action-yellow text-5xl font-archivo font-bold mb-3">10+</div>
+              <h4 className="font-archivo text-action-yellow text-2xl uppercase mb-4">REAL DATA</h4>
+              <p className="font-dm text-warm-cream/80 text-base leading-relaxed">
+                Years enterprise experience + local contractor expertise + US Census integration
               </p>
             </div>
-            <div className="bg-club-green/30 backdrop-blur-sm rounded-3xl p-6 border border-warm-cream/10">
-              <h4 className="font-archivo text-action-yellow text-xl uppercase mb-3">AI Powered</h4>
-              <p className="font-dm text-warm-cream/80 text-sm leading-relaxed">
-                Multi-model AI (Claude, ChatGPT, Gemini) for speed, reliability, security, and enterprise-grade features
+            <div className="bg-club-green/30 backdrop-blur-sm rounded-3xl p-8 border border-warm-cream/10 text-center">
+              <div className="text-action-yellow text-5xl font-archivo font-bold mb-3">3</div>
+              <h4 className="font-archivo text-action-yellow text-2xl uppercase mb-4">AI MODELS</h4>
+              <p className="font-dm text-warm-cream/80 text-base leading-relaxed">
+                Multi-model AI for speed, reliability, security, and enterprise-grade features
               </p>
             </div>
-            <div className="bg-club-green/30 backdrop-blur-sm rounded-3xl p-6 border border-warm-cream/10">
-              <h4 className="font-archivo text-action-yellow text-xl uppercase mb-3">Fast Delivery</h4>
-              <p className="font-dm text-warm-cream/80 text-sm leading-relaxed">
-                Built on Lovable & Replit for lightning-fast site creation, updates, and feedback loops
+            <div className="bg-club-green/30 backdrop-blur-sm rounded-3xl p-8 border border-warm-cream/10 text-center">
+              <div className="text-action-yellow text-5xl font-archivo font-bold mb-3">&lt;24hr</div>
+              <h4 className="font-archivo text-action-yellow text-2xl uppercase mb-4">FAST DELIVERY</h4>
+              <p className="font-dm text-warm-cream/80 text-base leading-relaxed">
+                Lightning-fast site creation, updates, and feedback loops
               </p>
             </div>
           </div>
 
-          {/* What Powers Your Service */}
-          <div className="bg-warm-cream rounded-3xl p-8 md:p-12">
-            <h4 className="font-archivo text-club-green text-2xl md:text-3xl uppercase text-center mb-8">
-              WHAT POWERS YOUR SERVICE
+          {/* Tech Logos */}
+          <div className="bg-warm-cream rounded-3xl p-10 md:p-16">
+            <h4 className="font-archivo text-club-green text-3xl md:text-4xl uppercase text-center mb-12">
+              POWERED BY INDUSTRY LEADERS
             </h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-club-green/80">
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-action-yellow rounded-full mt-2 flex-shrink-0"></div>
-                <p className="font-dm text-sm">
-                  <strong className="text-club-green">Professional Websites:</strong> Homepage, services, about, contact, galleries built lightning-fast
-                </p>
+            
+            {/* AI Models */}
+            <div className="mb-12">
+              <p className="font-dm text-club-green/60 text-sm uppercase tracking-widest text-center mb-6">AI Intelligence</p>
+              <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+                <img src="/images/tech-logos/claude-logo.png" alt="Anthropic Claude" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity" />
+                <img src="/images/tech-logos/chatgpt-logo.png" alt="OpenAI ChatGPT" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity" />
+                <img src="/images/tech-logos/gemini-logo.png" alt="Google Gemini" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity" />
               </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-action-yellow rounded-full mt-2 flex-shrink-0"></div>
-                <p className="font-dm text-sm">
-                  <strong className="text-club-green">Google Optimization:</strong> Search & Maps setup so customers find you when they need you
-                </p>
+            </div>
+
+            {/* Development Platforms */}
+            <div className="mb-12">
+              <p className="font-dm text-club-green/60 text-sm uppercase tracking-widest text-center mb-6">Development Speed</p>
+              <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+                <img src="/images/tech-logos/lovable-logo.png" alt="Lovable" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity" />
+                <img src="/images/tech-logos/replit-logo.png" alt="Replit" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity" />
               </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-action-yellow rounded-full mt-2 flex-shrink-0"></div>
-                <p className="font-dm text-sm">
-                  <strong className="text-club-green">Lead Generation:</strong> Click-to-call, quote forms, and CTAs that convert visitors into customers
-                </p>
+            </div>
+
+            {/* Data Sources */}
+            <div>
+              <p className="font-dm text-club-green/60 text-sm uppercase tracking-widest text-center mb-6">Data Sources</p>
+              <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+                <img src="/images/tech-logos/census-wordmark.png" alt="US Census Bureau" className="h-12 md:h-14 opacity-80 hover:opacity-100 transition-opacity" />
               </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-action-yellow rounded-full mt-2 flex-shrink-0"></div>
-                <p className="font-dm text-sm">
-                  <strong className="text-club-green">AI Site Updates:</strong> Self-service tools with training & support for easy site management
-                </p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-action-yellow rounded-full mt-2 flex-shrink-0"></div>
-                <p className="font-dm text-sm">
-                  <strong className="text-club-green">Mobile-First Design:</strong> Fast-loading, phone-friendly sites that work everywhere
-                </p>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-2 h-2 bg-action-yellow rounded-full mt-2 flex-shrink-0"></div>
-                <p className="font-dm text-sm">
-                  <strong className="text-club-green">Real-Time Analytics:</strong> Live dashboards showing exactly where your leads come from
-                </p>
+            </div>
+
+            {/* What It Powers - Compact List */}
+            <div className="mt-12 pt-12 border-t-2 border-dashed border-club-green/20">
+              <h5 className="font-archivo text-club-green text-2xl md:text-3xl uppercase text-center mb-8">
+                WHAT THIS POWERS
+              </h5>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-action-yellow rounded-full flex-shrink-0"></div>
+                  <p className="font-dm text-club-green font-bold text-base">Professional Website Builds</p>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-action-yellow rounded-full flex-shrink-0"></div>
+                  <p className="font-dm text-club-green font-bold text-base">Google Search & Maps Optimization</p>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-action-yellow rounded-full flex-shrink-0"></div>
+                  <p className="font-dm text-club-green font-bold text-base">Lead Generation Systems</p>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-action-yellow rounded-full flex-shrink-0"></div>
+                  <p className="font-dm text-club-green font-bold text-base">AI-Powered Site Updates</p>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-action-yellow rounded-full flex-shrink-0"></div>
+                  <p className="font-dm text-club-green font-bold text-base">Mobile-First Design</p>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-action-yellow rounded-full flex-shrink-0"></div>
+                  <p className="font-dm text-club-green font-bold text-base">Real-Time Analytics Dashboards</p>
+                </div>
               </div>
             </div>
           </div>
