@@ -108,7 +108,7 @@ const ClubhouseHome: React.FC = () => {
         <ProShopSection />
         
         {/* Case Studies Section */}
-        <section id="results" className="py-16 md:py-24 bg-varsity-maroon">
+        <section id="vibe" className="py-16 md:py-24 bg-varsity-maroon">
           <div className="container-custom">
             <div className="text-center mb-12">
               <h2 className="font-archivo text-3xl md:text-5xl uppercase tracking-wide text-action-yellow mb-4">

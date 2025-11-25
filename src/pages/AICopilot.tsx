@@ -35,92 +35,92 @@ const AICopilot: React.FC = () => {
         canonicalUrl="/resources/ai-copilot"
       />
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-20">
+      <section className="bg-club-green text-warm-cream py-20">
         <div className="container-custom">
           <div className="text-center max-w-4xl mx-auto">
             <div className="flex justify-center mb-6">
-              <div className="bg-white/20 rounded-full p-4">
-                <Bot className="h-12 w-12" />
+              <div className="bg-action-yellow/20 rounded-full p-4">
+                <Bot className="h-12 w-12 text-action-yellow" />
               </div>
             </div>
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6">
+            <h1 className="font-archivo text-5xl lg:text-6xl uppercase tracking-wide mb-6">
               AI Copilot for Contractors
             </h1>
-            <p className="text-xl lg:text-2xl text-white/90 mb-8">
+            <p className="font-dm text-xl lg:text-2xl text-warm-cream/90 mb-8">
               Get instant, actionable marketing advice tailored specifically for contractors in Rockland & Westchester counties.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               {user ? (
                 <Button 
                   onClick={handleStartTrial}
-                  className="bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-3"
+                  className="bg-action-yellow text-club-green hover:bg-action-yellow/90 rounded-pill font-dm font-bold uppercase tracking-wide text-lg px-8 py-3"
                 >
                   Start 7-Day Free Trial
                 </Button>
               ) : (
-                <Button asChild className="bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-3">
+                <Button asChild className="bg-action-yellow text-club-green hover:bg-action-yellow/90 rounded-pill font-dm font-bold uppercase tracking-wide text-lg px-8 py-3">
                   <Link to="/auth">Sign In to Start Free Trial</Link>
                 </Button>
               )}
-              <p className="text-white/80">Then $15/month • Cancel anytime</p>
+              <p className="font-dm text-warm-cream/80">Then $15/month • Cancel anytime</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Problem & Solution */}
-      <section className="py-16">
+      <section className="py-16 bg-warm-cream">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-6">
+              <h2 className="font-archivo text-3xl uppercase tracking-wide text-club-green mb-6">
                 Stop Guessing What Marketing Will Work
               </h2>
-              <p className="text-lg text-gray-700 mb-6">
+              <p className="font-dm text-lg text-club-green/80 mb-6">
                 Most contractors waste money on generic marketing advice that doesn't work in their local market. Our AI understands the Hudson Valley market and gives you specific, actionable recommendations.
               </p>
               <div className="space-y-4">
                 <div className="flex items-start">
-                  <MapPin className="h-6 w-6 text-red-500 mt-1 mr-3" />
+                  <MapPin className="h-6 w-6 text-action-yellow mt-1 mr-3" />
                   <div>
-                    <strong className="text-gray-900">Local Market Focus:</strong>
-                    <p className="text-gray-700">Specialized knowledge of Rockland & Westchester counties</p>
+                    <strong className="font-dm text-club-green">Local Market Focus:</strong>
+                    <p className="font-dm text-club-green/70">Specialized knowledge of Rockland & Westchester counties</p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <TrendingUp className="h-6 w-6 text-green-500 mt-1 mr-3" />
+                  <TrendingUp className="h-6 w-6 text-action-yellow mt-1 mr-3" />
                   <div>
-                    <strong className="text-gray-900">Data-Driven Insights:</strong>
-                    <p className="text-gray-700">Real housing data to identify opportunities</p>
+                    <strong className="font-dm text-club-green">Data-Driven Insights:</strong>
+                    <p className="font-dm text-club-green/70">Real housing data to identify opportunities</p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <Users className="h-6 w-6 text-blue-500 mt-1 mr-3" />
+                  <Users className="h-6 w-6 text-action-yellow mt-1 mr-3" />
                   <div>
-                    <strong className="text-gray-900">Contractor-Specific:</strong>
-                    <p className="text-gray-700">Built for HVAC, plumbing, roofing, and home service pros</p>
+                    <strong className="font-dm text-club-green">Contractor-Specific:</strong>
+                    <p className="font-dm text-club-green/70">Built for HVAC, plumbing, roofing, and home service pros</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="bg-gray-50 p-8 rounded-lg">
-              <div className="bg-white p-6 rounded-lg shadow-sm border">
+            <div className="bg-club-green p-8 rounded-3xl">
+              <div className="bg-warm-cream p-6 rounded-3xl shadow-sm">
                 <div className="flex items-start mb-4">
-                  <div className="bg-blue-500 text-white p-2 rounded mr-3">
+                  <div className="bg-action-yellow text-club-green p-2 rounded-xl mr-3">
                     <Bot className="h-4 w-4" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm text-gray-600 mb-2">You ask:</p>
-                    <p className="font-medium">"How many homes sold in Nanuet last quarter?"</p>
+                    <p className="font-dm text-xs text-club-green/60 mb-2 uppercase tracking-wide">You ask:</p>
+                    <p className="font-dm font-medium text-club-green">"How many homes sold in Nanuet last quarter?"</p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <div className="bg-purple-500 text-white p-2 rounded mr-3">
+                  <div className="bg-club-green text-action-yellow p-2 rounded-xl mr-3">
                     <Sparkles className="h-4 w-4" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm text-gray-600 mb-2">AI responds:</p>
-                    <p className="text-sm text-gray-800">
+                    <p className="font-dm text-xs text-club-green/60 mb-2 uppercase tracking-wide">AI responds:</p>
+                    <p className="font-dm text-sm text-club-green">
                       "47 homes closed in 10954 in Q1 2025 (up 8% YoY). That's 47 new roofs due for maintenance within 5 years. 
                       Launch a $20/day Google campaign targeting 'roof inspection nanuet' + door-hangers on Pine St, Oak Ave, and Maple Dr where most sales happened."
                     </p>
@@ -133,49 +133,49 @@ const AICopilot: React.FC = () => {
       </section>
 
       {/* Features */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-club-green">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-4">
+            <h2 className="font-archivo text-3xl uppercase tracking-wide text-action-yellow mb-4">
               Everything You Need to Market Smarter
             </h2>
-            <p className="text-lg text-gray-700">
+            <p className="font-dm text-lg text-warm-cream/80">
               Stop wasting money on marketing that doesn't work in your area.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card>
+            <Card className="bg-warm-cream border-none">
               <CardContent className="p-6">
-                <div className="bg-purple-100 rounded-lg p-3 w-fit mb-4">
-                  <MapPin className="h-6 w-6 text-purple-600" />
+                <div className="bg-action-yellow/20 rounded-3xl p-3 w-fit mb-4">
+                  <MapPin className="h-6 w-6 text-action-yellow" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Local Market Data</h3>
-                <p className="text-gray-600">
+                <h3 className="font-archivo text-xl uppercase tracking-wide text-club-green mb-2">Local Market Data</h3>
+                <p className="font-dm text-club-green/70">
                   Get real housing sales data for specific ZIP codes in Rockland & Westchester counties.
                 </p>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-warm-cream border-none">
               <CardContent className="p-6">
-                <div className="bg-blue-100 rounded-lg p-3 w-fit mb-4">
-                  <TrendingUp className="h-6 w-6 text-blue-600" />
+                <div className="bg-action-yellow/20 rounded-3xl p-3 w-fit mb-4">
+                  <TrendingUp className="h-6 w-6 text-action-yellow" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Actionable Tactics</h3>
-                <p className="text-gray-600">
+                <h3 className="font-archivo text-xl uppercase tracking-wide text-club-green mb-2">Actionable Tactics</h3>
+                <p className="font-dm text-club-green/70">
                   Every response includes specific marketing moves you can implement today.
                 </p>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-warm-cream border-none">
               <CardContent className="p-6">
-                <div className="bg-green-100 rounded-lg p-3 w-fit mb-4">
-                  <Bot className="h-6 w-6 text-green-600" />
+                <div className="bg-action-yellow/20 rounded-3xl p-3 w-fit mb-4">
+                  <Bot className="h-6 w-6 text-action-yellow" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">24/7 Availability</h3>
-                <p className="text-gray-600">
+                <h3 className="font-archivo text-xl uppercase tracking-wide text-club-green mb-2">24/7 Availability</h3>
+                <p className="font-dm text-club-green/70">
                   Get marketing advice whenever you need it, without scheduling calls or waiting for responses.
                 </p>
               </CardContent>
@@ -185,55 +185,55 @@ const AICopilot: React.FC = () => {
       </section>
 
       {/* Pricing */}
-      <section className="py-16">
+      <section className="py-16 bg-warm-cream">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-hvcg-blue-dark mb-4">
+            <h2 className="font-archivo text-3xl uppercase tracking-wide text-club-green mb-4">
               Simple, Transparent Pricing
             </h2>
-            <p className="text-lg text-gray-700">
+            <p className="font-dm text-lg text-club-green/70">
               No contracts, no setup fees. Cancel anytime.
             </p>
           </div>
 
           <div className="max-w-md mx-auto">
-            <Card className="border-2 border-purple-200">
+            <Card className="border-2 border-action-yellow bg-club-green">
               <CardContent className="p-8 text-center">
                 <div className="mb-6">
-                  <h3 className="text-2xl font-bold text-hvcg-blue-dark mb-2">AI Copilot</h3>
-                  <div className="text-4xl font-bold text-purple-600 mb-2">$15</div>
-                  <p className="text-gray-600">per month</p>
+                  <h3 className="font-archivo text-2xl uppercase tracking-wide text-warm-cream mb-2">AI Copilot</h3>
+                  <div className="font-archivo text-4xl text-action-yellow mb-2">$15</div>
+                  <p className="font-dm text-warm-cream/70">per month</p>
                 </div>
                 
                 <div className="space-y-3 mb-8 text-left">
                   <div className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                    <span>Unlimited AI conversations</span>
+                    <CheckCircle className="h-5 w-5 text-action-yellow mr-2" />
+                    <span className="font-dm text-warm-cream">Unlimited AI conversations</span>
                   </div>
                   <div className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                    <span>Local market data access</span>
+                    <CheckCircle className="h-5 w-5 text-action-yellow mr-2" />
+                    <span className="font-dm text-warm-cream">Local market data access</span>
                   </div>
                   <div className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                    <span>Actionable marketing tactics</span>
+                    <CheckCircle className="h-5 w-5 text-action-yellow mr-2" />
+                    <span className="font-dm text-warm-cream">Actionable marketing tactics</span>
                   </div>
                   <div className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                    <span>Cancel anytime</span>
+                    <CheckCircle className="h-5 w-5 text-action-yellow mr-2" />
+                    <span className="font-dm text-warm-cream">Cancel anytime</span>
                   </div>
                 </div>
 
                 {user ? (
                   <Button 
                     onClick={handleStartTrial}
-                    className="w-full bg-purple-600 hover:bg-purple-700 text-white mb-4"
+                    className="w-full bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill font-dm font-bold uppercase tracking-wide mb-4"
                   >
                     Start 7-Day Free Trial
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 ) : (
-                  <Button asChild className="w-full bg-purple-600 hover:bg-purple-700 text-white mb-4">
+                  <Button asChild className="w-full bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill font-dm font-bold uppercase tracking-wide mb-4">
                     <Link to="/auth">
                       Sign In to Start Free Trial
                       <ArrowRight className="ml-2 h-4 w-4" />
@@ -241,7 +241,7 @@ const AICopilot: React.FC = () => {
                   </Button>
                 )}
                 
-                <p className="text-sm text-gray-600">
+                <p className="font-dm text-sm text-warm-cream/70">
                   7-day free trial, then $15/month
                 </p>
               </CardContent>
@@ -251,23 +251,23 @@ const AICopilot: React.FC = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-hvcg-blue-dark text-white">
+      <section className="py-16 bg-club-green text-warm-cream">
         <div className="container-custom text-center">
-          <h2 className="text-3xl font-bold mb-4">
+          <h2 className="font-archivo text-3xl uppercase tracking-wide mb-4">
             Ready to Stop Wasting Money on Generic Marketing?
           </h2>
-          <p className="text-xl mb-8">
+          <p className="font-dm text-xl mb-8">
             Join contractors who are already using AI to get more customers in Hudson Valley.
           </p>
           {user ? (
             <Button 
               onClick={handleStartTrial}
-              className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg px-8 py-3"
+              className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill font-dm font-bold uppercase tracking-wide text-lg px-8 py-3"
             >
               Start Your Free Trial Now
             </Button>
           ) : (
-            <Button asChild className="bg-hvcg-green hover:bg-hvcg-green-light text-white text-lg px-8 py-3">
+            <Button asChild className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill font-dm font-bold uppercase tracking-wide text-lg px-8 py-3">
               <Link to="/auth">Sign In to Start Your Free Trial</Link>
             </Button>
           )}

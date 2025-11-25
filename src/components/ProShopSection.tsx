@@ -4,7 +4,7 @@ import { BarChart2, Target, Zap, Bot } from 'lucide-react';
 
 const ProShopSection: React.FC = () => {
   return (
-    <section id="services" className="relative bg-warm-cream py-24">
+    <section id="pro-shop" className="relative bg-warm-cream py-24">
       <div className="container-custom">
         {/* Section Header */}
         <div className="text-center mb-16 space-y-4">
