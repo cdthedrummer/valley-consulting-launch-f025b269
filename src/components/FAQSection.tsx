@@ -30,14 +30,14 @@ const FAQSection: React.FC<FAQSectionProps> = ({ title, faqs }) => {
   return (
     <section className="py-12">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-bold text-hvcg-blue-dark mb-6">{title}</h2>
-        <Accordion type="single" collapsible className="bg-white border border-gray-200 rounded-lg">
+        <h2 className="font-archivo text-2xl md:text-3xl uppercase tracking-wide text-club-green mb-8">{title}</h2>
+        <Accordion type="single" collapsible className="bg-white border-2 border-club-green/20 rounded-lg shadow-sm">
           {faqs.map((faq, idx) => (
             <AccordionItem key={idx} value={`item-${idx}`}>
-              <AccordionTrigger className="px-4 text-left text-hvcg-blue-dark">
+              <AccordionTrigger className="px-6 py-4 text-left font-dm text-club-green font-semibold hover:text-action-yellow transition-colors">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="px-4 text-gray-700">
+              <AccordionContent className="px-6 pb-4 font-dm text-club-green/80 text-base leading-relaxed">
                 <p>{faq.answer}</p>
               </AccordionContent>
             </AccordionItem>
