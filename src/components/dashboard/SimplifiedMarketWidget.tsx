@@ -71,17 +71,17 @@ export const SimplifiedMarketWidget: React.FC<SimplifiedMarketWidgetProps> = ({
   };
   if (isLoading) {
     return (
-      <Card className={className}>
+      <Card className={`${className} border-2 border-action-yellow/30 bg-warm-cream shadow-lg`}>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2 font-archivo uppercase tracking-wide text-club-green">
+            <TrendingUp className="h-5 w-5 text-action-yellow" />
             Market Snapshot
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             {[1, 2, 3, 4].map(i => (
-              <div key={i} className="h-16 bg-muted animate-pulse rounded" />
+              <div key={i} className="h-16 bg-club-green/5 animate-pulse rounded" />
             ))}
           </div>
         </CardContent>
@@ -90,15 +90,15 @@ export const SimplifiedMarketWidget: React.FC<SimplifiedMarketWidgetProps> = ({
   }
 
   return (
-    <Card className={className}>
+    <Card className={`${className} border-2 border-action-yellow/30 bg-warm-cream shadow-lg`}>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2 font-archivo uppercase tracking-wide text-club-green">
+            <TrendingUp className="h-5 w-5 text-action-yellow" />
             Market Snapshot
           </CardTitle>
           {error && (
-            <Badge variant="secondary" className="text-xs">
+            <Badge className="text-xs bg-action-yellow/20 text-club-green border border-action-yellow/30 font-dm">
               <AlertTriangle className="h-3 w-3 mr-1" />
               Sample Data
             </Badge>
@@ -112,31 +112,31 @@ export const SimplifiedMarketWidget: React.FC<SimplifiedMarketWidgetProps> = ({
             title="Median Income"
             value={`$${(marketData?.demographics?.medianIncome || 0).toLocaleString()}`}
             icon={<DollarSign className="h-4 w-4" />}
-            className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20"
+            className="bg-action-yellow/10 border-2 border-action-yellow/30"
           />
           <StatsCard
             title="Avg Home Value"
             value={`$${(marketData?.demographics?.avgHomeValue || 0).toLocaleString()}`}
             icon={<Building2 className="h-4 w-4" />}
-            className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20"
+            className="bg-club-green/10 border-2 border-club-green/20"
           />
           <StatsCard
             title="Competitors"
             value={marketData?.businessData?.competitorCount || 0}
             icon={<Users className="h-4 w-4" />}
-            className="bg-gradient-to-br from-amber-500/10 to-yellow-500/10 border border-amber-500/20"
+            className="bg-action-yellow/10 border-2 border-action-yellow/30"
           />
           <StatsCard
             title="Market Trend"
             value={marketData?.businessData?.marketTrend?.charAt(0).toUpperCase() + (marketData?.businessData?.marketTrend?.slice(1) || 'Stable')}
             icon={<TrendingUp className="h-4 w-4" />}
-            className="bg-gradient-to-br from-teal-500/10 to-green-500/10 border border-teal-500/20"
+            className="bg-club-green/10 border-2 border-club-green/20"
           />
         </div>
 
         {/* Quick Insight */}
-        <div className="p-3 rounded-lg bg-muted/50 border">
-          <p className="text-sm">
+        <div className="p-3 rounded-lg bg-club-green/5 border border-club-green/10">
+          <p className="font-dm text-sm text-club-green/80">
             {marketData?.demographics?.medianIncome > 80000 
               ? '✅ Strong customer purchasing power in this area'
               : '📊 Moderate customer purchasing power - focus on value messaging'}
@@ -147,7 +147,7 @@ export const SimplifiedMarketWidget: React.FC<SimplifiedMarketWidgetProps> = ({
         <Button
           variant="outline"
           onClick={handleSearchCompetitors}
-          className="w-full"
+          className="w-full border-club-green/20 text-club-green hover:bg-action-yellow/10 hover:border-action-yellow font-dm font-semibold"
           size="sm"
         >
           <Search className="h-4 w-4 mr-2" />

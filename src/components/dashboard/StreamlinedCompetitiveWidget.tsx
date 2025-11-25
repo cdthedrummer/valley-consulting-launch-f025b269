@@ -97,17 +97,17 @@ export const StreamlinedCompetitiveWidget: React.FC<StreamlinedCompetitiveWidget
 
   if (loading) {
     return (
-      <Card className={className}>
+      <Card className={`${className} border-2 border-action-yellow/30 bg-warm-cream shadow-lg`}>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2 font-archivo uppercase tracking-wide text-club-green">
+            <Users className="h-5 w-5 text-action-yellow" />
             Competitive Edge
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             {[1, 2].map(i => (
-              <div key={i} className="h-20 bg-muted animate-pulse rounded" />
+              <div key={i} className="h-20 bg-club-green/5 animate-pulse rounded" />
             ))}
           </div>
         </CardContent>
@@ -116,39 +116,39 @@ export const StreamlinedCompetitiveWidget: React.FC<StreamlinedCompetitiveWidget
   }
 
   return (
-    <Card className={className}>
+    <Card className={`${className} border-2 border-action-yellow/30 bg-warm-cream shadow-lg`}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Users className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 font-archivo uppercase tracking-wide text-club-green">
+          <Users className="h-5 w-5 text-action-yellow" />
           Competitive Edge
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Your Position */}
-        <div className="p-3 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 border">
+        <div className="p-3 rounded-lg bg-action-yellow/10 border-l-4 border-action-yellow">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium">Your Position</span>
-            <Badge variant="secondary">#{data?.yourPosition?.estimatedRank}</Badge>
+            <span className="font-dm text-sm font-semibold text-club-green">Your Position</span>
+            <Badge className="bg-club-green text-warm-cream font-dm">#{data?.yourPosition?.estimatedRank}</Badge>
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="font-dm text-xs text-club-green/70">
             {data?.yourPosition?.marketShare}% market share of {data?.yourPosition?.totalCompetitors} competitors
           </p>
         </div>
 
         {/* Top 2 Competitors */}
         <div className="space-y-2">
-          <h4 className="text-sm font-semibold">Top Competitors</h4>
+          <h4 className="font-dm text-xs font-bold text-club-green/60 uppercase tracking-widest">Top Competitors</h4>
           {data?.topCompetitors?.slice(0, 2).map((comp: any, idx: number) => (
-            <div key={idx} className="p-3 rounded-lg border bg-card text-sm">
+            <div key={idx} className="p-3 rounded-lg border-2 border-club-green/10 bg-white text-sm">
               <div className="flex items-center justify-between mb-2">
-                <span className="font-semibold">{comp.name}</span>
-                <Badge variant="outline" className="text-xs">
+                <span className="font-dm font-semibold text-club-green">{comp.name}</span>
+                <Badge variant="outline" className="text-xs border-club-green/30 text-club-green font-dm">
                   {comp.marketShare}%
                 </Badge>
               </div>
-              <div className="space-y-1 text-xs">
-                <p className="text-green-600">✓ {comp.keyStrength}</p>
-                <p className="text-red-600">✗ {comp.keyWeakness}</p>
+              <div className="space-y-1 text-xs font-dm">
+                <p className="text-action-yellow">✓ {comp.keyStrength}</p>
+                <p className="text-club-green/70">✗ {comp.keyWeakness}</p>
               </div>
             </div>
           ))}
@@ -156,7 +156,7 @@ export const StreamlinedCompetitiveWidget: React.FC<StreamlinedCompetitiveWidget
             variant="outline"
             size="sm"
             onClick={() => handleSearchCompetitors(data?.topCompetitors?.map((c: any) => c.name) || [])}
-            className="w-full"
+            className="w-full border-club-green/20 text-club-green hover:bg-action-yellow/10 hover:border-action-yellow font-dm font-semibold"
           >
             <Search className="h-4 w-4 mr-2" />
             Research Competitors
@@ -165,18 +165,18 @@ export const StreamlinedCompetitiveWidget: React.FC<StreamlinedCompetitiveWidget
 
         {/* Market Gaps */}
         <div className="space-y-2">
-          <h4 className="text-sm font-semibold">Market Opportunities</h4>
+          <h4 className="font-dm text-xs font-bold text-club-green/60 uppercase tracking-widest">Market Opportunities</h4>
           {data?.marketGaps?.slice(0, 2).map((gap: any, idx: number) => (
-            <div key={idx} className="p-3 rounded-lg border bg-card">
+            <div key={idx} className="p-3 rounded-lg border-2 border-club-green/10 bg-white">
               <div className="flex items-start justify-between mb-2">
-                <p className="text-sm font-medium flex-1">{gap.opportunity}</p>
-                <TrendingUp className="h-4 w-4 text-green-600" />
+                <p className="font-dm text-sm font-medium flex-1 text-club-green">{gap.opportunity}</p>
+                <TrendingUp className="h-4 w-4 text-action-yellow" />
               </div>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => handleImplementStrategy(gap)}
-                className="w-full text-xs"
+                className="w-full text-xs text-club-green hover:bg-action-yellow/10 font-dm"
               >
                 <MessageSquare className="h-3 w-3 mr-1" />
                 Implement Strategy

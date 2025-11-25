@@ -867,15 +867,15 @@ What would you like to know about ${location}? For example:
 
   if (checkingAccess) {
     return (
-      <div className="pt-20 min-h-screen flex items-center justify-center">
+      <div className="pt-20 min-h-screen flex items-center justify-center bg-club-green">
         <SEOHead
           title="AI Copilot Dashboard | Hudson Valley Consulting"
           description="Access your AI Copilot conversations and local marketing insights."
           canonicalUrl="/ai/dashboard"
         />
         <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-          <p>Checking subscription access...</p>
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-action-yellow" />
+          <p className="font-dm text-warm-cream">Checking subscription access...</p>
         </div>
       </div>
     );
@@ -883,22 +883,22 @@ What would you like to know about ${location}? For example:
 
   if (!hasAccess) {
     return (
-      <div className="pt-20 min-h-screen flex items-center justify-center">
+      <div className="pt-20 min-h-screen flex items-center justify-center bg-club-green">
         <SEOHead
           title="AI Copilot Dashboard | Hudson Valley Consulting"
           description="Access your AI Copilot conversations and local marketing insights."
           canonicalUrl="/ai/dashboard"
         />
-        <Card className="max-w-md mx-auto">
+        <Card className="max-w-md mx-auto bg-warm-cream border-2 border-action-yellow/30 shadow-lg">
           <CardContent className="p-8 text-center">
-            <Bot className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-            <h2 className="text-2xl font-bold mb-4">Subscription Required</h2>
-            <p className="text-gray-600 mb-6">
+            <Bot className="h-12 w-12 mx-auto mb-4 text-action-yellow" />
+            <h2 className="font-archivo text-2xl uppercase tracking-wide mb-4 text-club-green">Subscription Required</h2>
+            <p className="font-dm text-club-green/70 mb-6">
               You need an active AI Copilot subscription to access this feature.
             </p>
             <Button 
               onClick={() => navigate("/resources/ai-copilot")}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-action-yellow hover:bg-action-yellow/90 text-club-green font-bold"
             >
               Subscribe Now
             </Button>
@@ -909,7 +909,7 @@ What would you like to know about ${location}? For example:
   }
 
   return (
-    <div className="pt-20 min-h-screen bg-background">
+    <div className="pt-20 min-h-screen bg-club-green">
       <SEOHead
         title="AI Copilot Dashboard | Hudson Valley Consulting"
         description="Access your AI Copilot conversations and local marketing insights."
@@ -919,7 +919,7 @@ What would you like to know about ${location}? For example:
       {/* Main Content Container */}
       <div className="flex flex-col min-h-screen pt-20">
         {/* Header with Menu and Toggle */}
-        <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-20 z-30">
+        <header className="border-b-2 border-action-yellow/30 bg-club-green sticky top-20 z-30 shadow-lg">
           <div className="container mx-auto px-4 h-16 flex items-center justify-between">
             {/* Left side - Menu and Title */}
             <div className="flex items-center gap-4">
@@ -965,18 +965,23 @@ What would you like to know about ${location}? For example:
               )}
               
               <div className="hidden md:block">
-                <h1 className="text-lg font-semibold">Hudson Valley Consulting</h1>
+                <h1 className="font-archivo text-lg uppercase tracking-wide text-warm-cream">Hudson Valley Consulting</h1>
               </div>
             </div>
 
             {/* Right side - View Toggle */}
             <div className="flex items-center gap-2">
-              <div className="flex bg-muted rounded-lg p-1" role="tablist">
+              <div className="flex bg-warm-cream/10 rounded-lg p-1 border border-action-yellow/30" role="tablist">
                 <Button
                   variant={viewMode === 'dashboard' ? 'default' : 'ghost'}
                   size="sm"
                   onClick={() => setViewMode('dashboard')}
-                  className="h-8 px-3 flex items-center gap-2"
+                  className={cn(
+                    "h-8 px-3 flex items-center gap-2 font-dm font-medium transition-all",
+                    viewMode === 'dashboard' 
+                      ? "bg-action-yellow text-club-green hover:bg-action-yellow/90" 
+                      : "text-warm-cream hover:bg-warm-cream/10 hover:text-action-yellow"
+                  )}
                   role="tab"
                   aria-selected={viewMode === 'dashboard'}
                 >
@@ -987,7 +992,12 @@ What would you like to know about ${location}? For example:
                   variant={viewMode === 'chat' ? 'default' : 'ghost'}
                   size="sm"
                   onClick={() => setViewMode('chat')}
-                  className="h-8 px-3 flex items-center gap-2"
+                  className={cn(
+                    "h-8 px-3 flex items-center gap-2 font-dm font-medium transition-all",
+                    viewMode === 'chat' 
+                      ? "bg-action-yellow text-club-green hover:bg-action-yellow/90" 
+                      : "text-warm-cream hover:bg-warm-cream/10 hover:text-action-yellow"
+                  )}
                   role="tab"
                   aria-selected={viewMode === 'chat'}
                 >
@@ -1210,7 +1220,7 @@ What would you like to know about ${location}? For example:
                 )}
                 
                 {/* Content Area */}
-                <div className="flex-1 overflow-y-auto">
+                <div className="flex-1 overflow-y-auto bg-warm-cream/30">
                   <div className="container mx-auto px-4 py-6">
                     {viewMode === 'dashboard' ? (
                       <DashboardWithControls
