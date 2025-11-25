@@ -12,7 +12,7 @@ const ProShopSection: React.FC = () => {
             HOW WE HELP
           </span>
           <h2 className="font-archivo text-club-green text-4xl md:text-5xl lg:text-6xl uppercase tracking-wide leading-none">
-            THREE WAYS TO <span className="text-action-yellow">GROW</span>
+            FOUR WAYS TO <span className="text-action-yellow">GROW</span>
           </h2>
           <p className="font-dm text-club-green/70 text-lg md:text-xl max-w-3xl mx-auto">
             We handle your website, Google presence, and ads so you can focus on the work.
@@ -36,7 +36,7 @@ const ProShopSection: React.FC = () => {
             subtitle="Get Leads Fast"
             description="Run targeted ads on Google, Facebook, and Instagram to reach customers actively searching for your services. Pay only for results."
             link="/services/advertising"
-            iconBg="bg-action-yellow"
+            iconBg="bg-varsity-maroon"
           />
 
           <ProShopCard
@@ -45,7 +45,7 @@ const ProShopSection: React.FC = () => {
             subtitle="See Your Results"
             description="Track your website visitors, leads, and where they're coming from. Real data on what's working for your business."
             link="/ai/dashboard"
-            iconBg="bg-action-yellow"
+            iconBg="bg-club-green"
           />
 
           <ProShopCard
@@ -54,7 +54,7 @@ const ProShopSection: React.FC = () => {
             subtitle="Be Found by AI"
             description="Optimize your site for AI search engines like ChatGPT, Claude, and Gemini. Get recommended when AI tools answer questions."
             link="/services/geo"
-            iconBg="bg-action-yellow"
+            iconBg="bg-[#2D5A3D]"
           />
         </div>
 
