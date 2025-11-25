@@ -206,9 +206,9 @@ const ScorecardSection: React.FC = () => {
             <div className="mb-12">
               <p className="font-dm text-club-green/60 text-sm uppercase tracking-widest text-center mb-6">AI Intelligence</p>
               <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-                <img src="/images/tech-logos/claude-logo.png" alt="Anthropic Claude" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity" />
-                <img src="/images/tech-logos/chatgpt-logo.png" alt="OpenAI ChatGPT" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity" />
-                <img src="/images/tech-logos/gemini-logo.png" alt="Google Gemini" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity" />
+                <img src="/images/tech-logos/claude-logo.png" alt="Anthropic Claude" className="h-10 md:h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+                <img src="/images/tech-logos/chatgpt-logo.png" alt="OpenAI ChatGPT" className="h-10 md:h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+                <img src="/images/tech-logos/gemini-logo.png" alt="Google Gemini" className="h-10 md:h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
               </div>
             </div>
 
@@ -216,8 +216,8 @@ const ScorecardSection: React.FC = () => {
             <div className="mb-12">
               <p className="font-dm text-club-green/60 text-sm uppercase tracking-widest text-center mb-6">Development Speed</p>
               <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-                <img src="/images/tech-logos/lovable-logo.png" alt="Lovable" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity" />
-                <img src="/images/tech-logos/replit-logo.png" alt="Replit" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity" />
+                <img src="/images/tech-logos/lovable-logo.png" alt="Lovable" className="h-10 md:h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+                <img src="/images/tech-logos/replit-logo.png" alt="Replit" className="h-10 md:h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
               </div>
             </div>
 
@@ -225,7 +225,7 @@ const ScorecardSection: React.FC = () => {
             <div>
               <p className="font-dm text-club-green/60 text-sm uppercase tracking-widest text-center mb-6">Data Sources</p>
               <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-                <img src="/images/tech-logos/census-wordmark.png" alt="US Census Bureau" className="h-12 md:h-14 opacity-80 hover:opacity-100 transition-opacity" />
+                <img src="/images/tech-logos/census-wordmark.png" alt="US Census Bureau" className="h-10 md:h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
               </div>
             </div>
 
