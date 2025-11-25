@@ -6,22 +6,28 @@ import SEOHead from "@/components/SEOHead";
 
 const Privacy: React.FC = () => {
   return (
-    <div className="pt-20">
+    <div className="min-h-screen bg-warm-cream">
       <SEOHead
         title="Privacy Policy | Hudson Valley Consulting"
-        description="Read Hudson Valley Consulting’s privacy policy."
+        description="Read Hudson Valley Consulting's privacy policy."
         canonicalUrl="/privacy"
       />
-      <section className="py-16 bg-white">
+      <header className="bg-club-green text-warm-cream py-16">
+        <div className="container-custom">
+          <h1 className="text-4xl font-archivo font-bold uppercase tracking-wide text-action-yellow">Privacy Policy</h1>
+          <p className="text-warm-cream/80 mt-2 font-dm">How we protect your information</p>
+        </div>
+      </header>
+      <section className="py-16">
         <div className="container-custom max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-hvcg-blue-dark mb-6">Privacy Policy</h1>
+          <div className="bg-white rounded-3xl shadow-lg p-8 md:p-12">
           
-          <div className="prose prose-lg max-w-none">
-            <p className="mb-4">Effective Date: May 29, 2025</p>
+          <div className="prose prose-lg max-w-none font-dm text-club-green">
+            <p className="mb-4 text-sm text-club-green/70">Effective Date: May 29, 2025</p>
             
             <p className="mb-6">Hudson Valley Consulting Group ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.</p>
             
-            <h2 className="text-xl font-semibold mt-8 mb-4">1. Information We Collect</h2>
+            <h2 className="text-2xl font-archivo font-bold mt-8 mb-4 text-action-yellow">1. Information We Collect</h2>
             
             <h3 className="text-lg font-semibold mt-6 mb-3">a. Personal Information</h3>
             <p className="mb-4">We may collect personally identifiable information ("Personal Information") that you voluntarily provide to us when you:</p>
@@ -45,7 +51,7 @@ const Privacy: React.FC = () => {
             </ul>
             <p className="mb-4">This information helps us understand how visitors use our website and improve its functionality.</p>
             
-            <h2 className="text-xl font-semibold mt-8 mb-4">2. Use of Information</h2>
+            <h2 className="text-2xl font-archivo font-bold mt-8 mb-4 text-action-yellow">2. Use of Information</h2>
             <p className="mb-4">We use the collected information to:</p>
             <ul className="list-disc pl-6 mb-4">
               <li>Respond to your inquiries and provide requested services</li>
@@ -55,7 +61,7 @@ const Privacy: React.FC = () => {
               <li>Comply with legal obligations</li>
             </ul>
             
-            <h2 className="text-xl font-semibold mt-8 mb-4">3. Sharing of Information</h2>
+            <h2 className="text-2xl font-archivo font-bold mt-8 mb-4 text-action-yellow">3. Sharing of Information</h2>
             <p className="mb-4">We do not sell, rent, or lease your Personal Information to third parties. However, we may share your information with:</p>
             <ul className="list-disc pl-6 mb-4">
               <li>Service providers who assist in operating our website and conducting our business</li>
@@ -63,13 +69,13 @@ const Privacy: React.FC = () => {
               <li>Other parties with your consent</li>
             </ul>
             
-            <h2 className="text-xl font-semibold mt-8 mb-4">4. Cookies and Tracking Technologies</h2>
+            <h2 className="text-2xl font-archivo font-bold mt-8 mb-4 text-action-yellow">4. Cookies and Tracking Technologies</h2>
             <p className="mb-4">Our website may use cookies and similar tracking technologies to enhance your browsing experience. Cookies are small data files stored on your device that help us understand user behavior and preferences. You can set your browser to refuse cookies or alert you when cookies are being sent. However, some parts of our website may not function properly without cookies.</p>
             
-            <h2 className="text-xl font-semibold mt-8 mb-4">5. Data Security</h2>
+            <h2 className="text-2xl font-archivo font-bold mt-8 mb-4 text-action-yellow">5. Data Security</h2>
             <p className="mb-4">We implement appropriate technical and organizational measures to protect your Personal Information from unauthorized access, disclosure, alteration, or destruction. However, no method of transmission over the Internet or electronic storage is 100% secure. Therefore, we cannot guarantee absolute security.</p>
             
-            <h2 className="text-xl font-semibold mt-8 mb-4">6. Your Rights and Choices</h2>
+            <h2 className="text-2xl font-archivo font-bold mt-8 mb-4 text-action-yellow">6. Your Rights and Choices</h2>
             <p className="mb-4">Depending on your location, you may have the following rights regarding your Personal Information:</p>
             <ul className="list-disc pl-6 mb-4">
               <li><strong>Access:</strong> Request access to the Personal Information we hold about you.</li>
@@ -81,16 +87,16 @@ const Privacy: React.FC = () => {
             </ul>
             <p className="mb-4">To exercise these rights, please contact us using the contact information provided below.</p>
             
-            <h2 className="text-xl font-semibold mt-8 mb-4">7. Third-Party Links</h2>
+            <h2 className="text-2xl font-archivo font-bold mt-8 mb-4 text-action-yellow">7. Third-Party Links</h2>
             <p className="mb-4">Our website may contain links to third-party websites. We are not responsible for the privacy practices or content of such websites. We encourage you to read the privacy policies of any linked websites you visit.</p>
             
-            <h2 className="text-xl font-semibold mt-8 mb-4">8. Children's Privacy</h2>
+            <h2 className="text-2xl font-archivo font-bold mt-8 mb-4 text-action-yellow">8. Children's Privacy</h2>
             <p className="mb-4">Our website is not intended for children under the age of 13. We do not knowingly collect Personal Information from children under 13. If we become aware that we have inadvertently collected such information, we will take steps to delete it.</p>
             
-            <h2 className="text-xl font-semibold mt-8 mb-4">9. Changes to This Privacy Policy</h2>
+            <h2 className="text-2xl font-archivo font-bold mt-8 mb-4 text-action-yellow">9. Changes to This Privacy Policy</h2>
             <p className="mb-4">We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date. We encourage you to review this Privacy Policy periodically to stay informed about how we are protecting your information.</p>
             
-            <h2 className="text-xl font-semibold mt-8 mb-4">10. Contact Us</h2>
+            <h2 className="text-2xl font-archivo font-bold mt-8 mb-4 text-action-yellow">10. Contact Us</h2>
             <p className="mb-4">If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:</p>
             <p>Hudson Valley Consulting Group<br/>
             Email: info@hudsonvalleycg.com<br/>
@@ -98,9 +104,10 @@ const Privacy: React.FC = () => {
           </div>
           
           <div className="mt-10">
-            <Button asChild className="bg-hvcg-blue-dark hover:bg-hvcg-blue">
+            <Button asChild className="bg-action-yellow hover:bg-action-yellow/90 text-club-green font-bold rounded-full px-8">
               <Link to="/">Return to Home</Link>
             </Button>
+          </div>
           </div>
         </div>
       </section>

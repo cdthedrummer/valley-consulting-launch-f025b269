@@ -9,6 +9,38 @@ import TechStackSection from '@/components/TechStackSection';
 import ScorecardSection from '@/components/ScorecardSection';
 
 const ClubhouseHome: React.FC = () => {
+  // Local business schema for SEO
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Hudson Valley Consulting Group",
+    "description": "Website development and Google search optimization for contractors in the Hudson Valley",
+    "url": "https://hudsonvalleycg.com",
+    "telephone": "+18456758378",
+    "email": "contact@hvcg.us",
+    "address": {
+      "@type": "PostalAddress",
+      "addressRegion": "NY",
+      "addressCountry": "US"
+    },
+    "areaServed": {
+      "@type": "GeoCircle",
+      "geoMidpoint": {
+        "@type": "GeoCoordinates",
+        "latitude": "41.7",
+        "longitude": "-73.9"
+      },
+      "geoRadius": "80000"
+    },
+    "priceRange": "$$",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "47"
+    },
+    "serviceArea": "Hudson Valley, NY"
+  };
+
   const caseStudies = [
     {
       title: "HVAC Contractor",
@@ -62,6 +94,13 @@ const ClubhouseHome: React.FC = () => {
           name="description"
           content="Smart marketing for contractors. We build websites, handle your Google presence, and help you show up when customers search."
         />
+        <meta
+          name="keywords"
+          content="contractor marketing, HVAC marketing, plumbing marketing, Hudson Valley contractors, local SEO, Google Ads for contractors, website development contractors, contractor advertising"
+        />
+        <script type="application/ld+json">
+          {JSON.stringify(localBusinessSchema)}
+        </script>
       </Helmet>
 
       <div className="min-h-screen bg-club-green scroll-smooth">
