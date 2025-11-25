@@ -10,7 +10,7 @@ const ProShopSection: React.FC = () => {
           <span className="font-dm text-club-green/60 text-sm uppercase tracking-widest font-bold">
             HOW WE HELP
           </span>
-          <h2 className="font-archivo text-club-green text-4xl md:text-5xl lg:text-6xl uppercase tracking-wide leading-none">ALL THE WAYS TO GROW<span className="text-action-yellow">GROW</span>
+          <h2 className="font-archivo text-club-green text-4xl md:text-5xl lg:text-6xl uppercase tracking-wide leading-none">ALL THE WAYS TO <span className="text-action-yellow">GROW</span>
           </h2>
           <p className="font-dm text-club-green/70 text-lg md:text-xl max-w-3xl mx-auto">We handle your website, Google  & AI search presence, and ads so you can focus on the work.</p>
         </div>
