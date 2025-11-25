@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const ClubhouseHero: React.FC = () => {
   return (
-    <section id="overview" className="relative min-h-screen bg-warm-cream flex items-center overflow-hidden py-20 md:py-0">
+    <section id="overview" className="relative min-h-screen bg-club-green flex items-center overflow-hidden py-20 md:py-0">
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left Column - Copy */}
@@ -18,12 +18,12 @@ const ClubhouseHero: React.FC = () => {
             </div>
             
             <div className="inline-block">
-              <span className="font-dm text-club-green text-sm md:text-base uppercase tracking-widest font-bold">
+              <span className="font-dm text-warm-cream text-sm md:text-base uppercase tracking-widest font-bold">
                 Top-Rated Marketing for Contractors
               </span>
             </div>
             
-            <h1 className="font-archivo text-club-green text-5xl sm:text-6xl md:text-7xl lg:text-8xl uppercase leading-none tracking-tight">
+            <h1 className="font-archivo text-warm-cream text-5xl sm:text-6xl md:text-7xl lg:text-8xl uppercase leading-none tracking-tight">
               GET MORE
               <span className="block mt-1">
                 LOCAL
@@ -33,7 +33,7 @@ const ClubhouseHero: React.FC = () => {
               </span>
             </h1>
 
-            <p className="font-dm text-club-green/80 text-base md:text-lg lg:text-xl leading-relaxed max-w-xl">
+            <p className="font-dm text-warm-cream/90 text-base md:text-lg lg:text-xl leading-relaxed max-w-xl">
               We build websites that show up on Google and help local customers find you. 
               Simple, effective marketing that actually works for your business.
             </p>
@@ -41,20 +41,20 @@ const ClubhouseHero: React.FC = () => {
             <div className="flex flex-col gap-4 pt-4">
               <Button
                 asChild
-                className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill px-10 py-7 font-dm font-bold uppercase tracking-wide text-lg md:text-xl transition-all hover:-translate-y-1 hover:shadow-lift active:scale-95 w-full sm:w-auto border-2 border-club-green"
+                className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill px-10 py-7 font-dm font-bold uppercase tracking-wide text-lg md:text-xl transition-all hover:-translate-y-1 hover:shadow-lift active:scale-95 w-full sm:w-auto border-2 border-warm-cream"
               >
                 <Link to="/ai/dashboard">
                   LAUNCH DASHBOARD
                 </Link>
               </Button>
               
-              <div className="flex items-center gap-3 bg-club-green rounded-pill p-2 w-full sm:w-auto">
-                <span className="font-dm text-warm-cream text-sm uppercase tracking-wide px-4 font-bold">
+              <div className="flex items-center gap-3 bg-warm-cream rounded-pill p-2 w-full sm:w-auto">
+                <span className="font-dm text-club-green text-sm uppercase tracking-wide px-4 font-bold">
                   Get Offers
                 </span>
                 <Button
                   asChild
-                  className="bg-warm-cream hover:bg-warm-cream/90 text-club-green rounded-pill px-8 py-4 font-dm font-bold uppercase tracking-wide text-base transition-all"
+                  className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill px-8 py-4 font-dm font-bold uppercase tracking-wide text-base transition-all"
                 >
                   <Link to="/booking">
                     Email →
