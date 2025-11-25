@@ -36,7 +36,7 @@ const ProShopSection: React.FC = () => {
             subtitle="Get Leads Fast"
             description="Run ads on Google to reach customers actively searching for your services. Pay only when someone clicks. Track every dollar spent."
             link="/services/advertising"
-            iconBg="bg-varsity-maroon"
+            iconBg="bg-action-yellow"
           />
 
           <ProShopCard

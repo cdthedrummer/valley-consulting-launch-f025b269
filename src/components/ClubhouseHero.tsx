@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const ClubhouseHero: React.FC = () => {
   return (
-    <section id="overview" className="relative min-h-screen bg-club-green flex items-center overflow-hidden pt-20 md:pt-24">
+    <section id="overview" className="relative min-h-screen bg-club-green flex items-center overflow-hidden pt-4 md:pt-8">
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Left Column - Copy */}
