@@ -216,7 +216,7 @@ const ScorecardSection: React.FC = () => {
             <div className="mb-12">
               <p className="font-dm text-club-green/60 text-sm uppercase tracking-widest text-center mb-6">Development Speed</p>
               <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-                <img src="/images/tech-logos/lovable-logo.png?v=2" alt="Lovable" className="h-10 md:h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+                <img src="/images/tech-logos/lovable-logo.png?v=2" alt="Lovable" className="h-7 md:h-8 object-contain opacity-80 hover:opacity-100 transition-opacity" />
                 <img src="/images/tech-logos/replit-logo.png?v=2" alt="Replit" className="w-28 md:w-32 h-auto max-h-10 md:max-h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
               </div>
             </div>
