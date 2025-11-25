@@ -163,11 +163,11 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
         animate={{ opacity: 1 }}
         className={cn("space-y-4", className)}
       >
-        <Card className="border-2 border-primary/20 bg-gradient-to-r from-primary/5 via-background to-accent/5">
-          <CardContent className="py-6">
+        <Card className="border-2 border-action-yellow/30 bg-warm-cream shadow-lg">
+          <CardContent className="py-8">
             <div className="flex items-center justify-center gap-3">
-              <Loader2 className="h-5 w-5 animate-spin text-primary" />
-              <span className="text-muted-foreground">Loading your business profile...</span>
+              <Loader2 className="h-5 w-5 animate-spin text-action-yellow" />
+              <span className="font-dm text-club-green">Loading your business profile...</span>
             </div>
           </CardContent>
         </Card>
@@ -180,32 +180,32 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className={cn("space-y-3 md:space-y-4", className)}
+      className={cn("space-y-6", className)}
     >
       {/* Business Context Header - Only show when profile is complete */}
       {hasCompleteProfile && (
-        <Card className="border-2 border-primary/20 bg-gradient-to-r from-primary/5 via-background to-accent/5 sticky top-0 z-10 backdrop-blur-sm">
-          <CardContent className="py-4">
+        <Card className="border-2 border-action-yellow/30 bg-warm-cream shadow-lg">
+          <CardContent className="py-6">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center gap-4 flex-wrap">
-                <div className="flex items-center gap-2">
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <Building className="h-5 w-5 text-primary" />
+                <div className="flex items-center gap-3">
+                  <div className="p-3 rounded-lg bg-action-yellow/20">
+                    <Building className="h-6 w-6 text-club-green" />
                   </div>
                   <div>
-                    <div className="text-xs text-muted-foreground">Intelligence Dashboard For</div>
-                    <div className="font-bold text-lg text-foreground">
+                    <div className="font-dm text-xs uppercase tracking-wider text-club-green/60">Intelligence Dashboard For</div>
+                    <div className="font-archivo text-xl uppercase tracking-wide text-club-green">
                       {businessName || 'Your Business'}
                     </div>
                   </div>
                 </div>
                 
                 <div className="flex items-center gap-2">
-                  <Badge variant="secondary" className="gap-1.5">
+                  <Badge className="gap-1.5 bg-club-green text-warm-cream font-dm">
                     <Briefcase className="h-3 w-3" />
                     {industry}
                   </Badge>
-                  <Badge variant="outline" className="gap-1.5">
+                  <Badge variant="outline" className="gap-1.5 border-club-green/30 text-club-green font-dm">
                     <MapPin className="h-3 w-3" />
                     {displayLocation}
                   </Badge>
@@ -213,8 +213,8 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
               </div>
               
               <div className="text-right hidden lg:block">
-                <div className="text-xs font-medium text-muted-foreground/80">Data Sources</div>
-                <div className="text-xs text-muted-foreground/60">
+                <div className="font-dm text-xs font-medium uppercase tracking-wider text-club-green/60">Data Sources</div>
+                <div className="font-dm text-xs text-club-green/50">
                   US Census • Local Data • Market Analysis
                 </div>
               </div>
@@ -261,30 +261,30 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       </AnimatePresence>
 
       {/* Action Items - Always visible at bottom */}
-      <Card className="border-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 backdrop-blur-sm">
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-base md:text-lg text-balance">
-            <TrendingUp className="h-4 w-4 md:h-5 md:w-5 text-accent" />
+      <Card className="border-2 border-action-yellow/30 bg-warm-cream shadow-lg">
+        <CardHeader className="pb-4">
+          <CardTitle className="flex items-center gap-2 font-archivo text-lg md:text-xl uppercase tracking-wide text-club-green">
+            <TrendingUp className="h-5 w-5 md:h-6 md:w-6 text-action-yellow" />
             Recommended Actions
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="mobile-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            <div className="widget-card p-3 bg-background/60 backdrop-blur-sm">
-              <h4 className="font-semibold text-xs md:text-sm mb-1 text-foreground">High Priority</h4>
-              <p className="text-xs text-pretty text-muted-foreground">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="p-4 bg-club-green/5 rounded-lg border-l-4 border-action-yellow">
+              <h4 className="font-archivo text-sm uppercase tracking-wide mb-2 text-club-green">High Priority</h4>
+              <p className="font-dm text-xs text-club-green/70 leading-relaxed">
                 Target {displayLocation} homeowners aged 35-54 for {industry} services. Market demand is 12% above average.
               </p>
             </div>
-            <div className="widget-card p-3 bg-background/60 backdrop-blur-sm">
-              <h4 className="font-semibold text-xs md:text-sm mb-1 text-foreground">Pricing Opportunity</h4>
-              <p className="text-xs text-pretty text-muted-foreground">
+            <div className="p-4 bg-club-green/5 rounded-lg border-l-4 border-action-yellow">
+              <h4 className="font-archivo text-sm uppercase tracking-wide mb-2 text-club-green">Pricing Opportunity</h4>
+              <p className="font-dm text-xs text-club-green/70 leading-relaxed">
                 Current pricing is 5% below optimal. Consider $50-80 increase for new projects.
               </p>
             </div>
-            <div className="widget-card p-3 bg-background/60 backdrop-blur-sm">
-              <h4 className="font-semibold text-xs md:text-sm mb-1 text-foreground">Seasonal Planning</h4>
-              <p className="text-xs text-pretty text-muted-foreground">
+            <div className="p-4 bg-club-green/5 rounded-lg border-l-4 border-action-yellow">
+              <h4 className="font-archivo text-sm uppercase tracking-wide mb-2 text-club-green">Seasonal Planning</h4>
+              <p className="font-dm text-xs text-club-green/70 leading-relaxed">
                 Schedule maintenance campaigns for next quarter when demand typically increases 25%.
               </p>
             </div>
@@ -293,7 +293,7 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       </Card>
 
       {/* Data Attribution */}
-      <div className="text-xs text-muted-foreground text-center py-2">
+      <div className="font-dm text-xs text-club-green/40 text-center py-2">
         Data powered by US Census Bureau, American Community Survey, and County Business Patterns
       </div>
         </>

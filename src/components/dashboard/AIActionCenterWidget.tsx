@@ -103,14 +103,14 @@ export const AIActionCenterWidget: React.FC<AIActionCenterProps> = ({
   ];
 
   return (
-    <Card className={`${className} border-0 bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10 shadow-lg`}>
-      <CardHeader>
+    <Card className={`${className} border-2 border-action-yellow/30 bg-warm-cream shadow-lg`}>
+      <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
-            <Sparkles className="h-6 w-6 text-primary" />
-            <span className="text-2xl">AI Action Center</span>
+          <CardTitle className="flex items-center gap-3">
+            <Sparkles className="h-6 w-6 text-action-yellow" />
+            <span className="font-archivo text-2xl uppercase tracking-wide text-club-green">AI Action Center</span>
           </CardTitle>
-          <Badge className="bg-primary/20 text-primary">
+          <Badge className="bg-action-yellow/20 text-club-green font-dm font-semibold border border-action-yellow/30">
             3 priorities
           </Badge>
         </div>
@@ -118,7 +118,7 @@ export const AIActionCenterWidget: React.FC<AIActionCenterProps> = ({
       <CardContent className="space-y-6">
         {/* Top Priorities */}
         <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+          <h3 className="font-dm text-xs font-bold text-club-green/60 uppercase tracking-widest">
             Top Priorities
           </h3>
           <div className="space-y-3">
@@ -128,30 +128,30 @@ export const AIActionCenterWidget: React.FC<AIActionCenterProps> = ({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="p-4 rounded-lg border bg-card hover:shadow-md transition-all duration-200"
+                className="p-4 rounded-lg border-2 border-club-green/10 bg-white hover:shadow-md hover:border-action-yellow/30 transition-all duration-200"
               >
                 <div className="flex items-start gap-3">
                   <div className={`p-2 rounded-lg ${
                     priority.priority === 'high' 
-                      ? 'bg-primary/10 text-primary' 
-                      : 'bg-secondary/10 text-secondary'
+                      ? 'bg-action-yellow/20 text-club-green' 
+                      : 'bg-club-green/10 text-club-green'
                   }`}>
                     {priority.icon}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-1">
-                      <h4 className="font-semibold text-sm">{priority.title}</h4>
+                      <h4 className="font-archivo text-sm uppercase tracking-wide text-club-green">{priority.title}</h4>
                       {priority.priority === 'high' && (
-                        <Badge variant="destructive" className="text-xs">High</Badge>
+                        <Badge className="text-xs bg-club-green text-warm-cream font-dm">High</Badge>
                       )}
                     </div>
-                    <p className="text-sm text-muted-foreground mb-3">
+                    <p className="font-dm text-sm text-club-green/70 mb-3">
                       {priority.description}
                     </p>
                     <Button
                       onClick={() => handleAction(priority)}
                       size="sm"
-                      className="w-full sm:w-auto"
+                      className="w-full sm:w-auto bg-action-yellow hover:bg-action-yellow/90 text-club-green font-dm font-semibold"
                     >
                       {priority.action}
                       <ArrowRight className="h-4 w-4 ml-1" />
@@ -165,7 +165,7 @@ export const AIActionCenterWidget: React.FC<AIActionCenterProps> = ({
 
         {/* Quick Actions */}
         <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+          <h3 className="font-dm text-xs font-bold text-club-green/60 uppercase tracking-widest">
             Quick Actions
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -174,7 +174,7 @@ export const AIActionCenterWidget: React.FC<AIActionCenterProps> = ({
                 key={index}
                 variant="outline"
                 onClick={action.action}
-                className="justify-start gap-2"
+                className="justify-start gap-2 border-club-green/20 text-club-green hover:bg-action-yellow/10 hover:border-action-yellow font-dm"
               >
                 {action.icon}
                 {action.label}
