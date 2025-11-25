@@ -164,16 +164,16 @@ const ScorecardSection: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             <div className="bg-club-green/30 backdrop-blur-sm rounded-3xl p-8 border border-warm-cream/10 text-center">
               <div className="text-action-yellow text-5xl font-archivo font-bold mb-3">10+</div>
-              <h4 className="font-archivo text-action-yellow text-2xl uppercase mb-4">REAL DATA</h4>
+              <h4 className="font-archivo text-action-yellow text-2xl uppercase mb-4">DATA STREAMS</h4>
               <p className="font-dm text-warm-cream/80 text-base leading-relaxed">
-                Years enterprise experience + local contractor expertise + US Census integration
+                Enterprise experience, local contractor expertise, US Census integration, and real-time market intelligence
               </p>
             </div>
             <div className="bg-club-green/30 backdrop-blur-sm rounded-3xl p-8 border border-warm-cream/10 text-center">
-              <div className="text-action-yellow text-5xl font-archivo font-bold mb-3">3</div>
+              <div className="text-action-yellow text-5xl font-archivo font-bold mb-3">30+</div>
               <h4 className="font-archivo text-action-yellow text-2xl uppercase mb-4">AI MODELS</h4>
               <p className="font-dm text-warm-cream/80 text-base leading-relaxed">
-                Multi-model AI for speed, reliability, security, and enterprise-grade features
+                Access to top frontier models: Claude Opus 4.5, Gemini 3, ChatGPT 5.1, and more
               </p>
             </div>
             <div className="bg-club-green/30 backdrop-blur-sm rounded-3xl p-8 border border-warm-cream/10 text-center">
