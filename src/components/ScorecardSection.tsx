@@ -159,6 +159,85 @@ const ScorecardSection: React.FC = () => {
             BOOK A CALL
           </a>
         </div>
+
+        {/* Tech Stack Section - Below Scorecard */}
+        <div className="mt-24 pt-12 border-t-2 border-dashed border-warm-cream/20">
+          <div className="text-center mb-12">
+            <h3 className="font-archivo text-warm-cream text-3xl md:text-4xl uppercase tracking-wide mb-4">
+              POWERED BY THE <span className="text-action-yellow">BEST</span>
+            </h3>
+            <p className="font-dm text-warm-cream/70 text-lg max-w-3xl mx-auto">
+              We leverage enterprise-grade data, cutting-edge AI, and battle-tested platforms to deliver results fast.
+            </p>
+          </div>
+
+          {/* Data Sources */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div className="bg-club-green/30 backdrop-blur-sm rounded-3xl p-6 border border-warm-cream/10">
+              <h4 className="font-archivo text-action-yellow text-xl uppercase mb-3">Real Data</h4>
+              <p className="font-dm text-warm-cream/80 text-sm leading-relaxed">
+                10+ years enterprise experience + deep local contractor knowledge + US Census data = insights you can trust
+              </p>
+            </div>
+            <div className="bg-club-green/30 backdrop-blur-sm rounded-3xl p-6 border border-warm-cream/10">
+              <h4 className="font-archivo text-action-yellow text-xl uppercase mb-3">AI Powered</h4>
+              <p className="font-dm text-warm-cream/80 text-sm leading-relaxed">
+                Multi-model AI (Claude, ChatGPT, Gemini) for speed, reliability, security, and enterprise-grade features
+              </p>
+            </div>
+            <div className="bg-club-green/30 backdrop-blur-sm rounded-3xl p-6 border border-warm-cream/10">
+              <h4 className="font-archivo text-action-yellow text-xl uppercase mb-3">Fast Delivery</h4>
+              <p className="font-dm text-warm-cream/80 text-sm leading-relaxed">
+                Built on Lovable & Replit for lightning-fast site creation, updates, and feedback loops
+              </p>
+            </div>
+          </div>
+
+          {/* What Powers Your Service */}
+          <div className="bg-warm-cream rounded-3xl p-8 md:p-12">
+            <h4 className="font-archivo text-club-green text-2xl md:text-3xl uppercase text-center mb-8">
+              WHAT POWERS YOUR SERVICE
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-club-green/80">
+              <div className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-action-yellow rounded-full mt-2 flex-shrink-0"></div>
+                <p className="font-dm text-sm">
+                  <strong className="text-club-green">Professional Websites:</strong> Homepage, services, about, contact, galleries built lightning-fast
+                </p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-action-yellow rounded-full mt-2 flex-shrink-0"></div>
+                <p className="font-dm text-sm">
+                  <strong className="text-club-green">Google Optimization:</strong> Search & Maps setup so customers find you when they need you
+                </p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-action-yellow rounded-full mt-2 flex-shrink-0"></div>
+                <p className="font-dm text-sm">
+                  <strong className="text-club-green">Lead Generation:</strong> Click-to-call, quote forms, and CTAs that convert visitors into customers
+                </p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-action-yellow rounded-full mt-2 flex-shrink-0"></div>
+                <p className="font-dm text-sm">
+                  <strong className="text-club-green">AI Site Updates:</strong> Self-service tools with training & support for easy site management
+                </p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-action-yellow rounded-full mt-2 flex-shrink-0"></div>
+                <p className="font-dm text-sm">
+                  <strong className="text-club-green">Mobile-First Design:</strong> Fast-loading, phone-friendly sites that work everywhere
+                </p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-action-yellow rounded-full mt-2 flex-shrink-0"></div>
+                <p className="font-dm text-sm">
+                  <strong className="text-club-green">Real-Time Analytics:</strong> Live dashboards showing exactly where your leads come from
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

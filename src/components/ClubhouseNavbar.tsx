@@ -5,9 +5,8 @@ import { Button } from "@/components/ui/button";
 
 const navSections = [
   { id: 'overview', label: 'OVERVIEW' },
-  { id: 'vibe', label: 'THE VIBE' },
   { id: 'pro-shop', label: 'PRO SHOP' },
-  { id: 'tech-stack', label: 'TECH STACK' },
+  { id: 'vibe', label: 'THE VIBE' },
   { id: 'scorecard', label: 'SCORECARD' },
 ];
 
