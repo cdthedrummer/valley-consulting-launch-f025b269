@@ -66,7 +66,6 @@ function App() {
             </a>
             <div className="flex flex-col min-h-screen bg-club-green">
               <ClubhouseNavbar />
-              <div className="h-24" aria-hidden="true" />
               <main id="main-content" className="flex-grow">
       <Routes>
         <Route path="/" element={<ClubhouseHome />} />

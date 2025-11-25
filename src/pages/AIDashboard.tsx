@@ -867,7 +867,7 @@ What would you like to know about ${location}? For example:
 
   if (checkingAccess) {
     return (
-      <div className="pt-20 min-h-screen flex items-center justify-center bg-club-green">
+      <div className="min-h-screen flex items-center justify-center bg-club-green">
         <SEOHead
           title="AI Copilot Dashboard | Hudson Valley Consulting"
           description="Access your AI Copilot conversations and local marketing insights."
@@ -883,7 +883,7 @@ What would you like to know about ${location}? For example:
 
   if (!hasAccess) {
     return (
-      <div className="pt-20 min-h-screen flex items-center justify-center bg-club-green">
+      <div className="min-h-screen flex items-center justify-center bg-club-green">
         <SEOHead
           title="AI Copilot Dashboard | Hudson Valley Consulting"
           description="Access your AI Copilot conversations and local marketing insights."
@@ -909,7 +909,7 @@ What would you like to know about ${location}? For example:
   }
 
   return (
-    <div className="pt-20 min-h-screen bg-club-green">
+    <div className="min-h-screen bg-club-green">
       <SEOHead
         title="AI Copilot Dashboard | Hudson Valley Consulting"
         description="Access your AI Copilot conversations and local marketing insights."
@@ -917,9 +917,9 @@ What would you like to know about ${location}? For example:
       />
       
       {/* Main Content Container */}
-      <div className="flex flex-col min-h-screen pt-20">
+      <div className="flex flex-col min-h-screen">
         {/* Header with Menu and Toggle */}
-        <header className="border-b-2 border-action-yellow/30 bg-club-green sticky top-20 z-30 shadow-lg">
+        <header className="border-b-2 border-action-yellow/30 bg-club-green sticky top-0 z-30 shadow-lg">
           <div className="container mx-auto px-4 h-16 flex items-center justify-between">
             {/* Left side - Menu and Title */}
             <div className="flex items-center gap-4">

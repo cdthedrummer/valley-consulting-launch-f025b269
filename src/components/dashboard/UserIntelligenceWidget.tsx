@@ -59,15 +59,15 @@ export const UserIntelligenceWidget: React.FC<UserIntelligenceWidgetProps> = ({ 
 
   if (loading) {
     return (
-      <Card className={className}>
+      <Card className={`${className} border-2 border-action-yellow/30 bg-warm-cream shadow-lg`}>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Brain className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2 font-archivo uppercase tracking-wide text-club-green">
+            <Brain className="h-5 w-5 text-action-yellow" />
             Your Marketing Intelligence
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">Loading insights...</p>
+          <p className="font-dm text-sm text-club-green/70">Loading insights...</p>
         </CardContent>
       </Card>
     );
@@ -75,15 +75,15 @@ export const UserIntelligenceWidget: React.FC<UserIntelligenceWidgetProps> = ({ 
 
   if (!profile) {
     return (
-      <Card className={className}>
+      <Card className={`${className} border-2 border-action-yellow/30 bg-warm-cream shadow-lg`}>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Brain className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2 font-archivo uppercase tracking-wide text-club-green">
+            <Brain className="h-5 w-5 text-action-yellow" />
             Your Marketing Intelligence
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">
+          <p className="font-dm text-sm text-club-green/70">
             Start chatting to build your personalized intelligence profile!
           </p>
         </CardContent>
@@ -92,16 +92,16 @@ export const UserIntelligenceWidget: React.FC<UserIntelligenceWidgetProps> = ({ 
   }
 
   const urgencyColor = {
-    low: 'bg-blue-500/10 text-blue-500',
-    medium: 'bg-yellow-500/10 text-yellow-500',
-    high: 'bg-red-500/10 text-red-500',
-  }[profile.urgency_level] || 'bg-gray-500/10 text-gray-500';
+    low: 'bg-club-green/10 text-club-green',
+    medium: 'bg-action-yellow/20 text-club-green',
+    high: 'bg-varsity-maroon/20 text-club-green',
+  }[profile.urgency_level] || 'bg-club-green/10 text-club-green';
 
   return (
-    <Card className={className}>
+    <Card className={`${className} border-2 border-action-yellow/30 bg-warm-cream shadow-lg`}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Brain className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 font-archivo uppercase tracking-wide text-club-green">
+          <Brain className="h-5 w-5 text-action-yellow" />
           Your Marketing Intelligence
         </CardTitle>
       </CardHeader>
@@ -109,14 +109,14 @@ export const UserIntelligenceWidget: React.FC<UserIntelligenceWidgetProps> = ({ 
         {/* Key Stats */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <p className="text-xs text-muted-foreground mb-1">Experience Level</p>
-            <Badge variant="outline" className="capitalize">
+            <p className="font-dm text-xs text-club-green/60 mb-1 uppercase tracking-wider">Experience Level</p>
+            <Badge variant="outline" className="capitalize border-club-green/30 text-club-green font-dm">
               {profile.experience_level}
             </Badge>
           </div>
           <div>
-            <p className="text-xs text-muted-foreground mb-1">Urgency</p>
-            <Badge className={urgencyColor + ' capitalize'}>
+            <p className="font-dm text-xs text-club-green/60 mb-1 uppercase tracking-wider">Urgency</p>
+            <Badge className={urgencyColor + ' capitalize font-dm'}>
               {profile.urgency_level}
             </Badge>
           </div>
@@ -126,12 +126,12 @@ export const UserIntelligenceWidget: React.FC<UserIntelligenceWidgetProps> = ({ 
         {profile.primary_pain_points && profile.primary_pain_points.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <AlertCircle className="h-4 w-4 text-muted-foreground" />
-              <p className="text-sm font-medium">Top Challenges</p>
+              <AlertCircle className="h-4 w-4 text-action-yellow" />
+              <p className="font-dm text-sm font-semibold text-club-green">Top Challenges</p>
             </div>
             <div className="flex flex-wrap gap-2">
               {profile.primary_pain_points.slice(0, 3).map((point, idx) => (
-                <Badge key={idx} variant="secondary" className="text-xs">
+                <Badge key={idx} className="text-xs bg-club-green/10 text-club-green border border-club-green/20 font-dm">
                   {point}
                 </Badge>
               ))}
@@ -143,12 +143,12 @@ export const UserIntelligenceWidget: React.FC<UserIntelligenceWidgetProps> = ({ 
         {profile.service_focus && profile.service_focus.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <Target className="h-4 w-4 text-muted-foreground" />
-              <p className="text-sm font-medium">Focus Areas</p>
+              <Target className="h-4 w-4 text-action-yellow" />
+              <p className="font-dm text-sm font-semibold text-club-green">Focus Areas</p>
             </div>
             <div className="flex flex-wrap gap-2">
               {profile.service_focus.slice(0, 3).map((service, idx) => (
-                <Badge key={idx} variant="outline" className="text-xs">
+                <Badge key={idx} variant="outline" className="text-xs border-club-green/30 text-club-green font-dm">
                   {service}
                 </Badge>
               ))}
@@ -158,20 +158,20 @@ export const UserIntelligenceWidget: React.FC<UserIntelligenceWidgetProps> = ({ 
 
         {/* Insights Summary */}
         {profile.insights && (
-          <div className="pt-4 border-t">
+          <div className="pt-4 border-t border-club-green/10">
             <div className="flex items-center gap-2 mb-2">
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-              <p className="text-sm font-medium">Activity</p>
+              <TrendingUp className="h-4 w-4 text-action-yellow" />
+              <p className="font-dm text-sm font-semibold text-club-green">Activity</p>
             </div>
-            <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
+            <div className="grid grid-cols-2 gap-2 font-dm text-xs text-club-green/70">
               <div>
-                <span className="font-semibold text-foreground">
+                <span className="font-semibold text-club-green">
                   {profile.conversation_count}
                 </span>{' '}
                 conversations
               </div>
               <div>
-                <span className="font-semibold text-foreground">
+                <span className="font-semibold text-club-green">
                   {profile.insights.total_signals || 0}
                 </span>{' '}
                 insights captured
