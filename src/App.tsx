@@ -55,10 +55,18 @@ function App() {
         <AuthProvider>
           <BrowserRouter>
             <ScrollToTop />
+            {/* Skip to main content link for accessibility */}
+            <a 
+              href="#main-content" 
+              className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-action-yellow focus:text-club-green focus:rounded-full focus:font-bold focus:shadow-lg"
+              aria-label="Skip to main content"
+            >
+              Skip to main content
+            </a>
             <div className="flex flex-col min-h-screen bg-club-green">
               <ClubhouseNavbar />
               <div className="h-24" aria-hidden="true" />
-              <main className="flex-grow">
+              <main id="main-content" className="flex-grow">
       <Routes>
         <Route path="/" element={<ClubhouseHome />} />
         <Route path="/classic" element={<Index />} />

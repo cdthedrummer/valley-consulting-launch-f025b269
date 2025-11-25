@@ -3,7 +3,7 @@ import SEOHead from "@/components/SEOHead";
 
 const Refunds: React.FC = () => {
   return (
-    <div className="pt-20">
+    <div className="min-h-screen bg-warm-cream">
       <SEOHead
         title="Refund Policy | Hudson Valley Consulting"
         description="Detailed refund policy for AI Copilot subscriptions including 7-day free trial and 14-day money-back guarantee."
@@ -11,18 +11,19 @@ const Refunds: React.FC = () => {
         keywords="refund policy, money back guarantee, AI Copilot, subscription cancellation, Hudson Valley Consulting"
       />
       
-      <header className="bg-hvcg-blue-dark text-white py-16">
+      <header className="bg-club-green text-warm-cream py-16">
         <div className="container-custom">
-          <h1 className="text-4xl font-bold">Refund Policy</h1>
-          <p className="text-white/80 mt-2">AI Copilot subscription refund details and guarantees</p>
+          <h1 className="text-4xl font-archivo font-bold uppercase tracking-wide text-action-yellow">Refund Policy</h1>
+          <p className="text-warm-cream/80 mt-2 font-dm">AI Copilot subscription refund details and guarantees</p>
         </div>
       </header>
 
       <main className="py-12">
-        <div className="container-custom prose prose-slate max-w-4xl">
+        <div className="container-custom max-w-4xl">
+          <div className="bg-white rounded-3xl shadow-lg p-8 md:p-12 prose prose-slate max-w-none font-dm">
           
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-hvcg-blue-dark mb-4">1) Who this applies to</h2>
+            <h2 className="text-2xl font-archivo font-bold text-action-yellow mb-4">1) Who this applies to</h2>
             <p className="text-gray-700">This policy covers AI Copilot monthly subscriptions purchased directly via Stripe.</p>
           </section>
 
@@ -98,6 +99,7 @@ const Refunds: React.FC = () => {
             <p className="text-gray-600 text-sm">Effective date: August 21, 2025</p>
           </section>
 
+          </div>
         </div>
       </main>
     </div>

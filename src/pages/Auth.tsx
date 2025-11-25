@@ -197,7 +197,7 @@ const Auth: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-club-green py-12 px-4 sm:px-6 lg:px-8">
       <SEOHead
         title="Sign In | Hudson Valley Consulting"
         description="Access your AI Copilot account."
@@ -205,13 +205,13 @@ const Auth: React.FC = () => {
       />
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-hvcg-blue-dark">Welcome</h1>
-          <p className="mt-2 text-gray-600">Sign in to access AI Copilot</p>
+          <h1 className="text-4xl font-archivo font-bold text-action-yellow uppercase tracking-wide">Welcome</h1>
+          <p className="mt-2 text-warm-cream font-dm">Sign in to access AI Copilot</p>
         </div>
         
-        <Card>
+        <Card className="bg-warm-cream border-none shadow-xl rounded-3xl">
           <CardHeader>
-            <CardTitle className="text-center text-hvcg-blue-dark">
+            <CardTitle className="text-center text-club-green font-archivo text-2xl">
               Access Your Account
             </CardTitle>
           </CardHeader>
@@ -221,7 +221,8 @@ const Auth: React.FC = () => {
               onClick={handleGoogleSignIn}
               disabled={isLoading}
               variant="outline"
-              className="w-full mb-6 flex items-center justify-center gap-2"
+              className="w-full mb-6 flex items-center justify-center gap-2 border-club-green hover:bg-club-green/10"
+              aria-label="Sign in with Google"
             >
               {isLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -253,7 +254,7 @@ const Auth: React.FC = () => {
                 <Separator className="w-full" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-gray-500">Or continue with email</span>
+                <span className="bg-warm-cream px-2 text-club-green font-dm">Or continue with email</span>
               </div>
             </div>
             
@@ -277,8 +278,9 @@ const Auth: React.FC = () => {
                   </div>
                   <Button 
                     type="submit" 
-                    className="w-full bg-hvcg-blue hover:bg-hvcg-blue-dark"
+                    className="w-full bg-action-yellow hover:bg-action-yellow/90 text-club-green font-bold"
                     disabled={isLoading}
+                    aria-label="Send password reset link"
                   >
                     {isLoading ? (
                       <>
@@ -353,8 +355,9 @@ const Auth: React.FC = () => {
                   </div>
                   <Button 
                     type="submit" 
-                    className="w-full bg-hvcg-blue hover:bg-hvcg-blue-dark"
+                    className="w-full bg-action-yellow hover:bg-action-yellow/90 text-club-green font-bold"
                     disabled={isLoading}
+                    aria-label="Sign in to your account"
                   >
                     {isLoading ? (
                       <>
@@ -424,8 +427,9 @@ const Auth: React.FC = () => {
                   </div>
                   <Button 
                     type="submit" 
-                    className="w-full bg-hvcg-green hover:bg-hvcg-green-light"
+                    className="w-full bg-club-green hover:bg-club-green/90 text-warm-cream font-bold"
                     disabled={isLoading}
+                    aria-label="Create new account"
                   >
                     {isLoading ? (
                       <>
@@ -444,7 +448,7 @@ const Auth: React.FC = () => {
         </Card>
         
         <div className="text-center">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-warm-cream/80 font-dm">
             By creating an account, you agree to our Terms of Service and Privacy Policy.
           </p>
         </div>

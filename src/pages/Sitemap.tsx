@@ -13,7 +13,6 @@ const Sitemap: React.FC = () => {
         { path: "/", label: "Home", description: "Hudson Valley Consulting - Marketing for contractors" },
         { path: "/approach", label: "Our Approach", description: "Enterprise-grade marketing methodology for local businesses" },
         { path: "/booking", label: "Book Consultation", description: "Schedule your free growth planning session" },
-        { path: "/testimonials", label: "Testimonials", description: "Client success stories and reviews" },
         { path: "/case-studies", label: "Case Studies", description: "Detailed contractor marketing case studies" },
       ]
     },
@@ -46,7 +45,6 @@ const Sitemap: React.FC = () => {
         { path: "/resources", label: "Resources Hub", description: "Marketing guides and tools for contractors" },
         { path: "/resources/marketing-checklist", label: "Marketing Checklist", description: "Essential contractor marketing checklist" },
         { path: "/resources/ai-copilot", label: "AI Copilot", description: "AI-powered marketing assistant overview" },
-        { path: "/resources/ai-dashboard-sell-in", label: "AI Dashboard Features", description: "Explore AI dashboard capabilities" },
       ]
     },
     {
@@ -86,7 +84,7 @@ const Sitemap: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-warm-cream">
       <SEOHead
         title="Sitemap | Hudson Valley Consulting"
         description="Complete site navigation for Hudson Valley Consulting. Find all our services, industries, resources, and tools for contractor marketing."
@@ -101,11 +99,11 @@ const Sitemap: React.FC = () => {
       </Helmet>
 
       {/* Header */}
-      <header className="bg-hvcg-blue-dark text-white py-16 md:py-20">
+      <header className="bg-club-green text-warm-cream py-16 md:py-20">
         <div className="container-custom text-center">
-          <FileText className="h-16 w-16 mx-auto mb-4 text-hvcg-green" />
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Site Map</h1>
-          <p className="text-white/90 max-w-2xl mx-auto text-lg">
+          <FileText className="h-16 w-16 mx-auto mb-4 text-action-yellow" />
+          <h1 className="text-4xl md:text-5xl font-archivo font-bold uppercase tracking-wide mb-4 text-action-yellow">Site Map</h1>
+          <p className="text-warm-cream/90 max-w-2xl mx-auto text-lg font-dm">
             Complete navigation and directory of all pages, services, and resources
           </p>
         </div>
@@ -115,15 +113,15 @@ const Sitemap: React.FC = () => {
       <main className="container-custom py-16">
         <div className="max-w-5xl mx-auto space-y-12">
           {sitemapSections.map((section, index) => (
-            <section key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+            <section key={index} className="bg-white rounded-3xl shadow-lg border-none p-8">
               <div className="flex items-center gap-3 mb-6">
-                <div className="text-hvcg-blue-dark">{section.icon}</div>
-                <h2 className="text-2xl font-bold text-hvcg-blue-dark">{section.title}</h2>
+                <div className="text-action-yellow">{section.icon}</div>
+                <h2 className="text-2xl font-archivo font-bold text-club-green">{section.title}</h2>
               </div>
               
               <ul className="space-y-4">
                 {section.pages.map((page, pageIndex) => (
-                  <li key={pageIndex} className="border-l-2 border-hvcg-green pl-4 hover:border-hvcg-green-dark transition-colors">
+                  <li key={pageIndex} className="border-l-2 border-action-yellow pl-4 hover:border-club-green transition-colors">
                     <Link 
                       to={page.path} 
                       className="block group"
@@ -131,14 +129,14 @@ const Sitemap: React.FC = () => {
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
-                          <h3 className="font-semibold text-hvcg-blue-dark group-hover:text-hvcg-green transition-colors text-lg">
+                          <h3 className="font-archivo font-semibold text-club-green group-hover:text-action-yellow transition-colors text-lg">
                             {page.label}
                           </h3>
-                          <p className="text-gray-600 text-sm mt-1">
+                          <p className="text-club-green/70 text-sm mt-1 font-dm">
                             {page.description}
                           </p>
                         </div>
-                        <code className="text-xs text-gray-400 bg-gray-50 px-2 py-1 rounded font-mono whitespace-nowrap">
+                        <code className="text-xs text-club-green/50 bg-warm-cream px-2 py-1 rounded font-mono whitespace-nowrap">
                           {page.path}
                         </code>
                       </div>
