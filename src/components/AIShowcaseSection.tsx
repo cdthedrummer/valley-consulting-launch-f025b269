@@ -3,7 +3,7 @@ import { Bot, Sparkles, MapPin, TrendingUp, Users } from 'lucide-react';
 
 const AIShowcaseSection: React.FC = () => {
   return (
-    <section className="py-20 bg-warm-cream">
+    <section id="vibe" className="py-20 bg-warm-cream">
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
