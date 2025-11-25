@@ -12,7 +12,7 @@ const CaseStudies: React.FC = () => {
       title: "HVAC Contractor Increases Leads by 170% in 3 Months",
       industry: "HVAC",
       location: "Poughkeepsie, NY",
-      image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      image: "/images/industries/hvac/hvac-hero.jpg",
       challenge: "Local HVAC contractor was struggling with inconsistent lead flow and high customer acquisition costs. They were spending $3,000/month on generic advertising with poor results and low-quality leads.",
       solution: "We implemented a targeted digital advertising strategy focusing on local homeowners searching for HVAC services, optimized their Google Business Profile, and created seasonal maintenance campaigns.",
       results: [
@@ -28,7 +28,7 @@ const CaseStudies: React.FC = () => {
       title: "Plumbing Company Doubles Revenue in 6 Months",
       industry: "Plumbing",
       location: "Kingston, NY",
-      image: "https://images.unsplash.com/photo-1558618666-5b6e429302bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      image: "/images/industries/plumbing/plumbing-hero.jpg",
       challenge: "Family-owned plumbing business relied heavily on word-of-mouth referrals and struggled during slow seasons. They had no online presence and were losing customers to competitors.",
       solution: "Created a comprehensive digital marketing strategy including local SEO, Google Ads campaigns, and reputation management. Built a professional website showcasing their services and customer reviews.",
       results: [
