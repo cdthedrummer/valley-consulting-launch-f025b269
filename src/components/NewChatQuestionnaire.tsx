@@ -84,16 +84,16 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[80vh] p-4">
-      <Card className="w-full max-w-6xl mx-auto shadow-lg">
+    <div className="flex items-center justify-center min-h-[80vh] p-4 bg-club-green">
+      <Card className="w-full max-w-6xl mx-auto border-2 border-action-yellow/30 bg-warm-cream shadow-lg">
         <CardHeader className="text-center space-y-4">
-          <div className="mx-auto mb-2 p-4 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full w-fit">
-            <Bot className="h-10 w-10 text-primary" />
+          <div className="mx-auto mb-2 p-4 bg-action-yellow/20 rounded-full w-fit">
+            <Bot className="h-10 w-10 text-club-green" />
           </div>
-          <CardTitle className="text-3xl md:text-4xl font-bold gradient-text">
+          <CardTitle className="font-archivo text-3xl md:text-4xl uppercase tracking-wide text-club-green">
             {savedProfile ? 'Update Your Profile' : 'Welcome to AI Copilot!'} 👋
           </CardTitle>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="font-dm text-club-green/70 text-lg max-w-2xl mx-auto">
             {savedProfile 
               ? 'Update your business information to keep your AI insights accurate and personalized.'
               : 'Just 3 quick questions to unlock personalized marketing insights.'
@@ -104,9 +104,9 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
         
         <CardContent className="space-y-8">
           {/* Language and Skip Option */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-accent/50 p-4 rounded-lg">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-club-green/5 border-2 border-club-green/10 p-4 rounded-lg">
             <div className="space-y-1">
-              <label className="text-sm font-medium">Preferred Language</label>
+              <label className="font-dm text-sm font-semibold text-club-green">Preferred Language</label>
               <LanguageSelector 
                 value={language} 
                 onValueChange={setLanguage}
@@ -116,11 +116,11 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
               <Button 
                 variant="ghost" 
                 onClick={onSkipSetup}
-                className="text-sm text-muted-foreground hover:text-foreground"
+                className="font-dm text-sm text-club-green/70 hover:text-club-green hover:bg-action-yellow/10"
               >
                 Skip for now
               </Button>
-              <p className="text-xs text-muted-foreground">
+              <p className="font-dm text-xs text-club-green/50">
                 (You'll see a reminder to complete setup later)
               </p>
             </div>
@@ -131,54 +131,54 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
           {/* Simplified Setup Form - 3 Essential Questions */}
           <div className="max-w-2xl mx-auto space-y-6">
             <div>
-              <h3 className="text-xl font-semibold mb-6 flex items-center space-x-2">
-                <Zap className="h-6 w-6 text-primary" />
+              <h3 className="font-archivo text-xl uppercase tracking-wide mb-6 flex items-center space-x-2 text-club-green">
+                <Zap className="h-6 w-6 text-action-yellow" />
                 <span>3 Quick Questions</span>
               </h3>
               
               <div className="space-y-6">
                 {/* Question 1: Location */}
-                <div className="p-6 bg-accent/30 rounded-lg border-2 border-primary/20">
+                <div className="p-6 bg-white rounded-lg border-2 border-club-green/20">
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-action-yellow text-club-green font-archivo font-bold">
                       1
                     </div>
-                    <label className="text-base font-semibold">Where do you serve customers?</label>
+                    <label className="font-archivo text-base uppercase tracking-wide text-club-green">Where do you serve customers?</label>
                   </div>
                   <LocationInput 
                     onLocationSelect={handleLocationSelect}
                     className="w-full"
                   />
-                  <p className="text-xs text-muted-foreground mt-2">
+                  <p className="font-dm text-xs text-club-green/60 mt-2">
                     💡 We'll find local opportunities and competitors in your area
                   </p>
                 </div>
 
                 {/* Question 2: Industry */}
-                <div className="p-6 bg-accent/30 rounded-lg border-2 border-primary/20">
+                <div className="p-6 bg-white rounded-lg border-2 border-club-green/20">
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-action-yellow text-club-green font-archivo font-bold">
                       2
                     </div>
-                    <label className="text-base font-semibold">What industry are you in?</label>
+                    <label className="font-archivo text-base uppercase tracking-wide text-club-green">What industry are you in?</label>
                   </div>
                   <IndustrySelector 
                     value={industry}
                     onValueChange={setIndustry}
                     className="w-full"
                   />
-                  <p className="text-xs text-muted-foreground mt-2">
+                  <p className="font-dm text-xs text-club-green/60 mt-2">
                     💡 We'll provide industry-specific insights and strategies
                   </p>
                 </div>
 
                 {/* Question 3: Business Name */}
-                <div className="p-6 bg-accent/30 rounded-lg border-2 border-primary/20">
+                <div className="p-6 bg-white rounded-lg border-2 border-club-green/20">
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-action-yellow text-club-green font-archivo font-bold">
                       3
                     </div>
-                    <label htmlFor="business-name" className="text-base font-semibold">
+                    <label htmlFor="business-name" className="font-archivo text-base uppercase tracking-wide text-club-green">
                       What's your business name?
                     </label>
                   </div>
@@ -188,9 +188,9 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
                     placeholder="e.g., Smith's HVAC Services"
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
-                    className="text-base h-12"
+                    className="font-dm text-base h-12 border-2 border-club-green/20 text-club-green"
                   />
-                  <p className="text-xs text-muted-foreground mt-2">
+                  <p className="font-dm text-xs text-club-green/60 mt-2">
                     💡 We'll personalize your dashboard and insights
                   </p>
                 </div>
@@ -198,12 +198,12 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
 
               {/* Preview */}
               {(location || industry || businessName) && (
-                <div className="mt-6 p-4 bg-primary/10 rounded-lg border-l-4 border-primary">
-                  <h4 className="font-medium mb-2 flex items-center gap-2">
+                <div className="mt-6 p-4 bg-action-yellow/20 rounded-lg border-l-4 border-action-yellow">
+                  <h4 className="font-archivo font-semibold mb-2 flex items-center gap-2 text-club-green uppercase tracking-wide">
                     <Sparkles className="h-4 w-4" />
                     Ready to unlock:
                   </h4>
-                  <ul className="text-sm text-muted-foreground space-y-1.5">
+                  <ul className="font-dm text-sm text-club-green/80 space-y-1.5">
                     {businessName && (
                       <li>✨ Personalized dashboard for {businessName}</li>
                     )}
@@ -221,8 +221,8 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
 
             {/* Quick Start Questions */}
             <div className="pt-4">
-              <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
-                <MessageSquare className="h-4 w-4 text-primary" />
+              <h4 className="font-dm text-sm font-semibold mb-3 flex items-center gap-2 text-club-green">
+                <MessageSquare className="h-4 w-4 text-action-yellow" />
                 Or start with a question:
               </h4>
               <PrefilledQuestions 
@@ -231,9 +231,9 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
                 industry={industry}
               />
               {selectedQuestion && (
-                <div className="mt-3 p-3 bg-primary/10 rounded-lg border-l-4 border-primary">
-                  <p className="text-xs font-medium">Starting question:</p>
-                  <p className="text-xs text-muted-foreground mt-1">"{selectedQuestion}"</p>
+                <div className="mt-3 p-3 bg-action-yellow/20 rounded-lg border-l-4 border-action-yellow">
+                  <p className="font-dm text-xs font-semibold text-club-green">Starting question:</p>
+                  <p className="font-dm text-xs text-club-green/70 mt-1">"{selectedQuestion}"</p>
                 </div>
               )}
             </div>
@@ -246,12 +246,12 @@ const NewChatQuestionnaire: React.FC<NewChatQuestionnaireProps> = ({
             <Button 
               onClick={handleStartChat}
               size="lg"
-              className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 px-12 text-lg h-12"
+              className="bg-action-yellow hover:bg-action-yellow/90 text-club-green font-archivo font-bold uppercase tracking-wide px-12 text-lg h-12"
             >
               {selectedQuestion ? '🚀 Start Chat with Question' : '💬 Start AI Chat'}
             </Button>
             {(!location || !industry || !businessName) && (
-              <p className="text-sm text-muted-foreground text-center">
+              <p className="font-dm text-sm text-club-green/60 text-center">
                 💡 Complete all 3 questions for the best experience (you can update these later)
               </p>
             )}
