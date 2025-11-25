@@ -30,3 +30,7 @@ verify_jwt = false
 
 [functions.scrape-property-data]
 verify_jwt = false
+
+[functions.competitor-research]
+verify_jwt = true
+

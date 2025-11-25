@@ -61,14 +61,64 @@ export const SimplifiedMarketWidget: React.FC<SimplifiedMarketWidgetProps> = ({
     }
   };
 
-  const handleSearchCompetitors = () => {
-    const query = encodeURIComponent(`${industry} near ${location}`);
-    const url = `https://www.google.com/search?q=${query}`;
-    const win = window.open(url, '_blank', 'noopener,noreferrer');
-    if (!win) {
-      navigator.clipboard?.writeText(url);
-      // Minimal toast-free fallback to avoid extra deps here
-      console.info('Pop-up blocked. URL copied to clipboard:', url);
+  const handleSearchCompetitors = async () => {
+    try {
+      setIsLoading(true);
+      const { data: profileData } = await supabase
+        .from('business_profiles')
+        .select('*')
+        .eq('user_id', (await supabase.auth.getUser()).data.user?.id)
+        .single();
+
+      const { data, error } = await supabase.functions.invoke('competitor-research', {
+        body: { 
+          location, 
+          industry,
+          businessProfile: profileData 
+        }
+      });
+
+      if (error) throw error;
+
+      // Display analysis in a modal or new view
+      const newWindow = window.open('', '_blank');
+      if (newWindow) {
+        newWindow.document.write(`
+          <html>
+            <head>
+              <title>Competitor Analysis - ${location}</title>
+              <style>
+                body {
+                  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                  max-width: 900px;
+                  margin: 40px auto;
+                  padding: 20px;
+                  line-height: 1.6;
+                  color: #333;
+                }
+                h1 { color: #2D5A3D; }
+                h2 { color: #E8A840; margin-top: 30px; }
+                pre { 
+                  background: #f5f5f5; 
+                  padding: 15px; 
+                  border-radius: 8px;
+                  white-space: pre-wrap;
+                  word-wrap: break-word;
+                }
+              </style>
+            </head>
+            <body>
+              <h1>Competitor Analysis</h1>
+              <p><strong>Location:</strong> ${location} | <strong>Industry:</strong> ${industry}</p>
+              <pre>${data.analysis}</pre>
+            </body>
+          </html>
+        `);
+      }
+    } catch (err) {
+      console.error('Error researching competitors:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
   if (isLoading) {

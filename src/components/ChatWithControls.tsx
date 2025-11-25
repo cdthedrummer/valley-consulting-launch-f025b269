@@ -64,8 +64,8 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
 }) => {
   const shouldShowRateLimit = requestCount >= 100;
   return (
-    <Card className="flex-1 flex flex-col shadow-sm min-h-0">
-      <CardHeader className="border-b bg-background rounded-t-lg flex-shrink-0">
+    <Card className="flex-1 flex flex-col border-2 border-action-yellow/30 bg-warm-cream shadow-lg min-h-0">
+      <CardHeader className="border-b-2 border-action-yellow/30 bg-club-green rounded-t-lg flex-shrink-0">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             {isMobile && (
@@ -73,16 +73,16 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
                 variant="ghost" 
                 size="sm"
                 onClick={onToggleSidebar}
-                className="h-8 w-8 p-0"
+                className="h-8 w-8 p-0 text-warm-cream hover:bg-action-yellow/20"
               >
                 <Menu className="h-5 w-5" />
               </Button>
             )}
-            <CardTitle className="flex items-center text-base md:text-lg">
-              <Bot className="h-5 w-5 md:h-6 md:w-6 mr-2 text-primary" />
+            <CardTitle className="flex items-center font-archivo text-base md:text-lg uppercase tracking-wide text-warm-cream">
+              <Bot className="h-5 w-5 md:h-6 md:w-6 mr-2 text-action-yellow" />
               AI Assistant
               {userLocation && (
-                <span className="ml-2 text-xs md:text-sm text-muted-foreground bg-accent px-2 py-0.5 rounded">
+                <span className="ml-2 text-xs md:text-sm font-dm bg-action-yellow/20 text-warm-cream px-2 py-0.5 rounded">
                   {userLocation}
                 </span>
               )}
@@ -95,7 +95,13 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
                 onValueChange={onLanguageChange}
               />
             )}
-            <Button variant="outline" size="sm" onClick={onExportTranscript} disabled={messages.length === 0}>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={onExportTranscript} 
+              disabled={messages.length === 0}
+              className="border-warm-cream/30 text-warm-cream hover:bg-action-yellow/20 hover:text-warm-cream"
+            >
               <Download className="h-4 w-4 mr-1" /> 
               {!isMobile && "Export"}
             </Button>
@@ -111,18 +117,18 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
                 <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`flex max-w-3xl ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                     <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                      message.role === 'user' ? 'bg-primary/80 ml-2' : 'bg-primary/80 mr-2'
+                      message.role === 'user' ? 'bg-club-green ml-2' : 'bg-action-yellow mr-2'
                     }`}>
                       {message.role === 'user' ? (
-                        <User className="h-4 w-4 text-primary-foreground" />
+                        <User className="h-4 w-4 text-warm-cream" />
                       ) : (
-                        <Bot className="h-4 w-4 text-primary-foreground" />
+                        <Bot className="h-4 w-4 text-club-green" />
                       )}
                     </div>
                     <div className={`rounded-lg px-4 py-2 ${
                       message.role === 'user' 
-                        ? 'bg-primary/15 text-foreground' 
-                        : 'bg-accent/30 text-foreground'
+                        ? 'bg-club-green/10 border-2 border-club-green/20 text-club-green' 
+                        : 'bg-white border-2 border-action-yellow/30 text-club-green'
                     }`}>
                       <MarkdownMessage 
                         content={message.content} 
@@ -131,7 +137,7 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
                       <div className="mt-2 flex items-center gap-3">
                         <button
                           onClick={() => onCopyMessage(message.content)}
-                          className="inline-flex items-center text-xs opacity-70 hover:opacity-100 hover:underline"
+                          className="inline-flex items-center font-dm text-xs text-club-green/60 hover:text-club-green hover:underline"
                           aria-label="Copy message"
                         >
                           <Clipboard className="h-3 w-3 mr-1" /> Copy
@@ -145,14 +151,14 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="flex">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/80 mr-2 flex items-center justify-center">
-                      <Bot className="h-4 w-4 text-primary-foreground" />
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-action-yellow mr-2 flex items-center justify-center">
+                      <Bot className="h-4 w-4 text-club-green" />
                     </div>
-                    <div className="bg-accent/30 rounded-lg px-4 py-2">
+                    <div className="bg-white border-2 border-action-yellow/30 rounded-lg px-4 py-2">
                       <div className="flex items-center space-x-1">
-                        <div className="w-2 h-2 bg-foreground/70 rounded-full animate-bounce"></div>
-                        <div className="w-2 h-2 bg-foreground/70 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                        <div className="w-2 h-2 bg-foreground/70 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                        <div className="w-2 h-2 bg-club-green rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-club-green rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                        <div className="w-2 h-2 bg-club-green rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                       </div>
                     </div>
                   </div>
@@ -162,11 +168,11 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
           </ScrollArea>
           
           {/* Chat Input Form */}
-          <div className="border-t p-4 bg-background rounded-b-lg flex-shrink-0">
+          <div className="border-t-2 border-action-yellow/30 p-4 bg-warm-cream rounded-b-lg flex-shrink-0">
             {shouldShowRateLimit && (
-              <div className="mb-3 px-3 py-2 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-md">
-                <p className="text-xs text-amber-800 dark:text-amber-200">
-                  <span className="font-medium">Rate Limit Notice:</span> You've used {requestCount} of {maxRequests} messages this hour.
+              <div className="mb-3 px-3 py-2 bg-action-yellow/20 border-2 border-action-yellow/40 rounded-md">
+                <p className="font-dm text-xs text-club-green">
+                  <span className="font-bold">Rate Limit Notice:</span> You've used {requestCount} of {maxRequests} messages this hour.
                 </p>
               </div>
             )}
@@ -194,23 +200,23 @@ const ChatWithControls: React.FC<ChatWithControlsProps> = ({
                   }}
                   placeholder="Ask about local market data or marketing strategies..."
                   disabled={isLoading || !activeSessionId}
-                  className="flex-1 min-h-[40px] max-h-32 resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex-1 min-h-[40px] max-h-32 resize-none rounded-md border-2 border-club-green/20 bg-white px-3 py-2 font-dm text-sm text-club-green placeholder:text-club-green/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-yellow focus-visible:border-action-yellow disabled:cursor-not-allowed disabled:opacity-50"
                   rows={1}
                   aria-describedby="chat-input-help"
                 />
                 <Button 
                   type="submit"
                   disabled={isLoading || !input.trim() || !activeSessionId}
-                  className="bg-primary hover:bg-primary/90 self-end"
+                  className="bg-action-yellow hover:bg-action-yellow/90 text-club-green font-dm font-semibold self-end"
                   aria-label="Send message"
                 >
                   <Send className="h-4 w-4" />
                 </Button>
               </div>
-              <p id="chat-input-help" className="text-xs text-muted-foreground">
+              <p id="chat-input-help" className="font-dm text-xs text-club-green/60">
                 Try asking: "How many homes sold in Nanuet last quarter?" or "Best Google Ads strategy for HVAC in Rockland County?"
                 <br />
-                <span className="font-medium">Press Enter to send, Shift+Enter for new line</span>
+                <span className="font-semibold">Press Enter to send, Shift+Enter for new line</span>
               </p>
             </form>
           </div>
