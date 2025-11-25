@@ -19,6 +19,9 @@ const ProShopCard: React.FC<ProShopCardProps> = ({
   link,
   iconBg = 'bg-action-yellow'
 }) => {
+  // Determine icon color based on background
+  const iconColor = iconBg === 'bg-club-green' || iconBg === 'bg-[#2D5A3D]' || iconBg === 'bg-varsity-maroon' ? 'text-warm-cream' : 'text-club-green';
+  
   return (
     <Link
       to={link}
@@ -27,7 +30,7 @@ const ProShopCard: React.FC<ProShopCardProps> = ({
       {/* Top Half - Icon Section */}
       <div className="relative h-48 bg-gradient-to-br from-club-green to-club-green/80 flex items-center justify-center overflow-hidden">
         <div className={`${iconBg} rounded-full w-20 h-20 flex items-center justify-center transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
-          <Icon className="w-10 h-10 text-club-green" />
+          <Icon className={`w-10 h-10 ${iconColor}`} />
         </div>
         
         {/* Decorative Grid Pattern */}
