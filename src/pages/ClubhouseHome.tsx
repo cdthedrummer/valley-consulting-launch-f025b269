@@ -5,7 +5,6 @@ import { ArrowRight, TrendingUp, Target, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ClubhouseHero from '@/components/ClubhouseHero';
 import ProShopSection from '@/components/ProShopSection';
-import TechStackSection from '@/components/TechStackSection';
 import ScorecardSection from '@/components/ScorecardSection';
 
 const ClubhouseHome: React.FC = () => {
@@ -155,8 +154,6 @@ const ClubhouseHome: React.FC = () => {
             </div>
           </div>
         </section>
-
-        <TechStackSection />
         
         {/* Resources Section */}
         <section id="resources" className="py-16 md:py-24 bg-club-green">
