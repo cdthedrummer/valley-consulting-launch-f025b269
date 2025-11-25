@@ -33,6 +33,7 @@ import Flooring from "./pages/industries/Flooring";
 import Advertising from "./pages/services/Advertising";
 import SEO from "./pages/services/SEO";
 import Consulting from "./pages/services/Consulting";
+import GEO from "./pages/services/GEO";
 import Terms from "./pages/Terms";
 import Refunds from "./pages/Refunds";
 import Sitemap from "./pages/Sitemap";
@@ -76,6 +77,7 @@ function App() {
                   <Route path="/services/advertising" element={<Advertising />} />
                   <Route path="/services/seo" element={<SEO />} />
                   <Route path="/services/consulting" element={<Consulting />} />
+                  <Route path="/services/geo" element={<GEO />} />
                   <Route path="/booking" element={<Booking />} />
                   
                   <Route path="/case-studies" element={<CaseStudies />} />

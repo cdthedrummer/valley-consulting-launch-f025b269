@@ -1,5 +1,5 @@
 import React from "react";
-import { Building, Search, Users, Code, Share2, Bot } from "lucide-react";
+import { Building, Search, Users, Code, Share2, Bot, Zap } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
 import ServiceContent from "@/components/ServiceContent";
 import ServicesCTA from "@/components/ServicesCTA";
@@ -44,18 +44,36 @@ const Services: React.FC = () => {
               ctaLabel="Start Free Trial"
             />
 
-            {/* Google Ads Section */}
+            {/* Digital Advertising Section */}
             <ServiceContent
-              id="google-ads"
-              icon={<Building className="text-action-yellow w-16 h-16" />}
-              title="Google Ads"
-              description="Targeted Google Ads campaigns that bring qualified leads directly to your business. We specialize in local service ads and search campaigns that reach homeowners when they're actively looking for your services."
+              id="digital-advertising"
+              icon={<Zap className="text-action-yellow w-16 h-16" />}
+              title="Digital Advertising"
+              description="Targeted advertising campaigns across Google, Facebook, and Instagram that bring qualified leads directly to your business. We specialize in local service ads and search campaigns that reach homeowners when they're actively looking for your services."
               features={[
-                "Local service ads setup and management",
-                "Keyword research and selection",
-                "Ad copy optimization",
-                "Landing page conversion optimization"
+                "Google Ads and Local Service Ads",
+                "Facebook and Instagram advertising",
+                "Geotargeted campaigns",
+                "Performance tracking and optimization"
               ]}
+              ctaTo="/services/advertising"
+              ctaLabel="Learn More"
+            />
+
+            {/* GEO Section */}
+            <ServiceContent
+              id="geo"
+              icon={<Bot className="text-action-yellow w-16 h-16" />}
+              title="GEO (AI Search Optimization)"
+              description="Optimize your website for AI-powered search engines like ChatGPT, Claude, and Gemini. Get recommended when potential customers ask AI tools for contractor recommendations in your area."
+              features={[
+                "Structured data and schema implementation",
+                "Natural language content optimization",
+                "FAQ and Q&A section development",
+                "Authority building for AI citations"
+              ]}
+              ctaTo="/services/geo"
+              ctaLabel="Learn More"
             />
 
             {/* SEO Section */}

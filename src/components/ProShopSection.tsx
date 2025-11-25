@@ -1,6 +1,6 @@
 import React from 'react';
 import ProShopCard from './ProShopCard';
-import { BarChart2, Target, Zap } from 'lucide-react';
+import { BarChart2, Target, Zap, Bot } from 'lucide-react';
 
 const ProShopSection: React.FC = () => {
   return (
@@ -20,7 +20,7 @@ const ProShopSection: React.FC = () => {
         </div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <ProShopCard
             icon={Target}
             title="WEBSITE DEVELOPMENT"
@@ -32,9 +32,9 @@ const ProShopSection: React.FC = () => {
 
           <ProShopCard
             icon={Zap}
-            title="GOOGLE ADS"
+            title="DIGITAL ADVERTISING"
             subtitle="Get Leads Fast"
-            description="Run ads on Google to reach customers actively searching for your services. Pay only when someone clicks. Track every dollar spent."
+            description="Run targeted ads on Google, Facebook, and Instagram to reach customers actively searching for your services. Pay only for results."
             link="/services/advertising"
             iconBg="bg-action-yellow"
           />
@@ -45,6 +45,15 @@ const ProShopSection: React.FC = () => {
             subtitle="See Your Results"
             description="Track your website visitors, leads, and where they're coming from. Real data on what's working for your business."
             link="/ai/dashboard"
+            iconBg="bg-action-yellow"
+          />
+
+          <ProShopCard
+            icon={Bot}
+            title="GEO (AI SEARCH)"
+            subtitle="Be Found by AI"
+            description="Optimize your site for AI search engines like ChatGPT, Claude, and Gemini. Get recommended when AI tools answer questions."
+            link="/services/geo"
             iconBg="bg-action-yellow"
           />
         </div>
