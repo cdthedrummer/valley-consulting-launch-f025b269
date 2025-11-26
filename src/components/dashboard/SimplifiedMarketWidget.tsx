@@ -24,7 +24,17 @@ export const SimplifiedMarketWidget: React.FC<SimplifiedMarketWidgetProps> = ({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchMarketData();
+    // Only fetch if location and industry are valid (min 2 chars)
+    if (!location || location.length < 2 || !industry || industry.length < 2) {
+      return;
+    }
+
+    // Debounce API calls to prevent excessive requests during typing
+    const timeoutId = setTimeout(() => {
+      fetchMarketData();
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
   }, [location, industry]);
 
   const fetchMarketData = async () => {
