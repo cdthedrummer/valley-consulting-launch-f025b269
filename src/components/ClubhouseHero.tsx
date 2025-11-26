@@ -57,7 +57,7 @@ const ClubhouseHero: React.FC = () => {
         }}>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               <img 
-                src="/lovable-uploads/1c9721c3-7053-4d03-ad41-97ed9a163d6f.png" 
+                src="/lovable-uploads/hero-light.png" 
                 alt="Contractor reviewing analytics dashboard on iPad" 
                 className="w-full h-auto object-cover"
                 width="800"
