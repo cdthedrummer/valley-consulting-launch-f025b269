@@ -1,6 +1,9 @@
 
 project_id = "zcfdumlnwexqxtoiwbcw"
 
+[functions.scrape-business-website]
+verify_jwt = false
+
 [functions.send-contact-email]
 verify_jwt = false
 

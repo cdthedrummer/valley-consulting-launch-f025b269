@@ -1,17 +1,22 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Bot, Sparkles, CheckCircle, ArrowRight, Users, TrendingUp, MapPin } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import SEOHead from "@/components/SEOHead";
+import { WebsiteOnboarding } from "@/components/WebsiteOnboarding";
+import { supabase } from "@/integrations/supabase/client";
 
 const AICopilot: React.FC = () => {
   const { user } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [quizData, setQuizData] = useState<any>(null);
 
   const handleStartTrial = () => {
     if (!user) {
@@ -27,6 +32,46 @@ const AICopilot: React.FC = () => {
     window.open('https://buy.stripe.com/7sYbJ17kQespcID7aJ0x200', '_blank');
   };
 
+  const handleQuizComplete = async (data: any) => {
+    setQuizData(data);
+
+    // Save quiz response to database
+    try {
+      await supabase.from('quiz_responses').insert({
+        user_id: user?.id || null,
+        website_url: data.websiteUrl,
+        phone_number: data.phoneNumber,
+        business_name: data.businessName,
+        industry: data.industry,
+        location: data.location,
+        primary_services: data.servicesOffered,
+        marketing_challenge: data.marketingChallenge,
+        urgency_level: data.urgencyLevel,
+        is_subscribed: false,
+        scraped_data: data
+      });
+
+      toast({
+        title: "Analysis complete!",
+        description: "Subscribe to unlock your full competitive analysis and AI dashboard.",
+      });
+
+      // Show preview then prompt for subscription
+      if (!user) {
+        toast({
+          title: "Sign in to continue",
+          description: "Create an account to see your full analysis",
+        });
+        setTimeout(() => navigate('/auth'), 2000);
+      } else {
+        // User is signed in, show trial prompt
+        setTimeout(() => handleStartTrial(), 2000);
+      }
+    } catch (error) {
+      console.error('Error saving quiz:', error);
+    }
+  };
+
   return (
     <div className="pt-20">
       <SEOHead
@@ -34,6 +79,19 @@ const AICopilot: React.FC = () => {
         description="Local marketing insights, data, and tactics for contractors—available 24/7."
         canonicalUrl="/resources/ai-copilot"
       />
+      
+      {/* Interactive Quiz Modal */}
+      {showQuiz && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="w-full max-w-3xl">
+            <WebsiteOnboarding 
+              onComplete={handleQuizComplete}
+              onSkip={() => setShowQuiz(false)}
+              isTeaser={true}
+            />
+          </div>
+        </div>
+      )}
       {/* Hero Section */}
       <section className="bg-club-green text-warm-cream py-20">
         <div className="container-custom">
@@ -50,18 +108,12 @@ const AICopilot: React.FC = () => {
               Get instant, actionable marketing advice tailored specifically for contractors in Rockland & Westchester counties.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              {user ? (
-                <Button 
-                  onClick={handleStartTrial}
-                  className="bg-action-yellow text-club-green hover:bg-action-yellow/90 rounded-pill font-dm font-bold uppercase tracking-wide text-lg px-8 py-3"
-                >
-                  Start 7-Day Free Trial
-                </Button>
-              ) : (
-                <Button asChild className="bg-action-yellow text-club-green hover:bg-action-yellow/90 rounded-pill font-dm font-bold uppercase tracking-wide text-lg px-8 py-3">
-                  <Link to="/auth">Sign In to Start Free Trial</Link>
-                </Button>
-              )}
+              <Button 
+                onClick={() => setShowQuiz(true)}
+                className="bg-action-yellow text-club-green hover:bg-action-yellow/90 rounded-pill font-dm font-bold uppercase tracking-wide text-lg px-8 py-3"
+              >
+                Get Free Business Analysis
+              </Button>
               <p className="font-dm text-warm-cream/80">Then $15/month • Cancel anytime</p>
             </div>
           </div>
@@ -224,22 +276,13 @@ const AICopilot: React.FC = () => {
                   </div>
                 </div>
 
-                {user ? (
-                  <Button 
-                    onClick={handleStartTrial}
-                    className="w-full bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill font-dm font-bold uppercase tracking-wide mb-4"
-                  >
-                    Start 7-Day Free Trial
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                ) : (
-                  <Button asChild className="w-full bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill font-dm font-bold uppercase tracking-wide mb-4">
-                    <Link to="/auth">
-                      Sign In to Start Free Trial
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                )}
+                <Button 
+                  onClick={() => setShowQuiz(true)}
+                  className="w-full bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill font-dm font-bold uppercase tracking-wide mb-4"
+                >
+                  Get Free Business Analysis
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
                 
                 <p className="font-dm text-sm text-warm-cream/70">
                   7-day free trial, then $15/month
@@ -259,18 +302,12 @@ const AICopilot: React.FC = () => {
           <p className="font-dm text-xl mb-8">
             Join contractors who are already using AI to get more customers in Hudson Valley.
           </p>
-          {user ? (
-            <Button 
-              onClick={handleStartTrial}
-              className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill font-dm font-bold uppercase tracking-wide text-lg px-8 py-3"
-            >
-              Start Your Free Trial Now
-            </Button>
-          ) : (
-            <Button asChild className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill font-dm font-bold uppercase tracking-wide text-lg px-8 py-3">
-              <Link to="/auth">Sign In to Start Your Free Trial</Link>
-            </Button>
-          )}
+          <Button 
+            onClick={() => setShowQuiz(true)}
+            className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill font-dm font-bold uppercase tracking-wide text-lg px-8 py-3"
+          >
+            Get Your Free Business Analysis
+          </Button>
         </div>
       </section>
     </div>

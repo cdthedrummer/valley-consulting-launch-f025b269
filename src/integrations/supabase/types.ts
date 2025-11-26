@@ -126,6 +126,7 @@ export type Database = {
         Row: {
           business_description: string | null
           business_name: string | null
+          competitor_urls: string[] | null
           created_at: string | null
           enrichment_status: string | null
           id: string
@@ -135,7 +136,11 @@ export type Database = {
           last_enriched_at: string | null
           location: string | null
           marketing_goal: string | null
+          marketing_score: number | null
           monthly_budget: string | null
+          phone_number: string | null
+          scraped_data: Json | null
+          service_gaps: string[] | null
           service_radius: number | null
           services_offered: string[] | null
           target_audience: string | null
@@ -147,6 +152,7 @@ export type Database = {
         Insert: {
           business_description?: string | null
           business_name?: string | null
+          competitor_urls?: string[] | null
           created_at?: string | null
           enrichment_status?: string | null
           id?: string
@@ -156,7 +162,11 @@ export type Database = {
           last_enriched_at?: string | null
           location?: string | null
           marketing_goal?: string | null
+          marketing_score?: number | null
           monthly_budget?: string | null
+          phone_number?: string | null
+          scraped_data?: Json | null
+          service_gaps?: string[] | null
           service_radius?: number | null
           services_offered?: string[] | null
           target_audience?: string | null
@@ -168,6 +178,7 @@ export type Database = {
         Update: {
           business_description?: string | null
           business_name?: string | null
+          competitor_urls?: string[] | null
           created_at?: string | null
           enrichment_status?: string | null
           id?: string
@@ -177,7 +188,11 @@ export type Database = {
           last_enriched_at?: string | null
           location?: string | null
           marketing_goal?: string | null
+          marketing_score?: number | null
           monthly_budget?: string | null
+          phone_number?: string | null
+          scraped_data?: Json | null
+          service_gaps?: string[] | null
           service_radius?: number | null
           services_offered?: string[] | null
           target_audience?: string | null
@@ -400,6 +415,56 @@ export type Database = {
           },
         ]
       }
+      competitor_profiles: {
+        Row: {
+          business_profile_id: string
+          competitor_name: string
+          competitor_url: string | null
+          created_at: string | null
+          id: string
+          pricing_hints: string | null
+          scraped_data: Json | null
+          services_offered: string[] | null
+          strengths: string[] | null
+          updated_at: string | null
+          weaknesses: string[] | null
+        }
+        Insert: {
+          business_profile_id: string
+          competitor_name: string
+          competitor_url?: string | null
+          created_at?: string | null
+          id?: string
+          pricing_hints?: string | null
+          scraped_data?: Json | null
+          services_offered?: string[] | null
+          strengths?: string[] | null
+          updated_at?: string | null
+          weaknesses?: string[] | null
+        }
+        Update: {
+          business_profile_id?: string
+          competitor_name?: string
+          competitor_url?: string | null
+          created_at?: string | null
+          id?: string
+          pricing_hints?: string | null
+          scraped_data?: Json | null
+          services_offered?: string[] | null
+          strengths?: string[] | null
+          updated_at?: string | null
+          weaknesses?: string[] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "competitor_profiles_business_profile_id_fkey"
+            columns: ["business_profile_id"]
+            isOneToOne: false
+            referencedRelation: "business_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_submissions: {
         Row: {
           company: string | null
@@ -565,6 +630,57 @@ export type Database = {
           full_name?: string | null
           id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      quiz_responses: {
+        Row: {
+          business_name: string | null
+          created_at: string | null
+          id: string
+          industry: string | null
+          is_subscribed: boolean | null
+          location: string | null
+          marketing_challenge: string | null
+          phone_number: string | null
+          primary_services: string[] | null
+          scraped_data: Json | null
+          updated_at: string | null
+          urgency_level: string | null
+          user_id: string | null
+          website_url: string
+        }
+        Insert: {
+          business_name?: string | null
+          created_at?: string | null
+          id?: string
+          industry?: string | null
+          is_subscribed?: boolean | null
+          location?: string | null
+          marketing_challenge?: string | null
+          phone_number?: string | null
+          primary_services?: string[] | null
+          scraped_data?: Json | null
+          updated_at?: string | null
+          urgency_level?: string | null
+          user_id?: string | null
+          website_url: string
+        }
+        Update: {
+          business_name?: string | null
+          created_at?: string | null
+          id?: string
+          industry?: string | null
+          is_subscribed?: boolean | null
+          location?: string | null
+          marketing_challenge?: string | null
+          phone_number?: string | null
+          primary_services?: string[] | null
+          scraped_data?: Json | null
+          updated_at?: string | null
+          urgency_level?: string | null
+          user_id?: string | null
+          website_url?: string
         }
         Relationships: []
       }
