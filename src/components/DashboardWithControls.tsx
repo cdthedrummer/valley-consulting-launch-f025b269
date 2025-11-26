@@ -14,6 +14,7 @@ interface DashboardWithControlsProps {
   onChatWithPlan?: (planContent: string) => void;
   onLocationChange?: (location: string, locationType: 'zipcode' | 'county') => void;
   onIndustryChange?: (industry: string) => void;
+  businessProfile?: any;
 }
 
 const DashboardWithControls: React.FC<DashboardWithControlsProps> = ({
@@ -26,6 +27,7 @@ const DashboardWithControls: React.FC<DashboardWithControlsProps> = ({
   onChatWithPlan,
   onLocationChange,
   onIndustryChange,
+  businessProfile,
 }) => {
   return (
     <div className={className}>
@@ -38,6 +40,7 @@ const DashboardWithControls: React.FC<DashboardWithControlsProps> = ({
         onChatWithPlan={onChatWithPlan}
         onLocationChange={onLocationChange}
         onIndustryChange={onIndustryChange}
+        businessProfile={businessProfile}
       />
     </div>
   );
