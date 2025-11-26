@@ -119,7 +119,10 @@ const AIDashboard: React.FC = () => {
 
       const { data, error } = await supabase
         .from('business_profiles')
-        .select('*')
+        .select(`
+          *,
+          competitors:competitor_profiles(*)
+        `)
         .eq('user_id', user?.id)
         .maybeSingle();
 
@@ -1231,6 +1234,7 @@ What would you like to know about ${location}? For example:
                         isLoadingProfile={isLoadingProfile}
                         className="max-w-7xl mx-auto"
                         onChatWithPlan={handleChatWithPlan}
+                        businessProfile={savedBusinessProfile}
                         onLocationChange={(location, type) => {
                           setUserLocation(location);
                           setUserLocationType(type);

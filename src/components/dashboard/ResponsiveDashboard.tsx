@@ -20,6 +20,9 @@ import { PropertyOpportunitiesWidget } from './PropertyOpportunitiesWidget';
 import { AIActionCenterWidget } from './AIActionCenterWidget';
 import { SimplifiedMarketWidget } from './SimplifiedMarketWidget';
 import { StreamlinedCompetitiveWidget } from './StreamlinedCompetitiveWidget';
+import { BusinessScoreWidget } from './BusinessScoreWidget';
+import { CompetitorSpotlightWidget } from './CompetitorSpotlightWidget';
+import { QuickWinsWidget } from './QuickWinsWidget';
 import { useIntelligenceAnalysis } from '@/hooks/useIntelligenceAnalysis';
 
 interface ResponsiveDashboardProps {
@@ -32,6 +35,7 @@ interface ResponsiveDashboardProps {
   onChatWithPlan?: (planContent: string) => void;
   onLocationChange?: (location: string, locationType: 'zipcode' | 'county') => void;
   onIndustryChange?: (industry: string) => void;
+  businessProfile?: any; // Contains marketingScore, quickWins, competitors
 }
 
 const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
@@ -42,6 +46,7 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
   isLoadingProfile = false,
   className,
   onChatWithPlan,
+  businessProfile,
 }) => {
   
   // Trigger background intelligence analysis
@@ -51,6 +56,12 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
   
   // Simplified gating checks - just check if data exists
   const hasCompleteProfile = location && location.trim() !== '' && industry && industry.trim() !== '';
+  
+  // Extract data from business profile
+  const marketingScore = businessProfile?.marketing_score || 0;
+  const quickWins = businessProfile?.scraped_data?.quickWins || [];
+  const competitors = businessProfile?.competitors || [];
+  const hasBusinessData = marketingScore > 0 || quickWins.length > 0 || competitors.length > 0;
 
   const widgets = [
     {
@@ -62,32 +73,56 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       isHero: true,
     },
     {
+      id: 'business-score',
+      title: 'Marketing Score',
+      icon: TrendingUp,
+      component: BusinessScoreWidget,
+      priority: 2,
+      requiresBusinessData: true,
+    },
+    {
+      id: 'quick-wins',
+      title: 'Quick Wins',
+      icon: Sparkles,
+      component: QuickWinsWidget,
+      priority: 3,
+      requiresBusinessData: true,
+    },
+    {
+      id: 'competitors',
+      title: 'Competitors',
+      icon: Users,
+      component: CompetitorSpotlightWidget,
+      priority: 4,
+      requiresBusinessData: true,
+    },
+    {
       id: 'property-opportunities',
       title: 'Property Leads',
       icon: Building,
       component: PropertyOpportunitiesWidget,
-      priority: 2,
+      priority: 5,
     },
     {
       id: 'market-snapshot',
       title: 'Market Snapshot',
       icon: TrendingUp,
       component: SimplifiedMarketWidget,
-      priority: 3,
+      priority: 6,
     },
     {
       id: 'competitive-edge',
       title: 'Competitive Edge',
       icon: Users,
       component: StreamlinedCompetitiveWidget,
-      priority: 4,
+      priority: 7,
     },
     {
       id: 'user-intelligence',
       title: 'Your Intelligence',
       icon: User,
       component: UserIntelligenceWidget,
-      priority: 5,
+      priority: 8,
       requiresProfile: true,
     },
   ];
@@ -102,6 +137,35 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
           industry={industry}
           className={widgetClassName}
           onChatWithPlan={onChatWithPlan}
+        />
+      );
+    }
+    
+    if (widget.id === 'business-score' && hasBusinessData) {
+      const percentile = Math.min(95, Math.max(5, Math.floor(marketingScore * 0.9)));
+      return (
+        <BusinessScoreWidget
+          score={marketingScore}
+          industry={industry || 'Business'}
+          percentile={percentile}
+          lastUpdated={businessProfile?.updated_at}
+        />
+      );
+    }
+    
+    if (widget.id === 'quick-wins' && hasBusinessData) {
+      return (
+        <QuickWinsWidget
+          quickWins={quickWins}
+        />
+      );
+    }
+    
+    if (widget.id === 'competitors' && hasBusinessData) {
+      return (
+        <CompetitorSpotlightWidget
+          competitors={competitors}
+          maxDisplay={3}
         />
       );
     }
@@ -244,7 +308,12 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
         {/* Main Grid - Other Widgets (excluding property) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
           {widgets
-            .filter((widget: any) => !widget.isHero && widget.id !== 'property-opportunities' && (!widget.requiresProfile || hasCompleteProfile))
+            .filter((widget: any) => 
+              !widget.isHero && 
+              widget.id !== 'property-opportunities' && 
+              (!widget.requiresProfile || hasCompleteProfile) &&
+              (!widget.requiresBusinessData || hasBusinessData)
+            )
             .sort((a, b) => a.priority - b.priority)
             .map((widget) => (
               <motion.div
