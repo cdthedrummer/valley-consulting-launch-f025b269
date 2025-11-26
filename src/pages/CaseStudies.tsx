@@ -107,6 +107,8 @@ const CaseStudies: React.FC = () => {
                       src={study.image} 
                       alt={`${study.industry} contractor case study`}
                       className="w-full h-full object-cover"
+                      width="800"
+                      height="600"
                       loading="lazy"
                     />
                     <div className="absolute top-6 left-6">

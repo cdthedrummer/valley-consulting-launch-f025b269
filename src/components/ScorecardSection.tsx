@@ -195,9 +195,9 @@ const ScorecardSection: React.FC = () => {
             <div className="mb-12">
               <p className="font-dm text-club-green/60 text-sm uppercase tracking-widest text-center mb-6">AI Intelligence</p>
               <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-                <img src="/images/tech-logos/claude-logo.png?v=2" alt="Anthropic Claude" className="h-10 md:h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
-                <img src="/images/tech-logos/chatgpt-logo.png?v=2" alt="OpenAI ChatGPT" className="h-10 md:h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
-                <img src="/images/tech-logos/gemini-logo.png?v=2" alt="Google Gemini" className="w-32 md:w-36 h-auto max-h-10 md:max-h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+                <img src="/images/tech-logos/claude-logo.png?v=2" alt="Anthropic Claude" className="h-10 md:h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" width="120" height="48" loading="lazy" />
+                <img src="/images/tech-logos/chatgpt-logo.png?v=2" alt="OpenAI ChatGPT" className="h-10 md:h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" width="120" height="48" loading="lazy" />
+                <img src="/images/tech-logos/gemini-logo.png?v=2" alt="Google Gemini" className="w-32 md:w-36 h-auto max-h-10 md:max-h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" width="144" height="48" loading="lazy" />
               </div>
             </div>
 
@@ -205,8 +205,8 @@ const ScorecardSection: React.FC = () => {
             <div className="mb-12">
               <p className="font-dm text-club-green/60 text-sm uppercase tracking-widest text-center mb-6">Development Speed</p>
               <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-                <img src="/images/tech-logos/lovable-logo.png?v=2" alt="Lovable" className="h-7 md:h-8 object-contain opacity-80 hover:opacity-100 transition-opacity" />
-                <img src="/images/tech-logos/replit-logo.png?v=2" alt="Replit" className="w-28 md:w-32 h-auto max-h-10 md:max-h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+                <img src="/images/tech-logos/lovable-logo.png?v=2" alt="Lovable" className="h-7 md:h-8 object-contain opacity-80 hover:opacity-100 transition-opacity" width="100" height="32" loading="lazy" />
+                <img src="/images/tech-logos/replit-logo.png?v=2" alt="Replit" className="w-28 md:w-32 h-auto max-h-10 md:max-h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" width="128" height="48" loading="lazy" />
               </div>
             </div>
 
@@ -214,7 +214,7 @@ const ScorecardSection: React.FC = () => {
             <div>
               <p className="font-dm text-club-green/60 text-sm uppercase tracking-widest text-center mb-6">Data Sources</p>
               <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-                <img src="/images/tech-logos/census-wordmark.png?v=2" alt="US Census Bureau" className="w-36 md:w-40 h-auto max-h-10 md:max-h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+                <img src="/images/tech-logos/census-wordmark.png?v=2" alt="US Census Bureau" className="w-36 md:w-40 h-auto max-h-10 md:max-h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" width="160" height="48" loading="lazy" />
               </div>
             </div>
 
