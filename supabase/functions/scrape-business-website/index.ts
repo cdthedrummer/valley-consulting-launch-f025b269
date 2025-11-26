@@ -84,15 +84,16 @@ Extract structured information from website content and return ONLY valid JSON (
 Return this exact structure:
 {
   "businessName": "extracted name or null",
-  "industry": "one of: HVAC, Plumbing, Roofing, Flooring, Fencing, Deck & Patio, Landscaping, General Contracting, Other",
+  "industry": "one of: HVAC, Plumbing, Roofing, Flooring, Fencing, Deck & Patio, Landscaping, Junk Removal, General Contracting, Other",
   "servicesOffered": ["service1", "service2"],
   "location": "city/region mentioned or null",
   "phoneNumber": "extracted phone or null",
   "emailAddress": "extracted email or null",
-  "serviceGaps": ["what competitors offer that they don't"],
+  "serviceGaps": ["what competitors offer that they don't", "missing services"],
   "competitorUrls": ["potential competitor websites if mentioned"],
-  "keyStrengths": ["what they emphasize"],
-  "confidence": 0.0-1.0
+  "keyStrengths": ["what they emphasize", "unique selling points"],
+  "confidence": 0.0-1.0,
+  "quickWins": ["actionable improvement 1", "actionable improvement 2", "actionable improvement 3"]
 }`
           },
           {
@@ -139,9 +140,42 @@ Return this exact structure:
         serviceGaps: [],
         competitorUrls: [],
         keyStrengths: [],
-        confidence: 0.5
+        confidence: 0.5,
+        quickWins: []
       };
     }
+
+    // Calculate marketing score
+    let marketingScore = 50; // Base score
+    
+    if (analysisData.phoneNumber) marketingScore += 15;
+    if (analysisData.emailAddress) marketingScore += 10;
+    if (analysisData.location) marketingScore += 10;
+    
+    const servicesCount = Math.min((analysisData.servicesOffered || []).length, 4);
+    marketingScore += servicesCount * 5;
+    
+    const strengthsCount = Math.min((analysisData.keyStrengths || []).length, 3);
+    marketingScore += strengthsCount * 5;
+    
+    const gapsCount = (analysisData.serviceGaps || []).length;
+    marketingScore -= Math.min(gapsCount * 5, 20);
+    
+    marketingScore = Math.max(0, Math.min(100, marketingScore));
+    
+    // Generate quick wins if not provided
+    if (!analysisData.quickWins || analysisData.quickWins.length === 0) {
+      const wins = [];
+      if (!analysisData.phoneNumber) wins.push("Add click-to-call button in header");
+      if (!analysisData.emailAddress) wins.push("Add contact form to homepage");
+      if ((analysisData.servicesOffered || []).length < 3) wins.push("Expand service descriptions");
+      if (!analysisData.location) wins.push("Add service area map");
+      if (gapsCount > 0) wins.push("Add emergency 24/7 services");
+      analysisData.quickWins = wins.slice(0, 5);
+    }
+    
+    // Generate fake competitor count (2-4 for teasing)
+    const competitorCount = Math.floor(Math.random() * 3) + 2;
 
     // Log usage
     if (aiResult.usage) {
@@ -161,7 +195,9 @@ Return this exact structure:
         data: {
           ...analysisData,
           websiteUrl: url.toString(),
-          scrapedAt: new Date().toISOString()
+          scrapedAt: new Date().toISOString(),
+          marketingScore,
+          competitorCount
         }
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }

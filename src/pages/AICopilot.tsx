@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Bot, Sparkles, CheckCircle, ArrowRight, Users, TrendingUp, MapPin } from "lucide-react";
+import { Bot, Sparkles, CheckCircle, ArrowRight, Users, TrendingUp, MapPin, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useToast } from "@/hooks/use-toast";
@@ -83,7 +83,14 @@ const AICopilot: React.FC = () => {
       {/* Interactive Quiz Modal */}
       {showQuiz && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-3xl">
+          <div className="w-full max-w-3xl relative">
+            <button
+              onClick={() => setShowQuiz(false)}
+              className="absolute -top-2 -right-2 z-10 rounded-full bg-background p-2 opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            >
+              <X className="h-5 w-5" />
+              <span className="sr-only">Close</span>
+            </button>
             <WebsiteOnboarding 
               onComplete={handleQuizComplete}
               onSkip={() => setShowQuiz(false)}
