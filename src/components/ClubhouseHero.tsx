@@ -62,7 +62,7 @@ const ClubhouseHero: React.FC = () => {
                 className="w-full h-auto object-cover"
                 width="1200"
                 height="800"
-                fetchpriority="high"
+                fetchPriority="high"
               />
             </div>
           </div>
