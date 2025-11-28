@@ -49,68 +49,68 @@ export const QuizResultsPreview: React.FC<QuizResultsPreviewProps> = ({
               key={i}
               className={`w-6 h-6 ${
                 i < fullStars
-                  ? 'fill-yellow-400 text-yellow-400'
+                  ? 'fill-action-yellow text-action-yellow'
                   : i === fullStars && hasHalfStar
-                  ? 'fill-yellow-400 text-yellow-400 opacity-50'
-                  : 'text-muted'
+                  ? 'fill-action-yellow text-action-yellow opacity-50'
+                  : 'text-club-green/20'
               }`}
             />
           ))}
         </div>
-        <h2 className="text-5xl font-bold text-primary mb-2">{marketingScore}/100</h2>
-        <p className="text-lg text-muted-foreground">Your Marketing Score</p>
-        <p className="text-sm text-muted-foreground mt-1">
+        <h2 className="text-5xl font-archivo text-club-green mb-2">{marketingScore}/100</h2>
+        <p className="text-lg text-club-green/80 font-dm">Your Marketing Score</p>
+        <p className="text-sm text-club-green/60 font-dm mt-1">
           <TrendingUp className="inline w-4 h-4 mr-1" />
-          Better than <span className="font-semibold text-foreground">{percentile}%</span> of contractors
+          Better than <span className="font-semibold text-club-green">{percentile}%</span> of contractors
         </p>
       </motion.div>
 
       {/* What We Found - Grid */}
       <div className="grid grid-cols-2 gap-4">
-        <Card className="p-4">
+        <Card className="p-4 bg-club-green/5 border-club-green/20">
           <div className="flex items-start gap-3">
-            <Briefcase className="w-5 h-5 text-primary mt-0.5" />
+            <Briefcase className="w-5 h-5 text-action-yellow mt-0.5" />
             <div>
-              <p className="text-sm text-muted-foreground">Business</p>
-              <p className="font-semibold">{businessName || 'Not found'}</p>
+              <p className="text-xs text-club-green/60 font-dm">Business</p>
+              <p className="font-dm font-semibold text-club-green">{businessName || 'Not found'}</p>
             </div>
           </div>
         </Card>
         
-        <Card className="p-4">
+        <Card className="p-4 bg-club-green/5 border-club-green/20">
           <div className="flex items-start gap-3">
-            <Users className="w-5 h-5 text-primary mt-0.5" />
+            <Users className="w-5 h-5 text-action-yellow mt-0.5" />
             <div>
-              <p className="text-sm text-muted-foreground">Industry</p>
-              <p className="font-semibold">{industry}</p>
+              <p className="text-xs text-club-green/60 font-dm">Industry</p>
+              <p className="font-dm font-semibold text-club-green">{industry}</p>
             </div>
           </div>
         </Card>
         
-        <Card className="p-4">
+        <Card className="p-4 bg-club-green/5 border-club-green/20">
           <div className="flex items-start gap-3">
-            <MapPin className="w-5 h-5 text-primary mt-0.5" />
+            <MapPin className="w-5 h-5 text-action-yellow mt-0.5" />
             <div>
-              <p className="text-sm text-muted-foreground">Location</p>
-              <p className="font-semibold">{location || 'Not specified'}</p>
+              <p className="text-xs text-club-green/60 font-dm">Location</p>
+              <p className="font-dm font-semibold text-club-green">{location || 'Not specified'}</p>
             </div>
           </div>
         </Card>
         
-        <Card className="p-4">
+        <Card className="p-4 bg-club-green/5 border-club-green/20">
           <div className="flex items-start gap-3">
-            <Briefcase className="w-5 h-5 text-primary mt-0.5" />
+            <Briefcase className="w-5 h-5 text-action-yellow mt-0.5" />
             <div>
-              <p className="text-sm text-muted-foreground">Services</p>
-              <p className="font-semibold">{servicesOffered.length} detected</p>
+              <p className="text-xs text-club-green/60 font-dm">Services</p>
+              <p className="font-dm font-semibold text-club-green">{servicesOffered.length} detected</p>
             </div>
           </div>
         </Card>
       </div>
 
       {/* Quick Wins - First visible, rest blurred */}
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4">Quick Wins to Boost Your Score</h3>
+      <Card className="p-6 bg-club-green/5 border-club-green/20">
+        <h3 className="text-lg font-archivo text-club-green mb-4">Quick Wins to Boost Your Score</h3>
         <div className="space-y-3">
           {quickWins.slice(0, 1).map((win, i) => (
             <motion.div
@@ -118,10 +118,10 @@ export const QuizResultsPreview: React.FC<QuizResultsPreviewProps> = ({
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: i * 0.1 }}
-              className="flex items-start gap-3 p-3 bg-accent/50 rounded-lg"
+              className="flex items-start gap-3 p-3 bg-action-yellow/20 rounded-lg border border-action-yellow/30"
             >
-              <Badge variant="secondary" className="mt-0.5">1</Badge>
-              <p className="text-sm flex-1">{win}</p>
+              <Badge className="mt-0.5 bg-action-yellow text-club-green font-dm">1</Badge>
+              <p className="text-sm flex-1 font-dm text-club-green">{win}</p>
             </motion.div>
           ))}
           
@@ -129,16 +129,16 @@ export const QuizResultsPreview: React.FC<QuizResultsPreviewProps> = ({
           <div className="relative">
             <div className="blur-sm pointer-events-none opacity-60 space-y-3">
               {quickWins.slice(1, 4).map((win, i) => (
-                <div key={i} className="flex items-start gap-3 p-3 bg-accent/50 rounded-lg">
-                  <Badge variant="secondary" className="mt-0.5">{i + 2}</Badge>
-                  <p className="text-sm flex-1">{win}</p>
+                <div key={i} className="flex items-start gap-3 p-3 bg-club-green/10 rounded-lg">
+                  <Badge className="mt-0.5 bg-club-green/20 text-club-green font-dm">{i + 2}</Badge>
+                  <p className="text-sm flex-1 font-dm text-club-green">{win}</p>
                 </div>
               ))}
             </div>
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="bg-background/90 backdrop-blur-sm px-6 py-3 rounded-lg border-2 border-primary shadow-lg">
-                <Lock className="w-5 h-5 text-primary mx-auto mb-1" />
-                <p className="text-sm font-semibold">Unlock Full Report</p>
+              <div className="bg-warm-cream/95 backdrop-blur-sm px-6 py-3 rounded-lg border-2 border-action-yellow shadow-lg">
+                <Lock className="w-5 h-5 text-club-green mx-auto mb-1" />
+                <p className="text-sm font-archivo text-club-green">Unlock Full Report</p>
               </div>
             </div>
           </div>
@@ -146,39 +146,39 @@ export const QuizResultsPreview: React.FC<QuizResultsPreviewProps> = ({
       </Card>
 
       {/* Competitor Cards - Blurred */}
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4">Local Competitors Analyzed</h3>
+      <Card className="p-6 bg-club-green/5 border-club-green/20">
+        <h3 className="text-lg font-archivo text-club-green mb-4">Local Competitors Analyzed</h3>
         <div className="relative">
           <div className="blur-md pointer-events-none opacity-60 grid grid-cols-2 gap-3">
             {[...Array(competitorCount)].map((_, i) => (
-              <div key={i} className="p-4 border rounded-lg">
-                <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
-                <div className="h-3 bg-muted rounded w-1/2"></div>
+              <div key={i} className="p-4 border border-club-green/20 rounded-lg bg-club-green/5">
+                <div className="h-4 bg-club-green/20 rounded w-3/4 mb-2"></div>
+                <div className="h-3 bg-club-green/20 rounded w-1/2"></div>
               </div>
             ))}
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="bg-background/90 backdrop-blur-sm px-8 py-4 rounded-lg border-2 border-primary shadow-lg text-center">
-              <Lock className="w-6 h-6 text-primary mx-auto mb-2" />
-              <p className="text-sm font-semibold mb-1">See {competitorCount} Competitors</p>
-              <p className="text-xs text-muted-foreground">Their prices, services & gaps</p>
+            <div className="bg-warm-cream/95 backdrop-blur-sm px-8 py-4 rounded-lg border-2 border-action-yellow shadow-lg text-center">
+              <Lock className="w-6 h-6 text-club-green mx-auto mb-2" />
+              <p className="text-sm font-archivo text-club-green mb-1">See {competitorCount} Competitors</p>
+              <p className="text-xs text-club-green/60 font-dm">Their prices, services & gaps</p>
             </div>
           </div>
         </div>
       </Card>
 
       {/* Market Opportunity - Blurred */}
-      <Card className="p-6">
+      <Card className="p-6 bg-club-green/5 border-club-green/20">
         <div className="relative">
           <div className="blur-md pointer-events-none opacity-60">
-            <h3 className="text-lg font-semibold mb-2">Local Market Opportunity</h3>
-            <p className="text-3xl font-bold">$847,200</p>
-            <p className="text-sm text-muted-foreground">Estimated untapped annual revenue</p>
+            <h3 className="text-lg font-archivo text-club-green mb-2">Local Market Opportunity</h3>
+            <p className="text-3xl font-archivo text-club-green">$847,200</p>
+            <p className="text-sm text-club-green/60 font-dm">Estimated untapped annual revenue</p>
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="bg-background/90 backdrop-blur-sm px-8 py-4 rounded-lg border-2 border-primary shadow-lg">
-              <Lock className="w-6 h-6 text-primary mx-auto mb-2" />
-              <p className="text-sm font-semibold">Unlock Market Data</p>
+            <div className="bg-warm-cream/95 backdrop-blur-sm px-8 py-4 rounded-lg border-2 border-action-yellow shadow-lg">
+              <Lock className="w-6 h-6 text-club-green mx-auto mb-2" />
+              <p className="text-sm font-archivo text-club-green">Unlock Market Data</p>
             </div>
           </div>
         </div>
@@ -186,10 +186,10 @@ export const QuizResultsPreview: React.FC<QuizResultsPreviewProps> = ({
 
       {/* CTA */}
       <div className="text-center pt-4">
-        <Button onClick={onContinue} size="lg" className="w-full sm:w-auto">
+        <Button onClick={onContinue} size="lg" className="w-full sm:w-auto bg-action-yellow hover:bg-action-yellow/90 text-club-green font-dm font-bold">
           Get Your Full Marketing Report
         </Button>
-        <p className="text-xs text-muted-foreground mt-3">
+        <p className="text-xs text-club-green/60 font-dm mt-3">
           Includes: Competitor analysis • Market data • Personalized action plan
         </p>
       </div>
