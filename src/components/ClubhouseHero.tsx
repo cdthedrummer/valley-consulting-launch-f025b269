@@ -29,22 +29,22 @@ const ClubhouseHero: React.FC = () => {
               </span>
             </h1>
 
-            <p className="font-dm text-warm-cream/90 text-base md:text-lg lg:text-xl leading-relaxed max-w-xl">We build websites, launch campaigns, and give you insights to help local customers find you. Simple, effective marketing that actually works for your business.</p>
+            <p className="font-dm text-warm-cream/90 text-base md:text-lg lg:text-xl leading-relaxed max-w-xl">We build websites, launch campaigns, and give you insights to help local customers find you. Get your free marketing analysis in 30 seconds.</p>
 
             <div className="flex flex-col gap-4 pt-4">
               <Button asChild className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill px-10 py-7 font-dm font-bold uppercase tracking-wide text-lg md:text-xl transition-all hover:-translate-y-1 hover:shadow-lift active:scale-95 w-full sm:w-auto border-2 border-warm-cream">
-                <Link to="/ai/dashboard">
-                  LAUNCH DASHBOARD
+                <Link to="/resources/ai-copilot">
+                  GET FREE BUSINESS ANALYSIS
                 </Link>
               </Button>
               
               <div className="flex items-center gap-3 bg-warm-cream rounded-pill p-2 w-full sm:w-auto">
                 <span className="font-dm text-club-green text-sm uppercase tracking-wide px-4 font-bold">
-                  Get Offers
+                  Or Book a Call
                 </span>
                 <Button asChild className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill px-8 py-4 font-dm font-bold uppercase tracking-wide text-base transition-all">
                   <Link to="/booking">
-                    Email →
+                    Schedule →
                   </Link>
                 </Button>
               </div>
