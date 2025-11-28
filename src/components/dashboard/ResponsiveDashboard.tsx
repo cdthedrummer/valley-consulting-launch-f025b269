@@ -141,7 +141,8 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       );
     }
     
-    if (widget.id === 'business-score' && hasBusinessData) {
+    if (widget.id === 'business-score') {
+      if (!hasBusinessData) return null;
       const percentile = Math.min(95, Math.max(5, Math.floor(marketingScore * 0.9)));
       return (
         <BusinessScoreWidget
@@ -153,7 +154,8 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       );
     }
     
-    if (widget.id === 'quick-wins' && hasBusinessData) {
+    if (widget.id === 'quick-wins') {
+      if (!hasBusinessData) return null;
       return (
         <QuickWinsWidget
           quickWins={quickWins}
@@ -161,7 +163,8 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       );
     }
     
-    if (widget.id === 'competitors' && hasBusinessData) {
+    if (widget.id === 'competitors') {
+      if (!hasBusinessData) return null;
       return (
         <CompetitorSpotlightWidget
           competitors={competitors}
@@ -209,14 +212,8 @@ const ResponsiveDashboard: React.FC<ResponsiveDashboardProps> = ({
       );
     }
     
-    const WidgetComponent = widget.component as React.ComponentType<any>;
-    return (
-      <WidgetComponent
-        location={location}
-        industry={industry}
-        className={widgetClassName}
-      />
-    );
+    // Fallback - should not reach here if widgets are properly filtered
+    return null;
   };
 
   // Show loading state while profile is loading
