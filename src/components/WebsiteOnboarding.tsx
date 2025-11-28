@@ -129,7 +129,7 @@ export const WebsiteOnboarding: React.FC<WebsiteOnboardingProps> = ({
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
+    <div className="max-w-3xl mx-auto p-4 max-h-[90vh] overflow-y-auto">
       <AnimatePresence mode="wait">
         {/* Step 1: URL Input */}
         {step === 'url' && (
@@ -140,8 +140,8 @@ export const WebsiteOnboarding: React.FC<WebsiteOnboardingProps> = ({
             exit={{ opacity: 0, y: -20 }}
           >
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-3">Get Your Free Marketing Analysis</h2>
-              <p className="text-muted-foreground">
+              <h2 className="text-3xl font-archivo text-club-green mb-3">Get Your Free Marketing Analysis</h2>
+              <p className="text-club-green/70 font-dm">
                 Enter your website and we'll analyze your marketing in 30 seconds
               </p>
             </div>
@@ -160,7 +160,7 @@ export const WebsiteOnboarding: React.FC<WebsiteOnboardingProps> = ({
                 />
               </div>
 
-              <Button type="submit" size="lg" className="w-full" disabled={isLoading}>
+              <Button type="submit" size="lg" className="w-full bg-action-yellow hover:bg-action-yellow/90 text-club-green font-dm font-bold" disabled={isLoading}>
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-5 w-5 animate-spin" />
@@ -183,8 +183,8 @@ export const WebsiteOnboarding: React.FC<WebsiteOnboardingProps> = ({
             exit={{ opacity: 0 }}
           >
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-3">Analyzing Your Website...</h2>
-              <p className="text-muted-foreground">
+              <h2 className="text-3xl font-archivo text-club-green mb-3">Analyzing Your Website...</h2>
+              <p className="text-club-green/70 font-dm">
                 Our AI is reviewing your business presence
               </p>
             </div>
@@ -234,9 +234,9 @@ export const WebsiteOnboarding: React.FC<WebsiteOnboardingProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
           >
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-3">Your Marketing Score Is Ready!</h2>
-              <p className="text-muted-foreground">
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-archivo text-club-green mb-3">Your Marketing Score Is Ready!</h2>
+              <p className="text-club-green/70 font-dm">
                 Here's what we found about your business
               </p>
             </div>
@@ -263,8 +263,8 @@ export const WebsiteOnboarding: React.FC<WebsiteOnboardingProps> = ({
             exit={{ opacity: 0, y: -20 }}
           >
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-3">Just Two Quick Questions</h2>
-              <p className="text-muted-foreground">
+              <h2 className="text-3xl font-archivo text-club-green mb-3">Just Two Quick Questions</h2>
+              <p className="text-club-green/70 font-dm">
                 Help us personalize your marketing plan
               </p>
             </div>
@@ -341,46 +341,78 @@ export const WebsiteOnboarding: React.FC<WebsiteOnboardingProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
           >
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-3">Get Your Full Report</h2>
-              <p className="text-muted-foreground">
-                Enter your phone number to receive your personalized marketing plan
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-archivo text-club-green mb-3">Get Your Full Report</h2>
+              <p className="text-club-green/70 font-dm">
+                Enter your phone number to unlock your complete analysis
               </p>
             </div>
 
-            <Card className="p-8">
-              <div className="space-y-6">
+            <Card className="p-6 border-action-yellow/30 bg-warm-cream">
+              {/* Preview of what they'll get */}
+              <div className="mb-6 p-4 bg-club-green/5 rounded-lg border border-club-green/20">
+                <p className="font-dm font-semibold text-club-green mb-3">📊 Your Full Report Includes:</p>
+                <div className="space-y-2 text-sm font-dm text-club-green/80">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-action-yellow flex-shrink-0 mt-0.5" />
+                    <span>Complete marketing score breakdown with improvement areas</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-action-yellow flex-shrink-0 mt-0.5" />
+                    <span>Full competitor analysis ({scrapedData?.competitorCount || 3}+ local businesses)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-action-yellow flex-shrink-0 mt-0.5" />
+                    <span>All {scrapedData?.quickWins?.length || 5} quick wins to boost your score</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-action-yellow flex-shrink-0 mt-0.5" />
+                    <span>Local market opportunity insights for {scrapedData?.location || 'your area'}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
                 <div>
-                  <Label htmlFor="phone">Phone Number</Label>
+                  <Label htmlFor="phone" className="font-dm text-club-green">Phone Number</Label>
                   <Input
                     id="phone"
                     type="tel"
                     placeholder="(555) 123-4567"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    className="text-lg"
+                    className="text-lg mt-2"
                     required
                   />
-                  <p className="text-sm text-muted-foreground mt-2">
-                    We'll text you the full analysis with competitor data and action items
+                  <p className="text-xs text-club-green/60 font-dm mt-2">
+                    📱 We'll text you a link to your personalized report
                   </p>
                 </div>
 
-                <Button onClick={handleComplete} size="lg" className="w-full">
-                  Send My Report
+                <Button 
+                  onClick={handleComplete} 
+                  size="lg" 
+                  className="w-full bg-action-yellow hover:bg-action-yellow/90 text-club-green font-dm font-bold"
+                >
+                  Send My Free Report
                 </Button>
 
                 {isTeaser && (
-                  <div className="text-center pt-4 border-t">
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Want the AI Copilot to help you implement these strategies?
-                    </p>
-                    <p className="text-lg font-semibold mb-2">
-                      Unlock Full AI Dashboard - $15/month
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      Includes: Market intelligence • Competitor tracking • Personalized campaigns
-                    </p>
+                  <div className="text-center pt-4 border-t border-club-green/20">
+                    <div className="inline-block bg-varsity-maroon/10 px-4 py-3 rounded-lg">
+                      <p className="text-sm text-club-green/80 font-dm mb-2">
+                        💎 Want AI to implement these strategies for you?
+                      </p>
+                      <p className="text-xl font-archivo text-club-green mb-1">
+                        Unlock Full AI Dashboard
+                      </p>
+                      <p className="text-lg font-bold text-action-yellow mb-2">
+                        $15/month
+                      </p>
+                      <p className="text-xs text-club-green/70 font-dm">
+                        Live market intelligence • Auto-competitor tracking • AI campaign builder
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>

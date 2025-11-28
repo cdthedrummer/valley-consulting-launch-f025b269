@@ -82,13 +82,13 @@ const AICopilot: React.FC = () => {
       
       {/* Interactive Quiz Modal */}
       {showQuiz && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-3xl relative bg-background rounded-lg shadow-2xl border">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="w-full max-w-3xl relative bg-warm-cream rounded-lg shadow-2xl border-2 border-action-yellow/30 my-8">
             <button
               onClick={() => setShowQuiz(false)}
-              className="absolute -top-3 -right-3 z-10 rounded-full bg-background border-2 border-border p-2 shadow-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              className="absolute -top-3 -right-3 z-10 rounded-full bg-action-yellow border-2 border-club-green p-2 shadow-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-action-yellow"
             >
-              <X className="h-5 w-5" />
+              <X className="h-5 w-5 text-club-green" />
               <span className="sr-only">Close</span>
             </button>
             <WebsiteOnboarding 
