@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 const ClubhouseHero: React.FC = () => {
   return <section id="overview" className="relative min-h-screen bg-club-green flex items-center overflow-hidden py-20 md:py-0">
       <div className="container-custom">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[55%,45%] gap-8 lg:gap-4 items-center">
           {/* Left Column - Copy */}
-          <div className="space-y-6 animate-fade-in-up">
+          <div className="space-y-6 animate-fade-in-up overflow-hidden">
             {/* Star Rating */}
             <div className="flex items-center gap-1 mb-4">
               {[...Array(5)].map((_, i) => <span key={i} className="text-action-yellow text-2xl">★</span>)}
@@ -19,7 +19,7 @@ const ClubhouseHero: React.FC = () => {
               </span>
             </div>
             
-            <h1 className="font-archivo text-warm-cream text-5xl sm:text-6xl lg:text-7xl xl:text-8xl uppercase leading-none tracking-tight">
+            <h1 className="font-archivo text-warm-cream text-5xl sm:text-6xl lg:text-5xl xl:text-6xl 2xl:text-8xl uppercase leading-none tracking-tight">
               GET MORE
               <span className="block mt-1">
                 LOCAL
