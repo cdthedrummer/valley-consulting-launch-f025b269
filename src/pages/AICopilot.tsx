@@ -13,12 +13,26 @@ import SEOHead from "@/components/SEOHead";
 import { WebsiteOnboarding } from "@/components/WebsiteOnboarding";
 import { supabase } from "@/integrations/supabase/client";
 
+declare global {
+  interface Window {
+    gtag_report_conversion?: (url?: string) => boolean;
+  }
+}
+
 const AICopilot: React.FC = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [showQuiz, setShowQuiz] = useState(false);
   const [quizData, setQuizData] = useState<any>(null);
+
+  const handleAnalysisClick = () => {
+    // Fire Google Ads conversion
+    if (typeof window.gtag_report_conversion === 'function') {
+      window.gtag_report_conversion();
+    }
+    setShowQuiz(true);
+  };
 
   const handleStartTrial = () => {
     if (!user) {
@@ -118,7 +132,7 @@ const AICopilot: React.FC = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button 
-                onClick={() => setShowQuiz(true)}
+                onClick={handleAnalysisClick}
                 className="bg-action-yellow text-club-green hover:bg-action-yellow/90 rounded-pill font-dm font-bold uppercase tracking-wide text-lg px-8 py-3"
               >
                 Get Free Business Analysis
@@ -542,7 +556,7 @@ const AICopilot: React.FC = () => {
                 </div>
 
                 <Button 
-                  onClick={() => setShowQuiz(true)}
+                  onClick={handleAnalysisClick}
                   className="w-full bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill font-dm font-bold uppercase tracking-wide mb-4"
                 >
                   Get Free Business Analysis

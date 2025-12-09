@@ -49,6 +49,22 @@
       gtag('config', 'AW-17789643261');
     </script>
     
+    <!-- Event snippet for Submit lead form conversion -->
+    <script>
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-17789643261/PHBwCMes6c4bEP3T4aJC',
+          'event_callback': callback
+      });
+      return false;
+    }
+    </script>
+    
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/lovable-uploads/b7275e3c-ebd8-4c8d-ab52-f19413514d09.png" />
   </head>
