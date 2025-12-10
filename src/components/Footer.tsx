@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Mail, Phone } from "lucide-react";
+import logoWhiteWide from "@/assets/logos/hvcg-logo-white-wide.png";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -12,7 +13,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-bold font-archivo uppercase tracking-wide mb-4 text-action-yellow">HVCG</h3>
+            <img src={logoWhiteWide} alt="HVCG - Hudson Valley Consulting Group" className="h-10 w-auto mb-4" />
             <p className="mb-4 text-warm-cream/80">
               Website development and Google search optimization for contractors in the Hudson Valley.
             </p>
