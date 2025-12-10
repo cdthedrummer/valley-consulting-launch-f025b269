@@ -1,13 +1,16 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
+import logoWhiteWide from "@/assets/logos/hvcg-logo-white-wide.png";
 
 const NavbarLogo: React.FC = () => {
   return (
     <Link to="/" className="flex items-center">
-      <h1 className="text-xl md:text-2xl font-bold font-archivo uppercase tracking-wide text-warm-cream">
-        HVCG
-      </h1>
+      <img 
+        src={logoWhiteWide} 
+        alt="HVCG - Hudson Valley Consulting Group" 
+        className="h-8 md:h-10 w-auto"
+      />
     </Link>
   );
 };
