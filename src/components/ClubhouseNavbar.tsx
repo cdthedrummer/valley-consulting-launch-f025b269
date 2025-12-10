@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, X, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import logoWhiteWide from "@/assets/logos/hvcg-logo-white-wide.png";
 const navSections = [
   { id: 'overview', label: 'OVERVIEW' },
   { id: 'pro-shop', label: 'PRO SHOP' },
@@ -72,9 +72,11 @@ const ClubhouseNavbar: React.FC = () => {
           <div className="px-6 py-4 flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="flex items-center">
-              <h1 className="font-archivo text-warm-cream text-xl uppercase tracking-widest">
-                HVCG
-              </h1>
+              <img 
+                src={logoWhiteWide} 
+                alt="HVCG - Hudson Valley Consulting Group" 
+                className="h-7 w-auto"
+              />
             </Link>
 
             {/* Desktop Navigation */}
