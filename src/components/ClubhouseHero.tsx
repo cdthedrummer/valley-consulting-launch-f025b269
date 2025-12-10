@@ -56,14 +56,7 @@ const ClubhouseHero: React.FC = () => {
           animationDelay: '0.2s'
         }}>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-              <img 
-                src="/lovable-uploads/hero-light.png" 
-                alt="Contractor reviewing analytics dashboard on iPad" 
-                className="w-full h-auto object-cover"
-                width="800"
-                height="600"
-                fetchPriority="high"
-              />
+              <img alt="Contractor reviewing analytics dashboard on iPad" className="w-full h-auto object-cover" width="800" height="600" fetchPriority="high" src="/lovable-uploads/6ec9cd1b-29fa-43ef-9cac-1e4953d926c6.png" />
             </div>
           </div>
         </div>
