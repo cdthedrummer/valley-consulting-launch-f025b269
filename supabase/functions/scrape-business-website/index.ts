@@ -6,6 +6,40 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// SSRF protection: Block private/internal networks
+const isPrivateUrl = (hostname: string): boolean => {
+  const privatePatterns = [
+    /^localhost$/i,
+    /^127\.\d+\.\d+\.\d+$/,
+    /^10\.\d+\.\d+\.\d+$/,
+    /^172\.(1[6-9]|2\d|3[01])\.\d+\.\d+$/,
+    /^192\.168\.\d+\.\d+$/,
+    /^0\.0\.0\.0$/,
+    /^::1$/,
+    /^fc00:/i,
+    /^fe80:/i,
+    /\.local$/i,
+    /\.internal$/i,
+  ];
+  return privatePatterns.some(pattern => pattern.test(hostname));
+};
+
+// Sanitize error for client response
+const sanitizeError = (error: Error): string => {
+  const errorMap: Record<string, string> = {
+    'AI analysis failed': 'Service temporarily unavailable',
+    'rate limit': 'Too many requests, please try again later',
+    'fetch': 'Unable to retrieve website content',
+    'Invalid URL': 'Please provide a valid website URL',
+  };
+  
+  for (const [key, value] of Object.entries(errorMap)) {
+    if (error.message.toLowerCase().includes(key.toLowerCase())) return value;
+  }
+  
+  return 'An unexpected error occurred';
+};
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -13,15 +47,46 @@ serve(async (req) => {
 
   const supabaseClient = createClient(
     Deno.env.get("SUPABASE_URL") ?? "",
-    Deno.env.get("SUPABASE_ANON_KEY") ?? ""
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
   );
 
-  try {
-    const { websiteUrl } = await req.json();
+  // Get client IP for rate limiting
+  const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                   req.headers.get('cf-connecting-ip') || 
+                   '0.0.0.0';
 
+  try {
+    // Rate limiting: 5 requests per hour per IP
+    const { data: allowed } = await supabaseClient.rpc('check_rate_limit_with_security', {
+      _ip_address: clientIp,
+      _endpoint: 'scrape-business-website',
+      _max_requests: 5,
+      _window_minutes: 60
+    });
+
+    if (!allowed) {
+      console.log(`[SCRAPE] Rate limit exceeded for IP: ${clientIp}`);
+      return new Response(
+        JSON.stringify({ error: 'Too many requests. Please try again later.' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 429 }
+      );
+    }
+
+    const body = await req.json();
+    const { websiteUrl } = body;
+
+    // Input validation
     if (!websiteUrl || typeof websiteUrl !== 'string') {
       return new Response(
         JSON.stringify({ error: 'Valid website URL is required' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
+    }
+
+    // Length validation
+    if (websiteUrl.length > 2000) {
+      return new Response(
+        JSON.stringify({ error: 'URL too long' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
       );
     }
@@ -37,14 +102,41 @@ serve(async (req) => {
       );
     }
 
-    console.log('[SCRAPE] Fetching website content:', url.toString());
+    // SSRF protection: Block private networks
+    if (isPrivateUrl(url.hostname)) {
+      console.log(`[SCRAPE] SSRF attempt blocked: ${url.hostname}`);
+      return new Response(
+        JSON.stringify({ error: 'Access to private networks is not allowed' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
+    }
 
-    // Fetch website content
-    const websiteResponse = await fetch(url.toString(), {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; HVCBot/1.0)'
-      }
-    });
+    // Only allow http/https protocols
+    if (!['http:', 'https:'].includes(url.protocol)) {
+      return new Response(
+        JSON.stringify({ error: 'Only HTTP/HTTPS URLs are allowed' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
+    }
+
+    console.log(`[SCRAPE] Processing request from IP: ${clientIp}`);
+
+    // Fetch website content with timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    
+    let websiteResponse;
+    try {
+      websiteResponse = await fetch(url.toString(), {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; HVCBot/1.0)'
+        },
+        signal: controller.signal,
+        redirect: 'follow'
+      });
+    } finally {
+      clearTimeout(timeoutId);
+    }
 
     if (!websiteResponse.ok) {
       return new Response(
@@ -55,16 +147,20 @@ serve(async (req) => {
 
     const htmlContent = await websiteResponse.text();
     
+    // Response size limit (100KB)
+    if (htmlContent.length > 100000) {
+      console.log('[SCRAPE] Response too large, truncating');
+    }
+    
     // Extract text content (simple HTML stripping)
     const textContent = htmlContent
+      .substring(0, 100000) // Limit raw content
       .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
       .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
       .replace(/<[^>]+>/g, ' ')
       .replace(/\s+/g, ' ')
       .trim()
-      .substring(0, 8000); // Limit content size
-
-    console.log('[SCRAPE] Analyzing content with AI...');
+      .substring(0, 8000); // Limit content size for AI
 
     // Use Lovable AI to analyze the website
     const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
@@ -105,22 +201,19 @@ Return this exact structure:
     });
 
     if (!aiResponse.ok) {
-      const errorText = await aiResponse.text();
-      console.error('[SCRAPE] AI error:', aiResponse.status, errorText);
+      console.error('[SCRAPE] AI error:', aiResponse.status);
       
       if (aiResponse.status === 429) {
         return new Response(
-          JSON.stringify({ error: 'AI service rate limit exceeded. Please try again in a moment.' }),
+          JSON.stringify({ error: 'Service temporarily unavailable. Please try again in a moment.' }),
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 429 }
         );
       }
-      throw new Error(`AI analysis failed: ${aiResponse.status}`);
+      throw new Error('AI analysis failed');
     }
 
     const aiResult = await aiResponse.json();
     const aiContent = aiResult.choices[0]?.message?.content || '{}';
-    
-    console.log('[SCRAPE] AI raw response:', aiContent);
 
     // Parse AI response (handle potential markdown wrapping)
     let analysisData;
@@ -129,7 +222,7 @@ Return this exact structure:
       const jsonStr = jsonMatch ? jsonMatch[0] : aiContent;
       analysisData = JSON.parse(jsonStr);
     } catch (parseError) {
-      console.error('[SCRAPE] Failed to parse AI response:', parseError);
+      console.error('[SCRAPE] Failed to parse AI response');
       analysisData = {
         businessName: null,
         industry: 'Other',
@@ -206,7 +299,7 @@ Return this exact structure:
   } catch (error) {
     console.error('[SCRAPE] Error:', error);
     return new Response(
-      JSON.stringify({ error: (error as Error).message }),
+      JSON.stringify({ error: sanitizeError(error as Error) }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
     );
   }

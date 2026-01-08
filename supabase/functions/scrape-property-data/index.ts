@@ -22,7 +22,7 @@ async function fetchRepliersData(location: string, industry: string) {
 
   try {
     // Search for location first
-    console.log('[PROPERTY-DATA] Searching Repliers for location:', location);
+    console.log('[PROPERTY-DATA] Searching Repliers for location');
     const locationResponse = await fetch(
       `https://api.repliers.io/locations?q=${encodeURIComponent(location)}`,
       { headers }
@@ -35,12 +35,11 @@ async function fetchRepliersData(location: string, industry: string) {
 
     const locationData = await locationResponse.json();
     if (!locationData.data || locationData.data.length === 0) {
-      console.warn('[PROPERTY-DATA] No locations found for:', location);
+      console.warn('[PROPERTY-DATA] No locations found');
       return null;
     }
 
     const locationId = locationData.data[0].id;
-    console.log('[PROPERTY-DATA] Found location ID:', locationId);
 
     // Search for property listings
     const listingsResponse = await fetch(
@@ -58,7 +57,7 @@ async function fetchRepliersData(location: string, industry: string) {
 
     return listingsData.data || [];
   } catch (error) {
-    console.error('[PROPERTY-DATA] Repliers API error:', error);
+    console.error('[PROPERTY-DATA] Repliers API error');
     return null;
   }
 }
@@ -79,9 +78,8 @@ const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: numbe
 // Helper function to geocode ZIP code to coordinates
 const geocodeZipCode = async (zipCode: string): Promise<{ lat: number; lng: number } | null> => {
   try {
-    // Using a free geocoding service (nominatim)
     const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&country=US&format=json&limit=1`,
+      `https://nominatim.openstreetmap.org/search?postalcode=${encodeURIComponent(zipCode)}&country=US&format=json&limit=1`,
       {
         headers: {
           'User-Agent': 'PropertyLeadsFinder/1.0'
@@ -96,7 +94,7 @@ const geocodeZipCode = async (zipCode: string): Promise<{ lat: number; lng: numb
       };
     }
   } catch (error) {
-    console.error('Geocoding error:', error);
+    console.error('Geocoding error');
   }
   return null;
 };
@@ -219,13 +217,70 @@ serve(async (req) => {
   }
 
   try {
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+
+    // Validate authentication
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const authClient = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } }
+    });
+
+    const token = authHeader.replace('Bearer ', '');
+    const { data: claims, error: authError } = await authClient.auth.getClaims(token);
+    
+    if (authError || !claims?.claims?.sub) {
+      console.error('[PROPERTY-DATA] Auth error');
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Use service role for database operations
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
     const { location, industry } = await req.json();
     
-    console.log('[PROPERTY-DATA] Starting scrape for:', { location, industry });
+    // Input validation
+    if (!location || typeof location !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'Location is required' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    if (!industry || typeof industry !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'Industry is required' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Length validation
+    if (location.length > 100) {
+      return new Response(
+        JSON.stringify({ error: 'Location too long' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (industry.length > 50) {
+      return new Response(
+        JSON.stringify({ error: 'Industry too long' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    console.log('[PROPERTY-DATA] Starting scrape for authenticated user');
 
     // Check cache first
     const { data: cached } = await supabase
@@ -251,7 +306,6 @@ serve(async (req) => {
     
     if (isZipCode) {
       centerCoords = await geocodeZipCode(location);
-      console.log(`[PROPERTY-DATA] Geocoded ZIP ${location} to:`, centerCoords);
     }
 
     // Try to fetch from Repliers API
@@ -281,7 +335,7 @@ serve(async (req) => {
 
         // Calculate distance if we have coordinates
         if (centerCoords && transformed.latitude && transformed.longitude) {
-          transformed.distance = calculateDistance(
+          (transformed as any).distance = calculateDistance(
             centerCoords.lat,
             centerCoords.lng,
             transformed.latitude,
@@ -301,7 +355,6 @@ serve(async (req) => {
             if (!b.distance) return -1;
             return a.distance - b.distance;
           });
-        console.log(`[PROPERTY-DATA] Filtered to ${transformedListings.length} properties within 15 miles`);
       }
 
       const properties = transformedListings.slice(0, 10);
@@ -356,7 +409,7 @@ serve(async (req) => {
         expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
       });
 
-    console.log('[PROPERTY-DATA] Data cached successfully, source:', propertyData.dataSource);
+    console.log('[PROPERTY-DATA] Data cached successfully');
 
     return new Response(
       JSON.stringify({ data: propertyData, cached: false }),
@@ -365,7 +418,7 @@ serve(async (req) => {
   } catch (error) {
     console.error('[PROPERTY-DATA] Error:', error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: 'An unexpected error occurred' }),
       { 
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
