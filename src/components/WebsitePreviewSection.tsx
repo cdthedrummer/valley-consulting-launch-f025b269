@@ -39,11 +39,11 @@ const WebsitePreviewSection: React.FC = () => {
 
         {/* Main Image */}
         <div className="mb-12">
-          <div className="relative rounded-3xl overflow-hidden shadow-lift max-w-4xl mx-auto">
+          <div className="relative rounded-3xl overflow-hidden shadow-lift max-w-4xl mx-auto bg-transparent">
             <img 
               src="/images/website-showcase/website-preview-multi-device.png"
               alt="Website preview across multiple devices - desktop, tablet, and mobile"
-              className="w-full h-auto max-h-[450px] object-contain"
+              className="w-full h-auto object-cover"
               loading="lazy"
               width="800"
               height="450"
