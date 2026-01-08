@@ -8,7 +8,7 @@ import SEOHead from "@/components/SEOHead";
 const WebsiteDevelopment: React.FC = () => {
   const whatYouGet = [
     {
-      image: "/images/website-showcase/website-preview-multi-device.png",
+      image: "/images/website-development/full-website-design.png",
       icon: <Monitor className="w-8 h-8" />,
       title: "Complete Website Build",
       features: [
@@ -22,7 +22,7 @@ const WebsiteDevelopment: React.FC = () => {
       ]
     },
     {
-      image: "/images/website-showcase/search-maps-results.png",
+      image: "/images/website-development/google-search-console-google-maps.png",
       icon: <Search className="w-8 h-8" />,
       title: "Search & Maps Visibility",
       features: [
@@ -35,7 +35,7 @@ const WebsiteDevelopment: React.FC = () => {
       ]
     },
     {
-      image: "/images/website-showcase/mobile-search-experience.png",
+      image: "/images/website-development/leads-cta.png",
       icon: <Phone className="w-8 h-8" />,
       title: "Lead Generation Tools",
       badge: "FREE",
@@ -49,7 +49,7 @@ const WebsiteDevelopment: React.FC = () => {
       ]
     },
     {
-      image: "/images/website-showcase/ai-self-service-tools.png",
+      image: "/images/website-development/self-service-maintenance.png",
       icon: <Sparkles className="w-8 h-8" />,
       title: "Self-Service AI Portal",
       features: [
@@ -133,9 +133,9 @@ const WebsiteDevelopment: React.FC = () => {
               <div className="relative">
                 <div className="rounded-3xl overflow-hidden shadow-lift">
                   <img 
-                    src="/images/website-showcase/hvcg-site-mockup.png"
+                    src="/images/website-development/full-website-design.png"
                     alt="Professional contractor website displayed across devices"
-                    className="w-full h-auto max-h-[350px] object-cover"
+                    className="w-full h-auto max-h-[350px] object-contain"
                     loading="eager"
                     width="600"
                     height="350"
@@ -165,14 +165,14 @@ const WebsiteDevelopment: React.FC = () => {
                   className="bg-club-green rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-lift"
                 >
                   {/* Image */}
-                  <div className="relative h-40 overflow-hidden">
+                  <div className="relative h-56 overflow-hidden bg-club-green/20">
                     <img 
                       src={item.image}
                       alt={item.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain p-4"
                       loading="lazy"
                       width="350"
-                      height="160"
+                      height="224"
                     />
                     {item.badge && (
                       <div className="absolute top-4 right-4 bg-action-yellow text-club-green px-3 py-1 rounded-pill text-xs font-dm font-bold uppercase tracking-wide">
