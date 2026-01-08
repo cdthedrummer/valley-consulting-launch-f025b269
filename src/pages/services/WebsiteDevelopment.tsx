@@ -8,7 +8,7 @@ import SEOHead from "@/components/SEOHead";
 const WebsiteDevelopment: React.FC = () => {
   const whatYouGet = [
     {
-      image: "/images/website-showcase/website-preview-multi-device.png",
+      image: "/images/website-showcase/full-website-design.png",
       icon: <Monitor className="w-8 h-8" />,
       title: "Complete Website Build",
       features: [
@@ -22,7 +22,7 @@ const WebsiteDevelopment: React.FC = () => {
       ]
     },
     {
-      image: "/images/website-showcase/search-maps-results.png",
+      image: "/images/website-showcase/google-search-maps.png",
       icon: <Search className="w-8 h-8" />,
       title: "Search & Maps Visibility",
       features: [
@@ -35,7 +35,7 @@ const WebsiteDevelopment: React.FC = () => {
       ]
     },
     {
-      image: "/images/website-showcase/mobile-search-experience.png",
+      image: "/images/website-showcase/leads-cta.png",
       icon: <Phone className="w-8 h-8" />,
       title: "Lead Generation Tools",
       badge: "FREE",
@@ -49,7 +49,7 @@ const WebsiteDevelopment: React.FC = () => {
       ]
     },
     {
-      image: "/images/website-showcase/ai-self-service-tools.png",
+      image: "/images/website-showcase/self-service-ai.png",
       icon: <Sparkles className="w-8 h-8" />,
       title: "Self-Service AI Portal",
       features: [
@@ -133,7 +133,7 @@ const WebsiteDevelopment: React.FC = () => {
               <div className="relative">
                 <div className="rounded-3xl overflow-hidden shadow-lift">
                   <img 
-                    src="/images/website-showcase/hvcg-site-mockup.png"
+                    src="/images/website-showcase/full-website-design.png"
                     alt="Professional contractor website displayed across devices"
                     className="w-full h-auto max-h-[350px] object-cover"
                     loading="eager"
@@ -273,7 +273,7 @@ const WebsiteDevelopment: React.FC = () => {
               <div className="relative">
                 <div className="rounded-3xl overflow-hidden shadow-lift">
                   <img 
-                    src="/images/website-showcase/mobile-search-experience.png"
+                    src="/images/website-showcase/leads-cta.png"
                     alt="Woman reviewing contractor website on mobile device"
                     className="w-full h-auto max-h-[350px] object-cover"
                     loading="lazy"
