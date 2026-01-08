@@ -62,14 +62,14 @@ const SearchResultsShowcase: React.FC = () => {
 
           {/* Image */}
           <div className="order-1 lg:order-2">
-            <div className="relative rounded-3xl overflow-hidden shadow-lift">
+            <div className="relative rounded-3xl overflow-hidden shadow-lift max-w-md lg:max-w-lg mx-auto">
               <img 
                 src="/images/website-showcase/search-maps-results.png"
                 alt="Google Search and Maps results showing contractor ranking #1 with analytics dashboard"
-                className="w-full h-auto max-h-[500px] object-cover"
+                className="w-full h-auto max-h-[400px] object-contain"
                 loading="lazy"
-                width="800"
-                height="500"
+                width="600"
+                height="400"
               />
             </div>
           </div>
