@@ -165,7 +165,7 @@ const WebsiteDevelopment: React.FC = () => {
                   className="bg-club-green rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-lift"
                 >
                   {/* Image */}
-                  <div className="relative h-40 overflow-hidden">
+                  <div className="relative h-52 overflow-hidden">
                     <img 
                       src={item.image}
                       alt={item.title}
