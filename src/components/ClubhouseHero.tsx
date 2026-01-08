@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 const ClubhouseHero: React.FC = () => {
-  return <section id="overview" className="relative min-h-screen bg-club-green flex items-center overflow-hidden py-20 md:py-0">
+  return <section id="overview" className="relative min-h-screen bg-club-green flex items-center overflow-hidden py-20 md:py-24 lg:py-0">
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-[55%,45%] gap-8 lg:gap-4 items-center">
           {/* Left Column - Copy */}
