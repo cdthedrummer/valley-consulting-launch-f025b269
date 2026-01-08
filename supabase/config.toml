@@ -11,19 +11,19 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.marketing-plan]
-verify_jwt = true
+verify_jwt = false
 
 [functions.send-outreach]
-verify_jwt = true
+verify_jwt = false
 
 [functions.mapbox-token]
 verify_jwt = false
 
 [functions.ai-chat]
-verify_jwt = true
+verify_jwt = false
 
 [functions.enrich-business]
-verify_jwt = true
+verify_jwt = false
 
 [functions.analyze-chat-signals]
 verify_jwt = false
@@ -35,5 +35,5 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.competitor-research]
-verify_jwt = true
+verify_jwt = false
 

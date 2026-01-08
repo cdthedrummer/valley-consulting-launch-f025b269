@@ -7,6 +7,9 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// UUID validation regex
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -14,17 +17,63 @@ serve(async (req) => {
 
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
     const lovableApiKey = Deno.env.get('LOVABLE_API_KEY');
     
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    // Validate authentication
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const authClient = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } }
+    });
+
+    const token = authHeader.replace('Bearer ', '');
+    const { data: claims, error: authError } = await authClient.auth.getClaims(token);
+    
+    if (authError || !claims?.claims?.sub) {
+      console.error('[ANALYZE-PATTERNS] Auth error:', authError);
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const authenticatedUserId = claims.claims.sub;
+    
+    // Use service role for database operations
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const { userId } = await req.json();
 
+    // Input validation
     if (!userId) {
       return new Response(
         JSON.stringify({ error: 'Missing userId' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validate UUID format
+    if (!UUID_REGEX.test(userId)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid userId format' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Verify the user is analyzing their own data
+    if (authenticatedUserId !== userId) {
+      console.error('[ANALYZE-PATTERNS] User mismatch:', { authenticatedUserId, userId });
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
@@ -72,11 +121,11 @@ serve(async (req) => {
     const analysisPrompt = `Analyze this contractor's marketing intelligence data:
 
 CONVERSATION HISTORY & SIGNALS:
-- Locations discussed: ${JSON.stringify(locationMentions)}
-- Services of interest: ${JSON.stringify(serviceInterests)}
-- Budget indicators: ${JSON.stringify(budgetMentions)}
-- Pain points expressed: ${JSON.stringify(painPoints)}
-- Competitors mentioned: ${JSON.stringify(competitors)}
+- Locations discussed: ${JSON.stringify(locationMentions.slice(0, 10))}
+- Services of interest: ${JSON.stringify(serviceInterests.slice(0, 10))}
+- Budget indicators: ${JSON.stringify(budgetMentions.slice(0, 5))}
+- Pain points expressed: ${JSON.stringify(painPoints.slice(0, 10))}
+- Competitors mentioned: ${JSON.stringify(competitors.slice(0, 5))}
 - Total conversations: ${conversationCount}
 
 RECENT SIGNALS (last 10):
@@ -95,8 +144,6 @@ Provide a comprehensive marketing intelligence analysis with:
 
 Return structured JSON for database storage.`;
 
-    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
-    
     let aiAnalysis = null;
     try {
       const aiResponse = await fetch(
@@ -104,7 +151,7 @@ Return structured JSON for database storage.`;
         {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+            'Authorization': `Bearer ${lovableApiKey}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
@@ -209,7 +256,7 @@ Return structured JSON for database storage.`;
         console.log('[ANALYZE-PATTERNS] AI analysis parsed successfully');
       }
     } catch (error) {
-      console.error('[ANALYZE-PATTERNS] AI analysis failed:', error);
+      console.error('[ANALYZE-PATTERNS] AI analysis failed');
       // Fall back to basic analysis if AI fails
     }
 
@@ -251,8 +298,8 @@ Return structured JSON for database storage.`;
       .single();
 
     if (upsertError) {
-      console.error('[ANALYZE-PATTERNS] Upsert error:', upsertError);
-      throw upsertError;
+      console.error('[ANALYZE-PATTERNS] Upsert error:', upsertError.message);
+      throw new Error('Failed to update profile');
     }
 
     console.log(`[ANALYZE-PATTERNS] Updated intelligence profile for user ${userId}`);
@@ -271,7 +318,7 @@ Return structured JSON for database storage.`;
   } catch (error) {
     console.error('[ANALYZE-PATTERNS] Error:', error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: 'An unexpected error occurred' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
