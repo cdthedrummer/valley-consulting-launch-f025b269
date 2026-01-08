@@ -5,6 +5,8 @@ import { ArrowRight, TrendingUp, Target, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ClubhouseHero from '@/components/ClubhouseHero';
 import ProShopSection from '@/components/ProShopSection';
+import WebsitePreviewSection from '@/components/WebsitePreviewSection';
+import SearchResultsShowcase from '@/components/SearchResultsShowcase';
 import AIShowcaseSection from '@/components/AIShowcaseSection';
 import ScorecardSection from '@/components/ScorecardSection';
 
@@ -106,6 +108,8 @@ const ClubhouseHome: React.FC = () => {
       <div className="min-h-screen bg-club-green scroll-smooth">
         <ClubhouseHero />
         <ProShopSection />
+        <WebsitePreviewSection />
+        <SearchResultsShowcase />
         <AIShowcaseSection />
         
         {/* Case Studies Section */}
