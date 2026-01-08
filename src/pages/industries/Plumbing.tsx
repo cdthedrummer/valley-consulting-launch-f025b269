@@ -25,15 +25,15 @@ const PlumbingPage: React.FC = () => {
 
   const images = [
     {
-      src: "https://images.unsplash.com/photo-1542013936693-884638332954?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/images/industries/plumbing/plumbing-1.jpg",
       alt: "Plumber fixing kitchen sink"
     },
     {
-      src: "https://images.unsplash.com/photo-1601457238569-8b711d150726?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/images/industries/plumbing/plumbing-2.jpg",
       alt: "Modern bathroom plumbing fixtures"
     },
     {
-      src: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", 
+      src: "/images/industries/plumbing/plumbing-3.jpg",
       alt: "Plumbing tools and equipment"
     }
   ];
@@ -47,7 +47,7 @@ const PlumbingPage: React.FC = () => {
   return (
     <IndustryTemplate
       industryName="Plumbing"
-      heroImage="https://images.unsplash.com/photo-1558618666-5b6e429302bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+      heroImage="/images/industries/plumbing/plumbing-hero.jpg"
       challenges={challenges}
       solutions={solutions}
       images={images}
