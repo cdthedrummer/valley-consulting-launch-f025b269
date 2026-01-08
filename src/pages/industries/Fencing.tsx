@@ -25,15 +25,15 @@ const FencingPage: React.FC = () => {
 
   const images = [
     {
-      src: "https://images.unsplash.com/photo-1605146052194-3a44e7a7b02e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/images/industries/fencing/fencing-1.jpg",
       alt: "Modern privacy fence installation"
     },
     {
-      src: "https://images.unsplash.com/photo-1628788835388-415ee2fa9576?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/images/industries/fencing/fencing-2.jpg",
       alt: "Decorative wooden fence with garden view"
     },
     {
-      src: "https://images.unsplash.com/photo-1572931467331-5be092c77dff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/images/industries/fencing/fencing-3.jpg",
       alt: "Metal fence installation process"
     }
   ];
@@ -47,7 +47,7 @@ const FencingPage: React.FC = () => {
   return (
     <IndustryTemplate
       industryName="Fencing"
-      heroImage="https://images.unsplash.com/photo-1605146052194-3a44e7a7b02e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+      heroImage="/images/industries/fencing/fencing-hero.jpg"
       challenges={challenges}
       solutions={solutions}
       images={images}

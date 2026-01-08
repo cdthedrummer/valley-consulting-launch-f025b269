@@ -25,15 +25,15 @@ const HVACPage: React.FC = () => {
 
   const images = [
     {
-      src: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/images/industries/hvac/hvac-1.jpg",
       alt: "Modern air conditioning unit installation"
     },
     {
-      src: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/images/industries/hvac/hvac-2.jpg",
       alt: "HVAC technician working on heating system"
     },
     {
-      src: "https://images.unsplash.com/photo-1619045119136-349759223c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/images/industries/hvac/hvac-3.jpg",
       alt: "Home thermostat control system"
     }
   ];
@@ -47,7 +47,7 @@ const HVACPage: React.FC = () => {
   return (
     <IndustryTemplate
       industryName="HVAC"
-      heroImage="https://images.unsplash.com/photo-1621905251918-48416bd8575a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+      heroImage="/images/industries/hvac/hvac-hero.jpg"
       challenges={challenges}
       solutions={solutions}
       images={images}

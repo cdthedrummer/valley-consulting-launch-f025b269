@@ -26,7 +26,7 @@ const IndustriesIndex: React.FC = () => {
           <path d="M2 17h20M2 7h20M16 12H8M12 2v20"></path>
         </svg>
       ),
-      image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      image: "/images/industries/hvac/hvac-hero.jpg"
     },
     {
       name: "Plumbing",
@@ -37,7 +37,7 @@ const IndustriesIndex: React.FC = () => {
           <path d="M12 2v20M2 6h4a2 2 0 0 1 2 2v12M2 6V2h20v4M22 6H18a2 2 0 0 0-2 2v12M18 18h4"></path>
         </svg>
       ),
-      image: "https://images.unsplash.com/photo-1558618666-5b6e429302bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      image: "/images/industries/plumbing/plumbing-hero.jpg"
     },
     {
       name: "Fencing",
@@ -48,7 +48,7 @@ const IndustriesIndex: React.FC = () => {
           <path d="M4 4v16M9 4v16M14 4v16M19 4v16M1 9h22M1 14h22"></path>
         </svg>
       ),
-      image: "https://images.unsplash.com/photo-1605146052194-3a44e7a7b02e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      image: "/images/industries/fencing/fencing-hero.jpg"
     },
     {
       name: "Deck & Patio",
@@ -60,7 +60,7 @@ const IndustriesIndex: React.FC = () => {
           <path d="M6 12h12M8 18v2M16 18v2"></path>
         </svg>
       ),
-      image: "https://images.unsplash.com/photo-1591017403491-3f78e10e2154?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      image: "/images/industries/deck-and-patio/deck-and-patio-hero.jpg"
     },
     {
       name: "Flooring",
@@ -72,7 +72,7 @@ const IndustriesIndex: React.FC = () => {
           <path d="M7 7h.01M7 12h.01M7 17h.01M12 7h.01M12 12h.01M12 17h.01M17 7h.01M17 12h.01M17 17h.01"></path>
         </svg>
       ),
-      image: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      image: "/images/industries/flooring/flooring-hero.jpg"
     },
   ];
 

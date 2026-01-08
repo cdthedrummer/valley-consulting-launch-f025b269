@@ -25,15 +25,15 @@ const FlooringPage: React.FC = () => {
 
   const images = [
     {
-      src: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/images/industries/flooring/flooring-1.jpg",
       alt: "Hardwood flooring installation"
     },
     {
-      src: "https://images.unsplash.com/photo-1609529411158-fb89a96bb6b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/images/industries/flooring/flooring-2.jpg",
       alt: "Flooring contractor working on tile installation"
     },
     {
-      src: "https://images.unsplash.com/photo-1509660933844-6910e12765a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/images/industries/flooring/flooring-3.jpg",
       alt: "Modern laminate flooring in living room"
     }
   ];
@@ -47,7 +47,7 @@ const FlooringPage: React.FC = () => {
   return (
     <IndustryTemplate
       industryName="Flooring"
-      heroImage="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+      heroImage="/images/industries/flooring/flooring-hero.jpg"
       challenges={challenges}
       solutions={solutions}
       images={images}

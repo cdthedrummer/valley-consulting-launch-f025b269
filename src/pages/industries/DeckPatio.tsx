@@ -25,15 +25,15 @@ const DeckPatioPage: React.FC = () => {
 
   const images = [
     {
-      src: "/lovable-uploads/b9af1e8c-7b4a-4b4b-87b3-9cf9bd4e3bcd.png",
+      src: "/images/industries/deck-and-patio/deck-and-patio-1.jpg",
       alt: "Beautiful wooden deck with railings and outdoor furniture"
     },
     {
-      src: "https://images.unsplash.com/photo-1591017403491-3f78e10e2154?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/images/industries/deck-and-patio/deck-and-patio-2.jpg",
       alt: "Modern patio design with outdoor seating"
     },
     {
-      src: "https://images.unsplash.com/photo-1625602812206-5ec545ca1231?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/images/industries/deck-and-patio/deck-and-patio-3.jpg",
       alt: "Deck construction in progress"
     }
   ];
@@ -47,7 +47,7 @@ const DeckPatioPage: React.FC = () => {
   return (
     <IndustryTemplate
       industryName="Deck & Patio"
-      heroImage="https://images.unsplash.com/photo-1591017403491-3f78e10e2154?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+      heroImage="/images/industries/deck-and-patio/deck-and-patio-hero.jpg"
       challenges={challenges}
       solutions={solutions}
       images={images}
