@@ -43,8 +43,10 @@ const WebsitePreviewSection: React.FC = () => {
             <img 
               src="/images/website-showcase/website-preview-multi-device.png"
               alt="Website preview across multiple devices - desktop, tablet, and mobile"
-              className="w-full h-auto"
+              className="w-full h-auto max-h-[450px] object-contain"
               loading="lazy"
+              width="800"
+              height="450"
             />
           </div>
         </div>

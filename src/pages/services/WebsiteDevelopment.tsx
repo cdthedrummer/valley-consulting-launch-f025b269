@@ -135,7 +135,10 @@ const WebsiteDevelopment: React.FC = () => {
                   <img 
                     src="/images/website-showcase/hvcg-site-mockup.png"
                     alt="Professional contractor website displayed across devices"
-                    className="w-full h-auto"
+                    className="w-full h-auto max-h-[450px] object-contain"
+                    loading="eager"
+                    width="800"
+                    height="450"
                   />
                 </div>
               </div>
@@ -162,12 +165,14 @@ const WebsiteDevelopment: React.FC = () => {
                   className="bg-club-green rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-lift"
                 >
                   {/* Image */}
-                  <div className="relative h-56 overflow-hidden">
+                  <div className="relative h-48 overflow-hidden">
                     <img 
                       src={item.image}
                       alt={item.title}
                       className="w-full h-full object-cover"
                       loading="lazy"
+                      width="400"
+                      height="192"
                     />
                     {item.badge && (
                       <div className="absolute top-4 right-4 bg-action-yellow text-club-green px-3 py-1 rounded-pill text-xs font-dm font-bold uppercase tracking-wide">
@@ -270,8 +275,10 @@ const WebsiteDevelopment: React.FC = () => {
                   <img 
                     src="/images/website-showcase/mobile-search-experience.png"
                     alt="Woman reviewing contractor website on mobile device"
-                    className="w-full h-auto"
+                    className="w-full h-auto max-h-[450px] object-cover"
                     loading="lazy"
+                    width="600"
+                    height="450"
                   />
                 </div>
               </div>

@@ -65,9 +65,11 @@ const SearchResultsShowcase: React.FC = () => {
             <div className="relative rounded-3xl overflow-hidden shadow-lift">
               <img 
                 src="/images/website-showcase/search-maps-results.png"
-                alt="Google Search and Maps results showing contractor ranking #1"
-                className="w-full h-auto"
+                alt="Google Search and Maps results showing contractor ranking #1 with analytics dashboard"
+                className="w-full h-auto max-h-[500px] object-cover"
                 loading="lazy"
+                width="800"
+                height="500"
               />
             </div>
           </div>
