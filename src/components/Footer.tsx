@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Mail, Phone } from "lucide-react";
@@ -10,61 +9,30 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-club-green text-warm-cream">
       <div className="container-custom py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div>
-            <img src={logoWhiteWide} alt="HVCG - Hudson Valley Consulting Group" className="h-10 w-auto mb-4" />
+            <img src={logoWhiteWide} alt="HVCG" className="h-10 w-auto mb-4" />
             <p className="mb-4 text-warm-cream/80">
-              Website development and Google search optimization for contractors in the Hudson Valley.
+              Professional websites for contractors. Clean design, fair pricing, 4-week delivery.
             </p>
           </div>
           
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-bold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-bold mb-4">Pages</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/services" className="hover:text-action-yellow transition-colors">Services</Link>
+                <Link to="/work" className="hover:text-action-yellow transition-colors">Our Work</Link>
               </li>
               <li>
-                <Link to="/industries" className="hover:text-action-yellow transition-colors">Industries</Link>
+                <Link to="/services" className="hover:text-action-yellow transition-colors">Services & Pricing</Link>
               </li>
               <li>
-                <Link to="/case-studies" className="hover:text-action-yellow transition-colors">Case Studies</Link>
+                <Link to="/approach" className="hover:text-action-yellow transition-colors">About</Link>
               </li>
               <li>
-                <Link to="/resources" className="hover:text-action-yellow transition-colors">Resources</Link>
-              </li>
-              <li>
-                <Link to="/booking" className="hover:text-action-yellow transition-colors">Book a Call</Link>
-              </li>
-              <li>
-                <Link to="/privacy" className="hover:text-action-yellow transition-colors">Privacy Policy</Link>
-              </li>
-              <li>
-                <Link to="/sitemap" className="hover:text-action-yellow transition-colors">Sitemap</Link>
-              </li>
-            </ul>
-          </div>
-          
-          {/* Services */}
-          <div>
-            <h3 className="text-lg font-bold mb-4">What We Do</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/services#website" className="hover:text-action-yellow transition-colors">Website Development</Link>
-              </li>
-              <li>
-                <Link to="/services#seo" className="hover:text-action-yellow transition-colors">Google Search Setup</Link>
-              </li>
-              <li>
-                <Link to="/services#google-ads" className="hover:text-action-yellow transition-colors">Google Ads</Link>
-              </li>
-              <li>
-                <Link to="/services#social-media" className="hover:text-action-yellow transition-colors">Social Media</Link>
-              </li>
-              <li>
-                <Link to="/services#consulting" className="hover:text-action-yellow transition-colors">Marketing Consulting</Link>
+                <Link to="/booking" className="hover:text-action-yellow transition-colors">Contact</Link>
               </li>
             </ul>
           </div>
@@ -80,17 +48,6 @@ const Footer: React.FC = () => {
               <li className="flex items-start">
                 <Mail className="mr-2 h-5 w-5 flex-shrink-0 text-action-yellow" />
                 <span>contact@hvcg.us</span>
-              </li>
-              <li className="flex items-start">
-                <a
-                  href="https://share.google/LTKY4PPSzk6va0vVB"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline hover:text-action-yellow transition-colors"
-                  aria-label="View our Google Business Profile"
-                >
-                  Find us on Google
-                </a>
               </li>
             </ul>
           </div>
@@ -108,7 +65,7 @@ const Footer: React.FC = () => {
             </Link>
             <span className="mx-2 text-warm-cream/50">|</span>
             <Link to="/terms" className="text-sm text-warm-cream/70 hover:text-warm-cream transition-colors">
-              Terms of Service
+              Terms
             </Link>
           </div>
         </div>
