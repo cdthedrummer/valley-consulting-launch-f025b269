@@ -1,6 +1,5 @@
-
 import React, { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -12,44 +11,24 @@ import ScrollToTop from "./components/ScrollToTop";
 import BackToTopButton from "./components/BackToTopButton";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-// Lazy load heavy pages for better performance
-const Index = lazy(() => import("./pages/Index"));
-const About = lazy(() => import("./pages/About"));
+// Core pages
+const Work = lazy(() => import("./pages/Work"));
 const Services = lazy(() => import("./pages/Services"));
-const Booking = lazy(() => import("./pages/Booking"));
 const Approach = lazy(() => import("./pages/Approach"));
-const Resources = lazy(() => import("./pages/Resources"));
-const MarketingChecklist = lazy(() => import("./pages/MarketingChecklist"));
-const AICopilot = lazy(() => import("./pages/AICopilot"));
-const AIDashboard = lazy(() => import("./pages/AIDashboard"));
-const TrialExpired = lazy(() => import("./pages/TrialExpired"));
-const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
+const Booking = lazy(() => import("./pages/Booking"));
+
+// Legal & utility pages
 const Privacy = lazy(() => import("./pages/Privacy"));
-const Auth = lazy(() => import("./pages/Auth"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const CaseStudies = lazy(() => import("./pages/CaseStudies"));
-const IndustriesIndex = lazy(() => import("./pages/industries/index"));
-const HVAC = lazy(() => import("./pages/industries/HVAC"));
-const Plumbing = lazy(() => import("./pages/industries/Plumbing"));
-const Fencing = lazy(() => import("./pages/industries/Fencing"));
-const DeckPatio = lazy(() => import("./pages/industries/DeckPatio"));
-const Flooring = lazy(() => import("./pages/industries/Flooring"));
-const Advertising = lazy(() => import("./pages/services/Advertising"));
-const SEO = lazy(() => import("./pages/services/SEO"));
-const Consulting = lazy(() => import("./pages/services/Consulting"));
-const GEO = lazy(() => import("./pages/services/GEO"));
-const WebsiteDevelopment = lazy(() => import("./pages/services/WebsiteDevelopment"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Refunds = lazy(() => import("./pages/Refunds"));
 const Sitemap = lazy(() => import("./pages/Sitemap"));
-const ElevenLabsConvaiWidget = lazy(() => import("./components/ElevenLabsConvaiWidget"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
-// Render the Convai widget on all routes except the AI Dashboard
-const ConvaiWidgetGate: React.FC = () => {
-  const location = useLocation();
-  if (location.pathname.startsWith("/ai/dashboard")) return null;
-  return <ElevenLabsConvaiWidget />;
-};
+// Auth (hidden from nav but accessible)
+const Auth = lazy(() => import("./pages/Auth"));
+
+// AI Dashboard (protected, hidden from main nav)
+const AIDashboard = lazy(() => import("./pages/AIDashboard"));
 
 function App() {
   return (
@@ -75,22 +54,25 @@ function App() {
                   </div>
                 }>
                   <Routes>
+                    {/* Core pages */}
                     <Route path="/" element={<ClubhouseHome />} />
-                    <Route path="/classic" element={<Index />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/approach" element={<Approach />} />
+                    <Route path="/work" element={<Work />} />
                     <Route path="/services" element={<Services />} />
-                    <Route path="/services/advertising" element={<Advertising />} />
-                    <Route path="/services/seo" element={<SEO />} />
-                    <Route path="/services/consulting" element={<Consulting />} />
-                    <Route path="/services/geo" element={<GEO />} />
-                    <Route path="/services/website-development" element={<WebsiteDevelopment />} />
+                    <Route path="/approach" element={<Approach />} />
                     <Route path="/booking" element={<Booking />} />
                     
-                    <Route path="/case-studies" element={<CaseStudies />} />
-                    <Route path="/resources" element={<Resources />} />
-                    <Route path="/resources/marketing-checklist" element={<MarketingChecklist />} />
-                    <Route path="/resources/ai-copilot" element={<AICopilot />} />
+                    {/* Redirects for old routes */}
+                    <Route path="/about" element={<Navigate to="/approach" replace />} />
+                    <Route path="/case-studies" element={<Navigate to="/work" replace />} />
+                    <Route path="/resources" element={<Navigate to="/services" replace />} />
+                    <Route path="/resources/ai-copilot" element={<Navigate to="/services" replace />} />
+                    <Route path="/resources/marketing-checklist" element={<Navigate to="/services" replace />} />
+                    <Route path="/industries" element={<Navigate to="/work" replace />} />
+                    <Route path="/industries/*" element={<Navigate to="/work" replace />} />
+                    <Route path="/services/*" element={<Navigate to="/services" replace />} />
+                    <Route path="/classic" element={<Navigate to="/" replace />} />
+                    
+                    {/* AI Dashboard - hidden from nav but accessible for existing users */}
                     <Route
                       path="/ai/dashboard" 
                       element={
@@ -99,26 +81,17 @@ function App() {
                         </ProtectedRoute>
                       } 
                     />
-                    <Route path="/ai/trial-expired" element={<TrialExpired />} />
-                    <Route 
-                      path="/payment-success" 
-                      element={
-                        <ProtectedRoute>
-                          <PaymentSuccess />
-                        </ProtectedRoute>
-                      } 
-                    />
+                    
+                    {/* Auth */}
                     <Route path="/auth" element={<Auth />} />
+                    
+                    {/* Legal & utility pages */}
                     <Route path="/privacy" element={<Privacy />} />
                     <Route path="/terms" element={<Terms />} />
                     <Route path="/refunds" element={<Refunds />} />
                     <Route path="/sitemap" element={<Sitemap />} />
-                    <Route path="/industries" element={<IndustriesIndex />} />
-                    <Route path="/industries/hvac" element={<HVAC />} />
-                    <Route path="/industries/plumbing" element={<Plumbing />} />
-                    <Route path="/industries/fencing" element={<Fencing />} />
-                    <Route path="/industries/deck-patio" element={<DeckPatio />} />
-                    <Route path="/industries/flooring" element={<Flooring />} />
+                    
+                    {/* 404 */}
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Suspense>
@@ -127,7 +100,6 @@ function App() {
               <BackToTopButton />
             </div>
             <Toaster />
-            <ConvaiWidgetGate />
           </BrowserRouter>
         </AuthProvider>
       </HelmetProvider>

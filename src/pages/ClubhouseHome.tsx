@@ -1,22 +1,18 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { ArrowRight, TrendingUp, Target, Users } from 'lucide-react';
+import { ArrowRight, Linkedin, Monitor, Search, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ClubhouseHero from '@/components/ClubhouseHero';
-import ProShopSection from '@/components/ProShopSection';
 import WebsitePreviewSection from '@/components/WebsitePreviewSection';
 import SearchResultsShowcase from '@/components/SearchResultsShowcase';
-import AIShowcaseSection from '@/components/AIShowcaseSection';
-import ScorecardSection from '@/components/ScorecardSection';
 
 const ClubhouseHome: React.FC = () => {
-  // Local business schema for SEO
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Hudson Valley Consulting Group",
-    "description": "Website development and Google search optimization for contractors in the Hudson Valley",
+    "description": "Professional website development for contractors in the Hudson Valley",
     "url": "https://hudsonvalleycg.com",
     "telephone": "+18456758378",
     "email": "contact@hvcg.us",
@@ -25,80 +21,58 @@ const ClubhouseHome: React.FC = () => {
       "addressRegion": "NY",
       "addressCountry": "US"
     },
-    "areaServed": {
-      "@type": "GeoCircle",
-      "geoMidpoint": {
-        "@type": "GeoCoordinates",
-        "latitude": "41.7",
-        "longitude": "-73.9"
-      },
-      "geoRadius": "80000"
-    },
     "priceRange": "$$",
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "reviewCount": "47"
-    },
     "serviceArea": "Hudson Valley, NY"
   };
 
-  const caseStudies = [
+  const services = [
     {
-      title: "HVAC Contractor",
-      metric: "3.2x",
-      label: "Lead Growth",
-      description: "Increased qualified leads through local SEO and Google Ads optimization"
+      icon: <Monitor className="w-8 h-8" />,
+      title: "Website Package",
+      price: "$1,399",
+      features: [
+        "Custom homepage design",
+        "Services & About pages",
+        "Contact forms",
+        "Mobile-friendly",
+        "Fast loading"
+      ]
     },
     {
-      title: "Plumbing Services",
-      metric: "47%",
-      label: "Lower CPL",
-      description: "Reduced cost per lead with targeted ad campaigns and landing page optimization"
+      icon: <Search className="w-8 h-8" />,
+      title: "Google Visibility",
+      price: "$449",
+      features: [
+        "Google Business setup",
+        "Search Console",
+        "Local SEO basics",
+        "Maps integration"
+      ]
     },
     {
-      title: "Deck Builder",
-      metric: "$180K",
-      label: "New Revenue",
-      description: "Generated new project revenue through strategic marketing in first 6 months"
-    }
-  ];
-
-  const resources = [
-    {
-      icon: <Target className="w-8 h-8" />,
-      title: "AI Copilot",
-      description: "Get instant marketing insights and lead qualification with our AI-powered assistant",
-      link: "/resources/ai-copilot",
-      badge: "7-Day Free Trial"
-    },
-    {
-      icon: <TrendingUp className="w-8 h-8" />,
-      title: "Marketing Checklist",
-      description: "Essential marketing steps every contractor needs to dominate their local market",
-      link: "/resources/marketing-checklist",
-      badge: "Free Download"
-    },
-    {
-      icon: <Users className="w-8 h-8" />,
-      title: "Strategy Session",
-      description: "Book a free 15-minute call to discuss your marketing goals and get expert advice",
-      link: "/booking",
-      badge: "Free Consultation"
+      icon: <Zap className="w-8 h-8" />,
+      title: "AI Updates Portal",
+      price: "$200 + $25/mo",
+      features: [
+        "Update your site yourself",
+        "AI-powered editor",
+        "Video training",
+        "30-day support"
+      ]
     }
   ];
 
   return (
     <>
       <Helmet>
-        <title>HVCG | Get More Local Customers</title>
+        <title>HVCG | Professional Websites for Contractors</title>
         <meta
           name="description"
-          content="Smart marketing for contractors. We build websites, handle your Google presence, and help you show up when customers search."
+          content="We build fast, mobile-friendly websites for contractors. Clean design, Google-ready, delivered in 4 weeks. Starting at $1,399."
         />
         <meta
           name="keywords"
-          content="contractor marketing, HVAC marketing, plumbing marketing, Hudson Valley contractors, local SEO, Google Ads for contractors, website development contractors, contractor advertising"
+          content="contractor website, HVAC website, plumber website, electrician website, contractor web design, Hudson Valley"
         />
         <link rel="canonical" href="https://hudsonvalleycg.com/" />
         <script type="application/ld+json">
@@ -108,116 +82,127 @@ const ClubhouseHome: React.FC = () => {
 
       <div className="min-h-screen bg-club-green scroll-smooth">
         <ClubhouseHero />
-        <ProShopSection />
-        <WebsitePreviewSection />
-        <SearchResultsShowcase />
-        <AIShowcaseSection />
         
-        {/* Case Studies Section */}
-        <section id="case-studies" className="py-16 md:py-24 bg-varsity-maroon">
+        {/* Simple Services Overview */}
+        <section className="py-16 md:py-24 bg-warm-cream">
           <div className="container-custom">
             <div className="text-center mb-12">
-              <h2 className="font-archivo text-3xl md:text-5xl uppercase tracking-wide text-action-yellow mb-4">
-                Real Results
+              <h2 className="font-archivo text-3xl md:text-5xl uppercase tracking-wide text-club-green mb-4">
+                WHAT YOU GET
               </h2>
-              <p className="font-dm text-lg text-warm-cream/80 max-w-2xl mx-auto">
-                See how we've helped contractors like you grow their business
+              <p className="font-dm text-lg text-club-green/70 max-w-2xl mx-auto">
+                Simple packages. Clear pricing. No surprises.
               </p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-              {caseStudies.map((study, index) => (
+              {services.map((service, index) => (
                 <div 
                   key={index}
-                  className="bg-warm-cream rounded-3xl p-8 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-lift"
+                  className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                 >
-                  <div className="mb-4">
-                    <div className="font-archivo text-5xl md:text-6xl text-action-yellow mb-2">
-                      {study.metric}
-                    </div>
-                    <div className="font-dm text-sm uppercase tracking-widest text-club-green/60">
-                      {study.label}
-                    </div>
+                  <div className="bg-action-yellow/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 text-action-yellow">
+                    {service.icon}
                   </div>
-                  <h3 className="font-archivo text-xl uppercase tracking-wide text-club-green mb-3">
-                    {study.title}
+                  <h3 className="font-archivo text-xl uppercase tracking-wide text-club-green mb-2">
+                    {service.title}
                   </h3>
-                  <p className="font-dm text-club-green/80">
-                    {study.description}
-                  </p>
+                  <div className="font-archivo text-3xl text-action-yellow mb-4">
+                    {service.price}
+                  </div>
+                  <ul className="space-y-2">
+                    {service.features.map((feature, i) => (
+                      <li key={i} className="font-dm text-club-green/70 flex items-start">
+                        <span className="text-action-yellow mr-2">✓</span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               ))}
             </div>
             
             <div className="text-center">
+              <p className="font-dm text-club-green/60 mb-4">
+                Full package: ~$2,000 • 4-week delivery
+              </p>
               <Button 
                 asChild 
-                className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill px-8 py-3 font-dm font-bold uppercase tracking-wide transition-all hover:-translate-y-1 hover:shadow-lift"
+                className="bg-club-green hover:bg-club-green/90 text-warm-cream rounded-pill px-8 py-6 font-dm font-bold uppercase tracking-wide transition-all hover:-translate-y-1 hover:shadow-lift"
               >
-                <Link to="/case-studies">
-                  View All Case Studies <ArrowRight className="ml-2 h-4 w-4" />
+                <Link to="/services">
+                  VIEW FULL DETAILS <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
           </div>
         </section>
+
+        <WebsitePreviewSection />
+        <SearchResultsShowcase />
         
-        {/* Resources Section */}
-        <section id="resources" className="py-16 md:py-24 bg-club-green">
+        {/* Who's Building Your Site */}
+        <section className="py-16 md:py-24 bg-club-green">
           <div className="container-custom">
-            <div className="text-center mb-12">
-              <h2 className="font-archivo text-3xl md:text-5xl uppercase tracking-wide text-action-yellow mb-4">
-                Free Resources
-              </h2>
-              <p className="font-dm text-lg text-warm-cream/80 max-w-2xl mx-auto">
-                Tools and insights to help you grow your contracting business
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-              {resources.map((resource, index) => (
-                <Link 
-                  key={index}
-                  to={resource.link}
-                  className="group block"
-                >
-                  <div className="bg-warm-cream rounded-3xl p-8 h-full transition-all duration-300 hover:-translate-y-2 hover:shadow-lift relative overflow-hidden">
-                    {resource.badge && (
-                      <div className="absolute top-4 right-4 bg-action-yellow text-club-green px-3 py-1 rounded-pill text-xs font-dm font-bold uppercase tracking-wide">
-                        {resource.badge}
-                      </div>
-                    )}
-                    <div className="bg-action-yellow/20 w-16 h-16 rounded-3xl flex items-center justify-center mb-6 text-action-yellow group-hover:bg-action-yellow/30 transition-colors">
-                      {resource.icon}
-                    </div>
-                    <h3 className="font-archivo text-xl uppercase tracking-wide text-club-green mb-3 group-hover:text-action-yellow transition-colors">
-                      {resource.title}
-                    </h3>
-                    <p className="font-dm text-club-green/80 mb-4">
-                      {resource.description}
-                    </p>
-                    <div className="inline-flex items-center text-action-yellow font-dm font-bold uppercase tracking-wide text-sm group-hover:translate-x-1 transition-transform">
-                      Learn More <ArrowRight className="ml-2 h-4 w-4" />
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-warm-cream rounded-3xl p-8 md:p-12">
+                <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-8 items-center">
+                  <div className="text-center md:text-left">
+                    <div className="w-40 h-40 mx-auto md:mx-0 rounded-full bg-club-green/10 flex items-center justify-center text-6xl font-archivo text-club-green">
+                      CD
                     </div>
                   </div>
-                </Link>
-              ))}
-            </div>
-            
-            <div className="text-center">
-              <Button 
-                asChild 
-                className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill px-8 py-3 font-dm font-bold uppercase tracking-wide transition-all hover:-translate-y-1 hover:shadow-lift"
-              >
-                <Link to="/resources">
-                  View All Resources <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
+                  <div>
+                    <h2 className="font-archivo text-2xl md:text-3xl uppercase tracking-wide text-club-green mb-2">
+                      WHO'S BUILDING YOUR SITE
+                    </h2>
+                    <div className="font-dm text-club-green/60 text-sm uppercase tracking-widest mb-4">
+                      Charlie Dickerson
+                    </div>
+                    <p className="font-dm text-club-green/80 text-lg leading-relaxed mb-4">
+                      VP of AI & Advanced Automation at <strong>Omnicom Media Group</strong>. 
+                      I help Fortune 500 brands with their digital strategy. On the side, 
+                      I build websites for local contractors who need a professional online 
+                      presence—without the agency price tag.
+                    </p>
+                    <div className="flex items-center gap-4">
+                      <a 
+                        href="https://www.linkedin.com/in/charliedickerson/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-club-green hover:text-action-yellow transition-colors font-dm font-bold"
+                      >
+                        <Linkedin className="h-5 w-5" />
+                        LinkedIn
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
         
-        <ScorecardSection />
+        {/* Simple CTA */}
+        <section className="py-16 md:py-24 bg-varsity-maroon">
+          <div className="container-custom text-center">
+            <h2 className="font-archivo text-3xl md:text-5xl uppercase tracking-wide text-action-yellow mb-6">
+              READY TO GET ONLINE?
+            </h2>
+            <p className="font-dm text-lg text-warm-cream/80 max-w-2xl mx-auto mb-8">
+              Book a free 15-minute call. We'll discuss your needs and I'll give you an honest assessment of whether we're a good fit.
+            </p>
+            <Button 
+              asChild 
+              className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill px-10 py-7 font-dm font-bold uppercase tracking-wide text-lg transition-all hover:-translate-y-1 hover:shadow-lift"
+            >
+              <Link to="/booking">
+                BOOK A FREE CALL
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+          </div>
+        </section>
       </div>
     </>
   );
