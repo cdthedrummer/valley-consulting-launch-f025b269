@@ -100,6 +100,7 @@ const ClubhouseHome: React.FC = () => {
           name="keywords"
           content="contractor marketing, HVAC marketing, plumbing marketing, Hudson Valley contractors, local SEO, Google Ads for contractors, website development contractors, contractor advertising"
         />
+        <link rel="canonical" href="https://hudsonvalleycg.com/" />
         <script type="application/ld+json">
           {JSON.stringify(localBusinessSchema)}
         </script>
