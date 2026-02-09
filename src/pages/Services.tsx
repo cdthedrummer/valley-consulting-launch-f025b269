@@ -70,7 +70,7 @@ const Services: React.FC = () => {
             SIMPLE PRICING
           </h1>
           <p className="text-xl text-warm-cream/80 max-w-2xl mx-auto mb-4">
-            Everything you need to get your business online. No hidden fees.
+            Clear scope. Fair pricing. 4-week delivery.
           </p>
           <div className="flex items-center justify-center gap-4 text-action-yellow font-dm">
             <span className="flex items-center gap-2">

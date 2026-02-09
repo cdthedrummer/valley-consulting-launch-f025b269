@@ -30,10 +30,10 @@ const WebsitePreviewSection: React.FC = () => {
       <div className="container-custom">
         <div className="text-center mb-12">
           <h2 className="font-archivo text-3xl md:text-5xl uppercase tracking-wide text-club-green mb-4">
-            Here's What You Get
+            WHAT WE DELIVER
           </h2>
           <p className="font-dm text-lg text-club-green/80 max-w-2xl mx-auto">
-            Professional websites built for contractors. See what we deliver.
+            Every website includes the essentials to get your business found online.
           </p>
         </div>
 

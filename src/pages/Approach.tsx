@@ -16,7 +16,7 @@ const Approach: React.FC = () => {
       {/* Hero Section */}
       <header className="bg-club-green text-warm-cream py-24 md:py-32">
         <div className="container-custom text-center">
-          <h1 className="font-archivo text-4xl md:text-6xl uppercase tracking-wide mb-6">ABOUT</h1>
+          <h1 className="font-archivo text-4xl md:text-6xl uppercase tracking-wide mb-6">OUR APPROACH</h1>
           <p className="text-warm-cream/80 text-xl max-w-2xl mx-auto">
             Enterprise expertise. Small business pricing.
           </p>
@@ -62,6 +62,9 @@ const Approach: React.FC = () => {
                       </p>
                       <p>
                         My goal is simple: give contractors the same quality of work that big brands get—at a price that makes sense for a small business.
+                      </p>
+                      <p className="text-club-green/50 text-sm italic">
+                        Independent consultancy. Not affiliated with client brands.
                       </p>
                     </div>
                   </div>
