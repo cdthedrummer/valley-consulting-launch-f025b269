@@ -18,13 +18,14 @@ const Work: React.FC = () => {
       name: "McNulty's Junk Removal",
       industry: "Junk Removal",
       description: "Complete website redesign with online booking, service area maps, and before/after gallery.",
-      url: "https://mcnultysjunkremoval.com",
+      url: "https://mcnultyjunk.com",
       image: "/images/website-showcase/full-website-design.png"
     },
     {
-      name: "A1 Smart Choice Electrician",
-      industry: "Electrical Services",
-      description: "Mobile-first website with 24/7 emergency booking, Google Business integration, and SEO optimization.",
+      name: "Reroll IRL",
+      industry: "Interactive Experience",
+      description: "Brand platform and website build for an immersive real-life RPG experience.",
+      url: "https://rerollirl.com",
       image: "/lovable-uploads/b7d94ba4-5862-4c25-9c45-f6d145f059ad.png"
     },
     {

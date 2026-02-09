@@ -142,7 +142,7 @@ const ClubhouseHome: React.FC = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-10">
               <a 
-                href="https://mcnultysjunkremoval.com" 
+                href="https://mcnultyjunk.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="group bg-warm-cream/10 rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-lift"
@@ -163,22 +163,22 @@ const ClubhouseHome: React.FC = () => {
               </a>
 
               <a 
-                href="https://a1smartchoiceelectrician.com" 
+                href="https://rerollirl.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="group bg-warm-cream/10 rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-lift"
               >
                 <div className="aspect-video bg-club-green/50 flex items-center justify-center">
                   <span className="font-archivo text-2xl text-warm-cream/40 uppercase tracking-wide group-hover:text-action-yellow transition-colors">
-                    A1 Smart Choice
+                    Reroll IRL
                   </span>
                 </div>
                 <div className="p-6">
                   <h3 className="font-archivo text-lg uppercase tracking-wide text-warm-cream mb-1">
-                    A1 Smart Choice Electrician
+                    Reroll IRL
                   </h3>
                   <p className="font-dm text-warm-cream/60 text-sm">
-                    Website + Google visibility • Electrician
+                    Website + brand platform • Interactive experience
                   </p>
                 </div>
               </a>
