@@ -69,10 +69,10 @@ const Booking: React.FC = () => {
       <section className="py-24 md:py-32 text-center">
         <div className="container-custom">
           <h1 className="font-archivo text-5xl md:text-7xl uppercase tracking-wide text-warm-cream mb-6">
-            BOOK YOUR STRATEGY SESSION
+            LET'S CONNECT
           </h1>
           <p className="text-xl md:text-2xl text-warm-cream/80 max-w-3xl mx-auto font-dm">
-            Let's talk about growing your business. Free consultation, no pressure.
+            Book a free 15-minute intro. No pressure, just a conversation.
           </p>
         </div>
       </section>
@@ -166,12 +166,12 @@ const Booking: React.FC = () => {
                       <FormLabel className="text-club-green font-dm font-bold">What Are You Interested In?</FormLabel>
                       <FormControl>
                         <select className="w-full p-3 border border-club-green/20 rounded-full focus:ring-action-yellow focus:border-action-yellow font-dm" {...field}>
-                          <option value="">Select a service</option>
-                          <option value="Website Development">Website Development</option>
-                          <option value="Google Ads">Google Ads</option>
-                          <option value="SEO">SEO</option>
-                          <option value="Social Media">Social Media</option>
-                          <option value="Other">Other/Not Sure</option>
+                         <option value="">What are you looking for?</option>
+                          <option value="Website build">Website build</option>
+                          <option value="Search & visibility">Search & visibility</option>
+                          <option value="Advisory / automation">Advisory / automation</option>
+                          <option value="Networking / speaking">Networking / speaking</option>
+                          <option value="Other">Other</option>
                         </select>
                       </FormControl>
                       <FormMessage />

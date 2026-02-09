@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, Linkedin } from "lucide-react";
 import logoWhiteWide from "@/assets/logos/hvcg-logo-white-wide.png";
 
 const Footer: React.FC = () => {
@@ -48,6 +48,17 @@ const Footer: React.FC = () => {
               <li className="flex items-start">
                 <Mail className="mr-2 h-5 w-5 flex-shrink-0 text-action-yellow" />
                 <span>contact@hvcg.us</span>
+              </li>
+              <li className="flex items-start">
+                <a 
+                  href="https://www.linkedin.com/in/charliedickerson/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center hover:text-action-yellow transition-colors"
+                >
+                  <Linkedin className="mr-2 h-5 w-5 flex-shrink-0 text-action-yellow" />
+                  LinkedIn
+                </a>
               </li>
             </ul>
           </div>

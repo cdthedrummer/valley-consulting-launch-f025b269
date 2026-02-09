@@ -17,17 +17,17 @@ const ClubhouseHero: React.FC = () => {
             </div>
             
             <h1 className="font-archivo text-warm-cream text-4xl sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl uppercase leading-none tracking-tight">
-              PROFESSIONAL
+              STRATEGY.
               <span className="block mt-1">
-                WEBSITES FOR
+                DESIGN.
               </span>
               <span className="block mt-1 text-action-yellow">
-                CONTRACTORS
+                RESULTS.
               </span>
             </h1>
 
             <p className="font-dm text-warm-cream/90 text-base md:text-lg lg:text-xl leading-relaxed max-w-xl">
-              We build fast, mobile-friendly sites that help local customers find your business. Clean design, Google-ready, delivered in 4 weeks.
+              We build professional websites and digital systems for businesses that need to get found online.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -35,25 +35,15 @@ const ClubhouseHero: React.FC = () => {
                 asChild 
                 className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill px-10 py-7 font-dm font-bold uppercase tracking-wide text-lg transition-all hover:-translate-y-1 hover:shadow-lift active:scale-95"
               >
-                <Link to="/work">
-                  SEE OUR WORK
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-              
-              <Button 
-                asChild 
-                variant="outline"
-                className="border-2 border-warm-cream text-warm-cream hover:bg-warm-cream hover:text-club-green rounded-pill px-8 py-7 font-dm font-bold uppercase tracking-wide text-lg transition-all"
-              >
                 <Link to="/booking">
-                  BOOK A CALL
+                  BOOK A 15-MINUTE INTRO
+                  <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </div>
             
             <p className="font-dm text-warm-cream/60 text-sm pt-2">
-              Starting at $1,399 • 4-week delivery
+              Website builds starting at $1,399
             </p>
           </div>
 
