@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import logoWhiteWide from "@/assets/logos/hvcg-logo-white-wide.png";
 
 const navLinks = [
-  { path: '/work', label: 'WORK' },
-  { path: '/services', label: 'SERVICES' },
-  { path: '/approach', label: 'ABOUT' },
+  { path: '/work', label: 'OUTCOMES' },
+  { path: '/services', label: 'WHAT WE DO' },
+  { path: '/approach', label: 'HOW WE WORK' },
   { path: '/booking', label: 'CONTACT' },
 ];
 
@@ -78,7 +78,7 @@ const ClubhouseNavbar: React.FC = () => {
               >
                 <Link to="/booking">
                   <Calendar className="mr-2 h-4 w-4" />
-                  BOOK A CALL
+                  START AN INTAKE
                 </Link>
               </Button>
             </div>
@@ -126,7 +126,7 @@ const ClubhouseNavbar: React.FC = () => {
             >
               <Link to="/booking" onClick={() => setIsOpen(false)}>
                 <Calendar className="mr-2 h-5 w-5" />
-                BOOK A CALL
+                START AN INTAKE
               </Link>
             </Button>
           </div>
