@@ -15,48 +15,48 @@ const ClubhouseHero: React.FC = () => {
                 Hudson Valley Consulting Group
               </span>
             </div>
-            
+
             <h1 className="font-archivo text-warm-cream text-4xl sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl uppercase leading-none tracking-tight">
-              STRATEGY.
+              TURN AI INTO
               <span className="block mt-1">
-                DESIGN.
+                OPERATING
               </span>
               <span className="block mt-1 text-action-yellow">
-                RESULTS.
+                REALITY.
               </span>
             </h1>
 
             <p className="font-dm text-warm-cream/90 text-base md:text-lg lg:text-xl leading-relaxed max-w-xl">
-              We build professional websites and digital systems for businesses that need to get found online.
+              We help organizations reshape how the work gets done — building the prioritization frameworks, custom tools, and transformation roadmaps that move work, cost, and capacity.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button 
-                asChild 
+              <Button
+                asChild
                 className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill px-10 py-7 font-dm font-bold uppercase tracking-wide text-lg transition-all hover:-translate-y-1 hover:shadow-lift active:scale-95"
               >
                 <Link to="/booking">
-                  BOOK A 15-MINUTE INTRO
+                  START AN INTAKE
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </div>
-            
+
             <p className="font-dm text-warm-cream/60 text-sm pt-2">
-              Website builds starting at $1,399
+              Frameworks, tools, and agents — shipped to production, not slideware.
             </p>
           </div>
 
           {/* Right Column - Visual */}
           <div className="relative animate-fade-in-up order-first lg:order-last" style={{ animationDelay: '0.2s' }}>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-              <img 
-                alt="Professional contractor website displayed on tablet" 
-                className="w-full h-auto object-cover max-h-[500px]" 
-                width="800" 
-                height="500" 
-                fetchPriority="high" 
-                src="/lovable-uploads/b7d94ba4-5862-4c25-9c45-f6d145f059ad.png" 
+              <img
+                alt="Executive transformation dashboard with health scoring and AI insights"
+                className="w-full h-auto object-cover max-h-[500px]"
+                width="800"
+                height="500"
+                fetchPriority="high"
+                src="/lovable-uploads/b7d94ba4-5862-4c25-9c45-f6d145f059ad.png"
               />
             </div>
           </div>
