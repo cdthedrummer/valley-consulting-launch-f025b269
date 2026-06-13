@@ -167,10 +167,12 @@ const Booking: React.FC = () => {
                       <FormControl>
                         <select className="w-full p-3 border border-club-green/20 rounded-full focus:ring-action-yellow focus:border-action-yellow font-dm" {...field}>
                          <option value="">What are you looking for?</option>
-                          <option value="Website build">Website build</option>
-                          <option value="Search & visibility">Search & visibility</option>
-                          <option value="Advisory / automation">Advisory / automation</option>
-                          <option value="Networking / speaking">Networking / speaking</option>
+                          <option value="AI & operating-model transformation">AI &amp; operating-model transformation</option>
+                          <option value="Use-case prioritization & intake">Use-case prioritization &amp; intake</option>
+                          <option value="Workflow automation & capacity">Workflow automation &amp; capacity</option>
+                          <option value="Custom tooling & agentic systems">Custom tooling &amp; agentic systems</option>
+                          <option value="Dashboards, measurement & governance">Dashboards, measurement &amp; governance</option>
+                          <option value="Website / digital build">Website / digital build</option>
                           <option value="Other">Other</option>
                         </select>
                       </FormControl>
