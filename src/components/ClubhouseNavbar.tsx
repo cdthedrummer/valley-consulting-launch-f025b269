@@ -78,7 +78,7 @@ const ClubhouseNavbar: React.FC = () => {
               >
                 <Link to="/booking">
                   <Calendar className="mr-2 h-4 w-4" />
-                  BOOK A CALL
+                  START AN INTAKE
                 </Link>
               </Button>
             </div>
