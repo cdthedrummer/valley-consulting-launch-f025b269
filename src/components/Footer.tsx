@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Mail, Phone, Linkedin } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import logoWhiteWide from "@/assets/logos/hvcg-logo-white-wide.png";
 
 const Footer: React.FC = () => {
