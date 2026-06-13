@@ -60,8 +60,13 @@ export type Database = {
           created_at: string | null
           enrichment_status: string | null
           id: string
+          ideal_customers: string | null
+          industry: string | null
           keywords: string[] | null
           last_enriched_at: string | null
+          location: string | null
+          marketing_goal: string | null
+          monthly_budget: string | null
           service_radius: number | null
           services_offered: string[] | null
           target_audience: string | null
@@ -76,8 +81,13 @@ export type Database = {
           created_at?: string | null
           enrichment_status?: string | null
           id?: string
+          ideal_customers?: string | null
+          industry?: string | null
           keywords?: string[] | null
           last_enriched_at?: string | null
+          location?: string | null
+          marketing_goal?: string | null
+          monthly_budget?: string | null
           service_radius?: number | null
           services_offered?: string[] | null
           target_audience?: string | null
@@ -92,8 +102,13 @@ export type Database = {
           created_at?: string | null
           enrichment_status?: string | null
           id?: string
+          ideal_customers?: string | null
+          industry?: string | null
           keywords?: string[] | null
           last_enriched_at?: string | null
+          location?: string | null
+          marketing_goal?: string | null
+          monthly_budget?: string | null
           service_radius?: number | null
           services_offered?: string[] | null
           target_audience?: string | null
@@ -208,6 +223,62 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          role: string
+          session_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          role: string
+          session_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          role?: string
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "chat_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_sessions: {
+        Row: {
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       chat_signals: {
         Row: {
           confidence_score: number | null
@@ -243,6 +314,56 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      competitor_profiles: {
+        Row: {
+          business_profile_id: string
+          competitor_name: string
+          competitor_url: string | null
+          created_at: string | null
+          id: string
+          pricing_hints: string | null
+          scraped_data: Json | null
+          services_offered: string[] | null
+          strengths: string[] | null
+          updated_at: string | null
+          weaknesses: string[] | null
+        }
+        Insert: {
+          business_profile_id: string
+          competitor_name: string
+          competitor_url?: string | null
+          created_at?: string | null
+          id?: string
+          pricing_hints?: string | null
+          scraped_data?: Json | null
+          services_offered?: string[] | null
+          strengths?: string[] | null
+          updated_at?: string | null
+          weaknesses?: string[] | null
+        }
+        Update: {
+          business_profile_id?: string
+          competitor_name?: string
+          competitor_url?: string | null
+          created_at?: string | null
+          id?: string
+          pricing_hints?: string | null
+          scraped_data?: Json | null
+          services_offered?: string[] | null
+          strengths?: string[] | null
+          updated_at?: string | null
+          weaknesses?: string[] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "competitor_profiles_business_profile_id_fkey"
+            columns: ["business_profile_id"]
+            isOneToOne: false
+            referencedRelation: "business_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       contact_submissions: {
         Row: {
@@ -355,6 +476,57 @@ export type Database = {
           location?: string
           relevance_score?: number | null
           source?: string | null
+        }
+        Relationships: []
+      }
+      quiz_responses: {
+        Row: {
+          business_name: string | null
+          created_at: string | null
+          id: string
+          industry: string | null
+          is_subscribed: boolean | null
+          location: string | null
+          marketing_challenge: string | null
+          phone_number: string | null
+          primary_services: string[] | null
+          scraped_data: Json | null
+          updated_at: string | null
+          urgency_level: string | null
+          user_id: string | null
+          website_url: string
+        }
+        Insert: {
+          business_name?: string | null
+          created_at?: string | null
+          id?: string
+          industry?: string | null
+          is_subscribed?: boolean | null
+          location?: string | null
+          marketing_challenge?: string | null
+          phone_number?: string | null
+          primary_services?: string[] | null
+          scraped_data?: Json | null
+          updated_at?: string | null
+          urgency_level?: string | null
+          user_id?: string | null
+          website_url: string
+        }
+        Update: {
+          business_name?: string | null
+          created_at?: string | null
+          id?: string
+          industry?: string | null
+          is_subscribed?: boolean | null
+          location?: string | null
+          marketing_challenge?: string | null
+          phone_number?: string | null
+          primary_services?: string[] | null
+          scraped_data?: Json | null
+          updated_at?: string | null
+          urgency_level?: string | null
+          user_id?: string | null
+          website_url?: string
         }
         Relationships: []
       }
