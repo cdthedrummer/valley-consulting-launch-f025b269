@@ -4,45 +4,62 @@ import { ExternalLink, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
-interface PortfolioItem {
+interface OutcomeTile {
+  value: string;
+  label: string;
+}
+
+interface WebBuild {
   name: string;
   industry: string;
   description: string;
   url?: string;
-  image: string;
 }
 
 const Work: React.FC = () => {
-  const portfolioItems: PortfolioItem[] = [
+  const sectors = [
+    "Global Pharma & Healthcare",
+    "Telecommunications",
+    "Beauty & CPG",
+    "Streaming & Entertainment",
+    "QSR & Food Delivery",
+    "Sportswear & Retail",
+    "Ridesharing & Mobility",
+    "Spirits & Beverage",
+    "Financial Services"
+  ];
+
+  const outcomes: OutcomeTile[] = [
+    { value: "Days → 20 min", label: "Reporting cycle compressed by a seven-agent system" },
+    { value: "25–35%", label: "Efficiency potential identified vs. a 15% ask" },
+    { value: "~60%", label: "Of team effort recoverable from low-value 'manage' work" },
+    { value: "880+", label: "Tasks mapped in a single enterprise audit" },
+    { value: "700+", label: "Use cases scored and prioritized" },
+    { value: "3,700 / 193K", label: "Users and prompts reached at adoption scale" }
+  ];
+
+  const webBuilds: WebBuild[] = [
     {
       name: "McNulty's Junk Removal",
       industry: "Junk Removal",
-      description: "Complete website redesign with online booking, service area maps, and before/after gallery.",
-      url: "https://mcnultyjunk.com",
-      image: "/images/website-showcase/full-website-design.png"
+      description: "Complete website build with online booking, service-area maps, and before/after gallery.",
+      url: "https://mcnultyjunk.com"
     },
     {
       name: "Reroll IRL",
       industry: "Interactive Experience",
       description: "Brand platform and website build for an immersive real-life RPG experience.",
-      url: "https://rerollirl.com",
-      image: "/lovable-uploads/b7d94ba4-5862-4c25-9c45-f6d145f059ad.png"
-    },
-    {
-      name: "Hudson Valley HVAC Pro",
-      industry: "HVAC",
-      description: "Lead-focused landing pages with service scheduling, seasonal promotions, and review integration.",
-      image: "/images/industries/hvac/hvac-hero.jpg"
+      url: "https://rerollirl.com"
     }
   ];
 
   return (
     <>
       <Helmet>
-        <title>Our Work | HVCG - Contractor Website Portfolio</title>
+        <title>Outcomes | HVCG Enterprise AI Transformation</title>
         <meta
           name="description"
-          content="See examples of professional contractor websites we've built. Clean designs, fast loading, mobile-friendly sites for HVAC, plumbing, electrical, and more."
+          content="Anonymized outcomes from HVCG's AI prioritization, automation, dashboard, and measurement work across pharma, telecom, CPG, entertainment, retail, and financial services."
         />
         <link rel="canonical" href="https://hudsonvalleycg.com/work" />
       </Helmet>
@@ -51,54 +68,106 @@ const Work: React.FC = () => {
       <section className="bg-club-green text-warm-cream py-24 md:py-32">
         <div className="container-custom text-center">
           <h1 className="font-archivo text-4xl md:text-6xl uppercase tracking-wide mb-6">
-            WEBSITES WE'VE BUILT
+            OUTCOMES
           </h1>
           <p className="text-xl text-warm-cream/80 max-w-2xl mx-auto">
-            Professional, mobile-friendly sites that help contractors get found online.
+            Prioritization, automation, dashboard, and measurement systems delivered across enterprise sectors. Anonymized — sectors only, never client names.
           </p>
         </div>
       </section>
 
-      {/* Portfolio Grid */}
+      {/* Outcome Tiles */}
       <section className="bg-warm-cream py-16 md:py-24">
         <div className="container-custom">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {portfolioItems.map((item, index) => (
-              <div 
+          <div className="text-center mb-12">
+            <h2 className="font-archivo text-3xl md:text-4xl uppercase tracking-wide text-club-green mb-4">
+              WHAT THE WORK PRODUCES
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {outcomes.map((tile, index) => (
+              <div
                 key={index}
-                className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group"
+                className="bg-white rounded-3xl p-8 text-center shadow-lg hover:-translate-y-1 transition-all duration-300"
               >
-                <div className="aspect-video overflow-hidden">
-                  <img 
-                    src={item.image} 
-                    alt={`${item.name} website`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+                <div className="font-archivo text-3xl md:text-4xl text-action-yellow mb-3">
+                  {tile.value}
                 </div>
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="bg-action-yellow/20 text-club-green px-3 py-1 rounded-pill text-xs font-dm font-bold uppercase tracking-wide">
-                      {item.industry}
-                    </span>
-                    {item.url && (
-                      <a 
-                        href={item.url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-club-green/60 hover:text-action-yellow transition-colors"
-                        aria-label={`Visit ${item.name} website`}
-                      >
-                        <ExternalLink className="h-5 w-5" />
-                      </a>
-                    )}
-                  </div>
-                  <h3 className="font-archivo text-xl uppercase tracking-wide text-club-green mb-2">
-                    {item.name}
-                  </h3>
-                  <p className="font-dm text-club-green/70">
-                    {item.description}
-                  </p>
+                <p className="font-dm text-club-green/70 text-sm">
+                  {tile.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Sectors */}
+      <section className="bg-club-green py-16 md:py-24">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <h2 className="font-archivo text-3xl md:text-4xl uppercase tracking-wide text-action-yellow mb-4">
+              SECTOR EXPERIENCE
+            </h2>
+            <p className="font-dm text-lg text-warm-cream/70 max-w-2xl mx-auto">
+              HVCG has delivered transformation, automation, and measurement work across enterprise sectors.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+            {sectors.map((sector, index) => (
+              <div
+                key={index}
+                className="bg-warm-cream/5 border border-warm-cream/10 rounded-2xl p-6 text-center flex items-center justify-center"
+              >
+                <span className="font-archivo text-sm uppercase tracking-wide text-warm-cream">
+                  {sector}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Selected Web Builds */}
+      <section className="bg-warm-cream py-16 md:py-24">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <h2 className="font-archivo text-3xl md:text-4xl uppercase tracking-wide text-club-green mb-4">
+              SELECTED WEB BUILDS
+            </h2>
+            <p className="font-dm text-lg text-club-green/70 max-w-2xl mx-auto">
+              The same builder discipline, scaled down — websites and digital presence for local businesses.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {webBuilds.map((item, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group p-6"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span className="bg-action-yellow/20 text-club-green px-3 py-1 rounded-pill text-xs font-dm font-bold uppercase tracking-wide">
+                    {item.industry}
+                  </span>
+                  {item.url && (
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-club-green/60 hover:text-action-yellow transition-colors"
+                      aria-label={`Visit ${item.name} website`}
+                    >
+                      <ExternalLink className="h-5 w-5" />
+                    </a>
+                  )}
                 </div>
+                <h3 className="font-archivo text-xl uppercase tracking-wide text-club-green mb-2">
+                  {item.name}
+                </h3>
+                <p className="font-dm text-club-green/70">
+                  {item.description}
+                </p>
               </div>
             ))}
           </div>
@@ -109,31 +178,20 @@ const Work: React.FC = () => {
       <section className="bg-varsity-maroon py-16 md:py-24">
         <div className="container-custom text-center">
           <h2 className="font-archivo text-3xl md:text-5xl uppercase tracking-wide text-action-yellow mb-6">
-            READY TO GET STARTED?
+            START AN INTAKE
           </h2>
           <p className="font-dm text-lg text-warm-cream/80 max-w-2xl mx-auto mb-8">
-            Get a professional website for your contracting business. Starting at $1,399 with 4-week delivery.
+            Tell us where the pressure is. We'll map the work and show you what's worth building.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              asChild 
-              className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill px-8 py-6 font-dm font-bold uppercase tracking-wide text-lg transition-all hover:-translate-y-1 hover:shadow-lift"
-            >
-              <Link to="/booking">
-                BOOK A FREE CALL
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-            <Button 
-              asChild 
-              variant="outline"
-              className="border-2 border-warm-cream text-warm-cream hover:bg-warm-cream hover:text-varsity-maroon rounded-pill px-8 py-6 font-dm font-bold uppercase tracking-wide text-lg transition-all"
-            >
-              <Link to="/services">
-                VIEW PRICING
-              </Link>
-            </Button>
-          </div>
+          <Button
+            asChild
+            className="bg-action-yellow hover:bg-action-yellow/90 text-club-green rounded-pill px-8 py-6 font-dm font-bold uppercase tracking-wide text-lg transition-all hover:-translate-y-1 hover:shadow-lift"
+          >
+            <Link to="/booking">
+              START AN INTAKE
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </Button>
         </div>
       </section>
     </>
