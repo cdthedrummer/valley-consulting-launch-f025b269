@@ -94,10 +94,10 @@ const Booking: React.FC = () => {
                 <h3 className="font-archivo text-xl uppercase tracking-wide text-club-green">WHAT TO EXPECT:</h3>
                 <div className="space-y-4">
                   {[
-                    "Pick your service and a time that works",
-                    "Get a quick questionnaire about your business",
-                    "Receive a Zoom link in your email",
-                    "Meet with us to talk about your growth"
+                    "Pick a focus area and a time that works",
+                    "Get a short intake questionnaire about your organization",
+                    "Receive a video-call link in your email",
+                    "Meet with us to map the work and the opportunities"
                   ].map((item, index) => (
                     <div key={index} className="flex items-start">
                       <div className="bg-action-yellow rounded-full w-8 h-8 flex items-center justify-center mr-4 flex-shrink-0">
