@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import logoWhiteWide from "@/assets/logos/hvcg-logo-white-wide.png";
 
 const navLinks = [
-  { path: '/work', label: 'WORK' },
-  { path: '/services', label: 'SERVICES' },
-  { path: '/approach', label: 'ABOUT' },
+  { path: '/work', label: 'OUTCOMES' },
+  { path: '/services', label: 'WHAT WE DO' },
+  { path: '/approach', label: 'HOW WE WORK' },
   { path: '/booking', label: 'CONTACT' },
 ];
 
