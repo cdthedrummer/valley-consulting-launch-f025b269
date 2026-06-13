@@ -126,7 +126,7 @@ const ClubhouseNavbar: React.FC = () => {
             >
               <Link to="/booking" onClick={() => setIsOpen(false)}>
                 <Calendar className="mr-2 h-5 w-5" />
-                BOOK A CALL
+                START AN INTAKE
               </Link>
             </Button>
           </div>
