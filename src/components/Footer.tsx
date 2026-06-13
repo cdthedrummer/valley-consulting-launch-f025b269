@@ -14,25 +14,25 @@ const Footer: React.FC = () => {
           <div>
             <img src={logoWhiteWide} alt="HVCG" className="h-10 w-auto mb-4" />
             <p className="mb-4 text-warm-cream/80">
-              Professional websites for contractors. Clean design, fair pricing, 4-week delivery.
+              We help organizations turn AI into operating reality — building the frameworks, tools, and agents that move work, cost, and capacity.
             </p>
           </div>
-          
+
           {/* Quick Links */}
           <div>
             <h3 className="text-lg font-bold mb-4">Pages</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/work" className="hover:text-action-yellow transition-colors">Our Work</Link>
+                <Link to="/work" className="hover:text-action-yellow transition-colors">Outcomes</Link>
               </li>
               <li>
-                <Link to="/services" className="hover:text-action-yellow transition-colors">Services & Pricing</Link>
+                <Link to="/services" className="hover:text-action-yellow transition-colors">What We Do</Link>
               </li>
               <li>
-                <Link to="/approach" className="hover:text-action-yellow transition-colors">About</Link>
+                <Link to="/approach" className="hover:text-action-yellow transition-colors">How We Work</Link>
               </li>
               <li>
-                <Link to="/booking" className="hover:text-action-yellow transition-colors">Contact</Link>
+                <Link to="/booking" className="hover:text-action-yellow transition-colors">Start an Intake</Link>
               </li>
             </ul>
           </div>
