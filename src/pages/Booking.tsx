@@ -61,18 +61,18 @@ const Booking: React.FC = () => {
   return (
     <div className="min-h-screen bg-club-green">
       <SEOHead
-        title="Book Your Strategy Session | Hudson Valley Consulting"
-        description="Schedule a free consultation to discuss growing your contractor business in the Hudson Valley."
+        title="Start an Intake | Hudson Valley Consulting Group"
+        description="Start an intake with HVCG. Tell us where the pressure is and we'll map the work, score the opportunities, and show you what's worth building."
         canonicalUrl="/booking"
       />
       {/* Hero Section */}
       <section className="py-24 md:py-32 text-center">
         <div className="container-custom">
           <h1 className="font-archivo text-5xl md:text-7xl uppercase tracking-wide text-warm-cream mb-6">
-            LET'S CONNECT
+            START AN INTAKE
           </h1>
           <p className="text-xl md:text-2xl text-warm-cream/80 max-w-3xl mx-auto font-dm">
-            Book a free 15-minute intro. No pressure, just a conversation.
+            Tell us where the work and pressure are. We'll take it from there.
           </p>
         </div>
       </section>
